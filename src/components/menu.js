@@ -5,15 +5,6 @@ export const menuItems = [
         label: "menuitems.menu.text",
         isTitle: true
     },
-    
-    {
-        id: 3,
-        label: "menuitems.locallogin.text",
-        isTitle: false,
-        icon:'mdi mdi-login',
-        link: "/LocalLogin",
-    },
-   
     {
         id: 34,
         label: "menuitems.relink.text",

@@ -95,9 +95,6 @@
     "menu": {
       "text": "Menu"
     },
-    "locallogin":{
-      "text":"Local Login"
-    },
     "relink":{
       "text":"Re-link"
     },
