@@ -11,17 +11,17 @@
             </div>
             <div v-if="value == 'buySellRAM'  ">
                 <Resources v-model="data.resources" />
-                <BuySellRAM v-model="data.resources" />
+                <BuySellRAM v-model="data.resources" :showSpinner="showSpinner" />
             </div>
             <div v-if="value == 'stakeCpuNet'">
                 <Resources v-model="data.resources" />
-                <StakeCpuNet v-model="data.resources" />
+                <StakeCpuNet v-model="data.resources" :showSpinner="showSpinner" />
             </div>
             <div v-if="value == 'tokens'">
-                <Tokens v-model="data.tokens" />
+                <Tokens  />
             </div>
             <div v-if="value == 'transferToken'">
-                <TransferToken v-model="data.transferToken" />
+                <TransferToken v-model="data.transferToken"  />
             </div>
             <div v-if="value == 'NFTs'">
                 <NFTs v-model="data.transferToken" />
@@ -61,6 +61,7 @@ export default class NetworksContent extends Vue{
     @Prop({default:() =>{return []}}) value:any;
     counter:number=0;
     showCustomToken:boolean=false;
+    showSpinner:boolean=true;
     buyWith:string='TELOS'
     selectedNFTs:any=[];
     stakeCPUorNET:any={
@@ -152,6 +153,7 @@ export default class NetworksContent extends Vue{
     this.selectedNFTs = nft.title;
   }
   async getResources(){
+        this.showSpinner = true;
     var currentNet = this.$store.state.currentNet;
     if(currentNet){
             var account = await StorageService.getSelectedAccount(currentNet.chainId)
@@ -165,6 +167,7 @@ export default class NetworksContent extends Vue{
                     this.counter++;
                 }
             }
+            this.showSpinner = false;
     }
     else{
         console.log('currentNet not selected')

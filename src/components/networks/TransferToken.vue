@@ -1,7 +1,10 @@
 <template>
     <div class="col-12">
-        <div class="p-3">
-            <b-tabs
+        <div v-if="showSpinner">
+            <Spinner v-model="showSpinner" />
+        </div>
+        <div v-if="!showSpinner" class="p-3">
+            <b-tabs 
             class="box"
                 active-nav-item-class="font-weight-bold text-uppercase text-primary"
                 active-tab-class="font-weight-bold text-secondary"
@@ -88,13 +91,19 @@
 </template>
 <script lang="ts">
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
+import Spinner from '@/components/spinner/Spinner.vue'
+
 @Component({
-    components:{}
+    components:{
+        Spinner
+    }
 })
 export default class AccountList extends Vue{
     @Prop({default:() =>{return []}}) value:any;
+
     buySellRAM:any=[];
     showCustomToken:boolean=false;
+    showSpinner:boolean=true;
  transferToken:any={
     customToken:{
         title:''
@@ -122,6 +131,9 @@ export default class AccountList extends Vue{
     mounted(){
         this.buySellRAM = this.value;
         // this.transferToken = this.value;
+        setTimeout(() => {
+            this.showSpinner = false;
+        }, 1000);
     }
 
 

@@ -1,6 +1,9 @@
 <template>
     <div class="p-3">
-        <b-tabs
+        <div v-if="showSpinner">
+            <Spinner v-model="showSpinner" />
+        </div>
+        <b-tabs v-if="!showSpinner"
         class="box"
             active-nav-item-class="font-weight-bold text-uppercase text-primary"
             active-tab-class="font-weight-bold text-secondary"
@@ -32,12 +35,17 @@
 </template>
 <script lang="ts">
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
+import Spinner from '@/components/spinner/Spinner.vue'
+
 @Component({
-    components:{}
+    components:{
+        Spinner
+    }
 })
 export default class AccountList extends Vue{
     @Prop({default:() =>{return []}}) value:any;
     showCustomToken:boolean=false;
+    showSpinner:boolean=true;
     transferNFTs:any={
         sendTo:'',
         memo:'',
@@ -52,7 +60,11 @@ export default class AccountList extends Vue{
         {title:'test2'},
     ]
     selectNft(data:any){
-
+        }
+    mounted(){
+        setTimeout(() => {
+            this.showSpinner = false;
+        }, 1000);
     }
 
 

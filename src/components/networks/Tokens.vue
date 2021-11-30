@@ -1,6 +1,9 @@
 <template>
     <div class="col-12">
-        <div class="d-flex">
+        <div v-if="showSpinner">
+          <Spinner  v-model="showSpinner" />
+      </div>
+        <div v-if="!showSpinner" class="d-flex">
             <div class="p-3" v-for="(token ,index) in tokens" :key="index" >
                 <div class="card m-2 shadow-none border">
                     <div class="card-body p-3">
@@ -64,8 +67,12 @@
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
 import AccountService from '@/services/accountService'
 import StorageService from '@/localService/storageService'
+import Spinner from '@/components/spinner/Spinner.vue'
+
 @Component({
-    components:{}
+    components:{
+        Spinner
+    }
 })
 export default class AccountList extends Vue{
     // @Prop({default:() =>{return []}}) value:any;
@@ -74,6 +81,7 @@ export default class AccountList extends Vue{
     tokensList:any=[];
     accountName:any=[];
     accInfo:any=[];
+    showSpinner:boolean=true;
     mounted(){
         this.init();
         this.currentNet = this.$store.state.currentNet;
@@ -106,7 +114,8 @@ export default class AccountList extends Vue{
                 }
             }
         }
-        this.tokens = newarr
+        this.tokens = newarr;
+        this.showSpinner = false;
     }
 }
 </script>

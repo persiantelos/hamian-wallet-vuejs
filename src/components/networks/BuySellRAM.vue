@@ -1,6 +1,9 @@
 <template>
     <div class="col-12 text-center py-2">
-        <div class="p-3">
+        <div v-if="showSpinner">
+          <Spinner  v-model="showSpinner" />
+      </div>
+        <div v-if="!showSpinner" class="p-3">
         <b-tabs
         class="box"
             active-nav-item-class="font-weight-bold text-uppercase text-primary"
@@ -108,17 +111,25 @@
 </template>
 <script lang="ts">
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
+import Spinner from '@/components/spinner/Spinner.vue'
+
 @Component({
-    components:{}
+    components:{Spinner}
 })
 export default class AccountList extends Vue{
+    // showSpinner:boolean=true;
+
     // @Prop({default:()=>{return []}}) buySellRAM:any
+    @Prop({default:()=>{return false}}) showSpinner:boolean
     buySellRAM:any={
     RAMBuyAmount:0,
     RAMConvertedToBytes:0,
     RAMSellAmount:0,
     TELOSCustAmount:0,
     showCustomToken:false,
+    // mounted(){
+    //     this.showSpinner = false;
+    // }
   }
  
 }

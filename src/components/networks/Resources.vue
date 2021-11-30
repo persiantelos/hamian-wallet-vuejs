@@ -1,60 +1,70 @@
 <template>
     <div class="col-12 text-center py-2">
-        <h5 class="font-size-15 mb-4">Resources</h5>
-        <div class="col-12 d-flex">
-          <div class="col box" >
-              <div class="text-center">
-                  <h5 class="font-size-15 mb-4">RAM</h5>
-                  <apexchart 
-                  class="apex-charts"
-                  type="radialBar"
-                  height="150"
-                  dir="ltr"
-                  :series="RAMSeries"
-                  :options="RAMChartOptions"
-                  ></apexchart>
-                  <p class="text-muted ">RAM used : {{sizeConvertor(resources.ram_limit.used)}} / Total: {{sizeConvertor(resources.ram_limit.available)}}</p>
-              </div>
-          </div>
-          <div class="col box" >
-              <div class="text-center">
-                  <h5 class="font-size-15 mb-4">CPU</h5>
-                  <apexchart 
-                  class="apex-charts"
-                  type="radialBar"
-                  height="150"
-                  dir="ltr"
-                  :series="CPUSeries"
-                  :options="CPUChartOptions"
-                  ></apexchart>
-                  <p class="text-muted ">CPU used : {{(resources.cpu_limit.used/1000).toFixed(2)}} µs /  Total: {{(resources.cpu_limit.max/1000).toFixed(2)}} ms</p>
-              </div>
-          </div>
-          <div class="col box" >
-              <div class="text-center">
-                  <h5 class="font-size-15 mb-4">NET</h5>
-                  <apexchart 
-                  class="apex-charts"
-                  type="radialBar"
-                  height="150"
-                  dir="ltr"
-                  :series="NETSeries"
-                  :options="NETChartOptions"
-                  ></apexchart>
-                  <p class="text-muted ">NET used : {{sizeConvertor(resources.net_limit.used)}} / Total: {{sizeConvertor(resources.net_limit.available)}}</p>
-              </div>
-        
-          </div>
+      <div v-if="showSpinner">
+          <Spinner v-model="showSpinner" />
+      </div>
+      <h5 class="font-size-15 mb-4">Resources</h5>
+      <div v-if="!showSpinner" class="col-12 d-flex">
+        <div  class="col box" >
+            <div class="text-center">
+                <h5 class="font-size-15 mb-4">RAM</h5>
+                <apexchart 
+                class="apex-charts"
+                type="radialBar"
+                height="150"
+                dir="ltr"
+                :series="RAMSeries"
+                :options="RAMChartOptions"
+                ></apexchart>
+                <p class="text-muted ">RAM used : {{sizeConvertor(resources.ram_limit.used)}} / Total: {{sizeConvertor(resources.ram_limit.available)}}</p>
+            </div>
         </div>
+        <div  class="col box" >
+            <div class="text-center">
+                <h5 class="font-size-15 mb-4">CPU</h5>
+                <apexchart 
+                class="apex-charts"
+                type="radialBar"
+                height="150"
+                dir="ltr"
+                :series="CPUSeries"
+                :options="CPUChartOptions"
+                ></apexchart>
+                <p class="text-muted ">CPU used : {{(resources.cpu_limit.used/1000).toFixed(2)}} µs /  Total: {{(resources.cpu_limit.max/1000).toFixed(2)}} ms</p>
+            </div>
+        </div>
+        <div  class="col box" >
+          
+            <div class="text-center">
+                <h5 class="font-size-15 mb-4">NET</h5>
+                <apexchart 
+                class="apex-charts"
+                type="radialBar"
+                height="150"
+                dir="ltr"
+                :series="NETSeries"
+                :options="NETChartOptions"
+                ></apexchart>
+                <p class="text-muted ">NET used : {{sizeConvertor(resources.net_limit.used)}} / Total: {{sizeConvertor(resources.net_limit.available)}}</p>
+            </div>
+      
+        </div>
+      </div>
     </div>
 </template>
 <script lang="ts">
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
+import Spinner from '@/components/spinner/Spinner.vue'
+
 @Component({
-    components:{}
+    components:{
+      Spinner
+    }
 })
 export default class AccountList extends Vue{
     @Prop({default:() =>{return []}}) value:any;
+    showSpinner:boolean=true;
+
     resources:any=[];
     RAMSeries:any= [0];
     CPUSeries:any= [0];
@@ -71,6 +81,7 @@ export default class AccountList extends Vue{
       this.CPUSeries.push(Math.floor((this.resources.cpu_limit.used) / (this.resources.cpu_limit.max)))
       this.NETSeries = []
       this.NETSeries.push(Math.floor((this.resources.net_limit.used * 100) / this.resources.net_limit.available))
+      this.showSpinner = false;
     }
     RAMChartOptions:any= {
         chart: {

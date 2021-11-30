@@ -1,7 +1,10 @@
 <template>
     <div class="col-12 text-center py-2">
         <div class="p-3">
-        <b-tabs
+        <div v-if="showSpinner">
+          <Spinner  v-model="showSpinner" />
+        </div>
+        <b-tabs v-if="!showSpinner"
         class="box"
             active-nav-item-class="font-weight-bold text-uppercase text-primary"
             active-tab-class="font-weight-bold text-secondary"
@@ -97,6 +100,8 @@ import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
 })
 export default class AccountList extends Vue{
     @Prop({default:() =>{return []}}) value:any;
+    @Prop({default:()=>{return false}}) showSpinner:boolean
+
     // @Prop({default:()=>{return []}}) stakeCPUorNET:any;
     // @Prop({default:()=>{return []}}) unStakeCPUorNET:any;
     // @Prop({default:()=>{return []}}) refound:any;
