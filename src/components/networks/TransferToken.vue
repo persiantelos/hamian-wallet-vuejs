@@ -80,7 +80,7 @@
                         ></b-form-input>
                     </div>
                     <div class="col-12 mt-3" align="center">
-                        <b-button class="m-1"  variant="primary">
+                        <b-button class="m-1" @click="transerClick"  variant="primary">
                         Teransfer  {{transferToken.amount}}  Telos
                         </b-button>
                     </div>
@@ -92,6 +92,7 @@
 <script lang="ts">
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
 import Spinner from '@/components/spinner/Spinner.vue'
+import WalletService from '../../localService/walletService';
 
 @Component({
     components:{
@@ -135,7 +136,22 @@ export default class AccountList extends Vue{
             this.showSpinner = false;
         }, 1000);
     }
-
+    transerClick()
+    {
+        console.log('-----------')
+        WalletService.reunTransaction([
+            {
+                contarct:'persiandaric',
+                name:'transfer',
+                data:{
+                    from:'vahidhosaini',
+                    to:'asalbanoo123',
+                    quantity:'1.0000 DRIC',
+                    memo:'test'
+                }
+            }
+        ])
+    }
 
 }
 </script>

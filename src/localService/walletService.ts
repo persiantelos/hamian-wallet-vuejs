@@ -1,6 +1,7 @@
 import LoginResponse from "src/models/local/loginResponse";
 import StorageAccountModel from "src/models/storage/accountModel";
 import BaseLocalService from "./baseLocalService";
+import StorageService from "./storageService";
 export default class WalletService
 {
     
@@ -32,5 +33,20 @@ export default class WalletService
     static generateKey():Promise<StorageAccountModel[]>
     {
         return BaseLocalService.run(this.walletName,{action:'generateKeyOffline',data:{}});
+    }
+    static reunTransaction(actions:any[])
+    {
+         
+        var rand='rand'+Math.random();
+        var obj={
+            data:{
+                id:rand,
+                payload:{
+                    network:{chainId:'4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11'},
+                    transaction:actions
+                }
+            }
+        }
+        return BaseLocalService.run(this.walletName,{action:'manualTransaction',data:obj});
     }
 }
