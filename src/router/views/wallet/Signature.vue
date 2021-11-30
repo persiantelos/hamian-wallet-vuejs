@@ -48,7 +48,7 @@
                         
                         
                     </b-tab>
-                    <b-tab title="Details" align="left"  :active="whiteLsit">
+                    <b-tab title="Details" align="left"  :active="whiteList">
                         <h5 class="text-mute font-size-14"> By approving you will wign the following contract</h5>
                         <div class="col-12">
                             <h3 v-if="data.type == 'requestSignature'">
@@ -60,10 +60,10 @@
                             <div v-if="transactions[0].data" class="col-12" align="left">
                                 <address align="left" >
                                     <div class="col-12 row d-flex">
-                                        <div class="col-1" v-show="whiteLsit">
+                                        <div class="col-1" v-show="whiteList">
                                             <b-form-checkbox
                                                 id="checkbox-1"
-                                                v-model="whiteLsit"
+                                                v-model="whiteList"
                                                 name="checkbox-1"
                                                 :value="true"
                                                 :unchecked-value="false"
@@ -78,10 +78,10 @@
                                         </div>
                                     </div>
                                     <div class="col-12 row d-flex">
-                                        <div class="col-1" v-show="whiteLsit">
+                                        <div class="col-1" v-show="whiteList">
                                             <b-form-checkbox
                                                 id="checkbox-1"
-                                                v-model="whiteLsit"
+                                                v-model="whiteList"
                                                 name="checkbox-1"
                                                 :value="true"
                                                 :unchecked-value="false"
@@ -96,10 +96,10 @@
                                         </div>
                                     </div>
                                     <div class="col-12 row d-flex">
-                                        <div class="col-1" v-show="whiteLsit">
+                                        <div class="col-1" v-show="whiteList">
                                             <b-form-checkbox
                                                 id="checkbox-1"
-                                                v-model="whiteLsit"
+                                                v-model="whiteList"
                                                 name="checkbox-1"
                                                 :value="true"
                                                 :unchecked-value="false"
@@ -122,22 +122,22 @@
                     <div class="row col-12">
                     <b-form-checkbox
                             id="checkbox-1"
-                            v-model="whiteLsit"
+                            v-model="whiteList"
                             name="checkbox-1"
                             :value="true"
                             :unchecked-value="false"
                         >
-                        <p v-show="!whiteLsit" class="text-body px-2 my-2 ">
+                        <p v-show="!whiteList" class="text-body px-2 my-2 ">
                             Do you want to <b class="text-mute">whitelist</b> this?
                         </p>
-                        <p v-show="whiteLsit" class="text-body px-2 my-2 ">
+                        <p v-show="whiteList" class="text-body px-2 my-2 ">
                             You have <b class="text-mute">enabled</b> whitelisting
                         </p>
                         </b-form-checkbox>
-                        <p v-show="!whiteLsit" class="text-grey">
+                        <p v-show="!whiteList" class="text-grey">
                             Whitelisting auto-signs identical contracts without having to re-approve.
                         </p>
-                        <p v-show="whiteLsit" class="text-grey">
+                        <p v-show="whiteList" class="text-grey">
                             Any checked field can change, unchecked field changes will require reapproval.
                         </p>
                     </div>
@@ -183,7 +183,7 @@ export default class LocalLogin extends Vue{
     selectedAccount:StorageAccountModel=new StorageAccountModel();
     counter:number=0;
     transactions:TransactionRequest[]=[];
-    whiteLsit:boolean=false;
+    whiteList:boolean=false;
 
     requestSignature(data:any)
     {
