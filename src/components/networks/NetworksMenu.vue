@@ -73,7 +73,7 @@
                         class="text-body d-flex align-items-center"
                       >
                         <i
-                          class="mdi mdi-trash-can  "
+                          class="bx bx-buoy  "
                           :class="selected != 'tokens' ? 'text-body font-size-16 me-2':'text-primary font-size-16 me-3'"
                         ></i>
                         <span class="me-auto">Tokens</span>
@@ -92,6 +92,17 @@
                         ><span class="badge badge-success badge-pill ms-2"
                           >01</span
                         >
+                      </a>
+                    </li>
+                    <li :class="selected == 'NFTs' ? 'menu-selected':''" @click="selectedItem('NFTs')">
+                      <a
+                        href="javascript: void(0);"
+                        class="text-body d-flex align-items-center"
+                      >
+                        <i class="bx bx-shape-circle f"
+                          :class="selected != 'NFTs' ? 'text-body ont-size-16  me-2':'text-primary font-size-16 me-3'"
+                        ></i>
+                        <span class="me-auto">NFTs</span>
                       </a>
                     </li>
                   </ul>
@@ -117,8 +128,6 @@ import AddNewAccount from '@/components/networks/AddNewAccount.vue'
     }
 })
 export default class NetworkMenu extends Vue{
-    @Prop({default:() =>{return []}}) chainId:any;
-
     resources:any=[];
     tokenList:any=[];
     nets:any=[];
