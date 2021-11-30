@@ -23,6 +23,9 @@
             <div v-if="value == 'transferToken'">
                 <TransferToken v-model="data.transferToken" />
             </div>
+            <div v-if="value == 'NFTs'">
+                <NFTs v-model="data.transferToken" />
+            </div>
         </div>
     </div>
 </template>
@@ -38,6 +41,7 @@ import TransferToken from '@/components/networks/TransferToken.vue'
 import StorageService from '@/localService/storageService'
 import BuySellRAM from '@/components/networks/BuySellRAM.vue'
 import StakeCpuNet from '@/components/networks/StakeCPUNet.vue'
+import NFTs from '@/components/networks/NFTs.vue'
 
 
 
@@ -49,6 +53,7 @@ import StakeCpuNet from '@/components/networks/StakeCPUNet.vue'
         Tokens,
         TransferToken,
         BuySellRAM,
+        NFTs,
         StakeCpuNet
     }
 })
