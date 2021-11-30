@@ -3,11 +3,10 @@
         <div class="col-12 background-network row" >
             <div class="col-3 py-3" style="padding:0px 5px 0px 5px">
                 <NetworksMenu v-if="$route.params.chainId"
-                :chainId="$route.params.chainId" 
                 @selectedItem="selectedItemChanged" />
             </div>   
             <div class="col-9 py-3">
-                <NetworksContent v-model="accuntList" />
+                <NetworksContent v-model="selectedItem" />
             </div>   
         </div>
     </Layout>
@@ -26,9 +25,9 @@ import Layout from "../../layouts/main";
     }
 })
 export default class Networks extends Vue{
-   accuntList:any=[];
+   selectedItem:any=[];
   selectedItemChanged(data:any){
-    this.accuntList = data;
+    this.selectedItem = data;
   }
   mounted(){
       if(!this.$store.state.currentNet.name){
