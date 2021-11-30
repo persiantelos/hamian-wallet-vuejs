@@ -1,7 +1,7 @@
 <template>
     <div class="col-12">
         <div class="d-flex">
-            <div v-for="(token ,index) in tokens" :key="index" >
+            <div class="p-3" v-for="(token ,index) in tokens" :key="index" >
                 <div class="card m-2 shadow-none border">
                     <div class="card-body p-3">
                         <div class="">

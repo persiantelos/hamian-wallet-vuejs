@@ -1,6 +1,6 @@
 <template>
     <div class="col-12">
-         <div class="card">
+         <div class="card p-2">
           <div class="card-body">
             <h4 class="card-title mb-4">
                  <i class="far fa-id-card"></i>

@@ -1,6 +1,6 @@
 <template>
     <div class="col-12 text-center py-2">
-        <div>
+        <div class="p-3">
         <b-tabs
         class="box"
             active-nav-item-class="font-weight-bold text-uppercase text-primary"
