@@ -36,6 +36,11 @@ export default [
     meta:{isPublic:true},
     component: () => import('./views/auth/LocalLogin.vue')
   },
+  {
+    path: '/Signature',
+    name: 'Signature',
+    component: () => import('./views/wallet/Signature.vue')
+  },
   // {
   //   path: '/login',
   //   // component: () => import('./layouts/auth.vue'),
