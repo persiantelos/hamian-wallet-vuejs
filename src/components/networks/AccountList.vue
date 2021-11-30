@@ -1,6 +1,9 @@
 <template>
     <div class="col-12">
-        <div v-if="AccountList" class="d-flex">
+        <div v-if="showSpinner">
+            <Spinner v-model="showSpinner" />
+        </div>
+        <div v-if="!showSpinner" class="d-flex">
             <div class="p-3" v-for="(account , index) in AccountList"  :key="index" >
                 <div class="card m-2 shadow-none border">
                     <div class="card-body p-3">
@@ -54,9 +57,12 @@
 import {Vue, Component , Prop } from 'vue-property-decorator';
 import StorageService from '@/localService/storageService'
 import AccountService from '@/services/accountService'
+import Spinner from '@/components/spinner/Spinner.vue'
 
 @Component({
-    components:{}
+    components:{
+        Spinner
+    }
 })
 export default class AccountList extends Vue{
     @Prop({default:() =>{return []}}) value:any;
@@ -66,6 +72,7 @@ export default class AccountList extends Vue{
     tokens:any=[]
     accInfo:any=[]
     AccountList:any=[]
+    showSpinner:boolean=true;
 
    
     async setSelectedacc(account:any){
@@ -86,6 +93,7 @@ export default class AccountList extends Vue{
         }
     }
     mounted(){
+        this.showSpinner = true;
         this.init();
         this.currentNet = this.$store.state.currentNet;
     }
@@ -138,6 +146,7 @@ export default class AccountList extends Vue{
             }
         }
         this.AccountList = this.value
+        this.showSpinner = false;
         console.log(this.AccountList)
 
     }
