@@ -95,6 +95,9 @@
     "menu": {
       "text": "Menu"
     },
+    "NFTs":{
+      "text":"NFTs"
+    },
     "relink":{
       "text":"Re-link"
     },

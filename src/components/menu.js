@@ -6,6 +6,13 @@ export const menuItems = [
         isTitle: true
     },
     {
+        id: 2,
+        label: "menuitems.NFTs.text",
+        isTitle: false,
+        icon:'bx bx-shape-circle',
+        link: "/NFTs",
+    },
+    {
         id: 34,
         label: "menuitems.relink.text",
         isTitle: false,
