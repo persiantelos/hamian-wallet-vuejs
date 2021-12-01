@@ -67,12 +67,43 @@
                     Stake {{stakeCPUorNET.CPUAmountToStake}} TELOS of CPU and {{stakeCPUorNET.NETAmountToStake}} TELOS of NET to {{stakeCPUorNET.stakReciver}}
                     </b-button>
                 </div>
+                <div class="col-12 mt-5 d-flex">
+                     <div class="col-6 mt-3">
+                        <h5 class="font-size-15 mb-4">Account name of who currently holds stake:</h5>
+                        <select v-model="unStakeCPUorNET.selectedAccountForUnStake" class="form-control" >
+                            <option v-for="(item,index) in unStakeCPUorNET.accountHoldStake" 
+                            @click="unStakeCPUorNET.selectedAccountForUnStake = item.name" :key="index">{{item.text}}</option>
+                      </select>
+                    </div>
+                    <div class="col-6 px-2 mt-3">
+                        <h5 class="font-size-15 mb-4">Amount of CPU to Unstake (in TLOS)</h5>
+                        <b-form-input
+                            id="input-2"
+                            v-model="unStakeCPUorNET.amountCPUUnstake"
+                            type="text"
+                        ></b-form-input>
+
+                    </div>
+                </div>
+                <div class="col-12 mt-3">
+                    <h5 class="font-size-15 mb-4">Amount of NET to Unstake (in TLOS)</h5>
+                    <b-form-input
+                        id="input-2"
+                        v-model="unStakeCPUorNET.amountNETUnstake"
+                        type="text"
+                    ></b-form-input>
+                </div>
+                <div class="col-12 mt-3" align="center">
+                    <b-button class="m-1"  variant="primary">
+                    UNSTAKE
+                    </b-button>
+                </div>
             </b-tab>
-            <b-tab title="UNSTAKE" align="left">
+            <!-- <b-tab title="UNSTAKE" align="left">
                 <div class="col-12 mt-3">
                     <h5 class="font-size-15 mb-4">Account name of who currently holds stake:</h5>
                     <div>
-                        <b-form-select class="w-100 p-2"
+                        <b-form-select class="p-2"
                          v-model="unStakeCPUorNET.selectedAccountForUnStake"
                          :options="unStakeCPUorNET.accountHoldStake"
                          ></b-form-select>
@@ -101,7 +132,7 @@
                     UNSTAKE
                     </b-button>
                 </div>
-            </b-tab>
+            </b-tab> -->
             <b-tab title="REFOUND"><p>I'm a REFOUND tab!</p></b-tab>
         </b-tabs>
         </div>
