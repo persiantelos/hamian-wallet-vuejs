@@ -37,8 +37,8 @@ export default class StorageService
     {
         return BaseLocalService.run(this.storageName,{action:'saveSelectedNode',data:nodeName})
     }
-    static getSelectedNode(chainId:any)
+    static getSelectedChain()
     {
-        return BaseLocalService.run(this.storageName,{action:'getSelectedNode',data:chainId})
+        return BaseLocalService.run(this.storageName,{action:'getSelectedChain'})
     }
 }
