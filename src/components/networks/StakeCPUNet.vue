@@ -13,12 +13,24 @@
             <b-tab title="STAKE" align="left"  active>
                 <div class="col-12 mt-3" dir="ltr">
                     <h5 class="font-size-15 mb-4">Reciver of Stake:</h5>
+                    <div class="btn-group col-12 me-1 mt-2">
                     <b-form-input
                         id="input-2"
                         v-model="stakeCPUorNET.stakReciver"
                         type="text"
                     ></b-form-input>
-
+                    <b-dropdown dropleft variant="primary" >
+                        <template v-slot:button-content>
+                            {{selectedOwnAccount}}
+                            <i class="mdi mdi-chevron-down"></i>
+                        </template>
+                        <div align="left" v-for="(account , index) in accountList" :key="index">
+                            <b-dropdown-item @click="onItemClick(account)" href="javascript: void(0);">
+                                {{account.name}}
+                            </b-dropdown-item>
+                        </div>
+                    </b-dropdown>
+                </div>
                 </div>
                 <div class="col-12 mt-3" dir="ltr">
                     <h5 class="font-size-15 mb-4">Amount of CPU to Stake (in TELOS)</h5>
@@ -95,23 +107,23 @@
 </template>
 <script lang="ts">
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
+import WalletService from '@/localService/walletService';
+
 @Component({
     components:{}
 })
-export default class AccountList extends Vue{
+export default class StakeCPUNet extends Vue{
     @Prop({default:() =>{return []}}) value:any;
     @Prop({default:()=>{return false}}) showSpinner:boolean
-
-    // @Prop({default:()=>{return []}}) stakeCPUorNET:any;
-    // @Prop({default:()=>{return []}}) unStakeCPUorNET:any;
-    // @Prop({default:()=>{return []}}) refound:any;
+    selectedOwnAccount:any='';
     stakeCPUorNET:any={
-        stakReciver:'mohamamd',
+        stakReciver:'',
         CPUAmountToStake:0,
         NETAmountToStake:0,
     };
+    accountList:any=[];
     // Options as an array
-// const options = ['A', 'B', 'C', { text: 'D', value: { d: 1 }, disabled: true }, 'E', 'F']
+    // const options = ['A', 'B', 'C', { text: 'D', value: { d: 1 }, disabled: true }, 'E', 'F']
     unStakeCPUorNET:any={
         accountHoldStake:[  
             { value: 'mohammad', text: 'mohammad' },
@@ -122,6 +134,7 @@ export default class AccountList extends Vue{
         amountCPUUnstake:0,
         amountNETUnstake:0,
     }
+    
     calculateAmountCPUtoStakeTelos(data:any){
         // TODO:needs service
     }
@@ -129,7 +142,17 @@ export default class AccountList extends Vue{
         // TODO:needs service
     }  
     mounted(){
-      console.log('this is value ',this.value)
+      this.init()
+      
+    }
+    async init(){
+        this.accountList = await WalletService.getAccounts();
+        console.log('this.accountList',this.accountList)
+
+    }
+    onItemClick(data:any){
+        this.selectedOwnAccount = data.name;
+        this.stakeCPUorNET.stakReciver  = data.name;
     }
    
 
