@@ -70,10 +70,7 @@
                 <div class="col-12 mt-5 d-flex">
                      <div class="col-6 mt-3">
                         <h5 class="font-size-15 mb-4">Account name of who currently holds stake:</h5>
-                        <select v-model="unStakeCPUorNET.selectedAccountForUnStake" class="form-control" >
-                            <option v-for="(item,index) in unStakeCPUorNET.accountHoldStake" 
-                            @click="unStakeCPUorNET.selectedAccountForUnStake = item.name" :key="index">{{item.text}}</option>
-                      </select>
+                        <multiselect v-model="unStakeCPUorNET.selectedAccountForUnStake" :options="unStakeCPUorNET.accountHoldStake" class="helo"></multiselect>
                     </div>
                     <div class="col-6 px-2 mt-3">
                         <h5 class="font-size-15 mb-4">Amount of CPU to Unstake (in TLOS)</h5>
@@ -141,9 +138,12 @@
 <script lang="ts">
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
 import WalletService from '@/localService/walletService';
+import Multiselect from "vue-multiselect";
 
 @Component({
-    components:{}
+    components:{
+    Multiselect,
+    }
 })
 export default class StakeCPUNet extends Vue{
     @Prop({default:() =>{return []}}) value:any;
@@ -155,13 +155,11 @@ export default class StakeCPUNet extends Vue{
         NETAmountToStake:0,
     };
     accountList:any=[];
-    // Options as an array
-    // const options = ['A', 'B', 'C', { text: 'D', value: { d: 1 }, disabled: true }, 'E', 'F']
     unStakeCPUorNET:any={
         accountHoldStake:[  
-            { value: 'mohammad', text: 'mohammad' },
-            { value: 'vahid', text: 'vahid' },
-            { value: 'reza', text: 'reza' },
+            'mohammad',
+            'vahid',
+            'reza',
         ],
         selectedAccountForUnStake:'',
         amountCPUUnstake:0,
