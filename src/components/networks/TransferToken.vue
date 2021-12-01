@@ -30,11 +30,15 @@
                             ></b-form-input>
                             <b-dropdown dropleft variant="primary" >
                                 <template v-slot:button-content>
-                                    {{transferToken.customToken.title}}
+                                    <span v-show="transferToken.customToken">
+                                    {{transferToken.customToken.val[transferToken.customToken._id]}} {{transferToken.customToken.currency}}
+                                    </span>
                                     <i class="mdi mdi-chevron-down"></i>
                                 </template>
-                                <div align="left" v-for="(token , index) in option" :key="index">
-                                    <b-dropdown-item @click="onItemClick(token)" href="javascript: void(0);">{{token.title}}</b-dropdown-item>
+                                <div align="left" v-for="(token , index) in tokens" :key="index">
+                                    <b-dropdown-item @click="onItemClick(token)" href="javascript: void(0);">
+                                        {{token.val[token._id]}} {{token.currency}}
+                                    </b-dropdown-item>
                                 </div>
                             </b-dropdown>
                         </div>
@@ -42,11 +46,11 @@
                             <div class="col-6">
                                 <h5 @click="sendEntireBalance()" class="font-size-15 text-primary ponter mb-4">Send entire balance</h5>
                             </div>
-                            <div align="right" class="col-6">
+                            <!-- <div align="right" class="col-6">
                                 <h5 @click="showCustomToken = true" class="font-size-15 text-primary pointer mb-4">Use custom token</h5>
-                            </div>
+                            </div> -->
                         </div>
-                        <div v-if="showCustomToken == true" class="col-12 d-flex mt-3" dir="ltr">
+                        <!-- <div v-if="showCustomToken == true" class="col-12 d-flex mt-3" dir="ltr">
                             <div class="col-12 d-flex">
                                 <div class="col-6 px-1">
                                     <h5 class="font-size-15 mb-4">Symbol:</h5>
@@ -66,7 +70,7 @@
                                 </div>
                             </div>
                             
-                        </div>
+                        </div> -->
                         <div class="col-12 px-1 my-1" v-if="showCustomToken == true">
                             <h5 @click="showCustomToken = false"  class="font-size-15 pointer text-primary mb-4">Don't use custom token / contract</h5>
                         </div>
@@ -93,6 +97,10 @@
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
 import Spinner from '@/components/spinner/Spinner.vue'
 import WalletService from '../../localService/walletService';
+import AccountService from '@/services/accountService'
+import StorageService from '@/localService/storageService'
+
+
 
 @Component({
     components:{
@@ -102,40 +110,77 @@ import WalletService from '../../localService/walletService';
 export default class AccountList extends Vue{
     @Prop({default:() =>{return []}}) value:any;
 
-    buySellRAM:any=[];
     showCustomToken:boolean=false;
+    tokens:any=[];
+    currentNet:any=[];
+    tokensList:any=[];
+    accountName:any=[];
+    accInfo:any=[];
     showSpinner:boolean=true;
- transferToken:any={
-    customToken:{
-        title:''
-    },
-    amount:0,
-    sendTo:'',
-    memo:'',
-    symbol:'',
-    contract:'',
-  }
-  option:any=[    
+    transferToken:any={
+        customToken:{
+            chain:'',
+            _id:'',
+            currency:'',
+        },
+        amount:0,
+        sendTo:'',
+        memo:'',
+        symbol:'',
+        contract:'',
+    }
     
-    ]
-    nftList:any=[
-    {title:'test1'},
-    {title:'test2'},
-  ]
     sendEntireBalance(){}
 
     onItemClick(token:any){
         this.transferToken.customToken = token;
     }
-  
-//  transferToken:any=[];
     mounted(){
-        this.buySellRAM = this.value;
-        // this.transferToken = this.value;
-        setTimeout(() => {
-            this.showSpinner = false;
-        }, 1000);
+        this.init();
+        this.currentNet = this.$store.state.currentNet;
     }
+    async init(){
+        this.tokensList =  await AccountService.getTokensList();
+        this.tokensList = this.tokensList.value
+        this.currentNet = this.$store.state.currentNet;
+        this.accountName = await StorageService.getSelectedAccount(this.currentNet.chainId)
+        this.accountName = this.accountName.message
+        this.accInfo =  await AccountService.getAccountInfo(this.accountName);
+        this.accInfo = this.accInfo.value
+        this.setTokens()
+    }
+    setTokens(){
+        let newarr = []
+        for(let token of this.tokensList){
+            if(this.currentNet._id == token.chain)
+            {
+                for(let item of this.accInfo){
+                    for(let i =0;i<Object.keys(item).length;i++){
+                        if(Object.keys(item)[i] == token._id){
+                            let objKey = Object.keys(item)[i]
+                            let objValue = item[objKey]
+                            item[objKey] = objValue.toFixed(parseInt(token.decimals))
+                            token.val = item;
+                            newarr.push(token)
+                            
+                            if(token._id == 'tlos' || token._id == "TLOS"){
+                                
+                                this.transferToken.customToken = token;
+                            }
+                            else{
+                                this.transferToken.customToken = token;
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+        this.tokens = newarr;
+        console.log(this.transferToken)
+        this.showSpinner = false;
+    }
+
     transerClick()
     {
         console.log('-----------')
