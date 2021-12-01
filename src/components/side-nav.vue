@@ -18,6 +18,7 @@ export default {
         };
     },
     mounted: function () {
+        this.setNetwork()
         // eslint-disable-next-line no-unused-vars
         var menuRef = new MetisMenu("#side-menu");
         var links = document.getElementsByClassName("side-nav-link-ref");
@@ -80,6 +81,21 @@ export default {
          * Returns true or false if given menu item has child or not
          * @param item menuItem
          */
+        async setNetwork(){
+            let selectedChain = await StorageService.getSelectedChain();
+            let blockchain =  this.$store.state.blockchain;
+            if(selectedChain.message != 'seccess'){
+                selectedChain = selectedChain.data
+                if(selectedChain == undefined){
+                    for(let chain of blockchain){
+                        if(chain.name == "TELOS"){
+                            this.$store.state.currentNet = chain;
+                            this.$router.push({name : 'walletNetwork' , params:{'chainId':chain.chainId}})
+                        }
+                    }
+                }
+            }
+        },
         hasItems(item) {
             return item.subItems !== undefined ? item.subItems.length > 0 : false;
         },
@@ -91,7 +107,7 @@ export default {
         {
             var selectedNode = await StorageService.saveSelectedNode(selectedNet);
             console.log('selectedNode',selectedNode)
-            if(selectedNode.message == true){
+            if(selectedNode.message){
                 this.$store.state.currentNet = selectedNet;
                 this.$router.push({name : 'walletNetwork' , params:{'chainId':selectedNet.chainId}})
             }
@@ -112,13 +128,13 @@ export default {
                 Blockchain
             </li>
             <li aria-expanded="false" >
-                <router-link to="/"  class="side-nav-link-a-ref has-arrow" href="javascript:void(0);">
+                <router-link to="#"  class="side-nav-link-a-ref has-arrow" href="javascript:void(0);">
                     <i :class="`bx bx-file`" ></i>
                     Blockchain
                 </router-link>
                 <ul  class="sub-menu mm-collapse" aria-expanded="false">
                     <li v-for="(blocks, index) of $store.state.blockchain" :key="index">
-                        <router-link to="/" @click.native="showNetworkList(blocks)" class="side-nav-link-ref">{{ blocks.name }}</router-link>
+                        <router-link to="#" @click.native="showNetworkList(blocks)" class="side-nav-link-ref">{{ blocks.name }}</router-link>
                     </li>
                 </ul>
             </li>
