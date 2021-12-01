@@ -30,9 +30,9 @@ export default class Networks extends Vue{
     this.selectedItem = data;
   }
   mounted(){
-      if(!this.$store.state.currentNet.name){
-          this.$router.push('/')
-      }
+    //   if(!this.$store.state.currentNet.name){
+        //   this.$router.push('/')
+    //   }
   }
 }
 </script>

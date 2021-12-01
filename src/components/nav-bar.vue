@@ -5,7 +5,7 @@ import simplebar from "simplebar-vue";
 import i18n from "../i18n";
 import Config from '../common/config';
 import EventBus from '../localService/eventBus'
-import WalletService from '@/localService/walletService';
+import StorageService from '../localService/storageService';
 
 /**
  * Nav-bar Component
@@ -46,13 +46,15 @@ export default {
       value: null,
       username:'',
       imageUrl:'@/assets/images/users/1.jpg',
-      accountList:[],
+      selectedAccount:[],
+      selectedNetwork:[],
     };
   },
   components: { simplebar },
     
   mounted() {
     this.getAccounts();
+    this.getSelectedNetworks();
 
     this.username=Config.username;
     this.value = this.languages.find((x) => x.language === i18n.locale);
@@ -65,7 +67,23 @@ export default {
   },
   methods: {
     async getAccounts(){
-      this.accountList = await WalletService.getAccounts();
+      this.selectedAccount = await StorageService.getSelectedAccount();
+      if(this.selectedAccount){
+        this.selectedAccount = Object.entries(this.selectedAccount.message)[0][1]
+      }
+      else{
+        this.selectedAccount = []
+      }
+    },
+    async getSelectedNetworks(){
+      this.selectedNetwork = await StorageService.getSelectedChain();
+      if(this.selectedNetwork.message == 'success'){
+        this.selectedNetwork = this.selectedNetwork.data
+        this.selectedNetwork = Object.entries(this.selectedNetwork)[0][0]
+      }
+      else{
+        this.selectedNetwork = []
+      }
     },
     toggleMenu() {
       this.$parent.toggleMenu();
@@ -661,25 +679,27 @@ export default {
               src="@/assets/images/users/1.jpg"
               alt="A"
             />
-            <span class="d-none d-xl-inline-block ms-1">
-              {{username}}
-            </span>
+            <!-- <span class="d-none d-xl-inline-block ms-1">
+              {{selectedAccount}}
+            </span> -->
             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
           </template>
           <!-- item-->
-          <!-- <div v-for="(account , index) in accountList" :key="index">
-              <span v-if="account.name" class="d-none d-xl-inline-block ms-1">
-                {{account.name}}
-              </span>
-              <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
-            </div> -->
-           <b-dropdown-item v-for="(account , index) in accountList" :key="index">
-            <router-link v-if="account.name" tag="span" to="/">
-              <i class="bx bx-user font-size-16 align-middle me-1"></i>
-              <!-- {{ $t("navbar.dropdown.henry.list.profile") }} -->
-              {{account.name}}
+          <b-dropdown-item href="javascript: void(0);">
+             <router-link v-if="selectedNetwork.length != 0" tag="span"  to="#" align="left">
+              <i class="mdi mdi-network-outline font-size-16 align-middle"></i>
+              {{selectedNetwork}}
             </router-link>
           </b-dropdown-item>
+          <b-dropdown-item href="javascript: void(0);">
+            <router-link v-if="selectedAccount.length != 0" tag="span"  to="#" align="left">
+              <i class="bx bx-user font-size-16 align-middle"></i>
+              {{selectedAccount}}
+            </router-link>
+          </b-dropdown-item>
+          
+
+
           <!-- <b-dropdown-item href="javascript: void(0);">
             <i class="bx bx-wallet font-size-16 align-middle me-1"></i>
             {{ $t("navbar.dropdown.henry.list.mywallet") }}

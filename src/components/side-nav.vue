@@ -1,6 +1,8 @@
 <script>
 import MetisMenu from "metismenujs/dist/metismenujs";
 import StorageService from '@/localService/storageService'
+import CommonService from '@/services/commonService'
+
 
 
 import {
@@ -15,10 +17,12 @@ export default {
         return {
             menuItems: menuItems,
             menuData: null,
+            selectedNetwork:[],
         };
     },
     mounted: function () {
-        this.setNetwork()
+        this.getNet()
+
         // eslint-disable-next-line no-unused-vars
         var menuRef = new MetisMenu("#side-menu");
         var links = document.getElementsByClassName("side-nav-link-ref");
@@ -81,17 +85,41 @@ export default {
          * Returns true or false if given menu item has child or not
          * @param item menuItem
          */
+        async getNet(){
+            this.$store.state.blockchain = await CommonService.getNetworks()
+            if(this.$store.state.blockchain){
+                this.setNetwork()
+            }
+        },
         async setNetwork(){
-            let selectedChain = await StorageService.getSelectedChain();
-            let blockchain =  this.$store.state.blockchain;
-            if(selectedChain.message != 'seccess'){
-                selectedChain = selectedChain.data
-                if(selectedChain == undefined){
+            console.log('fireeeeeeeeeeeeeeeeeeeeeee')
+
+            this.selectedNetwork = await StorageService.getSelectedChain();
+            console.log('this.selectedNetwork',this.selectedNetwork)
+            if(this.selectedNetwork.message == 'success'){
+                this.selectedNetwork = this.selectedNetwork.data
+                console.log('this.selectedNetwork',this.selectedNetwork)
+                if(this.selectedNetwork.length>0){
+                    this.selectedNetwork = JSON.parse(Object.entries(this.selectedNetwork)[0][1])
+                    this.$store.state.currentNet = this.selectedNetwork;
+                    this.$router.push({name : 'walletNetwork' , params:{'chainId':this.selectedNetwork.chainId}})
+                }
+                else{
+                    let blockchain =  this.$store.state.blockchain;
                     for(let chain of blockchain){
                         if(chain.name == "TELOS"){
                             this.$store.state.currentNet = chain;
                             this.$router.push({name : 'walletNetwork' , params:{'chainId':chain.chainId}})
                         }
+                    }
+                }
+            }
+            else{
+                let blockchain =  this.$store.state.blockchain;
+                for(let chain of blockchain){
+                    if(chain.name == "TELOS"){
+                        this.$store.state.currentNet = chain;
+                        this.$router.push({name : 'walletNetwork' , params:{'chainId':chain.chainId}})
                     }
                 }
             }

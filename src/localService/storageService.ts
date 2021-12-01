@@ -29,9 +29,9 @@ export default class StorageService
     {
         return BaseLocalService.run(this.storageName,{action:'saveSelectedAccount',data:account})
     }
-    static getSelectedAccount(chainId:any)
+    static getSelectedAccount()
     {
-        return BaseLocalService.run(this.storageName,{action:'getSelectedAccount',data:chainId})
+        return BaseLocalService.run(this.storageName,{action:'getSelectedAccount'})
     }
     static saveSelectedNode(nodeName:any)
     {

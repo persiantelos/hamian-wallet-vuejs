@@ -34,7 +34,7 @@ export default class Home extends Vue{
   async init()
   {
     this.nets = await CommonService.getNetworks();
-    this.$store.state.blockchain = this.nets;;
+    // this.$store.state.blockchain = this.nets;;
     this.reload()
   }
   async reload()
