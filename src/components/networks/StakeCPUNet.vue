@@ -19,45 +19,47 @@
                         v-model="stakeCPUorNET.stakReciver"
                         type="text"
                     ></b-form-input>
-                    <b-dropdown dropleft variant="primary" >
+                    <b-dropdown variant="primary"   style="min-width:120px">
                         <template v-slot:button-content>
                             {{selectedOwnAccount}}
                             <i class="mdi mdi-chevron-down"></i>
                         </template>
-                        <div align="left" v-for="(account , index) in accountList" :key="index">
-                            <b-dropdown-item @click="onItemClick(account)" href="javascript: void(0);">
+                        <div align="left"  v-for="(account , index) in accountList" :key="index">
+                            <b-dropdown-item align="left" @click="onItemClick(account)" href="javascript: void(0);">
                                 {{account.name}}
                             </b-dropdown-item>
                         </div>
                     </b-dropdown>
                 </div>
                 </div>
-                <div class="col-12 mt-3" dir="ltr">
-                    <h5 class="font-size-15 mb-4">Amount of CPU to Stake (in TELOS)</h5>
-                    <b-form-input
-                        id="input-2"
-                        v-model="stakeCPUorNET.CPUAmountToStake"
-                        type="text"
-                    ></b-form-input>
-                    <div>
-                        <b-button class="m-1" @click="calculateAmountCPUtoStakeTelos(25)" variant="outline-secondary">25%</b-button>
-                        <b-button class="m-1" @click="calculateAmountCPUtoStakeTelos(50)" variant="outline-secondary">50%</b-button>
-                        <b-button class="m-1" @click="calculateAmountCPUtoStakeTelos(75)" variant="outline-secondary">75%</b-button>
-                        <b-button class="m-1" @click="calculateAmountCPUtoStakeTelos(100)" variant="outline-secondary">100%</b-button>
+                <div class="col-12 d-flex">
+                    <div class="col-6 mt-3 mx-1" dir="ltr">
+                        <h5 class="font-size-15 mb-4">Amount of CPU to Stake (in TELOS)</h5>
+                        <b-form-input
+                            id="input-2"
+                            v-model="stakeCPUorNET.CPUAmountToStake"
+                            type="text"
+                        ></b-form-input>
+                        <div>
+                            <b-button class="m-1" @click="calculateAmountCPUtoStakeTelos(25)" variant="outline-secondary">25%</b-button>
+                            <b-button class="m-1" @click="calculateAmountCPUtoStakeTelos(50)" variant="outline-secondary">50%</b-button>
+                            <b-button class="m-1" @click="calculateAmountCPUtoStakeTelos(75)" variant="outline-secondary">75%</b-button>
+                            <b-button class="m-1" @click="calculateAmountCPUtoStakeTelos(100)" variant="outline-secondary">100%</b-button>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12 mt-3" dir="ltr">
-                    <h5 class="font-size-15 mb-4">Amount of NET to Stake (in TELOS)</h5>
-                    <b-form-input
-                        id="input-2"
-                        v-model="stakeCPUorNET.NETAmountToStake"
-                        type="text"
-                    ></b-form-input>
-                    <div>
-                        <b-button class="m-1" @click="calculateAmountNettoStakeTelos(25)" variant="outline-secondary">25%</b-button>
-                        <b-button class="m-1" @click="calculateAmountNettoStakeTelos(50)" variant="outline-secondary">50%</b-button>
-                        <b-button class="m-1" @click="calculateAmountNettoStakeTelos(75)" variant="outline-secondary">75%</b-button>
-                        <b-button class="m-1" @click="calculateAmountNettoStakeTelos(100)" variant="outline-secondary">100%</b-button>
+                    <div class="col-6 mt-3 mx-1" dir="ltr">
+                        <h5 class="font-size-15 mb-4">Amount of NET to Stake (in TELOS)</h5>
+                        <b-form-input
+                            id="input-2"
+                            v-model="stakeCPUorNET.NETAmountToStake"
+                            type="text"
+                        ></b-form-input>
+                        <div>
+                            <b-button class="m-1" @click="calculateAmountNettoStakeTelos(25)" variant="outline-secondary">25%</b-button>
+                            <b-button class="m-1" @click="calculateAmountNettoStakeTelos(50)" variant="outline-secondary">50%</b-button>
+                            <b-button class="m-1" @click="calculateAmountNettoStakeTelos(75)" variant="outline-secondary">75%</b-button>
+                            <b-button class="m-1" @click="calculateAmountNettoStakeTelos(100)" variant="outline-secondary">100%</b-button>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 mt-3" align="center">
