@@ -229,7 +229,7 @@ export default {
               <b-form-group
               class="mb-3"
                 id="password-group"
-                label="Password"
+                label="Confirm Password"
                 label-for="confirmPassword"
               >
                 <b-form-input
