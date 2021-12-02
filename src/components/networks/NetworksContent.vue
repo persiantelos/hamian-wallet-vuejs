@@ -183,16 +183,17 @@ export default class NetworksContent extends Vue{
     
   }
   async getAccounts(){
+      var thempAccountList = []
     this.data.accountList = await WalletService.getAccounts();
-    // for(let acc in this.data.accountList){
-    //     if(this.data.accountList[acc].chainId != this.$store.state.currentNet.chainId)
-    //     {
-    //          TODO:remove this.data.accountList[acc]
-    //         console.log('this.data.accountList',this.data.accountList)
-    //     }
-    // }
-    // console.log(this.data.accountList[0].chainId)
-    // console.log(this.$store.state.currentNet.chainId)
+    var currentNet = await StorageService.getSelectedChain()
+    currentNet = currentNet.data
+    for(let acc in this.data.accountList){
+        if(this.data.accountList[acc].chainId == currentNet.chainId)
+        {
+            thempAccountList.push(acc)
+        }
+    }
+    this.data.accountList = thempAccountList;
     this.counter++;
   }
   sendEntireBalance(){}
