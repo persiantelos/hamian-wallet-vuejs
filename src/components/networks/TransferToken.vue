@@ -140,11 +140,19 @@ export default class AccountList extends Vue{
         this.currentNet = this.$store.state.currentNet;
     }
     async init(){
+        if(this.currentNet.length == 0){
+            this.currentNet = await StorageService.getSelectedChain();
+            if(this.currentNet.message == 'success'){
+                this.currentNet = this.currentNet.data
+                this.currentNet = Object.entries(this.currentNet)[0][1]
+                this.currentNet = JSON.parse(this.currentNet)
+            }
+        }
         this.tokensList =  await AccountService.getTokensList();
         this.tokensList = this.tokensList.value
         this.currentNet = this.$store.state.currentNet;
         this.accountName = await StorageService.getSelectedAccount(this.currentNet.chainId)
-        this.accountName = this.accountName.message
+        this.accountName = Object.entries(this.accountName.message)[0][1]
         this.accInfo =  await AccountService.getAccountInfo(this.accountName);
         this.accInfo = this.accInfo.value
         this.setTokens()
