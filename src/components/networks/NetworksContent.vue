@@ -121,14 +121,15 @@ export default class NetworksContent extends Vue{
     }
     async getSelectedNetwork(){
         this.currentNet = await StorageService.getSelectedChain();
+
         this.currentNet = this.currentNet.data;
     }
-        async getSelectedAccount(){
-            this.selectedAccount =  await StorageService.getSelectedAccount();
-            this.selectedAccount = this.selectedAccount.message;
-            this.selectedAccount.chainId = Object.entries(this.selectedAccount)[0][0];
-            this.selectedAccount.name = Object.entries(this.selectedAccount)[0][1];
-        }
+    async getSelectedAccount(){
+        this.selectedAccount =  await StorageService.getSelectedAccount();
+        this.selectedAccount = this.selectedAccount.message;
+        this.selectedAccount.chainId = Object.entries(this.selectedAccount)[0][0];
+        this.selectedAccount.name = Object.entries(this.selectedAccount)[0][1];
+    }
     @Watch('value')
     valueChanged(newValue:any){
         console.log('new Value',newValue);
@@ -163,31 +164,50 @@ export default class NetworksContent extends Vue{
   }
   async getResources(){
     this.showSpinner = true;
-    if(this.currentNet){
-        if(this.selectedAccount.name){
-            let acc = await AccountService.getAccount(this.selectedAccount.name);
-            if(acc){
-                this.data.resources = acc;
-                this.showSpinner = false;
-                this.counter++;
+    if(this.selectedAccount){
+        if(this.currentNet){
+            if(this.currentNet.chainId == this.selectedAccount.chainId){
+                if(this.selectedAccount.name){
+                    let acc = await AccountService.getAccount(this.selectedAccount.name);
+                    if(acc){
+                        this.data.resources = acc;
+                        this.showSpinner = false;
+                        this.counter++;
+                    }
+                }
+                else{
+                    this.$notify({
+                        group: 'foo',
+                        type: 'warn',
+                        text: this.selectedAccount
+                    });
+                }
+            }
+            else{
+                this.$notify({
+                    group: 'foo',
+                    type: 'warn',
+                    text: 'First Select your account!'
+                });
+                this.$emit('changeSelectedMenu','accountList')
             }
         }
         else{
             this.$notify({
-                group: 'foo',
+                group: 'login',
                 type: 'warn',
-                text: 'First Select your account!'
+                text: 'Blockchain is not selected!'
             });
-            this.$emit('changeSelectedMenu','accountList')
+            this.$router.push('/')
         }
     }
     else{
         this.$notify({
-            group: 'login',
+            group: 'foo',
             type: 'warn',
-            text: 'Blockchain is not selected!'
+            text: 'First Select your account!'
         });
-        this.$router.push('/')
+        this.$emit('changeSelectedMenu','accountList')
     }
   }
   async getAccounts(){
