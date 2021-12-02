@@ -21,7 +21,8 @@ export default {
         };
     },
     mounted: function () {
-        this.getNet()
+        // console.log('this.$route.name',this.$route.name != 'walletNetwork')
+            this.getNet()
 
         // eslint-disable-next-line no-unused-vars
         var menuRef = new MetisMenu("#side-menu");
@@ -88,16 +89,16 @@ export default {
         async getNet(){
             this.$store.state.blockchain = await CommonService.getNetworks()
             if(this.$store.state.blockchain){
-                this.setNetwork()
+                if(this.$route.name != 'walletNetwork'){
+                    // this.setNetwork()
+                }
             }
         },
         async setNetwork(){
             this.selectedNetwork = await StorageService.getSelectedChain();
-            console.log('this.selectedNetwork',this.selectedNetwork)
             if(this.selectedNetwork.message == 'success'){
                 this.selectedNetwork = this.selectedNetwork.data
-                console.log('this.selectedNetwork',this.selectedNetwork)
-                if(this.selectedNetwork.length>0){
+                if(this.selectedNetwork){
                     this.selectedNetwork = JSON.parse(Object.entries(this.selectedNetwork)[0][1])
                     this.$store.state.currentNet = this.selectedNetwork;
                     this.$router.push({name : 'walletNetwork' , params:{'chainId':this.selectedNetwork.chainId}})
@@ -106,6 +107,7 @@ export default {
                     let blockchain =  this.$store.state.blockchain;
                     for(let chain of blockchain){
                         if(chain.name == "TELOS"){
+                            console.log('1')
                             this.$store.state.currentNet = chain;
                             this.$router.push({name : 'walletNetwork' , params:{'chainId':chain.chainId}})
                         }
@@ -116,6 +118,7 @@ export default {
                 let blockchain =  this.$store.state.blockchain;
                 for(let chain of blockchain){
                     if(chain.name == "TELOS"){
+                        console.log('2')
                         this.$store.state.currentNet = chain;
                         this.$router.push({name : 'walletNetwork' , params:{'chainId':chain.chainId}})
                     }
@@ -133,7 +136,7 @@ export default {
         {
             var selectedNode = await StorageService.saveSelectedNode(selectedNet);
             console.log('selectedNode',selectedNode)
-            if(selectedNode.message){
+            if(selectedNode.data){
                 this.$store.state.currentNet = selectedNet;
                 this.$router.push({name : 'walletNetwork' , params:{'chainId':selectedNet.chainId}})
             }

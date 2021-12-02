@@ -1,5 +1,7 @@
 <template>
     <div>
+    <notifications style="margin-top:20px" group="accountexist" />
+
         <b-modal title="Add Account" centered v-model="value">
             <p v-if="!findAccounts.length">Enter your private key to add your account!</p>
             <b-form class="p-2" @submit.prevent="checkNetwork">
@@ -69,6 +71,8 @@ import NetworkModel from '@/models/networkModel';
 import WalletService from '@/localService/walletService'
 import AccountService from '@/services/accountService';
 import Spinner from "@/components/spinner/Spinner.vue"
+import StorageService from '@/localService/storageService'
+
 
 @Component({components:{Spinner}})
 
@@ -95,15 +99,22 @@ export default class AddNewAccount extends Vue{
     }
   
     mounted(){
-        this.addNetwork(this.$store.state.currentNet);
+        this.init()
+    }
+    async init(){
+        let currentNet = await StorageService.getSelectedChain()
+        this.addNetwork(currentNet.data);
+        this.selectedNet=currentNet.data;
+
     }
     
     addNetwork(model:NetworkModel)
     {
-        this.selectedNet=this.$store.state.currentNet;
+        console.log('model',model)
         this.account=new StorageAccountModel();
         this.account.chainId=model.chainId;
         this.account.blockchain=model.type;  
+        console.log('this is account',this.account)
     }
     async checkNetwork()
     {
@@ -137,8 +148,18 @@ export default class AddNewAccount extends Vue{
     {
         this.account.name=this.selectName.name;
         this.account.authority=this.selectName.authority; 
+        console.log('this.account',this.account)
         var data =await WalletService.addAccount(this.account);
-        if(data){
+        console.log('data',data)
+        if(data.message == 'account exist'){
+            this.$notify({
+                group: 'accountexist',
+                type: 'warn',
+                // title: 'Important message',
+                text: data.message
+            });
+        }
+        else{
             this.closeModal()
         }
     }

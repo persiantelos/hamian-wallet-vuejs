@@ -81,7 +81,7 @@ export default class AccountList extends Vue{
         // if(chain){
             // console.log(account)
             var data =  await StorageService.saveSelectedAccount(account);
-            if(data.message){
+            if(!data.message){
                 this.selected = account;
                 this.$notify({
                     group: 'foo',

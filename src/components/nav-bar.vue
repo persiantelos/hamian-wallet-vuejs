@@ -78,8 +78,7 @@ export default {
     async getSelectedNetworks(){
       this.selectedNetwork = await StorageService.getSelectedChain();
       if(this.selectedNetwork.message == 'success'){
-        this.selectedNetwork = this.selectedNetwork.data
-        this.selectedNetwork = Object.entries(this.selectedNetwork)[0][0]
+        this.selectedNetwork = this.selectedNetwork.data.name
       }
       else{
         if(this.$store.state.currentNet){
