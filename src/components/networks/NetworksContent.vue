@@ -18,10 +18,10 @@
                 <StakeCpuNet v-model="data.resources" :showSpinner="showSpinner" />
             </div>
             <div v-if="value == 'tokens'">
-                <Tokens  />
+                <Tokens @changeSelectedMenu="changeSelectedMenu" :currentNet='currentNet' :selectedAccount='selectedAccount' />
             </div>
             <div v-if="value == 'transferToken'">
-                <TransferToken v-model="data.transferToken"  />
+                <TransferToken @changeSelectedMenu="changeSelectedMenu" :currentNet='currentNet' :selectedAccount='selectedAccount' v-model="data.transferToken"  />
             </div>
         </div>
     </div>
@@ -189,7 +189,7 @@ export default class NetworksContent extends Vue{
                     type: 'warn',
                     text: 'First Select your account!'
                 });
-                this.$emit('changeSelectedMenu','accountList')
+                this.changeSelectedMenu('accountList')
             }
         }
         else{
@@ -207,8 +207,12 @@ export default class NetworksContent extends Vue{
             type: 'warn',
             text: 'First Select your account!'
         });
-        this.$emit('changeSelectedMenu','accountList')
+        this.changeSelectedMenu('accountList')
     }
+  }
+  changeSelectedMenu(data:any){
+      console.log(data)
+        this.$emit('changeSelectedMenu',data)
   }
   async getAccounts(){
     var thempAccountList = []

@@ -109,10 +109,11 @@ import StorageService from '@/localService/storageService'
 })
 export default class AccountList extends Vue{
     @Prop({default:() =>{return []}}) value:any;
+    @Prop({default:() =>{return []}}) currentNet:any;
+    @Prop({default:() =>{return []}}) selectedAccount:any;
 
     showCustomToken:boolean=false;
     tokens:any=[];
-    currentNet:any=[];
     tokensList:any=[];
     accountName:any=[];
     accInfo:any=[];
@@ -137,25 +138,25 @@ export default class AccountList extends Vue{
     }
     mounted(){
         this.init();
-        this.currentNet = this.$store.state.currentNet;
     }
     async init(){
-        if(this.currentNet.length == 0){
-            this.currentNet = await StorageService.getSelectedChain();
-            if(this.currentNet.message == 'success'){
-                this.currentNet = this.currentNet.data
-                this.currentNet = Object.entries(this.currentNet)[0][1]
-                this.currentNet = JSON.parse(this.currentNet)
-            }
+        if(this.currentNet.chainId == this.selectedAccount.chainId){
+            this.tokensList =  await AccountService.getTokensList();
+            this.tokensList = this.tokensList.value
+            this.accountName = await StorageService.getSelectedAccount(this.currentNet.chainId)
+            this.accountName = Object.entries(this.accountName.message)[0][1]
+            this.accInfo =  await AccountService.getAccountInfo(this.accountName);
+            this.accInfo = this.accInfo.value
+            this.setTokens()
         }
-        this.tokensList =  await AccountService.getTokensList();
-        this.tokensList = this.tokensList.value
-        this.currentNet = this.$store.state.currentNet;
-        this.accountName = await StorageService.getSelectedAccount(this.currentNet.chainId)
-        this.accountName = Object.entries(this.accountName.message)[0][1]
-        this.accInfo =  await AccountService.getAccountInfo(this.accountName);
-        this.accInfo = this.accInfo.value
-        this.setTokens()
+        else{
+            this.$notify({
+                group: 'foo',
+                type: 'warn',
+                text: 'First Select your account!'
+            });
+            this.$emit('changeSelectedMenu','accountList')
+        }
     }
     setTokens(){
         let newarr = []
