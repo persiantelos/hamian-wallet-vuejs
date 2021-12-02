@@ -53,7 +53,7 @@
     </div>
 </template>
 <script lang="ts">
-import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
+import {Vue, Component , Prop } from 'vue-property-decorator'
 import Spinner from '@/components/spinner/Spinner.vue'
 
 @Component({
@@ -78,11 +78,7 @@ export default class AccountList extends Vue{
         this.calculate();
       }
     }
-    @Watch('value')
-    valChanged(newVal:any){
-      this.resources = newVal;
-      this.calculate();
-    }
+    
     calculate(){
       this.RAMSeries = []
       this.RAMSeries.push(Math.floor((this.resources.ram_limit.used * 100) / this.resources.ram_limit.available))
