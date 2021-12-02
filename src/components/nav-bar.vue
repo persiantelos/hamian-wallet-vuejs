@@ -82,7 +82,11 @@ export default {
         this.selectedNetwork = Object.entries(this.selectedNetwork)[0][0]
       }
       else{
-        this.selectedNetwork = []
+        if(this.$store.state.currentNet){
+          this.selectedNetwork = this.$store.state.currentNet.name;
+        }else{
+          this.selectedNetwork = []
+        }
       }
     },
     toggleMenu() {
