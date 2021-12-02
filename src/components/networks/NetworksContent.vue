@@ -149,17 +149,17 @@ export default class NetworksContent extends Vue{
   }
   async getResources(){
         this.showSpinner = true;
-    var currentNet = this.$store.state.currentNet;
+        var currentNet = await StorageService.getSelectedChain();
+        currentNet = currentNet.data;
     if(currentNet){
-            var account = await StorageService.getSelectedAccount(currentNet.chainId)
+            var account = await StorageService.getSelectedAccount()
+            var account = Object.entries(account.message)[0][1]
             if(account){
-                account = Object.entries(account.message)[0][1]
                 let acc = await AccountService.getAccount(account);
                 if(acc){
                     this.data.resources = acc;
-                    console.log('this.data.resources',this.data.resources)
-                    this.counter++;
                     this.showSpinner = false;
+                    this.counter++;
                 }
             }
             else{
