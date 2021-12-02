@@ -16,29 +16,23 @@ import {Vue , Component,Watch} from 'vue-property-decorator';
 import NetworksMenu from '@/components/networks/NetworksMenu.vue'
 import NetworksContent from '@/components/networks/NetworksContent.vue'
 import Layout from "../../layouts/main";
-
 @Component({
     components:{
         NetworksMenu,
         NetworksContent,
         Layout,
     }
+
 })
 export default class Networks extends Vue{
    selectedItem:any=[];
-   counter:number=0;
   selectedItemChanged(data:any){
     this.selectedItem = data;
   }
-
+ 
   @Watch('$route.params.chainId')
   chainIdchanged(newVal:any){
-      console.log("newVal for chain id",newVal)
-      this.reload();
-  }
-  reload(){
-      this.counter++
-    // TODO:event buss
+      this.selectedItem=[];
   }
 }
 </script>

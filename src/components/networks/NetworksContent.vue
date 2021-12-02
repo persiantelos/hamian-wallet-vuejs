@@ -133,7 +133,10 @@ export default class NetworksContent extends Vue{
     @Watch('value')
     valueChanged(newValue:any){
         console.log('new Value',newValue);
-        
+        if(newValue.length == 0){
+            this.getSelectedNetwork();
+            this.getSelectedAccount()
+        }
         if(newValue == 'accountList'){
         this.getAccounts();
         }
