@@ -7,7 +7,7 @@
             <div class="p-3" v-for="(account , index) in AccountList"  :key="index" >
                 <div class="card m-2 shadow-none border">
                     <div class="card-body p-3">
-                        <div class="">
+                        <div class="" @dblclick="setSelectedacc(account)">
                         <div class="float-end ms-2">
                             <b-dropdown
                             toggle-class="font-size-16 text-muted p-0"
@@ -27,7 +27,7 @@
                             <i class="bx bx-user font-size-24" :class="selected.name == account.name ? ' text-warning' : 'text-body'" ></i>
                             </div>
                         </div>
-                        <div class="d-flex">
+                        <div class="d-flex" >
                             <div class="overflow-hidden me-auto">
                             <h5 class="font-size-14 text-truncate mb-1">
                                 <a
@@ -76,18 +76,26 @@ export default class AccountList extends Vue{
 
    
     async setSelectedacc(account:any){
-        this.selected = account;
         account.chainId=this.$store.state.currentNet.chainId;
         // let chain = StorageService.getSelectedNode(account.chainId)
         // if(chain){
             // console.log(account)
             var data =  await StorageService.saveSelectedAccount(account);
-            if(data.message == true){
+            if(data.message){
+                this.selected = account;
                 this.$notify({
                     group: 'foo',
                     type: 'success',
                     // title: 'Important message',
                     text: 'Account Selected'
+                });
+            }
+            else{
+                this.$notify({
+                    group: 'foo',
+                    type: 'warn',
+                    title: 'Oops!!!',
+                    text: 'Something whent wrong!'
                 });
             }
         // }
