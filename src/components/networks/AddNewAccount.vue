@@ -148,10 +148,8 @@ export default class AddNewAccount extends Vue{
     {
         this.account.name=this.selectName.name;
         this.account.authority=this.selectName.authority; 
-        console.log('this.account',this.account)
         var data =await WalletService.addAccount(this.account);
-        console.log('data',data)
-        if(data.message == 'account exist'){
+        if(data.message == 'Account exist'){
             this.$notify({
                 group: 'accountexist',
                 type: 'warn',
