@@ -29,16 +29,6 @@ export default class Networks extends Vue{
   selectedItemChanged(data:any){
     this.selectedItem = data;
   }
-  mounted(){
-    //   console.log('router',this.$route.params.chainId)
-    //   if(!this.$store.state.currentNet.name){
-        //   this.$router.push('/')
-    //   }
-  }
-//   @Watch('$route.params.chainId')
-//   windowReload(){
-//       location.reload()
-//   }
 }
 </script>
 <style scoped>
