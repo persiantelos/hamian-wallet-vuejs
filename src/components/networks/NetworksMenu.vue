@@ -106,7 +106,7 @@
 </template>
 
 <script lang="ts">
-import {Vue , Component , Prop} from 'vue-property-decorator'
+import {Vue , Component , Prop ,Watch} from 'vue-property-decorator'
 import CommonService from '@/services/commonService'
 
 import AddNewAccount from '@/components/networks/AddNewAccount.vue'
@@ -117,12 +117,17 @@ import AddNewAccount from '@/components/networks/AddNewAccount.vue'
     }
 })
 export default class NetworkMenu extends Vue{
+  @Prop({default:()=>{return ''}}) changeSelectedMenu:any;
     resources:any=[];
     tokenList:any=[];
     nets:any=[];
     accountInformation:any=[];
     showAddNewAccountPopUp:boolean=false;
     selected:string='';
+    @Watch('changeSelectedMenu')
+    selectedMenuChanged(newVal:any){
+      this.selectedItem(newVal)
+    }
     mounted(){
     this.getNets();
     }

@@ -152,20 +152,33 @@ export default class NetworksContent extends Vue{
     var currentNet = this.$store.state.currentNet;
     if(currentNet){
             var account = await StorageService.getSelectedAccount(currentNet.chainId)
-            account = account.message
             if(account){
+                account = account.message
                 let acc = await AccountService.getAccount(account);
                 if(acc){
 
                     this.data.resources = acc;
                     console.log('this.data.resources',this.data.resources)
                     this.counter++;
+                    this.showSpinner = false;
                 }
             }
-            this.showSpinner = false;
+            else{
+                this.$notify({
+                    group: 'foo',
+                    type: 'warn',
+                    text: 'First Select your account!'
+                });
+                this.$emit('changeSelectedMenu','accountList')
+                // this.value = 'accountList'
+            }
     }
     else{
-        console.log('currentNet not selected')
+        this.$notify({
+            group: 'login',
+            type: 'warn',
+            text: 'Blockchain is not selected!'
+        });
         this.$router.push('/')
     }
     

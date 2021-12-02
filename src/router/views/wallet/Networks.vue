@@ -3,10 +3,10 @@
         <div class="col-12 background-network row" >
             <div class="col-3 py-3" style="padding:0px 5px 0px 5px">
                 <NetworksMenu v-if="$route.params.chainId"
-                @selectedItem="selectedItemChanged" />
+                @selectedItem="selectedItemChanged" :changeSelectedMenu="selectedItem" />
             </div>   
             <div class="col-9 py-3">
-                <NetworksContent v-model="selectedItem" />
+                <NetworksContent @changeSelectedMenu="selectedItemChanged" v-model="selectedItem" />
             </div>   
         </div>
     </Layout>
