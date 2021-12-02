@@ -76,12 +76,13 @@ export default class AccountList extends Vue{
 
    
     async setSelectedacc(account:any){
-        account.chainId=this.$store.state.currentNet.chainId;
-        // let chain = StorageService.getSelectedNode(account.chainId)
-        // if(chain){
-            // console.log(account)
+         let currentNet = await StorageService.getSelectedChain()
+        if(currentNet.data){
+            currentNet=currentNet.data;
+            account.chainId=currentNet.chainId;
             var data =  await StorageService.saveSelectedAccount(account);
-            if(!data.message){
+            console.log(data)
+            if(data.message){
                 this.selected = account;
                 this.$notify({
                     group: 'foo',
@@ -98,7 +99,7 @@ export default class AccountList extends Vue{
                     text: 'Something whent wrong!'
                 });
             }
-        // }
+        }
     }
     mounted(){
         this.showSpinner = true;
