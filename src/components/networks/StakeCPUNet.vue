@@ -35,7 +35,7 @@
                 <div class="col-12 d-flex">
                     <div class="col-6 mt-3 mx-1" dir="ltr">
                         <h5 class="font-size-15 mb-4">Amount of CPU to Stake (in TELOS)</h5>
-                        <b-form-input
+                        <b-form-input class="my-3"
                             id="input-2"
                             v-model="stakeCPUorNET.CPUAmountToStake"
                             type="text"
@@ -49,7 +49,7 @@
                     </div>
                     <div class="col-6 mt-3 mx-1" dir="ltr">
                         <h5 class="font-size-15 mb-4">Amount of NET to Stake (in TELOS)</h5>
-                        <b-form-input
+                        <b-form-input class="my-3"
                             id="input-2"
                             v-model="stakeCPUorNET.NETAmountToStake"
                             type="text"
@@ -70,11 +70,11 @@
                 <div class="col-12 mt-5 d-flex">
                      <div class="col-6 mt-3">
                         <h5 class="font-size-15 mb-4">Account name of who currently holds stake:</h5>
-                        <multiselect v-model="unStakeCPUorNET.selectedAccountForUnStake" :options="unStakeCPUorNET.accountHoldStake" class="helo"></multiselect>
+                        <multiselect class="my-3" v-model="unStakeCPUorNET.selectedAccountForUnStake" :options="unStakeCPUorNET.accountHoldStake" ></multiselect>
                     </div>
                     <div class="col-6 px-2 mt-3">
                         <h5 class="font-size-15 mb-4">Amount of CPU to Unstake (in TLOS)</h5>
-                        <b-form-input
+                        <b-form-input class="my-3"
                             id="input-2"
                             v-model="unStakeCPUorNET.amountCPUUnstake"
                             type="text"
