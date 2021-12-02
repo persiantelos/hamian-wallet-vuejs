@@ -67,13 +67,18 @@ export default {
       } else {
         if(this.password.length > 5){
           var data=await StorageService.login(this.password);
-          if(data)
+          if(data.message != 'error')
+          {
             window.location.href='/';
-            console.log('login------->',data)
           }
           else{
-            console.log('res')
+            this.$notify({
+              group: 'login',
+              type: 'warn',
+              text: 'Password is not correct!'
+            });
           }
+        }
       }
     },
   },
@@ -83,6 +88,8 @@ export default {
 
 <template>
   <Layout>
+    <notifications style="margin-top:50px" group="login" />
+
     <div class="row justify-content-center">
       <div class="col-md-8 col-lg-6 col-xl-5">
         <div class="card overflow-hidden">
