@@ -92,8 +92,6 @@ export default {
             }
         },
         async setNetwork(){
-            console.log('fireeeeeeeeeeeeeeeeeeeeeee')
-
             this.selectedNetwork = await StorageService.getSelectedChain();
             console.log('this.selectedNetwork',this.selectedNetwork)
             if(this.selectedNetwork.message == 'success'){
