@@ -153,10 +153,9 @@ export default class NetworksContent extends Vue{
     if(currentNet){
             var account = await StorageService.getSelectedAccount(currentNet.chainId)
             if(account){
-                account = account.message
+                account = Object.entries(account.message)[0][1]
                 let acc = await AccountService.getAccount(account);
                 if(acc){
-
                     this.data.resources = acc;
                     console.log('this.data.resources',this.data.resources)
                     this.counter++;
