@@ -60,7 +60,7 @@
     </div>
 </template>
 <script lang="ts">
-import {Vue, Component , Prop } from 'vue-property-decorator';
+import {Vue, Component , Prop ,Watch} from 'vue-property-decorator';
 import StorageService from '@/localService/storageService'
 import AccountService from '@/services/accountService'
 import Spinner from '@/components/spinner/Spinner.vue'
@@ -81,12 +81,17 @@ export default class AccountList extends Vue{
     showSpinner:boolean=true;
     AddAccount:boolean=false;
 
-   
+   mounted(){
+       this.getCurrentNet()
+   }
+    async getCurrentNet(){
+        this.currentNet =   await StorageService.getSelectedChain()
+        this.currentNet = this.currentNet.data;
+    }
     async setSelectedacc(account:any){
-         let currentNet = await StorageService.getSelectedChain()
-        if(currentNet.data){
-            currentNet=currentNet.data;
-            account.chainId=currentNet.chainId;
+        if(this.currentNet){
+            account.chainId=this.currentNet.chainId;
+            account.network = this.currentNet._id;
             var data =  await StorageService.saveSelectedAccount(account);
             console.log(data)
             if(data.message){
@@ -108,11 +113,13 @@ export default class AccountList extends Vue{
             }
         }
     }
-    mounted(){
-        if(this.value.length==0){
+   
+    @Watch('value')
+    checkValue(newVal:any){
+        console.log('newVal',newVal)
+        if(newVal.length<1){
             this.AddAccount = true;
             this.showSpinner = false;
-            
         }
         else{
             this.showSpinner = true;
@@ -120,18 +127,18 @@ export default class AccountList extends Vue{
         }
     }
     async init(){
-        this.currentNet =   await StorageService.getSelectedChain()
-        this.currentNet = this.currentNet.data;
+        
         this.tokensList =  await AccountService.getTokensList();
         this.tokensList = this.tokensList.value
-        this.getAccountsInfo();
+        if(this.currentNet&&this.tokensList){
+            this.getAccountsInfo();
+        }
     }
     async getAccountsInfo(){
         let tempAccInformation =[]
         
-        for(let account of this.value){
-            console.log('account name',account.name)
-            this.accInfo = await AccountService.getAccountInfo(account.name);
+        for(let account in this.value){
+            this.accInfo = await AccountService.getAccountInfo(this.value[account].name);
             this.accInfo = this.accInfo.value
             tempAccInformation.push(this.accInfo)
         }
@@ -171,10 +178,7 @@ export default class AccountList extends Vue{
         }
         this.AccountList = this.value
         this.showSpinner = false;
-        console.log(this.AccountList)
-
     }
-
 }
 </script>
 <style lang="scss" scoped>

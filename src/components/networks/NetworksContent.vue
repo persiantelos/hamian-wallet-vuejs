@@ -59,6 +59,8 @@ export default class NetworksContent extends Vue{
     showSpinner:boolean=true;
     buyWith:string='TELOS'
     selectedNFTs:any=[];
+    currentNet:any=[]
+    selectedAccount:any={}
     stakeCPUorNET:any={
         stakReciver:'mohamamd',
         CPUAmountToStake:0,
@@ -114,7 +116,19 @@ export default class NetworksContent extends Vue{
     }
     mounted(){
         this.selectedNFTs = 'SelectNFT';
+        this.getSelectedNetwork();
+        this.getSelectedAccount();
     }
+    async getSelectedNetwork(){
+        this.currentNet = await StorageService.getSelectedChain();
+        this.currentNet = this.currentNet.data;
+    }
+        async getSelectedAccount(){
+            this.selectedAccount =  await StorageService.getSelectedAccount();
+            this.selectedAccount = this.selectedAccount.message;
+            this.selectedAccount.chainId = Object.entries(this.selectedAccount)[0][0];
+            this.selectedAccount.name = Object.entries(this.selectedAccount)[0][1];
+        }
     @Watch('value')
     valueChanged(newValue:any){
         console.log('new Value',newValue);
@@ -148,29 +162,24 @@ export default class NetworksContent extends Vue{
     this.selectedNFTs = nft.title;
   }
   async getResources(){
-        this.showSpinner = true;
-        var currentNet = await StorageService.getSelectedChain();
-        currentNet = currentNet.data;
-    if(currentNet){
-            var account = await StorageService.getSelectedAccount()
-            var account = Object.entries(account.message)[0][1]
-            if(account){
-                let acc = await AccountService.getAccount(account);
-                if(acc){
-                    this.data.resources = acc;
-                    this.showSpinner = false;
-                    this.counter++;
-                }
+    this.showSpinner = true;
+    if(this.currentNet){
+        if(this.selectedAccount.name){
+            let acc = await AccountService.getAccount(this.selectedAccount.name);
+            if(acc){
+                this.data.resources = acc;
+                this.showSpinner = false;
+                this.counter++;
             }
-            else{
-                this.$notify({
-                    group: 'foo',
-                    type: 'warn',
-                    text: 'First Select your account!'
-                });
-                this.$emit('changeSelectedMenu','accountList')
-                // this.value = 'accountList'
-            }
+        }
+        else{
+            this.$notify({
+                group: 'foo',
+                type: 'warn',
+                text: 'First Select your account!'
+            });
+            this.$emit('changeSelectedMenu','accountList')
+        }
     }
     else{
         this.$notify({
@@ -180,15 +189,12 @@ export default class NetworksContent extends Vue{
         });
         this.$router.push('/')
     }
-    
   }
   async getAccounts(){
-      var thempAccountList = []
-    this.data.accountList = await WalletService.getAccounts();
-    var currentNet = await StorageService.getSelectedChain()
-    currentNet = currentNet.data
-    for(let acc in this.data.accountList){
-        if(this.data.accountList[acc].chainId == currentNet.chainId)
+    var thempAccountList = []
+    let accountList = await WalletService.getAccounts();
+    for(let acc of accountList){
+        if(acc.chainId == this.currentNet.chainId)
         {
             thempAccountList.push(acc)
         }

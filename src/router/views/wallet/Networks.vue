@@ -12,7 +12,7 @@
     </Layout>
 </template>
 <script lang="ts">
-import {Vue , Component} from 'vue-property-decorator';
+import {Vue , Component,Watch} from 'vue-property-decorator';
 import NetworksMenu from '@/components/networks/NetworksMenu.vue'
 import NetworksContent from '@/components/networks/NetworksContent.vue'
 import Layout from "../../layouts/main";
@@ -30,10 +30,15 @@ export default class Networks extends Vue{
     this.selectedItem = data;
   }
   mounted(){
+    //   console.log('router',this.$route.params.chainId)
     //   if(!this.$store.state.currentNet.name){
         //   this.$router.push('/')
     //   }
   }
+//   @Watch('$route.params.chainId')
+//   windowReload(){
+//       location.reload()
+//   }
 }
 </script>
 <style scoped>
