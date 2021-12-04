@@ -143,9 +143,7 @@ export default class AccountList extends Vue{
         if(this.currentNet.chainId == this.selectedAccount.chainId){
             this.tokensList =  await AccountService.getTokensList();
             this.tokensList = this.tokensList.value
-            this.accountName = await StorageService.getSelectedAccount(this.currentNet.chainId)
-            this.accountName = Object.entries(this.accountName.message)[0][1]
-            this.accInfo =  await AccountService.getAccountInfo(this.accountName);
+            this.accInfo =  await AccountService.getAccountInfo(this.$store.state.currentAccount);
             this.accInfo = this.accInfo.value
             this.setTokens()
         }
