@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6">   version : {{version}} </div>
-        <div class="col-sm-6" style="text-align: right;">{{ new Date().getFullYear() - 1 }} - {{ new Date().getFullYear() }} © Xtorage.</div>
+        <div class="col-sm-6" style="text-align: right;">{{ new Date().getFullYear() - 1 }} - {{ new Date().getFullYear() }} © Hamian.</div>
       </div>
     </div>
   </footer>
