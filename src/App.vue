@@ -99,7 +99,7 @@ export default {
 
 <template>
   <div id="app">
-    <notifications group="foo" />
+    <notifications style="margin-top:20px" group="foo" />
     <div v-if="$store.state.loading == true">
       <loader  />
     </div>
