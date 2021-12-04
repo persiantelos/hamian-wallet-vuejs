@@ -1,8 +1,11 @@
 
 <template>
   <Layout>
-    {{data}}
-    <div class="row justify-content-center">
+    <!-- {{data}} -->
+    <div v-if="spinner">
+      <Spinner v-model="spinner" />
+    </div>
+    <div v-if="!spinner" class="row justify-content-center">
       <div class="col-md-8 col-lg-6 col-xl-5">
         <div class="card overflow-hidden">
           <div class="bg-soft bg-primary">
@@ -166,6 +169,7 @@
 
 <script lang="ts">
 import Layout from "../../layouts/auth";
+import Spinner from "@/components/spinner/Spinner.vue";
 import {Vue , Component} from "vue-property-decorator"
 
 import SocketService from "@/localService/socketService";
@@ -177,6 +181,7 @@ import TransactionRequest from '@/models/local/transactionRequest';
 @Component({
     components:{
     Layout,
+    Spinner
     }
 })
 export default class LocalLogin extends Vue{
@@ -185,13 +190,14 @@ export default class LocalLogin extends Vue{
     counter:number=0;
     transactions:TransactionRequest[]=[];
     whiteList:boolean=false;
+    spinner:boolean=true;
 
     requestSignature(data:any)
     {
         this.data=data 
         this.transactions=data.payload.transaction;
-        console.log('this.data',this.data)
-        console.log('this.transactions',this.transactions)
+        this.spinner = false
+        
     }
     mounted() {  
         SocketService.addEvent(RequestTypes.requestSignature,this.requestSignature); 
@@ -199,12 +205,13 @@ export default class LocalLogin extends Vue{
 
     async accept()
     { 
+        this.spinner = true
         await WalletService.acceptTransaction(this.data.id);
         window.close();
     }
     async reject()
     {
-    await WalletService.rejectTransaction(this.data.id);
+      await WalletService.rejectTransaction(this.data.id);
         console.log('deny');
         window.close(); 
     }

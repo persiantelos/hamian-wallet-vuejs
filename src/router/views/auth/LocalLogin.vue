@@ -1,7 +1,10 @@
 
 <template>
   <Layout>
-    <div class="row justify-content-center">
+    <div v-if="spinner">
+      <Spinner v-model="spinner" />
+    </div>
+    <div v-if="!spinner" class="row justify-content-center">
       <div class="col-md-8 col-lg-6 col-xl-5">
         <div class="card overflow-hidden">
           <div class="bg-soft bg-primary">
@@ -92,6 +95,8 @@
 
 <script lang="ts">
 import Layout from "../../layouts/auth";
+import Spinner from "@/components/spinner/Spinner.vue";
+
 import {Vue , Component , Prop} from "vue-property-decorator"
 
 import SocketService from "@/localService/socketService";
@@ -106,7 +111,8 @@ import StorageService from '@/localService/storageService';
 @Component({
     components:{
     Layout,
-    Confirm
+    Confirm,
+    Spinner
     }
 })
 export default class LocalLogin extends Vue{
@@ -116,10 +122,14 @@ export default class LocalLogin extends Vue{
   showConfirm:boolean=false;
   isSelected:boolean=false;
   counter:number=0;
+  spinner:boolean=false;
+
   selecteAccount(userAccount:any){
     this.selectedAccount = userAccount;
     this.counter++
     this.isSelected = true;
+      this.spinner = false;
+
   }
   async reciveLoginRequest(data:any)
   {
@@ -132,6 +142,8 @@ export default class LocalLogin extends Vue{
 
   }
   mounted() {
+      this.spinner = true;
+
     SocketService.addEvent(RequestTypes.getOrRequestIdentity,this.reciveLoginRequest); 
   }
   async getAccounts(){
@@ -164,6 +176,8 @@ export default class LocalLogin extends Vue{
   {
     if(this.isSelected)
     { 
+      this.spinner = true;
+
       var lres=new LoginResponse(this.data,this.selectedAccount)
       var appkey=this.data.appkey;
       lres.key=appkey;//+chinid;
@@ -175,6 +189,7 @@ export default class LocalLogin extends Vue{
           title: this.data.origin,
           text: 'Account successfully added'
       });
+      this.spinner = false;
       setTimeout(() => {
         window.close();
       }, 1400);
