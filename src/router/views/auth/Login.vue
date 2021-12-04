@@ -79,6 +79,13 @@ export default {
             });
           }
         }
+        else{
+          this.$notify({
+              group: 'login',
+              type: 'warn',
+              text: 'Password is not correct!'
+            });
+        }
       }
     },
      focusInput() {
