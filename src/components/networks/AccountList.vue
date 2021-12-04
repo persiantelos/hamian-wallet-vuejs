@@ -9,7 +9,6 @@
             </p>
         </div>
         <div v-if="!showSpinner" class="d-flex">
-            
             <div class="p-3" v-for="(account , index) in AccountList"  :key="index" >
                 <div class="card m-2 shadow-none border">
                     <div class="card-body p-3">

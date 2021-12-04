@@ -130,7 +130,6 @@ export default class AddNewAccount extends Vue{
         this.loading = true;
         if(this.account.privateKey){
             try{
-                
                 console.log('this.selectedNet',this.selectedNet)
                 var newAccount =await WalletService.existData(this.selectedNet.type,this.account.privateKey,this.selectedNet.history)
                 console.log('newAccount',newAccount)
