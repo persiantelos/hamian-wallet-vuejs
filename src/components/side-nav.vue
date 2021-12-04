@@ -85,14 +85,12 @@ export default {
         async getNet(){
             this.$store.state.blockchain = await CommonService.getNetworks()
             if(this.$store.state.blockchain){
-                let currentNet = await StorageService.getSelectedChain();
-                if(currentNet.message != 'success'){
-                    this.setNetwork()
-                }
+                this.setNetwork()
             }
         },
         async setNetwork(){
             this.selectedNetwork = await StorageService.getSelectedChain();
+            console.log('this.selectedNetwork',this.selectedNetwork)
             if(this.selectedNetwork.message == 'success'){
                 this.selectedNetwork = this.selectedNetwork.data
                 if(this.selectedNetwork){

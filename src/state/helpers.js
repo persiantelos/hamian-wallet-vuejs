@@ -27,6 +27,11 @@ export const blockchain = {
     currentNet: (state) => state.currentNet,
   })
 }
+export const account = {
+  ...mapState('account', {
+    currentAccount: (state) => state.currentAccount,
+  })
+}
 
 
 

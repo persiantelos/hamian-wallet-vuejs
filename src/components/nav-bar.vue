@@ -5,7 +5,6 @@ import simplebar from "simplebar-vue";
 import i18n from "../i18n";
 import Config from '../common/config';
 import EventBus from '../localService/eventBus'
-import StorageService from '../localService/storageService';
 
 /**
  * Nav-bar Component
@@ -46,16 +45,13 @@ export default {
       value: null,
       username:'',
       imageUrl:'@/assets/images/users/1.jpg',
-      selectedAccount:[],
-      selectedNetwork:[],
     };
   },
   components: { simplebar },
     
   mounted() {
     this.getAccounts();
-    this.getSelectedNetworks();
-
+    this.getCurrentNet();
     this.username=Config.username;
     this.value = this.languages.find((x) => x.language === i18n.locale);
     this.text = this.value.title;
@@ -66,28 +62,8 @@ export default {
     },'account',this);
   },
   methods: {
-    async getAccounts(){
-      this.selectedAccount = await StorageService.getSelectedAccount();
-      if(this.selectedAccount){
-        this.selectedAccount = Object.entries(this.selectedAccount.message)[0][1]
-      }
-      else{
-        this.selectedAccount = []
-      }
-    },
-    async getSelectedNetworks(){
-      this.selectedNetwork = await StorageService.getSelectedChain();
-      if(this.selectedNetwork.message == 'success'){
-        this.selectedNetwork = this.selectedNetwork.data.name
-      }
-      else{
-        if(this.$store.state.currentNet){
-          this.selectedNetwork = this.$store.state.currentNet.name;
-        }else{
-          this.selectedNetwork = []
-        }
-      }
-    },
+    
+    
     toggleMenu() {
       this.$parent.toggleMenu();
     },
@@ -179,6 +155,22 @@ export default {
         </button>
 
         <!-- App Search-->
+        <div class="app-search d-none d-lg-block">
+          <div class="position-relative my-4">
+            <router-link style="margin-left:-10px;margin-top:-20px;display:flex" class="d-flex" v-if="$store.state.currentAccount.length != 0" tag="span"  to="#" align="left">
+              <i  class="bx bx-user font-size-16 align-middle"></i>
+              <span style="margin-left:5px;margin-top:-10px;font-size:14px">
+              {{this.$store.state.currentAccount.name}}
+              </span>
+            </router-link>
+            <router-link style="margin-left:-5px;margin-top:-10px;display:flex" class="d-flex" v-if="$store.state.currentNet.length != 0" tag="span"  to="#" align="left">
+              <!-- <i class="mdi mdi-network-outline font-size-16 align-middle"></i> -->
+              <span style="margin-top:2px;color:gray;font-size:13px">
+              {{this.$store.state.currentNet.name}}
+              </span>
+            </router-link>
+          </div>
+        </div>
         <!-- <form class="app-search d-none d-lg-block">
           <div class="position-relative">
             <input
@@ -186,7 +178,7 @@ export default {
               class="form-control"
               :placeholder="$t('navbar.search.text')"
             />
-            <span class="bx bx-search-alt"></span>
+            <span class="bx bx-search-alt"></span> 
           </div>
         </form> -->
 
@@ -688,10 +680,10 @@ export default {
             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
           </template>
           <!-- item-->
-          <b-dropdown-item href="javascript: void(0);">
-             <router-link v-if="selectedNetwork.length != 0" tag="span"  to="#" align="left">
+          <!-- <b-dropdown-item href="javascript: void(0);">
+             <router-link v-if="$store.state.currentNet" tag="span"  to="#" align="left">
               <i class="mdi mdi-network-outline font-size-16 align-middle"></i>
-              {{selectedNetwork}}
+              {{$store.state.currentNet.name}}
             </router-link>
           </b-dropdown-item>
           <b-dropdown-item href="javascript: void(0);">
@@ -699,7 +691,7 @@ export default {
               <i class="bx bx-user font-size-16 align-middle"></i>
               {{selectedAccount}}
             </router-link>
-          </b-dropdown-item>
+          </b-dropdown-item> -->
           
 
 

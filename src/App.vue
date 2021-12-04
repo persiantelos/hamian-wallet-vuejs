@@ -8,6 +8,8 @@ import VModal from 'vue-js-modal';
 
 import Dialog from "@/components/common/Dialog.vue";
 import loader from '@/components/spinner/Spinner.vue'
+import StorageService from '@/localService/storageService';
+
 Vue.use(VModal)
 Vue.mixin({
       methods: {
@@ -29,6 +31,7 @@ export default {
   data:()=>{
     return{
       loading:false,
+
     }
   },
   page: {
@@ -42,6 +45,8 @@ export default {
     this.$store.state.layout.layoutType='vertical'
     this.$store.state.layout.leftSidebarType='dark';
     this.init();
+    this.getAccounts();
+    this.getCurrentNet();
     // document.querySelector("html").setAttribute('dir', 'rtl')
   },
   watch: {
@@ -63,7 +68,33 @@ export default {
       {
         window.location.reload(true);
       }
-    } 
+    },
+    async getAccounts(){
+      var currentAccount = this.$store.state.currentAccount
+      if(currentAccount.length != 0)
+      {
+        this.selectedAccount = currentAccount;
+      }else{
+        selectedAccount = await StorageService.getSelectedAccount();
+        if(selectedAccount){
+          selectedAccount = Object.entries(selectedAccount.message)[0][1]
+          this.$store.state.currentAccount = selectedAccount;
+        }
+      }
+    },
+    async getCurrentNet(){
+      var currentNet = this.$store.state.currentNet;
+      if(currentNet.length != 0){
+        this.currentNet = currentNet
+      }
+      else{
+        currentNet = await StorageService.getSelectedChain()
+        if(currentNet.message == 'success'){
+          currentNet = currentNet.data
+          this.$store.state.currentNet = currentNet
+        }
+      }
+    }, 
   },
 };
 </script>
