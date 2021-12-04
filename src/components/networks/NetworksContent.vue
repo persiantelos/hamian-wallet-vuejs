@@ -18,10 +18,10 @@
                 <StakeCpuNet v-model="data.resources" :showSpinner="showSpinner" />
             </div>
             <div v-if="value == 'tokens'">
-                <Tokens @changeSelectedMenu="changeSelectedMenu" :currentNet='currentNet' :selectedAccount='selectedAccount' />
+                <Tokens @changeSelectedMenu="changeSelectedMenu"   />
             </div>
             <div v-if="value == 'transferToken'">
-                <TransferToken @changeSelectedMenu="changeSelectedMenu" :currentNet='currentNet' :selectedAccount='selectedAccount' v-model="data.transferToken"  />
+                <TransferToken @changeSelectedMenu="changeSelectedMenu"   v-model="data.transferToken"  />
             </div>
         </div>
     </div>
@@ -60,7 +60,6 @@ export default class NetworksContent extends Vue{
     buyWith:string='TELOS'
     selectedNFTs:any=[];
     currentNet:any=[]
-    selectedAccount:any={}
     data:any={
         accountList:[],
         resources:[],
@@ -128,7 +127,8 @@ export default class NetworksContent extends Vue{
                     this.$notify({
                         group: 'foo',
                         type: 'warn',
-                        text: this.selectedAccount
+                        text: 'First Select your account!'
+
                     });
                 }
             }

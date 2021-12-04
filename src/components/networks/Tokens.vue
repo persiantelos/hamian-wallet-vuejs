@@ -61,7 +61,7 @@
     </div>
 </template>
 <script lang="ts">
-import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
+import {Vue, Component , } from 'vue-property-decorator'
 import AccountService from '@/services/accountService'
 import StorageService from '@/localService/storageService'
 import Spinner from '@/components/spinner/Spinner.vue'
@@ -72,20 +72,15 @@ import Spinner from '@/components/spinner/Spinner.vue'
     }
 })
 export default class AccountList extends Vue{
-    @Prop({default:() =>{return []}}) currentNet:any;
-    @Prop({default:() =>{return []}}) selectedAccount:any;
     tokens:any=[];
-    currentNet:any=[];
     tokensList:any=[];
     accInfo:any=[];
     showSpinner:boolean=true;
     mounted(){
         this.init();
-        // this.currentNet = this.$store.state.currentNet;
-
     }
     async init(){
-        if(this.currentNet.chainId == this.selectedAccount.chainId){
+        if(this.$store.state.currentNet.chainId == this.$store.state.currentAccountChainId){
             this.tokensList =  await AccountService.getTokensList();
             this.tokensList = this.tokensList.value
             this.accInfo =  await AccountService.getAccountInfo(this.$store.state.currentAccount);
@@ -104,7 +99,7 @@ export default class AccountList extends Vue{
     setTokens(){
         let newarr = []
         for(let token of this.tokensList){
-            if(this.currentNet._id == token.chain)
+            if(this.$store.state.currentNet._id == token.chain)
             {
                 for(let item of this.accInfo){
                     for(let i =0;i<Object.keys(item).length;i++){

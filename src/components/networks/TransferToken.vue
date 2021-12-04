@@ -109,14 +109,13 @@ import StorageService from '@/localService/storageService'
 })
 export default class AccountList extends Vue{
     @Prop({default:() =>{return []}}) value:any;
-    @Prop({default:() =>{return []}}) currentNet:any;
-    @Prop({default:() =>{return []}}) selectedAccount:any;
 
     showCustomToken:boolean=false;
     tokens:any=[];
     tokensList:any=[];
     accountName:any=[];
     accInfo:any=[];
+    selectedAccount:any=[];
     showSpinner:boolean=true;
     transferToken:any={
         customToken:{
@@ -139,14 +138,16 @@ export default class AccountList extends Vue{
     mounted(){
         this.init();
     }
+  
     async init(){
-        if(this.currentNet.chainId == this.selectedAccount.chainId){
+        if(this.$store.state.currentNet.chainId == this.$store.state.currentAccountChainId){
+
             this.tokensList =  await AccountService.getTokensList();
             this.tokensList = this.tokensList.value
             this.accInfo =  await AccountService.getAccountInfo(this.$store.state.currentAccount);
             this.accInfo = this.accInfo.value
             this.setTokens()
-        }
+            }
         else{
             this.$notify({
                 group: 'foo',
@@ -159,7 +160,7 @@ export default class AccountList extends Vue{
     setTokens(){
         let newarr = []
         for(let token of this.tokensList){
-            if(this.currentNet._id == token.chain)
+            if(this.$store.state.currentNet._id == token.chain)
             {
                 for(let item of this.accInfo){
                     for(let i =0;i<Object.keys(item).length;i++){
