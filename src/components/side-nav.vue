@@ -152,7 +152,10 @@ export default {
                 </router-link>
                 <ul  class="sub-menu mm-collapse" aria-expanded="false">
                     <li v-for="(blocks, index) of $store.state.blockchain" :key="index">
-                        <router-link to="#" @click.native="showNetworkList(blocks)" class="side-nav-link-ref">{{ blocks.name }}</router-link>
+                        <router-link to="#" 
+                        @click.native="showNetworkList(blocks)" 
+                        class="side-nav-link-ref"
+                        :class="$store.state.currentNet.name == blocks.name ? 'text-white' : '' ">{{ blocks.name }}</router-link>
                     </li>
                 </ul>
             </li>
