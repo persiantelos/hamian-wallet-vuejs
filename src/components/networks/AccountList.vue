@@ -42,13 +42,19 @@
                                 >{{account.name}}</a
                                 >
                             </h5>
-                            <p v-if="account.val.daric" class="text-muted text-truncate mb-0">
+                            <p v-if="account.val" class="text-muted text-truncate mb-0">
                                {{account.val.daric}}  DRIC
+                            </p>
+                            <p v-else class="text-muted text-truncate mb-0">
+                               0  DRIC
                             </p>
                             </div>
                             <div class="align-self-end ms-2">
-                            <p v-if="account.val.telos" class="text-muted mb-0">
+                            <p v-if="account.val" class="text-muted mb-0">
                                {{account.val.telos}}  TELOS
+                            </p>
+                            <p v-else class="text-muted mb-0">
+                               0  TELOS
                             </p>
                             </div>
                         </div>
