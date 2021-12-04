@@ -155,7 +155,7 @@ export default {
                         <router-link to="#" 
                         @click.native="showNetworkList(blocks)" 
                         class="side-nav-link-ref"
-                        :class="$store.state.currentNet.name == blocks.name ? 'text-white' : '' ">{{ blocks.name }}</router-link>
+                        :style="$store.state.currentNet.name == blocks.name ? 'color:#ffffff !important' : 'color:#545a6d !important' ">{{ blocks.name }}</router-link>
                     </li>
                 </ul>
             </li>
