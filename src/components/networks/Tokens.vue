@@ -52,13 +52,10 @@
                              {{token.val[token._id]}} {{token.currency}}
                             </p>
                             </div>
-                            <!-- <div class="align-self-end ms-2">
-                            <p class="text-muted mb-0">Chain : {{token.chain}}</p>
-                            </div> -->
                         </div>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -80,7 +77,6 @@ export default class AccountList extends Vue{
     tokens:any=[];
     currentNet:any=[];
     tokensList:any=[];
-    accountName:any=[];
     accInfo:any=[];
     showSpinner:boolean=true;
     mounted(){
@@ -92,9 +88,7 @@ export default class AccountList extends Vue{
         if(this.currentNet.chainId == this.selectedAccount.chainId){
             this.tokensList =  await AccountService.getTokensList();
             this.tokensList = this.tokensList.value
-            this.accountName = await StorageService.getSelectedAccount(this.currentNet.chainId);
-            this.accountName = Object.entries(this.accountName.message)[0][1]
-            this.accInfo =  await AccountService.getAccountInfo(this.accountName);
+            this.accInfo =  await AccountService.getAccountInfo(this.$store.state.currentAccount);
             this.accInfo = this.accInfo.value
             this.setTokens()
         }
