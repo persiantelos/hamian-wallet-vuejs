@@ -30,7 +30,7 @@
                         </div>
                         <div class="avatar-xs me-3 mb-3">
                             <div class="avatar-title bg-transparent rounded">
-                            <i class="bx bx-user font-size-24" :class="selected.name == account.name ? ' text-warning' : 'text-body'" ></i>
+                            <i class="bx bx-user font-size-24" :class="selected == account.name ? ' text-warning' : 'text-body'" ></i>
                             </div>
                         </div>
                         <div class="d-flex" >
@@ -80,6 +80,7 @@ export default class AccountList extends Vue{
     @Prop({default:() =>{return []}}) value:any;
     selected:any=[]
     currentNet:any=[]
+    currentAccount:any=[]
     tokensList:any=[]
     tokens:any=[]
     accInfo:any=[]
@@ -88,11 +89,17 @@ export default class AccountList extends Vue{
     AddAccount:boolean=false;
 
    mounted(){
-       this.getCurrentNet()
+       this.getCurrentNet();
+       this.getCurrentAccount();
+
    }
     async getCurrentNet(){
-        this.currentNet =   await StorageService.getSelectedChain()
-        this.currentNet = this.currentNet.data;
+        this.currentNet =   this.$store.state.currentNet
+    }
+    getCurrentAccount(){
+        this.currentAccount = this.$store.state.currentAccount
+        this.selected = this.$store.state.currentAccount
+
     }
     async setSelectedacc(account:any){
         if(this.currentNet){
@@ -102,7 +109,7 @@ export default class AccountList extends Vue{
             console.log(data)
             if(data.message){
                 this.$store.state.currentAccount = account.name;
-                this.selected = account;
+                this.selected = account.name;
                 this.$notify({
                     group: 'foo',
                     type: 'success',

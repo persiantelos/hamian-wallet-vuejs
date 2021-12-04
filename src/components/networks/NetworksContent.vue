@@ -61,59 +61,12 @@ export default class NetworksContent extends Vue{
     selectedNFTs:any=[];
     currentNet:any=[]
     selectedAccount:any={}
-    stakeCPUorNET:any={
-        stakReciver:'mohamamd',
-        CPUAmountToStake:0,
-        NETAmountToStake:0,
-    };
-    unStakeCPUorNET:any={
-        accountHoldStake:[
-            'mohammad','vahid','reza'
-        ],
-        selectedAccountForUnStake:'',
-        amountCPUUnstake:0,
-        amountNETUnstake:0,
-    }
-    buySellRAM:any={
-        RAMBuyAmount:0,
-        RAMConvertedToBytes:0,
-        RAMSellAmount:0,
-        TELOSCustAmount:0,
-        showCustomToken:false,
-    }
-    tokenList:any=[]
-    RAMRevicer:string=''
-    nftList:any=[
-        {title:'test1'},
-        {title:'test2'},
-    ]
-    transferToken:any={
-        customToken:'',
-        amount:0,
-        sendTo:'',
-        memo:'',
-        symbol:'',
-        contract:'',
-    }
     data:any={
         accountList:[],
         resources:[],
         tokens:[],
         transferToken:[],
     };
-    resource:any={
-        ram:{used:30.25,total:'24.92'},
-        cpu:{used:55.50,total:' 5.07'},
-        net:{used:20,total:'34.5'},
-    }
-    resourcesInfo:any={
-        available:'2 TLOS',
-        refunding:'0 TLOS',
-        CPUStaked:'0.0000 TLOS',
-        NetStaked:'0.0000 TLOS',
-        totalREX:'0.002 TLOS',
-        stakedbyOthers:'0.0000 TLOS',
-    }
     mounted(){
         this.selectedNFTs = 'SelectNFT';
         this.getSelectedNetwork();
@@ -127,12 +80,13 @@ export default class NetworksContent extends Vue{
     async getSelectedAccount(){
         this.selectedAccount =  await StorageService.getSelectedAccount();
         this.selectedAccount = this.selectedAccount.message;
-        this.selectedAccount.chainId = Object.entries(this.selectedAccount)[0][0];
+        this.selectedAccount.chain = Object.entries(this.selectedAccount)[0][0];
         this.selectedAccount.name = Object.entries(this.selectedAccount)[0][1];
     }
     @Watch('value')
-    valueChanged(newValue:any){
+    valueChanged(newValue:any,oldValue:any){
         console.log('new Value',newValue);
+        console.log('old Value',oldValue);
         if(newValue.length == 0){
             this.getSelectedNetwork();
             this.getSelectedAccount()
@@ -169,7 +123,7 @@ export default class NetworksContent extends Vue{
     this.showSpinner = true;
     if(this.selectedAccount){
         if(this.currentNet){
-            if(this.currentNet.chainId == this.selectedAccount.chainId){
+            if(this.currentNet._id == this.selectedAccount.chain){
                 if(this.selectedAccount.name){
                     let acc = await AccountService.getAccount(this.selectedAccount.name);
                     if(acc){
@@ -231,11 +185,7 @@ export default class NetworksContent extends Vue{
   }
   sendEntireBalance(){}
   
-  onItemClick(token:any){
-    this.transferToken.customToken = token;
-    console.log(this.transferToken.customToken);
-    
-  }
+ 
 }
 </script>
 <style lang="scss" scoped>
