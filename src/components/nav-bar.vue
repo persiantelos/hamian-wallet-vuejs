@@ -160,12 +160,12 @@ export default {
             <router-link style="margin-left:-10px;margin-top:-20px;display:flex" class="d-flex" v-if="$store.state.currentAccount.length != 0" tag="span"  to="#" align="left">
               <i  class="bx bx-user font-size-16 align-middle"></i>
               <span style="margin-left:5px;margin-top:-10px;font-size:14px">
-              {{this.$store.state.currentAccount.name}}
+              {{this.$store.state.currentAccount}}
               </span>
             </router-link>
             <router-link style="margin-left:-5px;margin-top:-10px;display:flex" class="d-flex" v-if="$store.state.currentNet.length != 0" tag="span"  to="#" align="left">
               <!-- <i class="mdi mdi-network-outline font-size-16 align-middle"></i> -->
-              <span style="margin-top:2px;color:gray;font-size:13px">
+              <span style="margin-top:2px;color:gray;font-size:13px;width:100px">
               {{this.$store.state.currentNet.name}}
               </span>
             </router-link>

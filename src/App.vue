@@ -73,12 +73,12 @@ export default {
       var currentAccount = this.$store.state.currentAccount
       if(currentAccount.length != 0)
       {
-        this.selectedAccount = currentAccount;
+        this.$store.state.currentAccount = currentAccount;
       }else{
-        selectedAccount = await StorageService.getSelectedAccount();
-        if(selectedAccount){
-          selectedAccount = Object.entries(selectedAccount.message)[0][1]
-          this.$store.state.currentAccount = selectedAccount;
+        currentAccount = await StorageService.getSelectedAccount();
+        if(currentAccount){
+          currentAccount = Object.entries(currentAccount.message)[0][1]
+          this.$store.state.currentAccount = currentAccount;
         }
       }
     },
