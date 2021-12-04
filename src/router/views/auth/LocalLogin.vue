@@ -87,7 +87,6 @@
         title="Warning" 
         :description="`Are you sure you whant to add ` + data.origin + ` to blacklist`" />
     </div>
-        <!-- :acceptText="`Are you sure you whant to add` + data.origin + `to blacklist`" -->
   </Layout>
 </template>
 
@@ -102,9 +101,7 @@ import LoginResponse from "@/models/local/loginResponse";
 import StorageAccountModel from "@/models/storage/accountModel";
 import Confirm from '@/components/common/Confirm.vue'
 import WalletService from "@/localService/walletService";
-// const remote = require('electron').remote;
-// const remote = window.require('electron');
-// import {remote} from 'electron'
+import StorageService from '@/localService/storageService';
 
 @Component({
     components:{
@@ -127,15 +124,41 @@ export default class LocalLogin extends Vue{
   async reciveLoginRequest(data:any)
   {
     this.data=new LoginRequest(data);
-    console.log('----------------->>>>>>>>',this.data)
-      console.log('>>>>>>>>',this.data.chainId,await WalletService.getAccounts())
+    // console.log('----------------->>>>>>>>',this.data)
+      // console.log('>>>>>>>>',this.data.chainId,await WalletService.getAccounts())
       this.account=(await WalletService.getAccounts()).filter(p=>p.chainId==this.data.chainId);
-      console.log('this.account',this.account)
+      this.getAccounts()
       this.counter++;
 
   }
   mounted() {
     SocketService.addEvent(RequestTypes.getOrRequestIdentity,this.reciveLoginRequest); 
+  }
+  async getAccounts(){
+    var currentAccount = this.$store.state.currentAccount
+    if(currentAccount.length != 0)
+    {
+      this.selectedAccount.name = currentAccount;
+      this.isSelected = true;
+      this.setDefaultAcc()
+    }else{
+      currentAccount = await StorageService.getSelectedAccount();
+
+      if(currentAccount){
+        currentAccount = Object.entries(currentAccount.message)[0][1]
+              this.selectedAccount.name = currentAccount;
+              this.isSelected = true;
+              this.setDefaultAcc()
+      }
+    }
+  }
+  setDefaultAcc(){
+    for(let account of this.account){
+      if(account.name == this.selectedAccount.name)
+      {
+        this.selecteAccount(account)
+      }
+    }
   }
   accept()
   {

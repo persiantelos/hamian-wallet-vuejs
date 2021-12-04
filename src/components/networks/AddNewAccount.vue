@@ -102,10 +102,20 @@ export default class AddNewAccount extends Vue{
         this.init()
     }
     async init(){
-        let currentNet = await StorageService.getSelectedChain()
-        this.addNetwork(currentNet.data);
-        this.selectedNet=currentNet.data;
-
+    var currentNet = this.$store.state.currentNet;
+      if(currentNet.length != 0){
+          this.addNetwork(currentNet);
+          this.selectedNet=currentNet;
+      }
+      else{
+          currentNet = await StorageService.getSelectedChain()
+        if(currentNet.message == 'success'){
+            currentNet = currentNet.data
+          this.$store.state.currentNet = currentNet
+            this.addNetwork(currentNet);
+            this.selectedNet=currentNet;
+        }
+      }
     }
     
     addNetwork(model:NetworkModel)
