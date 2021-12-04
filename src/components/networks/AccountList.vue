@@ -109,6 +109,7 @@ export default class AccountList extends Vue{
             console.log('dataaaaaaaaaaaaaaa',data)
             if(data.message){
                 this.$store.state.currentAccount = account.name;
+                this.$store.state.currentAccountChainId = account.chainId;
                 this.selected = account.name;
                 this.$notify({
                     group: 'foo',

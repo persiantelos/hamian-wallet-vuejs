@@ -70,18 +70,11 @@ export default class NetworksContent extends Vue{
     mounted(){
         this.selectedNFTs = 'SelectNFT';
         this.getSelectedNetwork();
-        this.getSelectedAccount();
     }
     async getSelectedNetwork(){
         this.currentNet = await StorageService.getSelectedChain();
 
         this.currentNet = this.currentNet.data;
-    }
-    async getSelectedAccount(){
-        this.selectedAccount =  await StorageService.getSelectedAccount();
-        this.selectedAccount = this.selectedAccount.message;
-        this.selectedAccount.chain = Object.entries(this.selectedAccount)[0][0];
-        this.selectedAccount.name = Object.entries(this.selectedAccount)[0][1];
     }
     @Watch('value')
     valueChanged(newValue:any,oldValue:any){
@@ -89,7 +82,6 @@ export default class NetworksContent extends Vue{
         console.log('old Value',oldValue);
         if(newValue.length == 0){
             this.getSelectedNetwork();
-            this.getSelectedAccount()
         }
         if(newValue == 'accountList'){
         this.getAccounts();
@@ -121,18 +113,12 @@ export default class NetworksContent extends Vue{
   }
   async getResources(){
     this.showSpinner = true;
-    this.selectedAccount={};
-    this.selectedAccount =  await StorageService.getSelectedAccount();
-    this.selectedAccount.chain = Object.entries(this.selectedAccount.message)[0][0];
-    this.selectedAccount.name = Object.entries(this.selectedAccount.message)[0][1];
-    if(this.selectedAccount){
+    if(this.$store.state.currentAccountChainId){
         if(this.currentNet){
-            if(this.currentNet._id == this.selectedAccount.chain){
-                if(this.selectedAccount.name){
-                    let acc = await AccountService.getAccount(this.selectedAccount.name);
+            if(this.currentNet.chainId == this.$store.state.currentAccountChainId){
+                if(this.$store.state.currentAccount){
+                    let acc = await AccountService.getAccount(this.$store.state.currentAccount);
                     if(acc){
-                        console.log('acccccccccccccc',acc)
-                        console.log('this.selectedAccount.name',this.selectedAccount.name)
                         this.data.resources = acc;
                         this.showSpinner = false;
                         this.counter++;

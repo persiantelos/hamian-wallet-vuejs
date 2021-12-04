@@ -76,9 +76,9 @@ export default {
         this.$store.state.currentAccount = currentAccount;
       }else{
         currentAccount = await StorageService.getSelectedAccount();
-        if(currentAccount){
-          currentAccount = Object.entries(currentAccount.message)[0][1]
-          this.$store.state.currentAccount = currentAccount;
+        if(currentAccount.message){
+          this.$store.state.currentAccount = Object.entries(currentAccount.message)[0][1]
+          this.$store.state.currentAccountChainId = Object.entries(this.selectedAccount.message)[0][0];
         }
       }
     },

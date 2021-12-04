@@ -16,6 +16,7 @@ const store = new Vuex.Store({
     blockchain:[],
     currentNet:[],
     currentAccount:[],
+    currentAccountChainId:[],
   },
   // actions:{
   //   showLoading({commit}){
