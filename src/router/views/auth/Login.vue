@@ -81,8 +81,13 @@ export default {
         }
       }
     },
+     focusInput() {
+      this.$refs.password.focus();
+    }
   },
-  mounted() {},
+  mounted() {
+    this.focusInput();
+  },
 };
 </script>
 
@@ -142,6 +147,7 @@ export default {
               >
                 <b-form-input
                   id="input-2"
+                  ref="password"
                   v-model="password"
                   type="password"
                   placeholder="Enter password"
@@ -158,16 +164,6 @@ export default {
                 <b-button type="submit" variant="primary" class="btn-block"
                   >Log In</b-button
                 >
-              </div>
-              <div class="mt-5 text-center">
-                <p>
-                  Don't have an account ?
-                  <router-link
-                    tag="a"
-                    to="/CreateAccount"
-                    class="fw-medium text-primary"
-                    >Signup now</router-link>
-                </p>
               </div>
             </b-form>
           </div>
