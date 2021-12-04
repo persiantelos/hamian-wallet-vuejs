@@ -106,7 +106,6 @@ export default class AccountList extends Vue{
             account.chainId=this.currentNet.chainId;
             account.network = this.currentNet._id;
             var data =  await StorageService.saveSelectedAccount(account);
-            console.log('dataaaaaaaaaaaaaaa',data)
             if(data.message){
                 this.$store.state.currentAccount = account.name;
                 this.$store.state.currentAccountChainId = account.chainId;
@@ -131,7 +130,6 @@ export default class AccountList extends Vue{
    
     @Watch('value')
     checkValue(newVal:any){
-        console.log('newVal',newVal)
         if(newVal.length<1){
             this.AddAccount = true;
             this.showSpinner = false;
