@@ -205,15 +205,16 @@ export default class LocalLogin extends Vue{
 
     async accept()
     { 
-        this.spinner = true
-        await WalletService.acceptTransaction(this.data.id);
-        window.close();
+      this.spinner = true
+      await WalletService.acceptTransaction(this.data.id);
+      window.close();
     }
     async reject()
     {
+      this.spinner = true
       await WalletService.rejectTransaction(this.data.id);
-        console.log('deny');
-        window.close(); 
+      console.log('deny');
+      window.close(); 
     }
 }
 </script>
