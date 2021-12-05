@@ -51,9 +51,12 @@
                 </b-dropdown>
             </div>
               <div class="mt-5 d-grid">
-                <b-button @click="accept" variant="primary" class="btn-block"
+                <b-button v-if="!btnSpinner" @click="accept" variant="primary" class="btn-block"
                   >Accept</b-button
                 >
+                <div v-if="btnSpinner" class="p-1 my-1 w-100" style="border:1px solid #556ee6;border-radius:5px" align="center"  >
+                <b-spinner   class="m-0" variant="primary" role="status" ></b-spinner>
+                </div>
                 <b-button @click="Deny" variant="outline-secondary" class="btn-block my-2"
                   >Deny</b-button
                 >
