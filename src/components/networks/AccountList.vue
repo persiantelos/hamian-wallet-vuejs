@@ -125,6 +125,7 @@ export default class AccountList extends Vue{
             this.showSpinner = false;
         }
         else{
+            this.AddAccount = false;
             this.showSpinner = true;
             this.init();
         }

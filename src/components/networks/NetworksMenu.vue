@@ -99,7 +99,7 @@
 
               </div>
             </div>
-        <div>
+        <div v-if="showAddNewAccountPopUp">
             <AddNewAccount @close="showAddNewAccountPopUp = false" v-model="showAddNewAccountPopUp" />
         </div>
     </div>
