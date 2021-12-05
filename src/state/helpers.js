@@ -30,7 +30,7 @@ export const blockchain = {
 export const account = {
   ...mapState('account', {
     currentAccount: (state) => state.currentAccount,
-    currentAccountChainId: (state) => state.currentAccountChainId,
+    currentAccountChainName: (state) => state.currentAccountChainName,
     allSelectedAccount: (state) => state.allSelectedAccount,
   })
 }

@@ -99,9 +99,9 @@ export default class NetworksContent extends Vue{
   }
    async getResources(){
     this.showSpinner = true;
-    if(this.$store.state.currentAccountChainId){
+    if(this.$store.state.currentAccountChainName){
         if(this.$store.state.currentNet){
-            if(this.$store.state.currentNet._id == this.$store.state.currentAccountChainId){
+            if(this.$store.state.currentNet._id == this.$store.state.currentAccountChainName){
                 if(this.$store.state.currentAccount){
                     let acc = await AccountService.getAccount(this.$store.state.currentAccount);
                     if(acc){

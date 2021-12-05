@@ -74,11 +74,11 @@ export default {
       if(allSelectedAccount.message.length != 0){
         allSelectedAccount = allSelectedAccount.message
         this.$store.state.allSelectedAccount = allSelectedAccount;
-        this.$store.state.currentAccountChainId = [];
+        this.$store.state.currentAccountChainName = [];
         this.$store.state.currentAccount = [];
         for(let account of Object.entries(allSelectedAccount)){
           if(account[0]==this.$store.state.currentNet._id){
-            this.$store.state.currentAccountChainId = account[0];
+            this.$store.state.currentAccountChainName = account[0];
             this.$store.state.currentAccount = account[1];
           }
         }

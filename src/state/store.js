@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     blockchain:[],
     currentNet:[],
     currentAccount:[],
-    currentAccountChainId:[],
+    currentAccountChainName:[],
     allSelectedAccount:[],
     globalReload:0,
   },
