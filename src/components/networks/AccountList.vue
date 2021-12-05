@@ -89,7 +89,11 @@ export default class AccountList extends Vue{
     AccountList:any=[]
     showSpinner:boolean=true;
     AddAccount:boolean=false;
-
+    @Watch('$store.state.globalReload')
+    reload(){
+        this.showSpinner=true;
+        this.getCurrentNet();
+    }
     mounted(){
         this.getCurrentNet();
     }
