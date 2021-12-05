@@ -100,7 +100,6 @@ export default class AddNewAccount extends Vue{
     }
   
     mounted(){
-        // this.init()
     }
     
     addNetwork(model:NetworkModel)
@@ -116,6 +115,7 @@ export default class AddNewAccount extends Vue{
         this.selectedNet = this.$store.state.currentNet;
         this.addNetwork(this.selectedNet)
         this.account.privateKey = this.privateKey;
+        this.privateKey = ''
         if(this.account.privateKey){
             try{
                 var newAccount =await WalletService.existData(this.selectedNet.type,this.account.privateKey,this.selectedNet.history)

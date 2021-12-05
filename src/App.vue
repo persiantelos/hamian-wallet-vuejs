@@ -45,8 +45,8 @@ export default {
     this.$store.state.layout.layoutType='vertical'
     this.$store.state.layout.leftSidebarType='dark';
     this.init();
-    this.getAccounts();
     this.getCurrentNet();
+    this.getAccounts();
     // document.querySelector("html").setAttribute('dir', 'rtl')
   },
   watch: {
@@ -70,13 +70,17 @@ export default {
       }
     },
     async getAccounts(){
-      var currentAccount = this.$store.state.currentAccount
-      if(currentAccount.length == 0)
-      {
-        currentAccount = await StorageService.getSelectedAccount();
-        if(currentAccount){
-          this.$store.state.currentAccount = Object.entries(currentAccount.message)[0][1]
-          this.$store.state.currentAccountChainId = Object.entries(this.selectedAccount.message)[0][0];
+      let allSelectedAccount = await  StorageService.getSelectedAccount();
+      if(allSelectedAccount.message.length != 0){
+        allSelectedAccount = allSelectedAccount.message
+        this.$store.state.allSelectedAccount = allSelectedAccount;
+        this.$store.state.currentAccountChainId = [];
+        this.$store.state.currentAccount = [];
+        for(let account of Object.entries(allSelectedAccount)){
+          if(account[0]==this.$store.state.currentNet._id){
+            this.$store.state.currentAccountChainId = account[0];
+            this.$store.state.currentAccount = account[1];
+          }
         }
       }
     },

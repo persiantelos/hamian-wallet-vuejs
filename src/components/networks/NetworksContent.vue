@@ -173,6 +173,7 @@ export default class NetworksContent extends Vue{
         }
     }
     this.data.accountList = thempAccountList;
+    console.log(this.data.accountList)
     this.counter++;
   }
   sendEntireBalance(){}

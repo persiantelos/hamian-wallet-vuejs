@@ -17,6 +17,7 @@ const store = new Vuex.Store({
     currentNet:[],
     currentAccount:[],
     currentAccountChainId:[],
+    allSelectedAccount:[],
   },
   // actions:{
   //   showLoading({commit}){
