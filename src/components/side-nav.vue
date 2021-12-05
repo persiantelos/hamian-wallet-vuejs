@@ -124,19 +124,19 @@ export default {
          async showNetworkList(selectedNet)
         {
             var selectedNode = await StorageService.saveSelectedNode(selectedNet);
-            console.log('selectedNode',selectedNode)
+            this.$store.state.currentNet = selectedNet;
             if(selectedNode.data){
                 let allSelectedAccount = await  StorageService.getSelectedAccount();
-                this.$store.state.currentNet = selectedNet;
-                allSelectedAccount = allSelectedAccount.message
-                this.$store.state.allSelectedAccount = allSelectedAccount;
-                this.$store.state.currentAccountChainId = [];
-                this.$store.state.currentAccount = [];
-                for(let account of Object.entries(allSelectedAccount)){
-                    console.log('account',account)
-                    if(account[0]==this.$store.state.currentNet._id){
-                        this.$store.state.currentAccountChainId = account[0];
-                        this.$store.state.currentAccount = account[1];
+                if(allSelectedAccount){
+                    allSelectedAccount = allSelectedAccount.message
+                    this.$store.state.allSelectedAccount = allSelectedAccount;
+                    this.$store.state.currentAccountChainId = [];
+                    this.$store.state.currentAccount = [];
+                    for(let account of Object.entries(allSelectedAccount)){
+                        if(account[0]==this.$store.state.currentNet._id){
+                            this.$store.state.currentAccountChainId = account[0];
+                            this.$store.state.currentAccount = account[1];
+                        }
                     }
                 }
                 this.$router.push({name : 'walletNetwork' , params:{'chainId':selectedNet.chainId}})
