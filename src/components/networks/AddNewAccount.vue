@@ -13,7 +13,7 @@
               >
                 <b-form-input
                   id="input-2"
-                  v-model="account.privateKey"
+                  v-model="privateKey"
                   type="text"
                   placeholder="Enter your private key"
                   :class="{ 'is-invalid': submitted && !account.privateKey }"
@@ -80,6 +80,7 @@ export default class AddNewAccount extends Vue{
     @Prop({default:()=>{false}}) value:boolean;
     submitted:boolean=false;
     loading:boolean=false;
+    privateKey:string='';
     selectedNet:NetworkModel;
     account:StorageAccountModel=new StorageAccountModel();
     findAccounts:StorageAccountModel[]=[];
@@ -101,22 +102,6 @@ export default class AddNewAccount extends Vue{
     mounted(){
         // this.init()
     }
-    // async init(){
-    // var currentNet = this.$store.state.currentNet;
-    //   if(currentNet.length != 0){
-    //       this.addNetwork(currentNet);
-    //       this.selectedNet=currentNet;
-    //   }
-    //   else{
-    //       currentNet = await StorageService.getSelectedChain()
-    //     if(currentNet.message == 'success'){
-    //         currentNet = currentNet.data
-    //       this.$store.state.currentNet = currentNet
-    //         this.addNetwork(currentNet);
-    //         this.selectedNet=currentNet;
-    //     }
-    //   }
-    // }
     
     addNetwork(model:NetworkModel)
     {
@@ -128,11 +113,11 @@ export default class AddNewAccount extends Vue{
     {
         this.submitted = true;
         this.loading = true;
+        this.selectedNet = this.$store.state.currentNet;
+        this.addNetwork(this.selectedNet)
+        this.account.privateKey = this.privateKey;
         if(this.account.privateKey){
             try{
-                this.selectedNet = this.$store.state.currentNet;
-                console.log('this.selectedNet',this.selectedNet)
-                console.log('this.account',this.account)
                 var newAccount =await WalletService.existData(this.selectedNet.type,this.account.privateKey,this.selectedNet.history)
                 console.log('newAccount',newAccount)
                 if(newAccount.account_names)
