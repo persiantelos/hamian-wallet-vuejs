@@ -123,6 +123,7 @@ export default class LocalLogin extends Vue{
   isSelected:boolean=false;
   counter:number=0;
   spinner:boolean=false;
+  btnSpinner:boolean=false;
 
   selecteAccount(userAccount:any){
     this.selectedAccount = userAccount;
@@ -158,9 +159,14 @@ export default class LocalLogin extends Vue{
 
       if(currentAccount){
         currentAccount = Object.entries(currentAccount.message)[0][1]
-              this.selectedAccount.name = currentAccount;
-              this.isSelected = true;
-              this.setDefaultAcc()
+        this.selectedAccount.name = currentAccount;
+        this.isSelected = true;
+        this.setDefaultAcc()
+        this.spinner = false;
+
+      }
+      else{
+        this.spinner = false;
       }
     }
   }
@@ -176,7 +182,7 @@ export default class LocalLogin extends Vue{
   {
     if(this.isSelected)
     { 
-      this.spinner = true;
+      this.btnSpinner = true;
 
       var lres=new LoginResponse(this.data,this.selectedAccount)
       var appkey=this.data.appkey;
@@ -189,7 +195,7 @@ export default class LocalLogin extends Vue{
           title: this.data.origin,
           text: 'Account successfully added'
       });
-      this.spinner = false;
+      this.btnSpinner = false;
       setTimeout(() => {
         window.close();
       }, 1400);
