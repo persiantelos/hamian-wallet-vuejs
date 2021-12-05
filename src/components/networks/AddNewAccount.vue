@@ -153,6 +153,7 @@ export default class AddNewAccount extends Vue{
             });
         }
         else{
+            this.$store.state.globalReload +=1;
             this.closeModal()
         }
     }
