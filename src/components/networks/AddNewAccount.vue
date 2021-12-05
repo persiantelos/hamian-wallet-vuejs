@@ -99,24 +99,24 @@ export default class AddNewAccount extends Vue{
     }
   
     mounted(){
-        this.init()
+        // this.init()
     }
-    async init(){
-    var currentNet = this.$store.state.currentNet;
-      if(currentNet.length != 0){
-          this.addNetwork(currentNet);
-          this.selectedNet=currentNet;
-      }
-      else{
-          currentNet = await StorageService.getSelectedChain()
-        if(currentNet.message == 'success'){
-            currentNet = currentNet.data
-          this.$store.state.currentNet = currentNet
-            this.addNetwork(currentNet);
-            this.selectedNet=currentNet;
-        }
-      }
-    }
+    // async init(){
+    // var currentNet = this.$store.state.currentNet;
+    //   if(currentNet.length != 0){
+    //       this.addNetwork(currentNet);
+    //       this.selectedNet=currentNet;
+    //   }
+    //   else{
+    //       currentNet = await StorageService.getSelectedChain()
+    //     if(currentNet.message == 'success'){
+    //         currentNet = currentNet.data
+    //       this.$store.state.currentNet = currentNet
+    //         this.addNetwork(currentNet);
+    //         this.selectedNet=currentNet;
+    //     }
+    //   }
+    // }
     
     addNetwork(model:NetworkModel)
     {
@@ -130,7 +130,9 @@ export default class AddNewAccount extends Vue{
         this.loading = true;
         if(this.account.privateKey){
             try{
+                this.selectedNet = this.$store.state.currentNet;
                 console.log('this.selectedNet',this.selectedNet)
+                console.log('this.account',this.account)
                 var newAccount =await WalletService.existData(this.selectedNet.type,this.account.privateKey,this.selectedNet.history)
                 console.log('newAccount',newAccount)
                 if(newAccount.account_names)
