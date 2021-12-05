@@ -195,7 +195,7 @@ export default class LocalLogin extends Vue{
     requestSignature(data:any)
     {
         this.data=data 
-        this.transactions=data.payload.transaction;
+        this.transactions=data.payload.transactionData;
         this.spinner = false
         
     }
