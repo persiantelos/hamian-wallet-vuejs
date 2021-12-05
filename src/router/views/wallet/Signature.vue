@@ -198,12 +198,15 @@ export default class LocalLogin extends Vue{
 
     requestSignature(data:any)
     {
+      console.log('--------------',data);
         this.data=data 
         this.transactions=data.payload.transactionData;
         this.spinner = false
         
     }
     mounted() {  
+      console.log('Loaded');
+      
         SocketService.addEvent(RequestTypes.requestSignature,this.requestSignature); 
     }
 

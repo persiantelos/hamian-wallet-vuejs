@@ -55,12 +55,14 @@ export default class SocketService
 }
 ipcRenderer.on('socketResponse', (event, payload) => {
 	console.log('payload',payload)
+
 	if(payload.type=='pair')
 	{
 		SocketService.send({event:"paired",data:true,id:payload.id,origin:payload.origin} );
 	}
 	else if(payload.type=='api')
 	{
+		console.log('payload',payload.request.data?.type)
 		if(payload.request.data?.type)
 		{
 			var dt=payload.request.data;

@@ -4,7 +4,7 @@ export default class BaseLocalService
     static globalId:string='';
     static counter:number=0;
     static temp:any={};
-    static run(name:string,data:any):Promise<any>
+    static run(name:string,data:any,timeout:number=10000):Promise<any>
     {
         return new Promise((res,rej)=>{
             var id=(++this.counter).toString(); 
@@ -16,7 +16,7 @@ export default class BaseLocalService
                     this.temp[id].rej({m:'timeout'});
                     delete this.temp[id];
                 }
-            },10000)
+            },timeout)
         });
     }
     static reciveData(id:string,data:any)

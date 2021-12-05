@@ -1,5 +1,6 @@
 import LoginResponse from "src/models/local/loginResponse";
 import StorageAccountModel from "src/models/storage/accountModel";
+import BaseServices from "../services/baseServices";
 import BaseLocalService from "./baseLocalService";
 import StorageService from "./storageService";
 export default class WalletService
@@ -34,19 +35,62 @@ export default class WalletService
     {
         return BaseLocalService.run(this.walletName,{action:'generateKeyOffline',data:{}});
     }
-    static reunTransaction(actions:any[])
+    static async reunTransaction(actions:any[])
     {
-         
+        var network={
+            name: '',
+            protocol: 'https',
+            host: 'telos.greymass.com',
+            port: 443,
+            blockchain: 'eos',
+            chainId: '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11',
+            token: null,
+            httpEndpoint: 'http://telos.greymass.com'
+          }
+        var connection={
+            "result": {
+                "hash": "f85df5433d53208b0b95d71012ece2b19f94463d3f3b7b6f8684f5065982f6c2",
+                "name": "asalbanoo123",
+                "publicKey": "EOS6NmVCbqhxf1bopxV9Q8XqtM58uboyxj4NPr1NCPwEaKA6mehi6",
+                "accounts": [
+                    {
+                        "types": [],
+                        "services": [],
+                        "chainId": "4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11",
+                        "blockchain": "eos",
+                        "privateKey": "",
+                        "name": "asalbanoo123",
+                        "authority": "active",
+                        "publicKey": "EOS6NmVCbqhxf1bopxV9Q8XqtM58uboyxj4NPr1NCPwEaKA6mehi6",
+                        "_id": "activeEOS6NmVCbqhxf1bopxV9Q8XqtM58uboyxj4NPr1NCPwEaKA6mehi6asalbanoo123"
+                    }
+                ]
+            },
+            "id": "5191110191491071262312593110015226342091465011913624822716321",
+            "key": "f13be6430922399c1c21c25d5739421bb7ba3c22ff25f5284d67ccb6134efb9e"
+        };  
         var rand='rand'+Math.random();
         var obj={
+            connection,
             data:{
                 id:rand,
+                type:'requestSignature',
                 payload:{
-                    network:{chainId:'4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11'},
-                    transaction:actions
+                    network ,
+                    transactionData:actions,
+                    transactionStandard:{
+                        actions
+                    }
                 }
             }
         }
-        return BaseLocalService.run(this.walletName,{action:'manualTransaction',data:obj});
+        return await BaseLocalService.run(this.walletName,{action:'manualTransaction',data:obj},1000*60);
+        // if(dt.serializedTransaction)
+        // {
+        //     // var data =await BaseServices.postData(network.httpEndpoint+'/v1/chain/push_transaction', {
+        //     //     "signatures":dt.signatures ,"compression":0,"packed_context_free_data":"",
+        //     //     "packed_trx":dt.serializedTransaction
+        //     //     })
+        // }
     }
 }

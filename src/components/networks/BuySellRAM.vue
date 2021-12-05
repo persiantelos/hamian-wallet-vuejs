@@ -60,7 +60,7 @@
 
                 </div>
                 <div class="col-6 px-2 mt-5" align="center">
-                    <b-button class="mt-2 w-100"  variant="primary" v-show="!buySellRAM.RAMBuyAmount">
+                    <b-button class="mt-2 w-100"  variant="primary" v-show="!buySellRAM.RAMBuyAmount" @click="transerClick">
                     Buy RAM
                     </b-button>
                     <b-button class="mt-2 w-100"  variant="primary" v-show="buySellRAM.RAMBuyAmount">
@@ -161,6 +161,7 @@
 <script lang="ts">
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
 import Spinner from '@/components/spinner/Spinner.vue'
+import WalletService from '../../localService/walletService'
 
 @Component({
     components:{Spinner}
@@ -181,6 +182,23 @@ export default class AccountList extends Vue{
     // }
   }
  
+    async transerClick()
+    { 
+       var tr=await WalletService.reunTransaction([
+            {
+                account:'persiandaric',
+                name:'transfer',
+                authorization:[ { actor: 'asalbanoo123', permission: 'active' }],
+                data:{
+                    from:'asalbanoo123',
+                    to:'vahidhosaini',
+                    quantity:'0.0010 DRIC',
+                    memo:'test'
+                }
+            }
+        ])
+        console.log('returned data',tr)
+    }
 }
 </script>
 <style lang="scss" scoped>
