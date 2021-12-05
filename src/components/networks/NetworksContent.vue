@@ -58,7 +58,7 @@ export default class NetworksContent extends Vue{
     showSpinner:boolean=true;
     buyWith:string='TELOS'
     selectedNFTs:any=[];
-    
+    currentNet:any=[]
     data:any={
         resources:[],
         tokens:[],
@@ -97,7 +97,7 @@ export default class NetworksContent extends Vue{
     selectNft(nft:any){
     this.selectedNFTs = nft.title;
   }
-  async getResources(){
+   async getResources(){
     this.showSpinner = true;
     if(this.$store.state.currentAccountChainId){
         if(this.$store.state.currentNet){
