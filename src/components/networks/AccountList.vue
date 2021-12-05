@@ -69,6 +69,8 @@ import {Vue, Component , Prop ,Watch} from 'vue-property-decorator';
 import StorageService from '@/localService/storageService'
 import AccountService from '@/services/accountService'
 import Spinner from '@/components/spinner/Spinner.vue'
+import WalletService from '@/localService/walletService';
+
 
 @Component({
     components:{
@@ -76,7 +78,8 @@ import Spinner from '@/components/spinner/Spinner.vue'
     }
 })
 export default class AccountList extends Vue{
-    @Prop({default:() =>{return []}}) value:any;
+    // @Prop({default:() =>{return []}}) value:any;
+    accountList:any=[];
     selected:any=[]
     currentNet:any=[]
     currentAccount:any=[]
@@ -87,18 +90,40 @@ export default class AccountList extends Vue{
     showSpinner:boolean=true;
     AddAccount:boolean=false;
 
-   mounted(){
-       this.getCurrentNet();
-       this.getCurrentAccount();
-
-   }
+    mounted(){
+        this.getCurrentNet();
+    }
     async getCurrentNet(){
         this.currentNet =   this.$store.state.currentNet
+        this.getAccounts();
+    }
+    async getAccounts(){
+        var thempAccountList = []
+        let accountList = await WalletService.getAccounts();
+        for(let acc of accountList){
+            if(acc.chainId == this.currentNet.chainId)
+            {
+                thempAccountList.push(acc)
+            }
+        }
+        this.accountList = thempAccountList;
+        this.checkValue(this.accountList);
+        this.getCurrentAccount();
     }
     getCurrentAccount(){
         this.currentAccount = this.$store.state.currentAccount
         this.selected = this.$store.state.currentAccount
-
+    }
+    checkValue(newVal:any){
+        console.log('newVal of acc list',newVal)
+        if(newVal.length<1){
+            this.AddAccount = true;
+            this.showSpinner = false;
+        }
+        else{
+            this.showSpinner = true;
+            this.init();
+        }
     }
     async setSelectedacc(account:any){
         if(this.currentNet){
@@ -127,17 +152,7 @@ export default class AccountList extends Vue{
         }
     }
    
-    @Watch('value')
-    checkValue(newVal:any){
-        if(newVal.length<1){
-            this.AddAccount = true;
-            this.showSpinner = false;
-        }
-        else{
-            this.showSpinner = true;
-            this.init();
-        }
-    }
+    
     async init(){
         
         this.tokensList =  await AccountService.getTokensList();
@@ -149,8 +164,8 @@ export default class AccountList extends Vue{
     async getAccountsInfo(){
         let tempAccInformation =[]
         
-        for(let account in this.value){
-            this.accInfo = await AccountService.getAccountInfo(this.value[account].name);
+        for(let account in this.accountList){
+            this.accInfo = await AccountService.getAccountInfo(this.accountList[account].name);
             this.accInfo = this.accInfo.value
             tempAccInformation.push(this.accInfo)
         }
@@ -181,14 +196,14 @@ export default class AccountList extends Vue{
         this.setAccountToken()
     }
     setAccountToken(){
-        for(let account of this.value){
+        for(let account of this.accountList){
             for(let token of this.tokens){
                 if(account.name == token.val._id){
                     account.val = token.val
                 }
             }
         }
-        this.AccountList = this.value
+        this.AccountList = this.accountList
         this.showSpinner = false;
     }
 }

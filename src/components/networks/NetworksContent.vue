@@ -3,7 +3,7 @@
         <p style="display:none">{{counter}}</p>
         <div class="col-12">
             <div v-if="value == 'accountList'">
-                <AccountList v-model="data.accountList" />
+                <AccountList  />
             </div>
             <div v-if="value == 'resources'">
                 <Resources v-model="data.resources" />
@@ -29,7 +29,6 @@
 <script lang="ts">
 import {Vue , Component ,Prop,Watch} from 'vue-property-decorator';
 import AccountService from '@/services/accountService';
-import WalletService from '@/localService/walletService';
 import AccountList from '@/components/networks/AccountList.vue'
 import Resources from '@/components/networks/Resources.vue'
 import ResourceInformation from '@/components/networks/ResourceInformation.vue'
@@ -59,43 +58,31 @@ export default class NetworksContent extends Vue{
     showSpinner:boolean=true;
     buyWith:string='TELOS'
     selectedNFTs:any=[];
-    currentNet:any=[]
+    
     data:any={
-        accountList:[],
         resources:[],
         tokens:[],
         transferToken:[],
     };
     mounted(){
         this.selectedNFTs = 'SelectNFT';
-        this.getSelectedNetwork();
-    }
-    async getSelectedNetwork(){
-        this.currentNet = await StorageService.getSelectedChain();
-
-        this.currentNet = this.currentNet.data;
     }
     @Watch('value')
-    valueChanged(newValue:any,oldValue:any){
-        console.log('new Value',newValue);
-        console.log('old Value',oldValue);
-        if(newValue.length == 0){
-            this.getSelectedNetwork();
-        }
+    valueChanged(newValue:any){
         if(newValue == 'accountList'){
-        this.getAccounts();
+            this.counter++
         }
         else if(newValue == 'resources'){
-        this.getResources();
-        this.counter++
+            this.getResources();
+            this.counter++
         }
         else if(newValue == 'buySellRAM'){
-        this.getResources();
-        this.counter++
+            this.getResources();
+            this.counter++
         }
         else if(newValue == 'stakeCpuNet'){
-        this.getResources();
-        this.counter++
+            this.getResources();
+            this.counter++
         }
         else if(newValue == 'tokens'){
         // this.tokens =
@@ -113,8 +100,8 @@ export default class NetworksContent extends Vue{
   async getResources(){
     this.showSpinner = true;
     if(this.$store.state.currentAccountChainId){
-        if(this.currentNet){
-            if(this.currentNet.chainId == this.$store.state.currentAccountChainId){
+        if(this.$store.state.currentNet){
+            if(this.$store.state.currentNet._id == this.$store.state.currentAccountChainId){
                 if(this.$store.state.currentAccount){
                     let acc = await AccountService.getAccount(this.$store.state.currentAccount);
                     if(acc){
@@ -162,19 +149,6 @@ export default class NetworksContent extends Vue{
   changeSelectedMenu(data:any){
       console.log(data)
         this.$emit('changeSelectedMenu',data)
-  }
-  async getAccounts(){
-    var thempAccountList = []
-    let accountList = await WalletService.getAccounts();
-    for(let acc of accountList){
-        if(acc.chainId == this.currentNet.chainId)
-        {
-            thempAccountList.push(acc)
-        }
-    }
-    this.data.accountList = thempAccountList;
-    console.log(this.data.accountList)
-    this.counter++;
   }
   sendEntireBalance(){}
   
