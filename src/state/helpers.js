@@ -34,6 +34,11 @@ export const account = {
     allSelectedAccount: (state) => state.allSelectedAccount,
   })
 }
+export const globalReload = {
+  ...mapState('globalReload', {
+    globalReload: (state) => state.globalReload,
+  })
+}
 
 
 
