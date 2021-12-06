@@ -182,23 +182,7 @@ export default class AccountList extends Vue{
     // }
   }
  
-    async transerClick()
-    { 
-       var tr=await WalletService.reunTransaction([
-            {
-                account:'persiandaric',
-                name:'transfer',
-                authorization:[ { actor: 'asalbanoo123', permission: 'active' }],
-                data:{
-                    from:'asalbanoo123',
-                    to:'vahidhosaini',
-                    quantity:'0.0010 DRIC',
-                    memo:'test'
-                }
-            }
-        ])
-        console.log('returned data',tr)
-    }
+    
 }
 </script>
 <style lang="scss" scoped>
