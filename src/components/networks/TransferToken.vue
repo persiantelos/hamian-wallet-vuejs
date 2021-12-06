@@ -15,7 +15,7 @@
                         <h5 class="font-size-15 mb-4">Send To : <i class="mdi mdi-information text-primary"></i></h5>
                         <b-form-input
                             id="input-2"
-                            v-model="transferToken.sendTo"
+                            v-model="transferToken.to"
                             type="text"
                         ></b-form-input>
 
@@ -25,7 +25,7 @@
                         <div class="btn-group col-12 me-1 mt-2">
                             <b-form-input
                                 id="input-2"
-                                v-model="transferToken.amount"
+                                v-model="transferToken.quantity"
                                 type="text"
                             ></b-form-input>
                             <b-dropdown dropleft variant="primary" >
@@ -85,7 +85,7 @@
                     </div>
                     <div class="col-12 mt-3" align="center">
                         <b-button class="m-1" @click="transerClick"  variant="primary">
-                        Teransfer  {{transferToken.amount}}  Telos
+                        Teransfer  {{transferToken.quantity}}  Telos
                         </b-button>
                     </div>
                 </b-tab>
@@ -122,21 +122,29 @@ export default class AccountList extends Vue{
             chain:'',
             _id:'',
             currency:'',
+            contract:'',
         },
-        amount:0,
-        sendTo:'',
+        from:'',
+        to:'',
+        quantity:0,
         memo:'',
-        symbol:'',
-        contract:'',
+        permission:'',
+        // symbol:'',
+        // contract:'',
     }
     
-    sendEntireBalance(){}
+    sendEntireBalance(){
+        console.log(this.transferToken.customToken)
+        console.log(this.$store.state.currentAccount)
+    }
 
     onItemClick(token:any){
         this.transferToken.customToken = token;
     }
     mounted(){
         this.init();
+        
+        
     }
   
     async init(){
@@ -144,8 +152,10 @@ export default class AccountList extends Vue{
 
             this.tokensList =  await AccountService.getTokensList();
             this.tokensList = this.tokensList.value
-            this.accInfo =  await AccountService.getAccountInfo(this.$store.state.currentAccount);
+            this.accInfo =  await AccountService.getAccountInfo(this.$store.state.currentAccount.name);
             this.accInfo = this.accInfo.value
+            this.transferToken.from = this.$store.state.currentAccount.name
+            this.transferToken.permission = this.$store.state.currentAccount.authority
             this.setTokens()
             }
         else{
@@ -189,21 +199,39 @@ export default class AccountList extends Vue{
         this.showSpinner = false;
     }
 
-    transerClick()
-    {
-        console.log('-----------')
-        WalletService.reunTransaction([
+    // transerClick()
+    // {
+    //     console.log('-----------')
+    //     WalletService.reunTransaction([
+    //         {
+    //             contarct:'persiandaric',
+    //             name:'transfer',
+    //             data:{
+    //                 from:'vahidhosaini',
+    //                 to:'asalbanoo123',
+    //                 quantity:'1.0000 DRIC',
+    //                 memo:'test'
+    //             }
+    //         }
+    //     ])
+    // }
+    async transerClick()
+    { 
+       var tr=await WalletService.reunTransaction([
             {
-                contarct:'persiandaric',
+                // account:'persiandaric',
+                account:this.transferToken.customToken.contract,
                 name:'transfer',
+                authorization:[ { actor: this.transferToken.from, permission: this.transferToken.permission }],
                 data:{
-                    from:'vahidhosaini',
-                    to:'asalbanoo123',
-                    quantity:'1.0000 DRIC',
-                    memo:'test'
+                    from:this.transferToken.from,
+                    to:this.transferToken.to,
+                    quantity:this.transferToken.quantity,
+                    memo:this.transferToken.memo
                 }
             }
         ])
+        console.log('returned data',tr)
     }
 
 }
