@@ -46,7 +46,6 @@ export default {
     this.$store.state.layout.leftSidebarType='dark';
     this.init();
     this.getCurrentNet();
-    this.getAccounts();
     // document.querySelector("html").setAttribute('dir', 'rtl')
   },
   watch: {
@@ -71,6 +70,8 @@ export default {
     },
     async getAccounts(){
       let allSelectedAccount = await  StorageService.getSelectedAccount();
+      console.log('allSelectedAccount',allSelectedAccount)
+      console.log('allSelectedAccount',this.$store.state.currentNet)
       if(allSelectedAccount.message.length != 0){
         allSelectedAccount = allSelectedAccount.message
         this.$store.state.allSelectedAccount = allSelectedAccount;
@@ -86,15 +87,16 @@ export default {
     },
     async getCurrentNet(){
       var currentNet = this.$store.state.currentNet;
-      if(currentNet.length != 0){
-        this.currentNet = currentNet
-      }
-      else{
+      if(currentNet.length < 1){
         currentNet = await StorageService.getSelectedChain()
+        console.log('currentNet app vue ',currentNet)
         if(currentNet.message == 'success'){
           currentNet = currentNet.data
           this.$store.state.currentNet = currentNet
+          this.getAccounts();
         }
+      }else{
+        this.getAccounts();
       }
     }, 
   },

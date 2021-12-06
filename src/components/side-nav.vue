@@ -95,6 +95,7 @@ export default {
                 this.selectedNetwork = this.selectedNetwork.data
                 if(this.selectedNetwork){
                     this.$store.state.currentNet = this.selectedNetwork;
+                    this.showNetworkList(this.selectedNetwork);
                     this.$router.push({name : 'walletNetwork' , params:{'chainId':this.selectedNetwork.chainId}})
                 }
                 else{
@@ -110,6 +111,7 @@ export default {
             for(let chain of blockchain){
                 if(chain.name == "TELOS"){
                     this.$store.state.currentNet = chain;
+                    this.showNetworkList(chain);
                     this.$router.push({name : 'walletNetwork' , params:{'chainId':chain.chainId}})
                 }
             }
