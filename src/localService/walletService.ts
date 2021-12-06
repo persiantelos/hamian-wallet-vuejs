@@ -3,6 +3,7 @@ import StorageAccountModel from "src/models/storage/accountModel";
 import BaseServices from "../services/baseServices";
 import BaseLocalService from "./baseLocalService";
 import StorageService from "./storageService";
+import Config from "@/common/config";
 export default class WalletService
 {
     
@@ -35,34 +36,48 @@ export default class WalletService
     {
         return BaseLocalService.run(this.walletName,{action:'generateKeyOffline',data:{}});
     }
-    static async reunTransaction(actions:any[])
+    static async reunTransaction(actions:any[],currentNet:any,publicKey:any,_id:any)
     {
+        console.log('actions',actions[0])
+        console.log('network',currentNet)
+        console.log('Config',Config.payloadOrigin)
+        // var payloadOrigin = Config.payloadOrigin
         var network={
-            name: '',
-            protocol: 'https',
-            host: 'telos.greymass.com',
-            port: 443,
-            blockchain: 'eos',
-            chainId: '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11',
+            name: currentNet.name,
+            protocol: currentNet.protocol,
+            host: currentNet.host,
+            port: currentNet.port,
+            blockchain: currentNet.type,
+            chainId: currentNet.chainId,
             token: null,
-            httpEndpoint: 'http://telos.greymass.com'
+            httpEndpoint:currentNet.hp
           }
+        // var network={
+        //     name: '',
+        //     protocol: 'https',
+        //     host: 'telos.greymass.com',
+        //     port: 443,
+        //     blockchain: 'eos',
+        //     chainId: '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11',
+        //     token: null,
+        //     httpEndpoint: 'http://telos.greymass.com'
+        //   }
         var connection={
             "result": {
                 "hash": "f85df5433d53208b0b95d71012ece2b19f94463d3f3b7b6f8684f5065982f6c2",
-                "name": "asalbanoo123",
+                "name": actions[0].authorization[0].actor,
                 "publicKey": "EOS6NmVCbqhxf1bopxV9Q8XqtM58uboyxj4NPr1NCPwEaKA6mehi6",
                 "accounts": [
                     {
                         "types": [],
                         "services": [],
-                        "chainId": "4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11",
-                        "blockchain": "eos",
+                        "chainId": currentNet.chainId,
+                        "blockchain": currentNet.type,
                         "privateKey": "",
-                        "name": "asalbanoo123",
-                        "authority": "active",
-                        "publicKey": "EOS6NmVCbqhxf1bopxV9Q8XqtM58uboyxj4NPr1NCPwEaKA6mehi6",
-                        "_id": "activeEOS6NmVCbqhxf1bopxV9Q8XqtM58uboyxj4NPr1NCPwEaKA6mehi6asalbanoo123"
+                        "name": actions[0].authorization[0].actor,
+                        "authority": actions[0].authorization[0].permission,
+                        "publicKey": publicKey,
+                        "_id": _id
                     }
                 ]
             },
@@ -74,6 +89,7 @@ export default class WalletService
             connection,
             data:{
                 id:rand,
+                payloadOrigin:Config.payloadOrigin,
                 type:'requestSignature',
                 payload:{
                     network ,
@@ -85,6 +101,7 @@ export default class WalletService
             }
         }
         return await BaseLocalService.run(this.walletName,{action:'manualTransaction',data:obj},1000*60);
+        
         // if(dt.serializedTransaction)
         // {
         //     // var data =await BaseServices.postData(network.httpEndpoint+'/v1/chain/push_transaction', {

@@ -175,10 +175,12 @@ export default class AccountList extends Vue{
             tempAccInformation.push(this.accInfo)
         }
         this.accInfo = tempAccInformation;
+        console.log(this.accInfo)
+
         this.setTokens()
     }
     setTokens(){
-        let newarr = []
+        var tempArr = []
         for(let token of this.tokensList){
             if(this.currentNet._id == token.chain)
             {
@@ -189,22 +191,21 @@ export default class AccountList extends Vue{
                                 let objKey = Object.keys(item)[i]
                                 let objValue = item[objKey]
                                 item[objKey] = objValue.toFixed(parseInt(token.decimals))
-                                token.val = item;
-                                newarr.push(token)
+                                tempArr.push(item) 
                             }
                         }
                     }
                 }
             }
         }
-        this.tokens = newarr;
+        this.tokens = tempArr;
         this.setAccountToken()
     }
     setAccountToken(){
         for(let account of this.accountList){
             for(let token of this.tokens){
-                if(account.name == token.val._id){
-                    account.val = token.val
+                if(account.name == token._id){
+                    account.val = token
                 }
             }
         }

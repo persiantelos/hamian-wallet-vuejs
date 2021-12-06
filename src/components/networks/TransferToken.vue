@@ -85,7 +85,7 @@
                     </div>
                     <div class="col-12 mt-3" align="center">
                         <b-button class="m-1" @click="transferClick"  variant="primary">
-                        Teransfer  {{transferToken.quantity}}  Telos
+                        Teransfer  {{transferToken.quantity}}  {{transferToken.customToken._id}}
                         </b-button>
                     </div>
                 </b-tab>
@@ -117,6 +117,7 @@ export default class AccountList extends Vue{
     accInfo:any=[];
     selectedAccount:any=[];
     showSpinner:boolean=true;
+    quantity:any= []
     transferToken:any={
         customToken:{
             chain:'',
@@ -217,7 +218,12 @@ export default class AccountList extends Vue{
     // }
     async transferClick()
     { 
-       var tr=await WalletService.reunTransaction([
+        this.quantity = this.transferToken.quantity
+        this.quantity = parseInt(this.quantity)
+        this.quantity = this.quantity.toFixed(parseInt(this.transferToken.customToken.decimals)) 
+        this.quantity +=  ' ' + this.transferToken.customToken.currency
+        this.transferToken.quantity  = this.quantity
+       var res=await WalletService.reunTransaction([
             {
                 account:this.transferToken.customToken.contract,
                 name:'transfer',
@@ -229,8 +235,18 @@ export default class AccountList extends Vue{
                     memo:this.transferToken.memo
                 }
             }
-        ])
-        console.log('returned data',tr)
+        ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id)
+        console.log('returned data',res)
+        if(res){
+            if(res.transaction_id){
+                this.$notify({
+                    group: 'foo',
+                    type: 'success',
+                    speed:500,
+                    text: 'The transfer of ' + this.transferToken.quantity + ' to ' + this.transferToken.to + ' was successful'
+                });
+            }
+        }
     }
 
 }
