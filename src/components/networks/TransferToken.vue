@@ -84,7 +84,7 @@
                         ></b-form-input>
                     </div>
                     <div class="col-12 mt-3" align="center">
-                        <b-button class="m-1" @click="transerClick"  variant="primary">
+                        <b-button class="m-1" @click="transferClick"  variant="primary">
                         Teransfer  {{transferToken.quantity}}  Telos
                         </b-button>
                     </div>
@@ -199,7 +199,7 @@ export default class AccountList extends Vue{
         this.showSpinner = false;
     }
 
-    // transerClick()
+    // transferClick()
     // {
     //     console.log('-----------')
     //     WalletService.reunTransaction([
@@ -215,11 +215,10 @@ export default class AccountList extends Vue{
     //         }
     //     ])
     // }
-    async transerClick()
+    async transferClick()
     { 
        var tr=await WalletService.reunTransaction([
             {
-                // account:'persiandaric',
                 account:this.transferToken.customToken.contract,
                 name:'transfer',
                 authorization:[ { actor: this.transferToken.from, permission: this.transferToken.permission }],
