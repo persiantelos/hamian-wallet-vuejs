@@ -140,7 +140,7 @@ export default class AccountList extends Vue{
     }
   
     async init(){
-        if(this.$store.state.currentNet.chainId == this.$store.state.currentAccountChainName){
+        if(this.$store.state.currentNet._id == this.$store.state.currentAccountChainName){
 
             this.tokensList =  await AccountService.getTokensList();
             this.tokensList = this.tokensList.value
