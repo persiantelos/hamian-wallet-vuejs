@@ -151,7 +151,7 @@ export default class LocalLogin extends Vue{
     SocketService.addEvent(RequestTypes.getOrRequestIdentity,this.reciveLoginRequest); 
   }
   async getAccounts(){
-    var currentAccount = this.$store.state.currentAccount
+    var currentAccount = this.$store.state.currentAccount.name
     if(currentAccount.length != 0)
     {
       this.selectedAccount.name = currentAccount;
@@ -162,7 +162,7 @@ export default class LocalLogin extends Vue{
 
       if(currentAccount){
         currentAccount = Object.entries(currentAccount.message)[0][1]
-        this.selectedAccount.name = currentAccount;
+        this.selectedAccount.name = currentAccount.name;
         this.isSelected = true;
         this.setDefaultAcc()
         this.spinner = false;
