@@ -50,7 +50,6 @@ export default {
   components: { simplebar },
     
   mounted() {
-    this.getAccounts();
     this.getCurrentNet();
     this.username=Config.username;
     this.value = this.languages.find((x) => x.language === i18n.locale);
