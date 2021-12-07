@@ -41,7 +41,6 @@ export default class WalletService
         console.log('actions',actions[0])
         console.log('network',currentNet)
         console.log('Config',Config.payloadOrigin)
-        // var payloadOrigin = Config.payloadOrigin
         var network={
             name: currentNet.name,
             protocol: currentNet.protocol,
@@ -52,16 +51,6 @@ export default class WalletService
             token: null,
             httpEndpoint:currentNet.hp
           }
-        // var network={
-        //     name: '',
-        //     protocol: 'https',
-        //     host: 'telos.greymass.com',
-        //     port: 443,
-        //     blockchain: 'eos',
-        //     chainId: '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11',
-        //     token: null,
-        //     httpEndpoint: 'http://telos.greymass.com'
-        //   }
         var connection={
             "result": {
                 "hash": "f85df5433d53208b0b95d71012ece2b19f94463d3f3b7b6f8684f5065982f6c2",
