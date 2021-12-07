@@ -221,13 +221,28 @@ export default class LocalLogin extends Vue{
 
       await WalletService.acceptTransaction(this.data.id);
       this.btnSpinner = false;
-      window.close();
+      this.$notify({
+          group: 'foo',
+          type: 'success',
+          title: this.data.origin,
+          text: 'Transaction completed successfully'
+      });
+      setTimeout(() => {
+        window.close();
+      }, 1400);
     }
     async reject()
     {
       await WalletService.rejectTransaction(this.data.id);
-      console.log('deny');
-      window.close(); 
+      this.$notify({
+          group: 'foo',
+          type: 'warn',
+          title: this.data.origin,
+          text: 'The transaction failed'
+      });
+      setTimeout(() => {
+        window.close();
+      }, 1400); 
     }
 }
 </script>
