@@ -4,92 +4,88 @@
             <Spinner v-model="showSpinner" />
         </div>
         <div v-if="!showSpinner" class="p-3">
-            <b-tabs 
-            class="box"
-                active-nav-item-class="font-weight-bold text-uppercase text-primary"
-                active-tab-class="font-weight-bold text-secondary"
-                content-class="mt-3"
-            >
-                <b-tab title="TRANSFER TOKEN" align="left"  active>
-                    <div class="col-12 px-1 mt-3" dir="ltr">
-                        <h5 class="font-size-15 mb-4">Send To : <i class="mdi mdi-information text-primary"></i></h5>
-                        <b-form-input
-                            id="input-2"
-                            v-model="transferToken.to"
-                            type="text"
-                        ></b-form-input>
+            <div class="col-12">
+                <h1 class="font-size-15 p-3 px-0">
+                    TRANSFER TOKEN
+                </h1>
+            </div>
+            <div class="col-12 px-1 mt-3" dir="ltr">
+                <h5 class="font-size-15 mb-4">Send To : <i class="mdi mdi-information text-primary"></i></h5>
+                <b-form-input
+                    id="input-2"
+                    v-model="transferToken.to"
+                    type="text"
+                ></b-form-input>
 
+            </div>
+            <div class="col-12 px-1 mt-3" dir="ltr">
+                <h5 class="font-size-15 mb-4">Amount:</h5>
+                <div class="btn-group col-12 me-1 mt-2">
+                    <b-form-input
+                        id="input-2"
+                        v-model="transferToken.quantity"
+                        type="text"
+                    ></b-form-input>
+                    <b-dropdown dropleft variant="primary" >
+                        <template v-slot:button-content>
+                            <span v-show="transferToken.customToken">
+                            {{transferToken.customToken.val[transferToken.customToken._id]}} {{transferToken.customToken.currency}}
+                            </span>
+                            <i class="mdi mdi-chevron-down"></i>
+                        </template>
+                        <div align="left" v-for="(token , index) in tokens" :key="index">
+                            <b-dropdown-item @click="onItemClick(token)" href="javascript: void(0);">
+                                {{token.val[token._id]}} {{token.currency}}
+                            </b-dropdown-item>
+                        </div>
+                    </b-dropdown>
+                </div>
+                <div class="col-12 px-1 d-flex mt-3" dir="ltr">
+                    <div class="col-6">
+                        <h5 @click="sendEntireBalance()" class="font-size-15 text-primary ponter mb-4">Send entire balance</h5>
                     </div>
-                    <div class="col-12 px-1 mt-3" dir="ltr">
-                        <h5 class="font-size-15 mb-4">Amount:</h5>
-                        <div class="btn-group col-12 me-1 mt-2">
+                    <!-- <div align="right" class="col-6">
+                        <h5 @click="showCustomToken = true" class="font-size-15 text-primary pointer mb-4">Use custom token</h5>
+                    </div> -->
+                </div>
+                <!-- <div v-if="showCustomToken == true" class="col-12 d-flex mt-3" dir="ltr">
+                    <div class="col-12 d-flex">
+                        <div class="col-6 px-1">
+                            <h5 class="font-size-15 mb-4">Symbol:</h5>
                             <b-form-input
                                 id="input-2"
-                                v-model="transferToken.quantity"
+                                v-model="transferToken.symbol"
                                 type="text"
                             ></b-form-input>
-                            <b-dropdown dropleft variant="primary" >
-                                <template v-slot:button-content>
-                                    <span v-show="transferToken.customToken">
-                                    {{transferToken.customToken.val[transferToken.customToken._id]}} {{transferToken.customToken.currency}}
-                                    </span>
-                                    <i class="mdi mdi-chevron-down"></i>
-                                </template>
-                                <div align="left" v-for="(token , index) in tokens" :key="index">
-                                    <b-dropdown-item @click="onItemClick(token)" href="javascript: void(0);">
-                                        {{token.val[token._id]}} {{token.currency}}
-                                    </b-dropdown-item>
-                                </div>
-                            </b-dropdown>
                         </div>
-                        <div class="col-12 px-1 d-flex mt-3" dir="ltr">
-                            <div class="col-6">
-                                <h5 @click="sendEntireBalance()" class="font-size-15 text-primary ponter mb-4">Send entire balance</h5>
-                            </div>
-                            <!-- <div align="right" class="col-6">
-                                <h5 @click="showCustomToken = true" class="font-size-15 text-primary pointer mb-4">Use custom token</h5>
-                            </div> -->
-                        </div>
-                        <!-- <div v-if="showCustomToken == true" class="col-12 d-flex mt-3" dir="ltr">
-                            <div class="col-12 d-flex">
-                                <div class="col-6 px-1">
-                                    <h5 class="font-size-15 mb-4">Symbol:</h5>
-                                    <b-form-input
-                                        id="input-2"
-                                        v-model="transferToken.symbol"
-                                        type="text"
-                                    ></b-form-input>
-                                </div>
-                                <div class="col-6 px-1">
-                                    <h5 class="font-size-15 mb-4">Contract:</h5>
-                                    <b-form-input
-                                        id="input-2"
-                                        v-model="transferToken.contract"
-                                        type="text"
-                                    ></b-form-input>
-                                </div>
-                            </div>
-                            
-                        </div> -->
-                        <div class="col-12 px-1 my-1" v-if="showCustomToken == true">
-                            <h5 @click="showCustomToken = false"  class="font-size-15 pointer text-primary mb-4">Don't use custom token / contract</h5>
+                        <div class="col-6 px-1">
+                            <h5 class="font-size-15 mb-4">Contract:</h5>
+                            <b-form-input
+                                id="input-2"
+                                v-model="transferToken.contract"
+                                type="text"
+                            ></b-form-input>
                         </div>
                     </div>
-                    <div class="col-12 px-2 mt-3" dir="ltr">
-                        <h5 class="font-size-15  mb-4">Memo (optional) :</h5>
-                        <b-form-input
-                            id="input-2"
-                            v-model="transferToken.memo"
-                            type="text"
-                        ></b-form-input>
-                    </div>
-                    <div class="col-12 mt-3" align="center">
-                        <b-button class="m-1" @click="transferClick"  variant="primary">
-                        Teransfer  {{transferToken.quantity}}  {{transferToken.customToken._id}}
-                        </b-button>
-                    </div>
-                </b-tab>
-            </b-tabs>
+                    
+                </div> -->
+                <div class="col-12 px-1 my-1" v-if="showCustomToken == true">
+                    <h5 @click="showCustomToken = false"  class="font-size-15 pointer text-primary mb-4">Don't use custom token / contract</h5>
+                </div>
+            </div>
+            <div class="col-12 px-2 mt-3" dir="ltr">
+                <h5 class="font-size-15  mb-4">Memo (optional) :</h5>
+                <b-form-input
+                    id="input-2"
+                    v-model="transferToken.memo"
+                    type="text"
+                ></b-form-input>
+            </div>
+            <div class="col-12 mt-3" align="center">
+                <b-button class="m-1" @click="transferClick"  variant="primary">
+                Teransfer  {{transferToken.quantity}}  {{transferToken.customToken._id}}
+                </b-button>
+            </div>
         </div>
     </div>
 </template>
