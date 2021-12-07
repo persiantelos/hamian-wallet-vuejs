@@ -51,7 +51,7 @@ export default {
 }
 .preloader-component {
   position: absolute;
-  top: 0;
+  top: 15px;
   left: 0;
   right: 0;
   bottom: 0;
