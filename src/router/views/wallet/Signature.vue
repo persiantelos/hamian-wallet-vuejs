@@ -224,7 +224,7 @@ export default class LocalLogin extends Vue{
       this.$notify({
           group: 'foo',
           type: 'success',
-          title: this.data.origin,
+          title: this.data.payloadOrigin,
           text: 'Transaction completed successfully'
       });
       setTimeout(() => {
@@ -237,7 +237,7 @@ export default class LocalLogin extends Vue{
       this.$notify({
           group: 'foo',
           type: 'warn',
-          title: this.data.origin,
+          title: this.data.payloadOrigin,
           text: 'The transaction failed'
       });
       setTimeout(() => {
