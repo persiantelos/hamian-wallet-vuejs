@@ -44,8 +44,11 @@
                     content-class="mt-3" >
                     <b-tab title="Overview" align="left"  active>
                         <div  class="col-12 row" align="center">
-                            <h3 v-if="transactions[0]">
-                                <span class="text-primary">{{transactions[0].name}}</span>
+                            <h3 v-if="transactions[0] == 'transfer'">
+                                <span class="text-primary">Transfer</span>
+                            </h3>
+                            <h3 v-if="transactions[0] == 'buyram'">
+                                <span class="text-primary">Buy RAM</span>
                             </h3>
                             
                             <h5 class="text-primary">via {{data.payloadOrigin}}</h5>
