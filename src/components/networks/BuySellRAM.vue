@@ -159,6 +159,8 @@ async BuyRamClick(){
         ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id)
         if(res){
             if(res.transaction_id){
+                this.buySellRAM.RAMReceiver='';
+                this.buySellRAM.RAMBuyAmount=0;
                 this.$notify({
                     group: 'foo',
                     type: 'success',
