@@ -706,7 +706,7 @@ export default {
             <i class="bx bx-lock-open font-size-16 align-middle me-1"></i>
             {{ $t("navbar.dropdown.henry.list.lockscreen") }}
           </b-dropdown-item> -->
-          <b-dropdown-divider></b-dropdown-divider>
+          <!-- <b-dropdown-divider></b-dropdown-divider> -->
           <a @click="logoutUser" class="dropdown-item text-danger">
             <i
               class="bx bx-power-off font-size-16 align-middle me-1 text-danger"
