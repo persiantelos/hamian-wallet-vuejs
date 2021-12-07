@@ -144,7 +144,7 @@ async BuyRamClick(){
         else{
             this.quantity = this.quantity.toFixed(0) 
         }
-        this.buySellRAM.RAMBuyAmount  = this.quantity
+        // this.buySellRAM.RAMBuyAmount  = this.quantity
         var res= await WalletService.reunTransaction([
             {
                 account:'eosio',
@@ -161,6 +161,7 @@ async BuyRamClick(){
             if(res.transaction_id){
                 this.buySellRAM.RAMReceiver='';
                 this.buySellRAM.RAMBuyAmount=0;
+                this.quantity=[];
                 this.$notify({
                     group: 'foo',
                     type: 'success',
