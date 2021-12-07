@@ -218,7 +218,6 @@ export default class LocalLogin extends Vue{
     async accept()
     { 
       this.btnSpinner = true;
-
       await WalletService.acceptTransaction(this.data.id);
       this.btnSpinner = false;
       this.$notify({
