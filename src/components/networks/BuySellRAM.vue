@@ -4,21 +4,13 @@
           <Spinner  v-model="showSpinner" />
       </div>
         <div v-if="!showSpinner" align="left" class="p-3">
-        <!-- <b-tabs
-        class="box"
-            active-nav-item-class="font-weight-bold text-uppercase text-primary"
-            active-tab-class="font-weight-bold text-secondary"
-            content-class="mt-3"
-        > -->
-            <!-- <b-tab title="BUY RAM" align="left"  active> -->
                 <h3 class="text-primary font-size-15 mt-4">BUY RAM</h3>
-
                 <div class="col-12 d-flex">
                     <div class="col-6 mt-3" dir="ltr">
                         <h5 class="font-size-15 mb-4">RAM Reciver :</h5>
                         <b-form-input
                             id="input-2"
-                            v-model="buySellRAM.RAMRevicer"
+                            v-model="buySellRAM.RAMReceiver"
                             type="text"
                         ></b-form-input>
 
@@ -28,12 +20,12 @@
                         <div class="d-flex">
                             <b-form-group class="d-flex" >
                                 <div class="d-flex">
-                                    <b-form-radio  v-model="buySellRAM.buyWith" val="TELOS"   name="some-radios" >
+                                    <b-form-radio @click.native="buyWith('TELOS')"    name="some-radios" >
                                     <p class="m-1">
                                         TELOS
                                     </p>
                                     </b-form-radio>
-                                    <b-form-radio  class="mx-2" v-model="buySellRAM.buyWith" val="Bytes"   name="some-radios" >
+                                    <b-form-radio @click.native="buyWith('Bytes')"  class="mx-2"   name="some-radios" >
                                         <p class="m-1">
                                             Bytes
                                         </p>
@@ -60,11 +52,12 @@
 
                 </div>
                 <div class="col-6 px-2 mt-5" align="center">
-                    <b-button class="mt-2 w-100"  variant="primary" v-show="!buySellRAM.RAMBuyAmount" @click="transerClick">
+                    <b-button class="mt-2 w-100"  variant="primary" v-show="!buySellRAM.RAMBuyAmount" 
+                    @click="BuyRamClick">
                     Buy RAM
                     </b-button>
-                    <b-button class="mt-2 w-100"  variant="primary" v-show="buySellRAM.RAMBuyAmount">
-                    Buy {{buySellRAM.RAMBuyAmount}} {{buySellRAM.buyWith}} of RAM for {{buySellRAM.RAMRevicer}}
+                    <b-button class="mt-2 w-100" @click="BuyRamClick" variant="primary" v-show="buySellRAM.RAMBuyAmount">
+                    Buy {{buySellRAM.RAMBuyAmount}} {{buySellRAM.buyWith}} of RAM for {{buySellRAM.RAMReceiver}}
                     </b-button>
                 </div>
                 </div>
@@ -110,51 +103,6 @@
                         </b-button>
                     </div>
                 </div>
-
-               
-            <!-- </b-tab> -->
-            <!-- <b-tab title="SELL RAM" align="left">
-                <div class="col-12 mt-3">
-                    <table class="table table-nowrap mb-0">
-                        <tbody>
-                        <tr>
-                            <th scope="row">Bought :</th>
-                            <td>25521 Bytes ≈ 0.9764 TLOS</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">In Use :</th>
-                            <td>3124 Bytes ≈ 0.1195 TLOS</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Available :</th>
-                            <td>22397 Bytes ≈ 0.8569 TLOS</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-12 mt-3">
-                    <h5 class="font-size-15 mb-4">Amount of RAM to Sell (Bytes)</h5>
-                    <b-form-input
-                        id="input-2"
-                        v-model="buySellRAM.RAMSellAmount"
-                        type="text"
-                    ></b-form-input>
-                    <div>
-                        <b-button class="m-1" @click="calculateSellRAMAmount(25)" variant="outline-secondary">25%</b-button>
-                        <b-button class="m-1" @click="calculateSellRAMAmount(50)" variant="outline-secondary">50%</b-button>
-                        <b-button class="m-1" @click="calculateSellRAMAmount(75)" variant="outline-secondary">75%</b-button>
-                        <b-button class="m-1" @click="calculateSellRAMAmount(100)" variant="outline-secondary">100%</b-button>
-                    </div>
-                    <p class="text-white">Selling {{buySellRAM.RAMSellAmount}} Bytes for {{buySellRAM.TELOSCustAmount}} TLOS</p>
-                </div>
-                <div class="col-12 mt-3" align="center">
-                    <b-button class="m-1"  variant="primary">
-                    Sell RAM
-                    </b-button>
-                </div>
-                
-            </b-tab> -->
-        <!-- </b-tabs> -->
         </div>
     </div>
 </template>
@@ -171,15 +119,66 @@ export default class AccountList extends Vue{
 
     // @Prop({default:()=>{return []}}) buySellRAM:any
     @Prop({default:()=>{return false}}) showSpinner:boolean
+    quantity:any=[];
     buySellRAM:any={
-    RAMBuyAmount:0,
-    RAMConvertedToBytes:0,
-    RAMSellAmount:0,
-    TELOSCustAmount:0,
-    showCustomToken:false,
-    // mounted(){
-    //     this.showSpinner = false;
-    // }
+        RAMReceiver:'',
+        buyWith:'TELOS',
+        RAMBuyAmount:0,
+        RAMConvertedToBytes:0,
+        RAMSellAmount:0,
+        TELOSCustAmount:0,
+        showCustomToken:false,
+  }
+// mounted(){
+    // this.showSpinner = false;
+// }
+buyWith(data:any){
+    this.buySellRAM.buyWith = data;
+}
+async BuyRamClick(){
+    if(this.buySellRAM.RAMReceiver){
+        this.quantity = this.buySellRAM.RAMBuyAmount
+        this.quantity = parseInt(this.quantity)
+        console.log(this.buySellRAM.buyWith)
+        if(this.buySellRAM.buyWith == 'TELOS'){
+            this.quantity = this.quantity.toFixed(4) 
+            this.quantity +=  ' TLOS'
+        }
+        else{
+            this.quantity = this.quantity.toFixed(0) 
+        }
+        this.buySellRAM.RAMBuyAmount  = this.quantity
+        var res= await WalletService.reunTransaction([
+            {
+                account:'eosio',
+                name:'buyram',
+                authorization:[ { actor: this.$store.state.currentAccount.name , permission: this.$store.state.currentAccount.authority }],
+                data:{
+                    payer: this.$store.state.currentAccount.name,
+                    receiver:this.buySellRAM.RAMReceiver,
+                    quant:this.buySellRAM.RAMBuyAmount,
+                }
+            }
+        ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id)
+        if(res){
+            if(res.transaction_id){
+                this.$notify({
+                    group: 'foo',
+                    type: 'success',
+                    speed:500,
+                    text: 'RAM purchase completed successfully.'
+                });
+            }
+        }
+    }
+    else{
+        this.$notify({
+            group: 'foo',
+            type: 'warn',
+            speed:500,
+            text: 'RAM receiver is necessary'
+        });
+    }
   }
  
     
