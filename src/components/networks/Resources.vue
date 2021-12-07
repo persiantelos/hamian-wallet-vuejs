@@ -3,9 +3,8 @@
       <div v-if="showSpinner">
           <Spinner v-model="showSpinner" />
       </div>
-      <h5 class="font-size-15 mb-4">Resources</h5>
       <div v-if="!showSpinner" class="col-12 d-flex">
-        <div  class="col box" >
+        <div  class="col py-1 box" >
             <div class="text-center">
                 <h5 class="font-size-15 mb-4">RAM</h5>
                 <apexchart 
@@ -19,7 +18,7 @@
                 <p class="text-muted ">RAM used : {{sizeConvertor(resources.ram_limit.used)}} / Total: {{sizeConvertor(resources.ram_limit.available)}}</p>
             </div>
         </div>
-        <div  class="col box" >
+        <div  class="col py-1 box" >
             <div class="text-center">
                 <h5 class="font-size-15 mb-4">CPU</h5>
                 <apexchart 
@@ -33,7 +32,7 @@
                 <p class="text-muted ">CPU used : {{(resources.cpu_limit.used/1000).toFixed(2)}} µs /  Total: {{(resources.cpu_limit.max/1000).toFixed(2)}} ms</p>
             </div>
         </div>
-        <div  class="col box" >
+        <div  class="col py-1 box" >
           
             <div class="text-center">
                 <h5 class="font-size-15 mb-4">NET</h5>
