@@ -37,7 +37,7 @@
                         <b-form-input class="my-3"
                             id="input-2"
                             v-model="stakeCPUorNET.CPUAmountToStake"
-                            type="text"
+                            type="number"
                         ></b-form-input>
                         <div>
                             <b-button class="m-1" @click="calculateAmountCPUtoStakeTelos(25)" variant="outline-secondary">25%</b-button>
@@ -51,7 +51,7 @@
                         <b-form-input class="my-3"
                             id="input-2"
                             v-model="stakeCPUorNET.NETAmountToStake"
-                            type="text"
+                            type="number"
                         ></b-form-input>
                         <div>
                             <b-button class="m-1" @click="calculateAmountNettoStakeTelos(25)" variant="outline-secondary">25%</b-button>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="col-12 mt-3" align="center">
-                    <b-button class="m-1"  variant="primary">
+                    <b-button @click="stakeClick()" class="m-1"  variant="primary">
                     Stake {{stakeCPUorNET.CPUAmountToStake}} TELOS of CPU and {{stakeCPUorNET.NETAmountToStake}} TELOS of NET to {{stakeCPUorNET.stakReciver}}
                     </b-button>
                 </div>
@@ -90,7 +90,7 @@
                     ></b-form-input>
                 </div>
                 <div class="col-12 mt-3" align="center">
-                    <b-button class="m-1"  variant="primary">
+                    <b-button @click="unStakeClick()" class="m-1"  variant="primary">
                     UNSTAKE
                     </b-button>
                 </div>
@@ -111,7 +111,10 @@ import Multiselect from "vue-multiselect";
 })
 export default class StakeCPUNet extends Vue{
     @Prop({default:() =>{return []}}) value:any;
-    @Prop({default:()=>{return false}}) showSpinner:boolean
+    @Prop({default:()=>{return false}}) showSpinner:boolean;
+    resources:any=[];
+    tempCPUAmountStake:any=[];
+    tempNETAmountStake:any=[];
     selectedOwnAccount:any='';
     stakeCPUorNET:any={
         stakReciver:'',
@@ -137,8 +140,18 @@ export default class StakeCPUNet extends Vue{
         // TODO:needs service
     }  
     mounted(){
-      this.init()
-      
+      this.init();
+        if(this.value == []){
+            this.$router.push('/')
+        }
+        else{
+            this.resources = this.value;
+            console.log('resources',this.resources)
+        }
+    }
+    @Watch('value')
+    valChanged(newVal:any){
+        this.resources = newVal;
     }
     async init(){
         this.accountList = await WalletService.getAccounts();
@@ -148,6 +161,60 @@ export default class StakeCPUNet extends Vue{
     onItemClick(data:any){
         this.selectedOwnAccount = data.name;
         this.stakeCPUorNET.stakReciver  = data.name;
+    }
+    async stakeClick()
+    { 
+        if(this.stakeCPUorNET.stakReciver){
+            this.tempCPUAmountStake = parseInt(this.stakeCPUorNET.CPUAmountToStake)
+            this.tempCPUAmountStake = this.tempCPUAmountStake.toFixed(4)
+            this.tempCPUAmountStake += ' TLOS'
+            console.log(this.tempCPUAmountStake)
+
+            this.tempNETAmountStake = parseInt(this.stakeCPUorNET.NETAmountToStake)
+            this.tempNETAmountStake = this.tempNETAmountStake.toFixed(4)
+            this.tempNETAmountStake += ' TLOS'
+            console.log(this.tempNETAmountStake)
+
+            var res=await WalletService.reunTransaction([
+                {
+                    account:"eosio",
+                    name:"delegatebw",
+                    authorization:[ { actor: this.$store.state.currentAccount.name, permission: this.$store.state.currentAccount.authority }],
+                    data:{
+                        from:this.$store.state.currentAccount.name,
+                        receiver:this.stakeCPUorNET.stakReciver,
+                        stake_net_quantity: this.tempCPUAmountStake,
+                        stake_cpu_quantity: this.tempNETAmountStake,
+                        transfer:false
+                    }
+                }
+            ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id)
+            if(res){
+                if(res.transaction_id){
+                    this.tempCPUAmountStake = [],
+                    this.tempNETAmountStake = [],
+                    this.stakeCPUorNET={
+                        stakReciver:'',
+                        CPUAmountToStake:0,
+                        NETAmountToStake:0,
+                    };
+                    this.$notify({
+                        group: 'foo',
+                        type: 'success',
+                        speed:500,
+                        text: 'Stake CPU/NET successfully'
+                    });
+                }
+            }
+        }
+        else{
+            this.$notify({
+                group: 'foo',
+                type: 'warn',
+                speed:500,
+                text: 'Stake receiver is necessary'
+            });
+        }
     }
    
 
