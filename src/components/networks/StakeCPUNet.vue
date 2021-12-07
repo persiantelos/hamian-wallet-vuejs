@@ -4,13 +4,12 @@
         <div v-if="showSpinner">
           <Spinner  v-model="showSpinner" />
         </div>
-        <b-tabs v-if="!showSpinner"
-        class="box"
-            active-nav-item-class="font-weight-bold text-uppercase text-primary"
-            active-tab-class="font-weight-bold text-secondary"
-            content-class="mt-3"
-        >
-            <b-tab title="STAKE" align="left"  active>
+            <div class="col-12" align="left">
+                <div class="col-12">
+                    <h1 class="font-size-16 text-primary p-3 px-0">
+                        STAKE
+                    </h1>
+                </div>
                 <div class="col-12 mt-3" dir="ltr">
                     <h5 class="font-size-15 mb-4">Reciver of Stake:</h5>
                     <div class="btn-group col-12 me-1 mt-2">
@@ -68,7 +67,7 @@
                     </b-button>
                 </div>
                 <div class="col-12 mt-5 d-flex">
-                     <div class="col-6 mt-3">
+                        <div class="col-6 mt-3">
                         <h5 class="font-size-15 mb-4">Account name of who currently holds stake:</h5>
                         <multiselect class="my-3" v-model="unStakeCPUorNET.selectedAccountForUnStake" :options="unStakeCPUorNET.accountHoldStake" ></multiselect>
                     </div>
@@ -95,43 +94,8 @@
                     UNSTAKE
                     </b-button>
                 </div>
-            </b-tab>
-            <!-- <b-tab title="UNSTAKE" align="left">
-                <div class="col-12 mt-3">
-                    <h5 class="font-size-15 mb-4">Account name of who currently holds stake:</h5>
-                    <div>
-                        <b-form-select class="p-2"
-                         v-model="unStakeCPUorNET.selectedAccountForUnStake"
-                         :options="unStakeCPUorNET.accountHoldStake"
-                         ></b-form-select>
-                    </div>
-                </div>
-                <div class="col-12 mt-3">
-                    <h5 class="font-size-15 mb-4">Amount of CPU to Unstake (in TLOS)</h5>
-                    <b-form-input
-                        id="input-2"
-                        v-model="unStakeCPUorNET.amountCPUUnstake"
-                        type="text"
-                    ></b-form-input>
-
-                </div>
-                <div class="col-12 mt-3">
-                    <h5 class="font-size-15 mb-4">Amount of NET to Unstake (in TLOS)</h5>
-                    <b-form-input
-                        id="input-2"
-                        v-model="unStakeCPUorNET.amountNETUnstake"
-                        type="text"
-                    ></b-form-input>
-
-                </div>
-                <div class="col-12 mt-3" align="center">
-                    <b-button class="m-1"  variant="primary">
-                    UNSTAKE
-                    </b-button>
-                </div>
-            </b-tab> -->
-            <b-tab title="REFOUND"><p>I'm a REFOUND tab!</p></b-tab>
-        </b-tabs>
+            </div>
+            <!-- <b-tab title="REFOUND"><p>I'm a REFOUND tab!</p></b-tab> -->
         </div>
     </div>
 </template>

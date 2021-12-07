@@ -5,7 +5,7 @@
         </div>
         <div v-if="!showSpinner" class="p-3">
             <div class="col-12">
-                <h1 class="font-size-15 p-3 px-0">
+                <h1 class="font-size-16 text-primary p-3 px-0">
                     TRANSFER TOKEN
                 </h1>
             </div>
