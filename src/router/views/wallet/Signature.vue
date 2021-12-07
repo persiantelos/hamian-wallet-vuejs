@@ -44,11 +44,14 @@
                     content-class="mt-3" >
                     <b-tab title="Overview" align="left"  active>
                         <div  class="col-12 row" align="center">
-                            <h3 v-if="transactions[0] == 'transfer'">
+                            <h3 v-if="transactions[0].name == 'transfer'">
                                 <span class="text-primary">Transfer</span>
                             </h3>
-                            <h3 v-if="transactions[0] == 'buyram'">
+                            <h3 v-if="transactions[0].name == 'buyram'">
                                 <span class="text-primary">Buy RAM</span>
+                            </h3>
+                            <h3 v-if="transactions[0].name == 'sellram'">
+                                <span class="text-primary">Sell RAM</span>
                             </h3>
                             
                             <h5 class="text-primary">via {{data.payloadOrigin}}</h5>
@@ -80,8 +83,12 @@
                                         </div>
                                         <div class="col-11">
                                             <strong style="position:relative" class=" col-11">
-                                                <span class="text-body"> From : </span>
-                                                {{transactions[0].data.from}} <br />
+                                                <span class="text-body" v-if="transactions[0].name == 'transfer'"> From : </span>
+                                                <span class="text-body" v-if="transactions[0].name == 'buyram'"> Payer : </span>
+                                                <span class="text-body" v-if="transactions[0].name == 'sellram'"> Account : </span>
+                                                <p v-if="transactions[0].name == 'transfer'">{{transactions[0].data.from}} <br /></p>
+                                                <p v-if="transactions[0].name == 'buyram'">{{transactions[0].data.payer}} <br /></p>
+                                                <p v-if="transactions[0].name == 'sellram'">{{transactions[0].data.account}} <br /></p>
                                             </strong>
                                         </div>
                                     </div>
@@ -98,8 +105,12 @@
                                         </div>
                                         <div class="col-11">
                                             <strong style="position:relative" class="col-11">
-                                                <span class="text-body"> Quantity : </span>
-                                                {{transactions[0].data.quantity}} <br />
+                                                <span class="text-body" v-if="transactions[0].name == 'transfer'"> Quantity : </span>
+                                                <span class="text-body" v-if="transactions[0].name == 'buyram'"> Quant : </span>
+                                                <span class="text-body" v-if="transactions[0].name == 'sellram'"> Bytes : </span>
+                                                <p v-if="transactions[0].name == 'transfer'" >{{transactions[0].data.quantity}} <br /></p>
+                                                <p v-if="transactions[0].name == 'buyram'" >{{transactions[0].data.quant}} <br /></p>
+                                                <p v-if="transactions[0].name == 'sellram'" >{{transactions[0].data.bytes}} <br /></p>
                                             </strong> 
                                         </div>
                                     </div>
@@ -116,8 +127,10 @@
                                         </div>
                                         <div class="col-11">
                                             <strong style="position:relative" class="col-11">
-                                                    <span class="text-body"> To : </span>
-                                                    {{transactions[0].data.to}} <br />
+                                                    <span class="text-body" v-if="transactions[0].name == 'transfer'"> To : </span>
+                                                    <span class="text-body" v-if="transactions[0].name == 'buyram'"> Receiver : </span>
+                                                    <p v-if="transactions[0].name == 'transfer'" >{{transactions[0].data.to}} <br /></p>
+                                                    <p v-if="transactions[0].name == 'buyram'" >{{transactions[0].data.receiver}} <br /></p>
                                             </strong>
                                         </div>
                                     </div>

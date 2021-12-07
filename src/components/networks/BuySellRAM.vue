@@ -47,10 +47,10 @@
                 </div>
                 <div class="col-6 px-2 mt-5" align="center">
                     <b-button class="mt-2 w-100"  variant="primary" v-show="!buySellRAM.RAMBuyAmount" 
-                    @click="BuyRamClick">
+                    @click="BuyRAMCLick">
                     Buy RAM
                     </b-button>
-                    <b-button class="mt-2 w-100" @click="BuyRamClick" variant="primary" v-show="buySellRAM.RAMBuyAmount">
+                    <b-button class="mt-2 w-100" @click="BuyRAMCLick" variant="primary" v-show="buySellRAM.RAMBuyAmount">
                     Buy {{buySellRAM.RAMBuyAmount}} {{buySellRAM.buyWith}} of RAM for {{buySellRAM.RAMReceiver}}
                     </b-button>
                 </div>
@@ -81,7 +81,7 @@
                         <b-form-input
                             id="input-2"
                             v-model="buySellRAM.RAMSellAmount"
-                            type="text"
+                            type="number"
                         ></b-form-input>
                         <div>
                             <b-button class="m-1" @click="calculateSellRAMAmount(25)" variant="outline-secondary">25%</b-button>
@@ -89,10 +89,10 @@
                             <b-button class="m-1" @click="calculateSellRAMAmount(75)" variant="outline-secondary">75%</b-button>
                             <b-button class="m-1" @click="calculateSellRAMAmount(100)" variant="outline-secondary">100%</b-button>
                         </div>
-                        <p class="text-white">Selling {{buySellRAM.RAMSellAmount}} Bytes for {{buySellRAM.TELOSCustAmount}} TLOS</p>
+                        <p class="text-body">Selling {{buySellRAM.RAMSellAmount}} Bytes for {{buySellRAM.TELOSCustAmount}} TLOS</p>
                     </div>
                     <div class="col-6 mt-5" align="center">
-                        <b-button class="m-2 w-100"  variant="primary">
+                        <b-button @click="SellRAMClick" class="m-2 w-100"  variant="primary">
                         Sell RAM
                         </b-button>
                     </div>
@@ -111,10 +111,8 @@ import WalletService from '../../localService/walletService'
 export default class AccountList extends Vue{
     // showSpinner:boolean=true;
 
-    // @Prop({default:()=>{return []}}) buySellRAM:any
     @Prop({default:()=>{return false}}) showSpinner:boolean
     quantity:any=[];
-    // selected:string= 'TELOS'
     options:any= [
         { item: 'TELOS', chain: 'TELOS' },
         { item: 'Bytes', chain: 'Bytes' },
@@ -132,7 +130,7 @@ export default class AccountList extends Vue{
     // this.showSpinner = false;
 // }
 
-async BuyRamClick(){
+async BuyRAMCLick(){
     if(this.buySellRAM.RAMReceiver){
         this.quantity = this.buySellRAM.RAMBuyAmount
         this.quantity = parseInt(this.quantity)
@@ -144,16 +142,15 @@ async BuyRamClick(){
         else{
             this.quantity = this.quantity.toFixed(0) 
         }
-        // this.buySellRAM.RAMBuyAmount  = this.quantity
         var res= await WalletService.reunTransaction([
             {
                 account:'eosio',
                 name:'buyram',
                 authorization:[ { actor: this.$store.state.currentAccount.name , permission: this.$store.state.currentAccount.authority }],
                 data:{
-                    from: this.$store.state.currentAccount.name,
-                    to:this.buySellRAM.RAMReceiver,
-                    quantity:this.quantity,
+                    payer: this.$store.state.currentAccount.name,
+                    receiver:this.buySellRAM.RAMReceiver,
+                    quant:this.quantity,
                 }
             }
         ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id)
@@ -180,7 +177,40 @@ async BuyRamClick(){
         });
     }
   }
- 
+  async SellRAMClick(){
+    if(this.buySellRAM.RAMSellAmount >= 1){
+        var res= await WalletService.reunTransaction([
+            {
+                account:'eosio',
+                name:'sellram',
+                authorization:[ { actor: this.$store.state.currentAccount.name , permission: this.$store.state.currentAccount.authority }],
+                data:{
+                    account: this.$store.state.currentAccount.name,
+                    bytes:this.buySellRAM.RAMSellAmount,
+                }
+            }
+        ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id)
+        if(res){
+            if(res.transaction_id){
+                this.buySellRAM.RAMSellAmount=0;
+                this.$notify({
+                    group: 'foo',
+                    type: 'success',
+                    speed:500,
+                    text: 'RAM sold successfully.'
+                });
+            }
+        }
+    }
+    else{
+        this.$notify({
+            group: 'foo',
+            type: 'warn',
+            speed:500,
+            text: 'Amount of RAM to sell is necessary!'
+        });
+    }
+  }
     
 }
 </script>
