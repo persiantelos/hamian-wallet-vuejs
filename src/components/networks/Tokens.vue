@@ -4,7 +4,7 @@
           <Spinner  v-model="showSpinner" />
       </div>
         <div v-if="!showSpinner" class="d-flex">
-            <div class="p-3" v-for="(token ,index) in tokens" :key="index" >
+            <div class="p-3" style="width:220px" v-for="(token ,index) in tokens" :key="index" >
                 <div class="card m-2 shadow-none border">
                     <div class="card-body p-3">
                         <div class="">
@@ -20,15 +20,9 @@
                                 <i class="mdi mdi-dots-horizontal"></i>
                             </template>
 
-                            <b-dropdown-item href="#">Open</b-dropdown-item>
-                            <b-dropdown-item href="#">Edit</b-dropdown-item>
-                            <b-dropdown-item href="#"
-                                >Rename</b-dropdown-item
-                            >
+                            <b-dropdown-item href="#" @click="goToTransferToken()">Transfer</b-dropdown-item>
                             <b-dropdown-divider></b-dropdown-divider>
-                            <b-dropdown-item href="#"
-                                >Remove</b-dropdown-item
-                            >
+                            <b-dropdown-item href="#" @click="reload()">Refresh</b-dropdown-item>
                             </b-dropdown>
                         </div>
                         <div class="avatar-xs me-3 mb-3">
@@ -80,6 +74,7 @@ export default class AccountList extends Vue{
         this.init();
     }
     async init(){
+        this.showSpinner=true;
         if(this.$store.state.currentNet._id == this.$store.state.currentAccountChainName){
             this.tokensList =  await AccountService.getTokensList();
             this.tokensList = this.tokensList.value
@@ -116,6 +111,12 @@ export default class AccountList extends Vue{
         }
         this.tokens = newarr;
         this.showSpinner = false;
+    }
+    goToTransferToken(){
+        this.$emit('changeSelectedMenu','transferToken')
+    }
+    reload(){
+        this.init()
     }
 }
 </script>
