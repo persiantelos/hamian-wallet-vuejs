@@ -86,9 +86,11 @@
                                                 <span class="text-body" v-if="transactions[0].name == 'transfer'"> From : </span>
                                                 <span class="text-body" v-if="transactions[0].name == 'buyram'"> Payer : </span>
                                                 <span class="text-body" v-if="transactions[0].name == 'sellram'"> Account : </span>
+                                                <span class="text-body" v-if="transactions[0].name == 'delegatebw'"> From : </span>
                                                 <p v-if="transactions[0].name == 'transfer'">{{transactions[0].data.from}} <br /></p>
                                                 <p v-if="transactions[0].name == 'buyram'">{{transactions[0].data.payer}} <br /></p>
                                                 <p v-if="transactions[0].name == 'sellram'">{{transactions[0].data.account}} <br /></p>
+                                                <p v-if="transactions[0].name == 'delegatebw'">{{transactions[0].data.from}} <br /></p>
                                             </strong>
                                         </div>
                                     </div>
@@ -112,6 +114,13 @@
                                                 <p v-if="transactions[0].name == 'buyram'" >{{transactions[0].data.quant}} <br /></p>
                                                 <p v-if="transactions[0].name == 'sellram'" >{{transactions[0].data.bytes}} <br /></p>
                                             </strong> 
+                                            <strong v-if="transactions[0].name == 'delegatebw'" style="position:relative" class="col-11">
+                                                <span class="text-body" > Stake CPU Quantity : </span>
+                                                <p >{{transactions[0].data.stake_cpu_quantity}} <br /></p>
+                                                <span class="text-body"> Stake NET Quantity : </span>
+                                                <p >{{transactions[0].data.stake_net_quantity}} <br /></p>
+                                            </strong> 
+
                                         </div>
                                     </div>
                                     <div class="col-12 row d-flex">
@@ -129,8 +138,17 @@
                                             <strong style="position:relative" class="col-11">
                                                     <span class="text-body" v-if="transactions[0].name == 'transfer'"> To : </span>
                                                     <span class="text-body" v-if="transactions[0].name == 'buyram'"> Receiver : </span>
+                                                    <span class="text-body" v-if="transactions[0].name == 'delegatebw'"> Receiver : </span>
                                                     <p v-if="transactions[0].name == 'transfer'" >{{transactions[0].data.to}} <br /></p>
                                                     <p v-if="transactions[0].name == 'buyram'" >{{transactions[0].data.receiver}} <br /></p>
+                                                    <p v-if="transactions[0].name == 'delegatebw'" >{{transactions[0].data.receiver}} <br /></p>
+                                            </strong>
+                                        </div>
+                                        <div class="col-11" v-if="transactions[0].name == 'delegatebw'">
+                                            <strong  style="position:relative" class="col-11">
+                                                    <span class="text-body" > Transfer : </span>
+                                                    <p v-if="transactions[0].data.transfer">{{transactions[0].data.transfer}} <br /></p>
+                                                    <p v-if="!transactions[0].data.transfer"> No Data <br /></p>
                                             </strong>
                                         </div>
                                     </div>

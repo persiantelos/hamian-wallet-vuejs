@@ -216,6 +216,9 @@ export default class StakeCPUNet extends Vue{
             });
         }
     }
+    async unStakeClick(){
+        // TODO:unstake method 
+    }
    
 
 
