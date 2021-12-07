@@ -44,9 +44,10 @@
                     content-class="mt-3" >
                     <b-tab title="Overview" align="left"  active>
                         <div  class="col-12 row" align="center">
-                            <h3 v-if="data.type == 'requestSignature'">
-                                <span class="text-primary">Transfer</span>
+                            <h3 v-if="transactions[0]">
+                                <span class="text-primary">{{transactions[0].name}}</span>
                             </h3>
+                            
                             <h5 class="text-primary">via {{data.payloadOrigin}}</h5>
                         </div>
                         
@@ -57,7 +58,7 @@
                         <div class="col-12">
                             <h3 v-if="data.type == 'requestSignature'">
                                 <span class="text-danger font-size-14">{{transactions[0].account}}</span><br />
-                                <span class="text-danger">Transfer</span>
+                                <span class="text-danger">{{transactions[0].name}}</span>
                             </h3>
                         </div>
                         <div class="row my-4">
@@ -201,6 +202,7 @@ export default class LocalLogin extends Vue{
       console.log('--------------',data);
         this.data=data 
         this.transactions=data.payload.transactionData;
+        console.log(this.transactions)
         this.spinner = false
         
     }

@@ -151,9 +151,9 @@ async BuyRamClick(){
                 name:'buyram',
                 authorization:[ { actor: this.$store.state.currentAccount.name , permission: this.$store.state.currentAccount.authority }],
                 data:{
-                    payer: this.$store.state.currentAccount.name,
-                    receiver:this.buySellRAM.RAMReceiver,
-                    quant:this.buySellRAM.RAMBuyAmount,
+                    from: this.$store.state.currentAccount.name,
+                    to:this.buySellRAM.RAMReceiver,
+                    quantity:this.buySellRAM.RAMBuyAmount,
                 }
             }
         ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id)
