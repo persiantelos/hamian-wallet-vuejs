@@ -21,8 +21,25 @@ Vue.mixin({
           else if (bytes == 1)          { bytes = bytes + " byte"; }
           else                          { bytes = "0 bytes"; }
           return bytes;
+        },
+        numberSeperator(value)
+        {
+            if(!value && value!==0)
+              return "0";
+            value=Math.floor(value).toString()
+            var data=value;
+            var sep=""
+            if(data.length>1 && data[0]=="0")
+              data=data.substr(1)
+            for(var x=0;x<data.length;x++)
+            {
+              if(data[x]>='0' && data[x]<='9')
+                sep+=data[x]
+            }
+            return sep.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
         }
-      }
+        }
 })
 
 export default {
