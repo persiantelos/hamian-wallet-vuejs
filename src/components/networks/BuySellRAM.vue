@@ -40,7 +40,7 @@
                     ></b-form-input>
                     <h5 class="font-size-12 mb-4">
                         <p class="m-1">
-                            ≈ {{buySellRAM.RAMBuyAmount}} Bytes
+                            ≈ {{buySellRAM.RAMBuyAmount * telosBytesScale}} Bytes
                         </p>
                     </h5>
 
@@ -59,17 +59,18 @@
                 <div class="col-12 mt-3">
                     <table class="table table-nowrap mb-0">
                         <tbody class="col-12">
+                        
                         <tr>
                             <th class="col-6"  scope="row">Bought :</th>
-                            <td class="col-6">25521 Bytes ≈ 0.9764 TLOS</td>
+                            <td class="col-6">{{resources.ram_limit.available}} Bytes ≈ {{(resources.ram_limit.available/telosBytesScale).toFixed(4)}} TLOS</td>
                         </tr>
                         <tr>
                             <th class="col-6"  scope="row">In Use :</th>
-                            <td class="col-6">3124 Bytes ≈ 0.1195 TLOS</td>
+                            <td class="col-6">{{resources.ram_limit.used}} Bytes ≈ {{(resources.ram_limit.used/telosBytesScale).toFixed(4)}} TLOS</td>
                         </tr>
                         <tr>
                             <th class="col-6"  scope="row">Available :</th>
-                            <td class="col-6">22397 Bytes ≈ 0.8569 TLOS</td>
+                            <td class="col-6">{{resources.ram_limit.available - resources.ram_limit.used}} Bytes ≈ {{((resources.ram_limit.available - resources.ram_limit.used)/telosBytesScale).toFixed(4)}}  TLOS</td>
                         </tr>
                         </tbody>
                     </table>
@@ -89,7 +90,7 @@
                             <b-button class="m-1" @click="calculateSellRAMAmount(75)" variant="outline-secondary">75%</b-button>
                             <b-button class="m-1" @click="calculateSellRAMAmount(100)" variant="outline-secondary">100%</b-button>
                         </div>
-                        <p class="text-body">Selling {{buySellRAM.RAMSellAmount}} Bytes for {{buySellRAM.TELOSCustAmount}} TLOS</p>
+                        <p class="text-body">Selling {{buySellRAM.RAMSellAmount}} Bytes for {{(buySellRAM.RAMSellAmount/telosBytesScale).toFixed(4)}} TLOS</p>
                     </div>
                     <div class="col-6 mt-5" align="center">
                         <b-button @click="SellRAMClick" class="m-2 w-100"  variant="primary">
@@ -110,9 +111,11 @@ import WalletService from '../../localService/walletService'
 })
 export default class AccountList extends Vue{
     // showSpinner:boolean=true;
-
-    @Prop({default:()=>{return false}}) showSpinner:boolean
+    @Prop({default:()=>{return []}}) value:any
+    @Prop({default:()=>{return false}}) showSpinner:boolean;
+    telosBytesScale:number=26294;
     quantity:any=[];
+    resources:any=[];
     options:any= [
         { item: 'TELOS', chain: 'TELOS' },
         { item: 'Bytes', chain: 'Bytes' },
@@ -126,9 +129,22 @@ export default class AccountList extends Vue{
         TELOSCustAmount:0,
         showCustomToken:false,
   }
-// mounted(){
-    // this.showSpinner = false;
-// }
+    mounted(){
+        this.showSpinner = false;
+        if(this.value == []){
+            this.$router.push('/')
+        }
+        else{
+            this.resources = this.value;
+            console.log('resources',this.resources)
+        }
+    }
+    @Watch('value')
+    valChanged(newVal:any){
+        this.resources = newVal;
+        console.log('resources',this.resources)
+    //   this.calculate();
+    }
 
 async BuyRAMCLick(){
     if(this.buySellRAM.RAMReceiver){
@@ -210,6 +226,9 @@ async BuyRAMCLick(){
             text: 'Amount of RAM to sell is necessary!'
         });
     }
+  }
+  calculateSellRAMAmount(data:number){
+      this.buySellRAM.RAMSellAmount = (((this.resources.ram_limit.available - this.resources.ram_limit.used) / 100) * data).toFixed(0) ;
   }
     
 }
