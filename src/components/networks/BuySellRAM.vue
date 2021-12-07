@@ -153,7 +153,7 @@ async BuyRamClick(){
                 data:{
                     from: this.$store.state.currentAccount.name,
                     to:this.buySellRAM.RAMReceiver,
-                    quantity:this.buySellRAM.RAMBuyAmount,
+                    quantity:this.quantity,
                 }
             }
         ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id)
