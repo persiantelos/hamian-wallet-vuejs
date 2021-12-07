@@ -18,20 +18,14 @@
                     <div class="col-6 px-2 mt-3" dir="ltr">
                         <h5 class="font-size-15 mb-4">Buy in TELOS or Bytes?</h5>
                         <div class="d-flex">
-                            <b-form-group class="d-flex" >
-                                <div class="d-flex">
-                                    <b-form-radio @click.native="buyWith('TELOS')"    name="some-radios" >
-                                    <p class="m-1">
-                                        TELOS
-                                    </p>
-                                    </b-form-radio>
-                                    <b-form-radio @click.native="buyWith('Bytes')"  class="mx-2"   name="some-radios" >
-                                        <p class="m-1">
-                                            Bytes
-                                        </p>
-                                    </b-form-radio>
-                                </div>
-                            </b-form-group>
+                            <b-form-radio-group
+                                v-model="buySellRAM.buyWith"
+                                :options="options"
+                                class="mb-3 d-flex px-2"
+                                value-field="item"
+                                text-field="chain"
+                                disabled-field=""
+                            ></b-form-radio-group>
                         </div>
 
                     </div>
@@ -120,6 +114,11 @@ export default class AccountList extends Vue{
     // @Prop({default:()=>{return []}}) buySellRAM:any
     @Prop({default:()=>{return false}}) showSpinner:boolean
     quantity:any=[];
+    // selected:string= 'TELOS'
+    options:any= [
+        { item: 'TELOS', chain: 'TELOS' },
+        { item: 'Bytes', chain: 'Bytes' },
+    ]
     buySellRAM:any={
         RAMReceiver:'',
         buyWith:'TELOS',
@@ -132,9 +131,7 @@ export default class AccountList extends Vue{
 // mounted(){
     // this.showSpinner = false;
 // }
-buyWith(data:any){
-    this.buySellRAM.buyWith = data;
-}
+
 async BuyRamClick(){
     if(this.buySellRAM.RAMReceiver){
         this.quantity = this.buySellRAM.RAMBuyAmount
