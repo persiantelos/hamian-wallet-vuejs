@@ -69,7 +69,7 @@ export default {
           var data=await StorageService.login(this.password);
           if(data.message != 'error')
           {
-            window.location.href='/';
+            this.$router.push({name:'default'})
           }
           else{
             this.$notify({

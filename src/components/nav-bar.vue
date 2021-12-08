@@ -103,7 +103,7 @@ export default {
     },
     logoutUser() {
       window.localStorage.clear();
-      window.location.href='/login';
+      this.$router.push({name:'login'})
       // eslint-disable-next-line no-unused-vars
       // axios.get("http://127.0.0.1:8000/api/logout").then((res) => {
       //   this.$router.push({

@@ -61,7 +61,7 @@ export default {
   mounted() {
     this.$store.state.layout.layoutType='vertical'
     this.$store.state.layout.leftSidebarType='dark';
-    this.init();
+    // this.init();
     this.getCurrentNet();
     // document.querySelector("html").setAttribute('dir', 'rtl')
   },
@@ -77,14 +77,14 @@ export default {
   },
   methods: {
     clearNotification: notificationMethods.clear,
-    init:async ()=>
-    {
-      this.showUpdate=!!(await CommonService.checkVersion());
-      if(this.showUpdate)
-      {
-        window.location.reload(true);
-      }
-    },
+    // init:async ()=>
+    // {
+    //   this.showUpdate=!!(await CommonService.checkVersion());
+    //   if(this.showUpdate)
+    //   {
+    //     window.location.reload(true);
+    //   }
+    // },
     async getAccounts(){
       let allSelectedAccount = await  StorageService.getSelectedAccount();
       console.log('allSelectedAccount',allSelectedAccount)
