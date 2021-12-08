@@ -105,6 +105,7 @@
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
 import Spinner from '@/components/spinner/Spinner.vue'
 import WalletService from '../../localService/walletService'
+import AccountService from '@/services/accountService'
 
 @Component({
     components:{Spinner}
@@ -114,6 +115,9 @@ export default class AccountList extends Vue{
     @Prop({default:()=>{return []}}) value:any
     @Prop({default:()=>{return false}}) showSpinner:boolean;
     telosBytesScale:number=26294;
+    connectorBalance:any=[]
+    smartTokensOutstandingSupply:any=[]
+    connectorWeight:any=[]
     quantity:any=[];
     resources:any=[];
     options:any= [
@@ -130,6 +134,8 @@ export default class AccountList extends Vue{
         showCustomToken:false,
   }
     mounted(){
+        // this.init()
+
         this.showSpinner = false;
         if(this.value == []){
             this.$router.push('/')
@@ -139,12 +145,30 @@ export default class AccountList extends Vue{
             console.log('resources',this.resources)
         }
     }
+    async init(){
+        let rows = await AccountService.getTableRows(this.$store.state.currentAccount.name);
+        console.log('rows',rows)
+        // this.connectorBalance = rows.quote.balance
+        // this.smartTokensOutstandingSupply =  rows.base.balance
+        // this.connectorWeight =  rows.quote.weight
+        // this.calculate();
+
+    }
     @Watch('value')
     valChanged(newVal:any){
         this.resources = newVal;
         console.log('resources',this.resources)
-    //   this.calculate();
     }
+    calculate(){
+    //  Bancor Algorithm 
+    // FIXME:Bancor Algorithm  is not work
+    // this.telosBytesScale= this.connectorBalance/(this.smartTokensOutstandingSupply*this.connectorWeight)
+    // console.log('this.telosBytesScale',this.telosBytesScale)
+    this.telosBytesScale=26294;
+    
+    }
+
+    
 
 async BuyRAMCLick(){
     if(this.buySellRAM.RAMReceiver){
