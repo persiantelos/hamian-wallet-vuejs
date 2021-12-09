@@ -68,12 +68,12 @@
                 </div>
                 <div class="col-12 mt-5 d-flex">
                         <div class="col-6 mt-3">
-                        <h5 class="font-size-15 mb-4">Account name of who currently holds stake:</h5>
-                        <multiselect class="my-3" v-model="unStakeCPUorNET.selectedAccountForUnStake" :options="unStakeCPUorNET.accountHoldStake" ></multiselect>
+                        <h5 class="font-size-15 mb-1">Account name of who currently holds stake:</h5>
+                        <multiselect class="" v-model="unStakeCPUorNET.selectedAccountForUnStake" :options="unStakeCPUorNET.accountHoldStake" ></multiselect>
                     </div>
                     <div class="col-6 px-2 mt-3">
-                        <h5 class="font-size-15 mb-4">Amount of CPU to Unstake (in TLOS)</h5>
-                        <b-form-input class="my-3"
+                        <h5 class="font-size-15 mb-1">Amount of CPU to Unstake (in TLOS)</h5>
+                        <b-form-input class="" style="margin-top:22px"
                             id="input-2"
                             v-model="unStakeCPUorNET.amountCPUUnstake"
                             type="text"
