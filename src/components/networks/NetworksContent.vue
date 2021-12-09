@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12  account-list-body" :style="value == '' ? 'min-height:75vh' : ''" >
+    <div class="col-12  account-list-body" :style="value == '' ? 'min-height:75vh' : 'min-height:75vh'" >
         <p style="display:none">{{counter}}</p>
         <div class="col-12">
             <div v-if="value == 'accountList'">
