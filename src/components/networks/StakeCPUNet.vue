@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 text-center py-2">
+    <div class="col-12 text-center bg-white  py-2">
         <div class="p-3">
         <div v-if="showSpinner">
           <Spinner  v-model="showSpinner" />

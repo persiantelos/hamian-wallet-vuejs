@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12">
+    <div class="col-12 bg-white " style="min-height:75vh">
         <div v-if="showSpinner">
             <Spinner v-model="showSpinner" />
         </div>

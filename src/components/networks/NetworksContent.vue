@@ -7,15 +7,15 @@
             </div>
             <div v-if="value == 'resources'">
                 <Resources v-model="data.resources" />
-                <ResourceInformation v-model="data.resources" />
+                <ResourceInformation class="my-3" v-model="data.resources" />
             </div>
             <div v-if="value == 'buySellRAM'  ">
                 <Resources v-model="data.resources" />
-                <BuySellRAM v-model="data.resources" :showSpinner="showSpinner" />
+                <BuySellRAM class="my-3" v-model="data.resources" :showSpinner="showSpinner" />
             </div>
             <div v-if="value == 'stakeCpuNet'">
                 <Resources v-model="data.resources" />
-                <StakeCpuNet v-model="data.resources" :showSpinner="showSpinner" />
+                <StakeCpuNet class="my-3" v-model="data.resources" :showSpinner="showSpinner" />
             </div>
             <div v-if="value == 'tokens'">
                 <Tokens @changeSelectedMenu="changeSelectedMenu"   />
@@ -157,8 +157,8 @@ export default class NetworksContent extends Vue{
 </script>
 <style lang="scss" scoped>
 .account-list-body{
-    background: #ffffff;
-    box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
+    // background: #ffffff;
+    // box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
     // min-height: 75vh;
     min-height:100%;
 

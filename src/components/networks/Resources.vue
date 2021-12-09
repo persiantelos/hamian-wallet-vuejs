@@ -1,12 +1,12 @@
 <template>
-    <div class="col-12 text-center py-2">
+    <div class="col-12 text-center  py-2">
       <div v-if="showSpinner">
           <Spinner v-model="showSpinner" />
       </div>
       <div v-if="!showSpinner" class="col-12 d-flex">
         <div  class="col py-1 box" >
             <div class="text-center">
-                <h5 class="font-size-15 mb-4">RAM</h5>
+                <h5 class="font-size-15 mt-1 mb-4">RAM</h5>
                 <apexchart 
                 class="apex-charts"
                 type="radialBar"
@@ -15,12 +15,12 @@
                 :series="RAMSeries"
                 :options="RAMChartOptions"
                 ></apexchart>
-                <p class="text-muted ">RAM used : {{sizeConvertor(resources.ram_limit.used)}} / Total: {{sizeConvertor(resources.ram_limit.available)}}</p>
+                <p class="text-muted p-1 ">RAM used : {{sizeConvertor(resources.ram_limit.used)}} / {{sizeConvertor(resources.ram_limit.available)}}</p>
             </div>
         </div>
-        <div  class="col py-1 box" >
+        <div  class="col py-1 box mx-2" >
             <div class="text-center">
-                <h5 class="font-size-15 mb-4">CPU</h5>
+                <h5 class="font-size-15 mt-1 mb-4">CPU</h5>
                 <apexchart 
                 class="apex-charts"
                 type="radialBar"
@@ -29,13 +29,13 @@
                 :series="CPUSeries"
                 :options="CPUChartOptions"
                 ></apexchart>
-                <p class="text-muted ">CPU used : {{(resources.cpu_limit.used/1000).toFixed(2)}} µs /  Total: {{(resources.cpu_limit.max/1000).toFixed(2)}} ms</p>
+                <p class="text-muted p-1 ">CPU used : {{(resources.cpu_limit.used/1000).toFixed(2)}} µs /  {{(resources.cpu_limit.max/1000).toFixed(2)}} ms</p>
             </div>
         </div>
         <div  class="col py-1 box" >
           
             <div class="text-center">
-                <h5 class="font-size-15 mb-4">NET</h5>
+                <h5 class="font-size-15 mt-1 mb-4">NET</h5>
                 <apexchart 
                 class="apex-charts"
                 type="radialBar"
@@ -44,7 +44,7 @@
                 :series="NETSeries"
                 :options="NETChartOptions"
                 ></apexchart>
-                <p class="text-muted ">NET used : {{sizeConvertor(resources.net_limit.used)}} / Total: {{sizeConvertor(resources.net_limit.available)}}</p>
+                <p class="text-muted p-1 ">NET used : {{sizeConvertor(resources.net_limit.used)}} / {{sizeConvertor(resources.net_limit.available)}}</p>
             </div>
       
         </div>
@@ -228,7 +228,7 @@ export default class AccountList extends Vue{
 <style lang="scss" scoped>
 .box{
   background: #ffffff;
-  margin:5px;
+  // margin:5px;
   margin-top:0px;
   box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 10%);
 
