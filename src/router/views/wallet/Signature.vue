@@ -13,7 +13,7 @@
               <div class="col-7">
                 <div class="text-primary p-4">
                   <h5 class="text-primary">Transaction Sign !</h5>
-                  <p>By approving you will wign the following contract</p>
+                  <p>By approving you will allowing the following contract</p>
                 </div>
               </div>
               <div class="col-5 align-self-end">
