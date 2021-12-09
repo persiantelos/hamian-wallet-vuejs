@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12  account-list-body" >
+    <div class="col-12  account-list-body" :style="value == '' ? 'min-height:75vh' : ''" >
         <p style="display:none">{{counter}}</p>
         <div class="col-12">
             <div v-if="value == 'accountList'">
@@ -159,9 +159,11 @@ export default class NetworksContent extends Vue{
 .account-list-body{
     background: #ffffff;
     box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
-    min-height: 100vh;
+    // min-height: 75vh;
+    min-height:100%;
+
     .account-list-boxs-parent{
-    min-height: 85vh;
+    // min-height: 85vh;
     .account-list-internal-box{
         border-radius: 10px;
         .internal-titles{

@@ -147,10 +147,11 @@ export default class NetworkMenu extends Vue{
 <style lang="scss" scoped>
 .menue-body{
     box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
-    min-height:100vh;
+    // min-height:75vh;
+    min-height:100%;
     background: #ffffff;
   .menue-boxs-parent{
-    min-height:100vh;
+    // min-height:100vh;
   }
   .menue-internal-box{
     border-radius: 10px;
