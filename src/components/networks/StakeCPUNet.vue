@@ -124,9 +124,6 @@ export default class StakeCPUNet extends Vue{
     accountList:any=[];
     unStakeCPUorNET:any={
         accountHoldStake:[  
-            'mohammad',
-            'vahid',
-            'reza',
         ],
         selectedAccountForUnStake:'',
         amountCPUUnstake:0,
