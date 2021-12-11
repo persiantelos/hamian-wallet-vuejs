@@ -133,6 +133,7 @@ export default class NetworkMenu extends Vue{
     }
     async getNets(){
     this.nets = await CommonService.getNetworks();
+    this.selectedItem('accountList')
     }
     selectedItem(data:string){
         this.selected = data;
