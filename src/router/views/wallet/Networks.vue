@@ -1,6 +1,6 @@
 <template>
     <Layout>
-        <div class="col-12 background-network row" >
+        <div class="col-12 background-network row" :class="$store.state.layout.themeDarkMode ? 'bg-dark-mode':'light-mode'">
             <div class="col-3 py-3" style="padding:0px 5px 0px 5px">
                 <NetworksMenu v-if="$route.params.chainId"
                 @selectedItem="selectedItemChanged" :changeSelectedMenu="selectedItem" />
@@ -39,5 +39,12 @@ export default class Networks extends Vue{
 <style scoped>
 .background-network{
     background:#f8f8fb;
+}
+/* #2a3042 */
+.bg-dark-mode{
+    background: #232837 !important;
+}
+.light-mode{
+  background: #ffffff !important;
 }
 </style>

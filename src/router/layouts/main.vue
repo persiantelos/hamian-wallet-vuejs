@@ -25,7 +25,7 @@ export default {
 
 <template>
 <div>  
-    <Vertical v-if="layoutType === 'vertical'" :layout="layoutType">
+    <Vertical :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" v-if="layoutType === 'vertical'" :layout="layoutType">
         <slot />
     </Vertical>
 
@@ -34,3 +34,8 @@ export default {
     </Horizontal>
 </div>
 </template>
+<style lang="scss" scoped>
+.dark-mode{
+    background: #232837 !important;
+}
+</style>

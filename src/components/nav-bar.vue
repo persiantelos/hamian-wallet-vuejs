@@ -6,6 +6,7 @@ import i18n from "../i18n";
 import Config from '../common/config';
 import EventBus from '../localService/eventBus'
 
+
 /**
  * Nav-bar Component
  */
@@ -45,6 +46,7 @@ export default {
       value: null,
       username:'',
       imageUrl:'@/assets/images/users/1.jpg',
+      appMode:false,
     };
   },
   components: { simplebar },
@@ -58,8 +60,26 @@ export default {
       console.log('------------------------------KKKK',data)
       if(data.isAvatar)self.imageUrl='http://dp.xtorage.cloud/'+this.username+'/avatar'
     },'account',this);
+    // if(this.$store.state.layout.themeDarkMode){
+      document.getElementById('appMode').click()
+    // }
+    console.log('attribute',document.body.getAttribute("data-topbar"))
+
   },
   methods: {
+    themeDarkMode(data){
+      this.appMode=data.value
+      if(data.value == true){
+        document.body.setAttribute("data-topbar", 'dark');
+        this.$store.state.layout.themeDarkMode=true;
+
+      }
+      else{
+        document.body.setAttribute("data-topbar", 'light');
+        this.$store.state.layout.themeDarkMode=false;
+
+      }
+    },
     
     
     toggleMenu() {
@@ -157,13 +177,15 @@ export default {
           <div class="position-relative my-4">
             <router-link style="margin-left:-10px;margin-top:-20px;display:flex" class="d-flex" v-if="$store.state.currentAccount.length != 0" tag="span"  to="#" align="left">
               <i  class="bx bx-user font-size-16 align-middle"></i>
-              <span style="margin-left:5px;margin-top:-10px;font-size:14px">
+              <span style="margin-left:5px;margin-top:-10px;font-size:14px"
+              :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">
               {{this.$store.state.currentAccount.name}}
               </span>
             </router-link>
             <router-link style="margin-left:-5px;margin-top:-10px;display:flex" class="d-flex" v-if="$store.state.currentNet.length != 0" tag="span"  to="#" align="left">
               <!-- <i class="mdi mdi-network-outline font-size-16 align-middle"></i> -->
-              <span style="margin-top:2px;color:gray;font-size:13px;width:100px">
+              <span 
+              style="margin-top:2px;color:gray;font-size:13px;width:100px">
               {{this.$store.state.currentNet.name}}
               </span>
             </router-link>
@@ -702,11 +724,14 @@ export default {
             <i class="bx bx-wrench font-size-16 align-middle me-1"></i>
             {{ $t("navbar.dropdown.henry.list.settings") }}
           </b-dropdown-item>
-          <b-dropdown-item href="javascript: void(0);">
-            <i class="bx bx-lock-open font-size-16 align-middle me-1"></i>
-            {{ $t("navbar.dropdown.henry.list.lockscreen") }}
-          </b-dropdown-item> -->
-          <!-- <b-dropdown-divider></b-dropdown-divider> -->
+          -->
+          <div class="my-3 d-flex justify-content-center">
+          <toggle-button id="appMode" v-model="appMode" :labels="true" @change="themeDarkMode"
+               />
+               <p class="mx-2 ">Dark Mode</p>
+          </div>
+            <!-- {{ $t("navbar.dropdown.henry.list.lockscreen") }} -->
+          <b-dropdown-divider></b-dropdown-divider>
           <a @click="logoutUser" class="dropdown-item text-danger">
             <i
               class="bx bx-power-off font-size-16 align-middle me-1 text-danger"

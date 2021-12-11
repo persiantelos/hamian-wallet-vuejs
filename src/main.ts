@@ -10,6 +10,8 @@ import router from './router/index'
 import Scrollspy from 'vue2-scrollspy';
 import VueSweetalert2 from 'vue-sweetalert2';
 import Notifications from 'vue-notification'
+import ToggleButton from 'vue-js-toggle-button'
+
 
 import "../src/design/app.scss";
 
@@ -56,6 +58,8 @@ Vue.use(Vuelidate)
 Vue.use(VueMask)
 Vue.use(require('vue-chartist'))
 Vue.use(VueSweetalert2);
+Vue.use(ToggleButton)
+
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyAbvyBxmMbFhrzP9Z8moyYr6dCr-pzjhBE',

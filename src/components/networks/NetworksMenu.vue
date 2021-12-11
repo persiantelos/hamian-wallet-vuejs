@@ -1,25 +1,31 @@
 <template>
-    <div class="col-12  menue-body" >
-        <div class="card-body">
+    <div class="col-12  menue-body" :style="$store.state.layout.themeDarkMode ? 'background:#2a3042 !important':'background:#ffffff !important'">
+        <div class="card-body" > 
               <div class="d-flex flex-column h-100">
                 <div class="mb-4">
-                  <div class="mb-3 d-grid">
-                    <b-dropdown
+                  <div class="mb-3 d-grid"
+                      :class="$store.state.layout.themeDarkMode ? 'border-gray':''"
+                  >
+                      <!-- :style="$store.state.layout.themeDarkMode ? 'background:#32394e !important':''" -->
+                    <b-dropdown 
+                      :variant="$store.state.layout.themeDarkMode ? '#32394e':'light'"
                       toggle-class="btn-block w-100"
-                      variant="light"
                     >
                       <template #button-content>
-                        <i class="mdi mdi-plus me-1"></i> Account
+                        <i class="mdi mdi-plus me-1" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''"></i> 
+                        <span :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">
+                        Account
+                        </span>
                       </template>
 
-                      <b-dropdown-item href="#" @click="addNewAccount()">
+                      <b-dropdown-item  href="#" @click="addNewAccount()">
                         <i class="mdi mdi-account-plus me-1"></i>
                         Add Account
                     </b-dropdown-item>
                     </b-dropdown>
                   </div>
                   <ul class="list-unstyled categories-list">
-                    <li :class="selected == 'accountList' ? 'menu-selected':''" @click="selectedItem('accountList')">
+                    <li :class="selected == 'accountList' ? $store.state.layout.themeDarkMode?'menu-selected-dark':'menu-selected-light':''" @click="selectedItem('accountList')">
                       <a
                         href="javascript: void(0);"
                         class="text-body d-flex align-items-center"
@@ -28,10 +34,10 @@
                             class="mdi mdi-view-list-outline f"
                             :class="selected != 'accountList' ? 'text-body ont-size-16  me-2':'text-primary font-size-16 me-3'"
                         ></i>
-                        <span class="me-auto">Account List</span>
+                        <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Account List</span>
                       </a>
                     </li>
-                    <li :class="selected == 'resources' ? 'menu-selected':''" @click="selectedItem('resources')">
+                    <li :class="selected == 'resources' ? $store.state.layout.themeDarkMode?'menu-selected-dark':'menu-selected-light':''" @click="selectedItem('resources')">
                       <a
                         href="javascript: void(0);"
                         class="text-body d-flex align-items-center"
@@ -40,10 +46,10 @@
                           class="mdi mdi-source-merge "
                             :class="selected != 'resources' ? 'text-body font-size-16 me-2':'text-primary font-size-16 me-3'"
                         ></i>
-                        <span class="me-auto">Resources</span>
+                        <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Resources</span>
                       </a>
                     </li>
-                    <li :class="selected == 'buySellRAM' ? 'menu-selected':''" @click="selectedItem('buySellRAM')">
+                    <li :class="selected == 'buySellRAM' ? $store.state.layout.themeDarkMode?'menu-selected-dark':'menu-selected-light':''" @click="selectedItem('buySellRAM')">
                       <a
                         href="javascript: void(0);"
                         class="text-body d-flex align-items-center"
@@ -51,10 +57,10 @@
                         <i class="mdi mdi-chip "
                             :class="selected != 'buySellRAM' ? 'text-body font-size-16 me-2':'text-primary font-size-16 me-3'"
                         ></i>
-                        <span class="me-auto">Buy/Sell RAM</span>
+                        <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Buy/Sell RAM</span>
                       </a>
                     </li>
-                    <li :class="selected == 'stakeCpuNet' ? 'menu-selected':''" @click="selectedItem('stakeCpuNet')">
+                    <li :class="selected == 'stakeCpuNet' ? $store.state.layout.themeDarkMode?'menu-selected-dark':'menu-selected-light':''" @click="selectedItem('stakeCpuNet')">
                       <a
                         href="javascript: void(0);"
                         class="text-body d-flex align-items-center"
@@ -64,10 +70,10 @@
                             class="mdi mdi-cpu-64-bit  "
                             :class="selected != 'stakeCpuNet' ? 'text-body font-size-16 me-2':'text-primary font-size-16 me-3'"
                         ></i>
-                        <span class="me-auto">Stake CPU/NET</span>
+                        <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Stake CPU/NET</span>
                       </a>
                     </li>
-                    <li :class="selected == 'tokens' ? 'menu-selected':''" @click="selectedItem('tokens')">
+                    <li :class="selected == 'tokens' ? $store.state.layout.themeDarkMode?'menu-selected-dark':'menu-selected-light':''" @click="selectedItem('tokens')">
                       <a
                         href="javascript: void(0);"
                         class="text-body d-flex align-items-center"
@@ -76,10 +82,10 @@
                           class="bx bx-buoy  "
                           :class="selected != 'tokens' ? 'text-body font-size-16 me-2':'text-primary font-size-16 me-3'"
                         ></i>
-                        <span class="me-auto">Tokens</span>
+                        <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Tokens</span>
                       </a>
                     </li>
-                    <li :class="selected == 'transferToken' ? 'menu-selected':''" @click="selectedItem('transferToken')"  >
+                    <li :class="selected == 'transferToken' ? $store.state.layout.themeDarkMode?'menu-selected-dark':'menu-selected-light':''" @click="selectedItem('transferToken')"  >
                       <a
                         href="javascript: void(0);"
                         class="text-body d-flex align-items-center"
@@ -88,9 +94,7 @@
                             class="mdi mdi-swap-horizontal "
                             :class="selected != 'transferToken' ? 'text-body font-size-16 me-2':'text-primary font-size-16 me-3'"
                         ></i>
-                        <span class="me-auto">Transfer Token</span
-                        ><span class="badge badge-success badge-pill ms-2"
-                          >01</span
+                        <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Transfer Token</span
                         >
                       </a>
                     </li>
@@ -160,10 +164,24 @@ export default class NetworkMenu extends Vue{
       font-size: 16px;
     }
   }
-  .menu-selected{
+  .menu-selected-dark{
+    background:#32394e;
+  }
+  .menu-selected-light{
     // border: 1px solid gray;
     background: #f5f3f3;
     box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
+  }
+  .dark-mode{
+    background: #262b3c !important;
+  }
+  .light-mode{
+      background: #ffffff !important;
+  }
+  .border-gray{
+    border: 1px solid #32394e;
+    border-radius: 5px;
+    background:#2a3042 !important 
   }
 }
 </style>

@@ -1,27 +1,30 @@
 <template>
-    <div class="col-12  account-list-body" :style="value == '' ? 'min-height:75vh' : 'min-height:75vh'" >
-        <p style="display:none">{{counter}}</p>
-        <div class="col-12">
-            <div v-if="value == 'accountList'">
-                <AccountList  />
-            </div>
-            <div v-if="value == 'resources'">
-                <Resources v-model="data.resources" />
-                <ResourceInformation class="my-3" v-model="data.resources" />
-            </div>
-            <div v-if="value == 'buySellRAM'  ">
-                <Resources v-model="data.resources" />
-                <BuySellRAM class="my-3" v-model="data.resources" :showSpinner="showSpinner" />
-            </div>
-            <div v-if="value == 'stakeCpuNet'">
-                <Resources v-model="data.resources" />
-                <StakeCpuNet class="my-3" v-model="data.resources" :showSpinner="showSpinner" />
-            </div>
-            <div v-if="value == 'tokens'">
-                <Tokens @changeSelectedMenu="changeSelectedMenu"   />
-            </div>
-            <div v-if="value == 'transferToken'">
-                <TransferToken @changeSelectedMenu="changeSelectedMenu"   v-model="data.transferToken"  />
+    <div :style="$store.state.layout.themeDarkMode ? 'background:#2a3042 !important':'background:#ffffff !important'">
+        <div class="col-12  account-list-body" :style="value == '' ? 'min-height:75vh' : 'min-height:75vh'" >
+            <div></div>
+            <p style="display:none">{{counter}}</p>
+            <div class="col-12">
+                <div v-if="value == 'accountList'">
+                    <AccountList  />
+                </div>
+                <div v-if="value == 'resources'">
+                    <Resources v-model="data.resources" />
+                    <ResourceInformation class="my-3" v-model="data.resources" />
+                </div>
+                <div v-if="value == 'buySellRAM'  ">
+                    <Resources v-model="data.resources" />
+                    <BuySellRAM class="my-3" v-model="data.resources" :showSpinner="showSpinner" />
+                </div>
+                <div v-if="value == 'stakeCpuNet'">
+                    <Resources v-model="data.resources" />
+                    <StakeCpuNet class="my-3" v-model="data.resources" :showSpinner="showSpinner" />
+                </div>
+                <div v-if="value == 'tokens'">
+                    <Tokens @changeSelectedMenu="changeSelectedMenu"   />
+                </div>
+                <div v-if="value == 'transferToken'">
+                    <TransferToken @changeSelectedMenu="changeSelectedMenu"   v-model="data.transferToken"  />
+                </div>
             </div>
         </div>
     </div>
