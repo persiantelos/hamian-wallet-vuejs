@@ -732,7 +732,7 @@ export default {
           </div>
             <!-- {{ $t("navbar.dropdown.henry.list.lockscreen") }} -->
           <b-dropdown-divider></b-dropdown-divider>
-          <a @click="logoutUser" class="dropdown-item text-danger">
+          <a @click="logoutUser" style="cursor:pointer" class="dropdown-item text-danger">
             <i
               class="bx bx-power-off font-size-16 align-middle me-1 text-danger"
             ></i>
