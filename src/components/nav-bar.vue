@@ -158,7 +158,7 @@ export default {
     <template #modal-footer>
       <div dir="rtl" class="w-100 float-right">
         <b-button class="pr-3 m-1 pl-3" 
-            variant="outline-warning"
+            variant="outline-secondary "
             size="sm"
             @click="$bvModal.hide('modal-standard')"
             >
