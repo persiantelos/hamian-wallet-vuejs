@@ -40,6 +40,12 @@ export const globalReload = {
     globalReload: (state) => state.globalReload,
   })
 }
+export const currentPageTitle = {
+  ...mapState('currentPageTitle', {
+    currentPageTitle: (state) => state.currentPageTitle,
+    currentPageItems: (state) => state.currentPageItems,
+  })
+}
 
 
 

@@ -20,6 +20,17 @@ const store = new Vuex.Store({
     allSelectedAccount:[],
     globalReload:0,
     themeDarkMode :true,
+    currentPageTitle :'',
+    currentPageItems :[
+      {
+        text:'',
+        active:true,
+      },
+      {
+        text:'',
+        active:true,
+      },
+    ],
   },
   // actions:{
   //   showLoading({commit}){

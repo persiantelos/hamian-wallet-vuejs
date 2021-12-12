@@ -73,25 +73,36 @@ export default class NetworksContent extends Vue{
     @Watch('value')
     valueChanged(newValue:any){
         if(newValue == 'accountList'){
+            this.$store.state.currentPageTitle = 'Account List'
+
             this.counter++
         }
         else if(newValue == 'resources'){
+            this.$store.state.currentPageTitle = 'Resources'
+
             this.getResources();
             this.counter++
         }
         else if(newValue == 'buySellRAM'){
+            this.$store.state.currentPageTitle = 'Buy/Sell RAM'
+
             this.getResources();
             this.counter++
         }
         else if(newValue == 'stakeCpuNet'){
+            this.$store.state.currentPageTitle = 'Stake CPU/NET'
+
             this.getResources();
             this.counter++
         }
         else if(newValue == 'tokens'){
+            this.$store.state.currentPageTitle = 'Tokens'
+
         // this.tokens =
         // this.getTokens();
         }
         else if(newValue == 'transferToken'){
+            this.$store.state.currentPageTitle = 'Transfer Token'
         this.counter++
         // this.transferToken =
         // this.getTransferToken();

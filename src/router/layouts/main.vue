@@ -4,14 +4,17 @@ import {
 } from "@/state/helpers";
 import Vertical from "./vertical";
 import Horizontal from "./horizontal";
+import PageHeader from '@/components/page-header.vue';
 
 export default {
     components: {
         Vertical,
         Horizontal,
+        PageHeader
     },
     data() {
-        return {};
+        return {
+        };
     },
     computed: {
         ...layoutComputed,
@@ -19,13 +22,14 @@ export default {
     methods: {},
     mounted() {
         // document.querySelector("html").setAttribute('dir', 'rtl');
-    }
+    },
 };
 </script>
 
 <template>
 <div>  
     <Vertical :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" v-if="layoutType === 'vertical'" :layout="layoutType">
+        <PageHeader  :title="$store.state.currentPageTitle" :items="$store.state.currentPageItems" />
         <slot />
     </Vertical>
 

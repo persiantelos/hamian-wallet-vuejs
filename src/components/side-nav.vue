@@ -125,6 +125,9 @@ export default {
         },
          async showNetworkList(selectedNet)
         {
+            // this.$store.state.currentPageTitle = '';
+            this.$store.state.currentPageItems[0].text = 'Blockchain';
+            this.$store.state.currentPageItems[1].text = selectedNet.name;
             var selectedNode = await StorageService.saveSelectedNode(selectedNet);
             this.$store.state.currentNet = selectedNet;
             if(selectedNode.data){
