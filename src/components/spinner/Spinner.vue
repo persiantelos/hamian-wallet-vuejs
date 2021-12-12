@@ -58,6 +58,8 @@ export default {
   bottom: 0;
   z-index: 999;
   width: 100%;
+  max-height: 75vh;
+  min-height: 75vh;
 }
 .dark-mode{
   background-color: #232837;
