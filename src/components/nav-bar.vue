@@ -778,7 +778,7 @@ export default {
           <div class="my-3 d-flex justify-content-center">
           <toggle-button id="appMode" v-model="appMode" :labels="true" @change="themeDarkMode"
                />
-               <p class="mx-2 ">Dark Mode</p>
+               <p class="mx-2 " :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">Dark Mode</p>
           </div>
             <!-- {{ $t("navbar.dropdown.henry.list.lockscreen") }} -->
           <b-dropdown-divider></b-dropdown-divider>
