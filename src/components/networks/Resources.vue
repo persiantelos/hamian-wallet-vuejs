@@ -7,8 +7,8 @@
         <div  class="col py-1 box"
         :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" >
             <div class="text-center">
-                <h5 class="font-size-15 mt-1 mb-4"
-                :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">RAM</h5>
+                <h5 class="font-size-15 mt-2 mb-4"
+                :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">RAM</h5>
                 <apexchart 
                 class="apex-charts"
                 type="radialBar"
@@ -24,8 +24,8 @@
         <div  class="col py-1 box mx-2"
         :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" >
             <div class="text-center">
-                <h5 class="font-size-15 mt-1 mb-4"
-                :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">CPU</h5>
+                <h5 class="font-size-15 mt-2 mb-4"
+                :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">CPU</h5>
                 <apexchart 
                 class="apex-charts"
                 type="radialBar"
@@ -42,8 +42,8 @@
           :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" >
           
             <div class="text-center">
-                <h5 class="font-size-15 mt-1 mb-4"
-                :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">NET</h5>
+                <h5 class="font-size-15 mt-2 mb-4"
+                :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">NET</h5>
                 <apexchart 
                 class="apex-charts"
                 type="radialBar"
@@ -245,10 +245,5 @@ export default class AccountList extends Vue{
 .text-muted{
   margin-top: 15px;
 }
-.dark-mode{
-background:#2a3042 !important
-}
-.light-mode{
-background:#ffffff !important
-}
+
 </style>

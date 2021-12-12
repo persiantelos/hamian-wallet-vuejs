@@ -1,11 +1,11 @@
 <template>
-    <div class="col-12 bg-white" style="min-height:75vh ">
+    <div class="col-12 bg-white" style="min-height:75vh " :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
         <div v-if="showSpinner">
           <Spinner  v-model="showSpinner" />
       </div>
         <div v-if="!showSpinner" class="d-flex">
             <div class="p-3" style="width:220px" v-for="(token ,index) in tokens" :key="index" >
-                <div class="card m-2 shadow-none border">
+                <div class="card m-2 shadow-none " :class="$store.state.layout.themeDarkMode ? 'border-gray':'border'">
                     <div class="card-body p-3">
                         <div class="">
                         <div class="float-end ms-2">
@@ -38,7 +38,7 @@
                             <h5 class="font-size-14 text-truncate mb-1">
                                 <a
                                 href="javascript: void(0);"
-                                class="text-body"
+                                class="text-body" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf !important' :''"
                                 >{{token.contract}}</a
                                 >
                             </h5>

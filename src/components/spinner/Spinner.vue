@@ -29,7 +29,8 @@ export default {
 
 <template>
   <div :class="{ 'is-loading': loading }">
-    <div class="preloader-component">
+    <div class="preloader-component"
+    :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
       <div class="status">
         <div class="spinner-chase">
           <div class="chase-dot"></div>
@@ -55,9 +56,14 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #fff;
   z-index: 999;
   width: 100%;
+}
+.dark-mode{
+  background-color: #232837;
+}
+.light-mode{
+  background-color: #fff;
 }
 .status {
   width: 40px;

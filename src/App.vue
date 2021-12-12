@@ -120,14 +120,45 @@ export default {
 };
 </script>
 
-<template>
-  <div id="app">
+<template >
+  <div id="app" >
     <notifications style="margin-top:20px" group="foo" />
     <div v-if="$store.state.loading == true">
       <loader  />
     </div>
-    <div v-if="$store.state.loading == false">
+    <div  v-if="$store.state.loading == false">
     <RouterView />
     </div>
   </div>
 </template>
+<style lang="scss">
+.dark-mode{
+background:#2a3042 !important;
+color:#a6b0cf !important;
+}
+.light-mode{
+background:#ffffff !important
+}
+.input-forms{
+    background:#2e3446 !important;
+    border: 1px solid #32394e !important;
+}
+.multiselect__tags{
+    border: 1px solid #32394e !important;
+    padding: 0px;
+    margin: 0px;
+    background:#2e3446 !important;
+    background-color:#2e3446 !important;
+}
+.multiselect--above.multiselect--active {
+    background: #32394e !important;
+    background-color: #32394e !important;
+    color: #a6b0cf !important;
+}
+.border-gray{
+    border: 1px solid #32394e;
+    border-radius: 5px;
+    background:#2a3042 !important 
+}
+
+</style>

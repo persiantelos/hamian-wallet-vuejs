@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 bg-white " style="min-height:75vh" :style="$store.state.layout.themeDarkMode ? 'background:#2a3042 !important':'background:#ffffff !important'">
+    <div class="col-12 bg-white " style="min-height:75vh" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
         <div v-if="showSpinner">
             <Spinner v-model="showSpinner" />
         </div>
@@ -226,9 +226,5 @@ export default class AccountList extends Vue{
         margin: 15px;
     }
 }
-.border-gray{
-    border: 1px solid #32394e;
-    border-radius: 5px;
-    background:#2a3042 !important 
-}
+
 </style>
