@@ -139,10 +139,12 @@ export default {
     },
     async generateKey(){
     var keys = await WalletService.generateKey();
-    if(keys){
+    if(keys.message == 'success'){
       this.keys = keys;
-      console.log('keys ====== >',keys);
       this.showDialogKeys = true;
+      setTimeout(() => {
+        document.getElementById('modalkeys').click()
+      }, 100);
     }
     },
   },
@@ -151,24 +153,27 @@ export default {
 
 <template>
 <div>
-  <b-modal id="modal-standard" title="Generated keys" title-class="font-18">
-    <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode' : ''">Copy the keys below</h5>
-    <p class="mt-3">Private Key: {{keys.data.private_key}}</p>
-    <p class="mt-3">Public Key: {{keys.data.public_key}}</p>
-    <template #modal-footer>
-      <div dir="rtl" class="w-100 float-right">
-        <b-button class="pr-3 m-1 pl-3" 
-            variant="outline-secondary "
-            size="sm"
-            @click="$bvModal.hide('modal-standard')"
-            >
-            Close
-        </b-button>
-      </div>
-    </template>
-  </b-modal>
+  
   <header id="page-topbar">
-    
+    <div  v-if="showDialogKeys">
+      <button class="d-none" id="modalkeys" v-b-modal.modal-standard></button>
+      <b-modal id="modal-standard" title="Generated keys" title-class="font-18">
+        <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode' : ''">Copy the keys below</h5>
+        <p class="mt-3">Private Key: {{keys.data.private_key}}</p>
+        <p class="mt-3">Public Key: {{keys.data.public_key}}</p>
+        <template #modal-footer>
+          <div dir="rtl" class="w-100 float-right">
+            <b-button class="pr-3 m-1 pl-3" 
+                variant="outline-secondary"
+                size="sm"
+                @click="$bvModal.hide('modal-standard')"
+                >
+                Close
+            </b-button>
+          </div>
+        </template>
+      </b-modal>
+    </div>
     <div class="navbar-header">
       
       <div class="d-flex">
@@ -762,7 +767,7 @@ export default {
             {{ $t("navbar.dropdown.henry.list.mywallet") }}
           </b-dropdown-item>
           -->
-          <b-dropdown-item @click="generateKey()" v-b-modal.modal-standard class="d-block" href="#">
+          <b-dropdown-item @click="generateKey()"  class="d-block" href="#">
             <i class="bx bxs-key font-size-16 align-middle me-1"
             :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"></i>
             <span :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
