@@ -141,7 +141,6 @@ export default {
 <style lang="scss">
 body{
   background:#222736 !important;
-
 }
 .dark-mode{
 background:#2a3042 !important;
