@@ -170,7 +170,7 @@ export default class NetworkMenu extends Vue{
   .menu-selected-light{
     // border: 1px solid gray;
     background: #f5f3f3;
-    box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
+    // box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
   }
   .dark-mode{
     background: #262b3c !important;

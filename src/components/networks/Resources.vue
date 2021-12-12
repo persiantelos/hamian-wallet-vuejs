@@ -230,7 +230,7 @@ export default class AccountList extends Vue{
   background: #ffffff;
   // margin:5px;
   margin-top:0px;
-  box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 10%);
+  // box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 10%);
 
 }
 .text-muted{

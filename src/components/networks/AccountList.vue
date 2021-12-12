@@ -218,9 +218,9 @@ export default class AccountList extends Vue{
 .box{
     // background: #f8f8fb;
     width: 100%;
-    box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
+    // box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
     .acc-box{
-        box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
+        // box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
         // background: #ffffff;
         padding: 10px ;
         margin: 15px;
