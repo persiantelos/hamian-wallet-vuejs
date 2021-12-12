@@ -1,10 +1,10 @@
 <template>
-    <div :style="$store.state.layout.themeDarkMode ? 'background:#2a3042 !important':'background:#ffffff !important'">
+    <div >
         <div class="col-12  account-list-body" :style="value == '' ? 'min-height:75vh' : 'min-height:75vh'" >
             <div></div>
             <p style="display:none">{{counter}}</p>
             <div class="col-12">
-                <div v-if="value == 'accountList'">
+                <div v-if="value == 'accountList'" :style="$store.state.layout.themeDarkMode ? 'background:#2a3042 !important':'background:#ffffff !important'">
                     <AccountList  />
                 </div>
                 <div v-if="value == 'resources'">
