@@ -151,6 +151,7 @@ export default class LocalLogin extends Vue{
     console.log('----------------->>>>>>>>',this.data)
       // console.log('>>>>>>>>',this.data.chainId,await WalletService.getAccounts())
       this.account=(await WalletService.getAccounts()).filter(p=>p.chainId==this.data.chainId);
+      console.log('this.account',this.account)
       this.getAccounts()
       this.counter++;
 
