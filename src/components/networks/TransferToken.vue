@@ -39,7 +39,10 @@
                         </template>
                         <div align="left" v-for="(token , index) in tokens" :key="index">
                             <b-dropdown-item @click="onItemClick(token)" href="javascript: void(0);">
+                                <span
+                                :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
                                 {{token.val[token._id]}} {{token.currency}}
+                                </span>
                             </b-dropdown-item>
                         </div>
                     </b-dropdown>

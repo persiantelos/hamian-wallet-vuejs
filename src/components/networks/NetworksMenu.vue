@@ -19,8 +19,24 @@
                       </template>
 
                       <b-dropdown-item  href="#" @click="addNewAccount()">
-                        <i class="mdi mdi-account-plus me-1"></i>
+                        <i class="mdi mdi-account-plus me-1"
+                        :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"
+                        ></i>
+                        <span
+                        :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"
+                        >
                         Add Account
+                        </span>
+                      </b-dropdown-item>
+                      <b-dropdown-item  href="#" @click="addNewAccount()">
+                        <i class="bx bx-buoy me-1"
+                        :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"
+                        ></i>
+                        <span
+                        :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"
+                        >
+                        Add token manually
+                        </span>
                     </b-dropdown-item>
                     </b-dropdown>
                   </div>

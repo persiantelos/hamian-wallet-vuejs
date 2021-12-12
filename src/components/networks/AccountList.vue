@@ -23,9 +23,16 @@
                             right
                             >
                             <template #button-content>
-                                <i class="mdi mdi-dots-horizontal"></i>
+                                <i class="mdi mdi-dots-horizontal"
+                                :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"></i>
                             </template>
-                            <b-dropdown-item @click="setSelectedacc(account)" href="#">select</b-dropdown-item>
+                            <b-dropdown-item @click="setSelectedacc(account)" href="#">
+                            <span
+                            :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+
+                                select
+                            </span>
+                            </b-dropdown-item>
                             </b-dropdown>
                         </div>
                         <div class="avatar-xs me-3 mb-3">

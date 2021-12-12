@@ -200,4 +200,11 @@ body[data-sidebar=dark].vertical-collpsed {
 .modal-content{
     color:#a6b0cf;
 }
+.dropdown-menu.show {
+    background: #232837;
+}
+.text-dark-mode{
+color:#a6b0cf !important;
+
+}
 </style>

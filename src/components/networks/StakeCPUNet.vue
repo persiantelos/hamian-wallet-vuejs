@@ -28,7 +28,10 @@
                         </template>
                         <div align="left"  v-for="(account , index) in accountList" :key="index">
                             <b-dropdown-item align="left" @click="onItemClick(account)" href="javascript: void(0);">
+                                <span
+                                :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
                                 {{account.name}}
+                                </span>
                             </b-dropdown-item>
                         </div>
                     </b-dropdown>
