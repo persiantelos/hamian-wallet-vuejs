@@ -5,6 +5,9 @@ import simplebar from "simplebar-vue";
 import i18n from "../i18n";
 import Config from '../common/config';
 import EventBus from '../localService/eventBus'
+import WalletService from '../localService/walletService'
+import Dialog from '../components/common/Dialog.vue';
+
 
 
 /**
@@ -47,9 +50,12 @@ export default {
       username:'',
       imageUrl:'@/assets/images/users/1.jpg',
       appMode:false,
+      showDialogKeys:false,
+      keys:[],
     };
   },
-  components: { simplebar },
+  components: { simplebar,
+  Dialog },
     
   mounted() {
     this.username=Config.username;
@@ -131,13 +137,40 @@ export default {
       //   });
       // });
     },
+    async generateKey(){
+    var keys = await WalletService.generateKey();
+    if(keys){
+      this.keys = keys;
+      console.log('keys ====== >',keys);
+      this.showDialogKeys = true;
+    }
+    },
   },
 };
 </script>
 
 <template>
+<div>
+  <b-modal id="modal-standard" title="Generated keys" title-class="font-18">
+    <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode' : ''">Copy the keys below</h5>
+    <p class="mt-3">Private Key: {{keys.data.private_key}}</p>
+    <p class="mt-3">Public Key: {{keys.data.public_key}}</p>
+    <template #modal-footer>
+      <div dir="rtl" class="w-100 float-right">
+        <b-button class="pr-3 m-1 pl-3" 
+            variant="outline-warning"
+            size="sm"
+            @click="$bvModal.hide('modal-standard')"
+            >
+            Close
+        </b-button>
+      </div>
+    </template>
+  </b-modal>
   <header id="page-topbar">
+    
     <div class="navbar-header">
+      
       <div class="d-flex">
         <!-- LOGO -->
         <div class="navbar-brand-box">
@@ -544,7 +577,16 @@ export default {
           >
             <i class="bx bx-fullscreen"></i>
           </button>
-        </div>
+          <!-- <button
+            type="button"
+            class="btn header-item noti-icon"
+            @click="generateKey()"
+          >
+            
+          generate keys
+          </button>
+        -->
+        </div> 
 
         <!-- <b-dropdown
           right
@@ -719,12 +761,15 @@ export default {
             <i class="bx bx-wallet font-size-16 align-middle me-1"></i>
             {{ $t("navbar.dropdown.henry.list.mywallet") }}
           </b-dropdown-item>
-          <b-dropdown-item class="d-block" href="javascript: void(0);">
-            <span class="badge bg-success float-end">11</span>
-            <i class="bx bx-wrench font-size-16 align-middle me-1"></i>
-            {{ $t("navbar.dropdown.henry.list.settings") }}
-          </b-dropdown-item>
           -->
+          <b-dropdown-item @click="generateKey()" v-b-modal.modal-standard class="d-block" href="#">
+            <i class="bx bxs-key font-size-16 align-middle me-1"
+            :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"></i>
+            <span :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+              Generate keys
+            </span>
+          >
+          </b-dropdown-item>
           <div class="my-3 d-flex justify-content-center">
           <toggle-button id="appMode" v-model="appMode" :labels="true" @change="themeDarkMode"
                />
@@ -752,4 +797,5 @@ export default {
       </div>
     </div>
   </header>
+</div>
 </template>

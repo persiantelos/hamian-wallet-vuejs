@@ -28,7 +28,7 @@
                         Add Account
                         </span>
                       </b-dropdown-item>
-                      <b-dropdown-item  href="#" @click="addNewAccount()">
+                      <b-dropdown-item  href="#" >
                         <i class="bx bx-buoy me-1"
                         :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"
                         ></i>
