@@ -1,5 +1,6 @@
 <template>
     <div class="col-12 bg-white " style="min-height:75vh" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
+        <p class="d-none">{{counter}}</p>
         <div v-if="showSpinner">
             <Spinner v-model="showSpinner" />
         </div>
@@ -80,6 +81,7 @@ import WalletService from '@/localService/walletService';
 export default class AccountList extends Vue{
     // @Prop({default:() =>{return []}}) value:any;
     accountList:any=[];
+    counter:number=0;
     selected:any=[]
     currentNet:any=[]
     currentAccount:any=[]
@@ -139,6 +141,7 @@ export default class AccountList extends Vue{
                 this.$store.state.currentAccount = account
                 this.$store.state.currentAccountChainName = this.currentNet._id;
                 this.selected = account.name;
+                this.counter++
                 this.$notify({
                     group: 'foo',
                     type: 'success',

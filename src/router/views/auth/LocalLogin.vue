@@ -6,7 +6,7 @@
     </div>
     <div v-if="!spinner" class="row justify-content-center">
       <div class="col-md-8 col-lg-6 col-xl-5">
-        <div class="card overflow-hidden">
+        <div class="card overflow-hidden" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
           <div class="bg-soft bg-primary">
             <div class="row">
               <div class="col-7">
@@ -27,7 +27,8 @@
             <div>
               <router-link tag="a" to="#" >
                 <div class="avatar-md profile-user-wid mb-4">
-                  <span class="avatar-title rounded-circle bg-light">
+                  <span class="avatar-title rounded-circle "
+                  :class="$store.state.layout.themeDarkMode ? 'background-dark-mode-melo':'bg-light'">
                     <img src="@/assets/picture/hamian.svg" alt height="34" />
                   </span>
                 </div>
@@ -155,7 +156,7 @@ export default class LocalLogin extends Vue{
 
   }
   mounted() {
-      this.spinner = true;
+    this.spinner = true;
     SocketService.addEvent(RequestTypes.getOrRequestIdentity,this.reciveLoginRequest); 
   }
   async getAccounts(){
