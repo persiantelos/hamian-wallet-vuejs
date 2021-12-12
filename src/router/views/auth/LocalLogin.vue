@@ -35,10 +35,10 @@
             </div>
             
             <b-form class="p-2" @submit.prevent="accept">
-            <div  class="col-12 row" align="center">
+            <div  class="col-12 row" style="margin:0px;padding:0px" align="center">
             <h5 class="text-primary">via {{data.origin}}</h5>
                 <b-dropdown style="min-height:30px"  variant="outline-secondary " id="dropdown-1" 
-                :text="selectedAccount.name" class="m-md-2 w-100">
+                :text="selectedAccount.name" class="w-100">
                   <template v-slot:button-content>
                         <span v-show="!isSelected">Select your account</span>
                         <span v-show="isSelected">{{selectedAccount.name}}</span>
@@ -50,14 +50,23 @@
                     </div>
                 </b-dropdown>
             </div>
-              <div class="mt-5 d-grid">
-                <b-button v-if="!btnSpinner" @click="accept" variant="primary" class="btn-block"
+              <div class="mt-5 p-2 d-grid">
+                <b-button 
+                  v-if="!btnSpinner" 
+                  @click="accept" 
+                  variant="primary" 
+                  class="btn-block m-1"
                   >Accept</b-button
                 >
-                <div v-if="btnSpinner" class="p-1 my-1 w-100" style="border:1px solid #556ee6;border-radius:5px" align="center"  >
+                <div 
+                  v-if="btnSpinner" 
+                  class="p-1 my-1 w-100" 
+                  style="border:1px solid #556ee6;border-radius:5px" 
+                  align="center"  >
                 <b-spinner   class="m-0" variant="primary" role="status" ></b-spinner>
                 </div>
-                <b-button @click="Deny" variant="outline-secondary" class="btn-block my-2"
+                <b-button @click="Deny" variant="outline-secondary" 
+                class="btn-block m-1 my-2"
                   >Deny</b-button
                 >
               </div>
@@ -146,7 +155,8 @@ export default class LocalLogin extends Vue{
 
   }
   mounted() {
-      this.spinner = true;
+      // this.spinner = true;
+        this.spinner = false;
 
     SocketService.addEvent(RequestTypes.getOrRequestIdentity,this.reciveLoginRequest); 
   }
