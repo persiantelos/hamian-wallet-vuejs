@@ -41,4 +41,8 @@ export default class StorageService
     {
         return BaseLocalService.run(this.storageName,{action:'getSelectedChain'})
     }
+    static getPayload()
+    {
+        return BaseLocalService.run(this.storageName,{action:'getPayload',data:BaseLocalService.globalId})
+    }
 }
