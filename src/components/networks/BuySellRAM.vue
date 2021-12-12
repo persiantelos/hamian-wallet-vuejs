@@ -27,7 +27,7 @@
                             <b-form-radio-group
                                 v-model="buySellRAM.buyWith"
                                 :options="options"
-                                class="mb-3 d-flex px-2"
+                                class="mb-3 mt-2 d-flex px-2"
                                 value-field="item"
                                 text-field="chain"
                                 disabled-field=""
