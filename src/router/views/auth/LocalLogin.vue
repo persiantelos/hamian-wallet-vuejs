@@ -138,7 +138,7 @@ export default class LocalLogin extends Vue{
   async reciveLoginRequest(data:any)
   {
     this.data=new LoginRequest(data);
-    // console.log('----------------->>>>>>>>',this.data)
+    console.log('----------------->>>>>>>>',this.data)
       // console.log('>>>>>>>>',this.data.chainId,await WalletService.getAccounts())
       this.account=(await WalletService.getAccounts()).filter(p=>p.chainId==this.data.chainId);
       this.getAccounts()
@@ -146,6 +146,8 @@ export default class LocalLogin extends Vue{
 
   }
   mounted() {
+    StorageService.getPayload()
+    console.log('sssssssssssssssssssssssssssssssssssssss')
       this.spinner = true;
 
     SocketService.addEvent(RequestTypes.getOrRequestIdentity,this.reciveLoginRequest); 

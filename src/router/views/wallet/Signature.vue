@@ -215,6 +215,7 @@ import RequestTypes from '@/models/local/RequestTypes'
 import StorageAccountModel from "@/models/storage/accountModel";
 import WalletService from "@/localService/walletService";
 import TransactionRequest from '@/models/local/transactionRequest'; 
+import StorageService from "../../../localService/storageService";
 
 @Component({
     components:{
@@ -241,6 +242,7 @@ export default class LocalLogin extends Vue{
         
     }
     mounted() {  
+      StorageService.getPayload()
       console.log('Loaded');
       
         SocketService.addEvent(RequestTypes.requestSignature,this.requestSignature); 
