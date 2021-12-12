@@ -7,7 +7,8 @@
     </div>
     <div v-if="!spinner" class="row justify-content-center">
       <div class="col-md-8 col-lg-6 col-xl-5">
-        <div class="card overflow-hidden">
+        <div class="card overflow-hidden"
+        :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
           <div class="bg-soft bg-primary">
             <div class="row">
               <div class="col-7">
@@ -28,7 +29,8 @@
             <div>
               <router-link tag="a" to="#" >
                 <div class="avatar-md profile-user-wid mb-4">
-                  <span class="avatar-title rounded-circle bg-light">
+                  <span class="avatar-title rounded-circle "
+                  :class="$store.state.layout.themeDarkMode ? 'background-dark-mode-melo':'bg-light'">
                     <img src="@/assets/picture/hamian.svg" alt height="34" />
                   </span>
                 </div>
@@ -60,7 +62,7 @@
                         
                     </b-tab>
                     <b-tab title="Details" align="left"  :active="whiteList">
-                        <h5 class="text-mute font-size-14"> By approving you will wign the following contract</h5>
+                        <h5 class="text-mute font-size-14" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'"> By approving you will wign the following contract</h5>
                         <div class="col-12">
                             <h3 v-if="data.type == 'requestSignature'">
                                 <span class="text-danger font-size-14">{{transactions[0].account}}</span><br />
@@ -83,10 +85,10 @@
                                         </div>
                                         <div class="col-11">
                                             <strong style="position:relative" class=" col-11">
-                                                <span class="text-body" v-if="transactions[0].name == 'transfer'"> From : </span>
-                                                <span class="text-body" v-if="transactions[0].name == 'buyram'"> Payer : </span>
-                                                <span class="text-body" v-if="transactions[0].name == 'sellram'"> Account : </span>
-                                                <span class="text-body" v-if="transactions[0].name == 'delegatebw'"> From : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'transfer'"> From : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'buyram'"> Payer : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'sellram'"> Account : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'delegatebw'"> From : </span>
                                                 <p v-if="transactions[0].name == 'transfer'">{{transactions[0].data.from}} <br /></p>
                                                 <p v-if="transactions[0].name == 'buyram'">{{transactions[0].data.payer}} <br /></p>
                                                 <p v-if="transactions[0].name == 'sellram'">{{transactions[0].data.account}} <br /></p>
@@ -107,9 +109,9 @@
                                         </div>
                                         <div class="col-11">
                                             <strong style="position:relative" class="col-11">
-                                                <span class="text-body" v-if="transactions[0].name == 'transfer'"> Quantity : </span>
-                                                <span class="text-body" v-if="transactions[0].name == 'buyram'"> Quant : </span>
-                                                <span class="text-body" v-if="transactions[0].name == 'sellram'"> Bytes : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'transfer'"> Quantity : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'buyram'"> Quant : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'sellram'"> Bytes : </span>
                                                 <p v-if="transactions[0].name == 'transfer'" >{{transactions[0].data.quantity}} <br /></p>
                                                 <p v-if="transactions[0].name == 'buyram'" >{{transactions[0].data.quant}} <br /></p>
                                                 <p v-if="transactions[0].name == 'sellram'" >{{transactions[0].data.bytes}} <br /></p>
@@ -136,9 +138,9 @@
                                         </div>
                                         <div class="col-11">
                                             <strong style="position:relative" class="col-11">
-                                                    <span class="text-body" v-if="transactions[0].name == 'transfer'"> To : </span>
-                                                    <span class="text-body" v-if="transactions[0].name == 'buyram'"> Receiver : </span>
-                                                    <span class="text-body" v-if="transactions[0].name == 'delegatebw'"> Receiver : </span>
+                                                    <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'transfer'"> To : </span>
+                                                    <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'buyram'"> Receiver : </span>
+                                                    <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'delegatebw'"> Receiver : </span>
                                                     <p v-if="transactions[0].name == 'transfer'" >{{transactions[0].data.to}} <br /></p>
                                                     <p v-if="transactions[0].name == 'buyram'" >{{transactions[0].data.receiver}} <br /></p>
                                                     <p v-if="transactions[0].name == 'delegatebw'" >{{transactions[0].data.receiver}} <br /></p>
@@ -166,7 +168,8 @@
                             :value="true"
                             :unchecked-value="false"
                         >
-                        <p v-show="!whiteList" class="text-body px-2 my-2 ">
+                        <p v-show="!whiteList" class="text-body px-2 my-2 "
+                        :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                             Do you want to <b class="text-mute">whitelist</b> this?
                         </p>
                         <p v-show="whiteList" class="text-body px-2 my-2 ">
@@ -186,7 +189,7 @@
                      <div v-if="btnSpinner" class="p-1 my-1 w-100" style="border:1px solid #556ee6;border-radius:5px" align="center"  >
                       <b-spinner   class="m-0" variant="primary" role="status" ></b-spinner>
                     </div>
-                    <b-button @click="reject" variant="outline-secondary" class="btn-block my-2">Reject</b-button>
+                    <b-button @click="reject" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'"  variant="outline-secondary" class="btn-block my-2">Reject</b-button>
                 </div>
               </div>
             </b-form>
@@ -285,4 +288,13 @@ export default class LocalLogin extends Vue{
 .pointer{
   cursor: pointer;
 }
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #495057;
+    background-color: #2a3042;
+    border-color: #495057 #495057 #495057;
+}
+.nav-tabs {
+    border-bottom: 1px solid #495057 !important;
+}
+
 </style>

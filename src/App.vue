@@ -154,6 +154,7 @@ background:#ffffff !important
 .input-forms{
     background:#2e3446 !important;
     border: 1px solid #32394e !important;
+    color: #7984a5 !important;
 }
 .multiselect__tags{
     border: 1px solid #32394e !important;
