@@ -63,7 +63,7 @@ export default {
     // if(this.$store.state.layout.themeDarkMode){
       document.getElementById('appMode').click()
     // }
-    console.log('attribute',document.body.getAttribute("data-topbar"))
+    // console.log('attribute',document.body.getAttribute("data-topbar"))
 
   },
   methods: {

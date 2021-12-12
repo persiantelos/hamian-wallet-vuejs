@@ -61,6 +61,9 @@ export default {
   mounted() {
     this.$store.state.layout.layoutType='vertical'
     this.$store.state.layout.leftSidebarType='dark';
+    // document.getElementById('appMode').click()
+    this.themeDarkMode();
+
     // this.init();
     this.getCurrentNet();
     // document.querySelector("html").setAttribute('dir', 'rtl')
@@ -76,6 +79,10 @@ export default {
     },
   },
   methods: {
+    themeDarkMode(){
+        document.body.setAttribute("data-topbar", 'dark');
+        this.$store.state.layout.themeDarkMode=true;
+    },
     clearNotification: notificationMethods.clear,
     // init:async ()=>
     // {
@@ -132,9 +139,14 @@ export default {
   </div>
 </template>
 <style lang="scss">
+body{
+  background:#222736 !important;
+
+}
 .dark-mode{
 background:#2a3042 !important;
 color:#a6b0cf !important;
+
 }
 .light-mode{
 background:#ffffff !important
@@ -160,5 +172,31 @@ background:#ffffff !important
     border-radius: 5px;
     background:#2a3042 !important 
 }
+.bg-dark-mode{
+    background: #232837 !important;
+    // border: 1px solid #32394e !important;
 
+}
+.background-dark-mode-melo{
+  // background:#232837;
+  background:#32394e !important;
+}
+body[data-sidebar=dark].vertical-collpsed {
+    min-height: 100%;
+}
+.modal-header {
+    border-bottom: 1px solid #232837;
+}
+.modal-footer {
+    border-top: 1px solid #232837;
+}
+.modal-title {
+    color:#a6b0cf;
+}
+.modal-header .close, .alert .close {
+    color:#a6b0cf;
+}
+.modal-content{
+    color:#a6b0cf;
+}
 </style>

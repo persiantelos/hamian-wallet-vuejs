@@ -156,7 +156,6 @@ export default class LocalLogin extends Vue{
   }
   mounted() {
       this.spinner = true;
-
     SocketService.addEvent(RequestTypes.getOrRequestIdentity,this.reciveLoginRequest); 
   }
   async getAccounts(){

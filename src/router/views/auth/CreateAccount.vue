@@ -106,7 +106,8 @@ export default {
   <Layout>
     <div class="row justify-content-center">
       <div class="col-md-8 col-lg-6 col-xl-5">
-        <div class="card overflow-hidden">
+        <div class="card overflow-hidden"
+        :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
           <div class="bg-soft bg-primary">
             <div class="row">
               <div class="col-7">
@@ -128,7 +129,8 @@ export default {
             <div>
               <router-link tag="a" to="/">
                 <div class="avatar-md profile-user-wid mb-4">
-                  <span class="avatar-title rounded-circle bg-light">
+                  <span class="avatar-title rounded-circle "
+                  :class="$store.state.layout.themeDarkMode ? 'background-dark-mode-melo':'bg-light'">
                     <img
                       src="@/assets/picture/hamian.svg"
                       alt
@@ -180,6 +182,7 @@ export default {
                   :class="{
                     'is-invalid': submitted && $v.user.password.$error,
                   }"
+                  :style="$store.state.layout.themeDarkMode ? 'background:#2e3446 !important;border: 1px solid #32394e !important;':''"
                 ></b-form-input>
                 <div
                   v-if="submitted && !$v.user.password.required"
@@ -202,6 +205,7 @@ export default {
                   :class="{
                     'is-invalid': submitted && $v.user.password.$error,
                   }"
+                  :style="$store.state.layout.themeDarkMode ? 'background:#2e3446 !important;border: 1px solid #32394e !important;':''"
                 ></b-form-input>
                 <div
                   v-if="submitted && !$v.user.password.required"
