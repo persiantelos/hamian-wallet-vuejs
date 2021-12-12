@@ -203,8 +203,12 @@ body[data-sidebar=dark].vertical-collpsed {
 .dropdown-menu.show {
     background: #232837;
 }
+.dropdown-item:hover, .dropdown-item:focus {
+    color: #1e2125;
+    text-decoration: none;
+    background-color: #2e3446 !important;
+}
 .text-dark-mode{
 color:#a6b0cf !important;
-
 }
 </style>
