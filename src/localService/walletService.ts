@@ -38,9 +38,6 @@ export default class WalletService
     }
     static async reunTransaction(actions:any[],currentNet:any,publicKey:any,_id:any)
     {
-        console.log('actions',actions[0])
-        console.log('network',currentNet)
-        console.log('Config',Config.payloadOrigin)
         var network={
             name: currentNet.name,
             protocol: currentNet.protocol,
