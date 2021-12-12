@@ -1,27 +1,33 @@
 <template>
-    <div class="col-12 text-center bg-white py-2">
+    <div class="col-12 text-center"
+    :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
         <div v-if="showSpinner">
           <Spinner  v-model="showSpinner" />
       </div>
-        <div v-if="!showSpinner" align="left" class="p-3">
-                <h3 class="text-primary font-size-15 mt-4">BUY RAM</h3>
+        <div v-if="!showSpinner" align="left" class="p-3"
+        :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
+                <h3 class="text-primary font-size-15 mt-2">BUY RAM</h3>
                 <div class="col-12 d-flex">
                     <div class="col-6 mt-3" dir="ltr">
-                        <h5 class="font-size-15 mb-4">RAM Reciver :</h5>
+                        <h5 class="font-size-15 mb-4"
+                        :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">RAM Reciver :</h5>
                         <b-form-input
                             id="input-2"
                             v-model="buySellRAM.RAMReceiver"
                             type="text"
+                            placeholder="RAM Reciver"
+                            :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                         ></b-form-input>
 
                     </div>
                     <div class="col-6 px-2 mt-3" dir="ltr">
-                        <h5 class="font-size-15 mb-4">Buy in TELOS or Bytes?</h5>
+                        <h5 class="font-size-15 mb-4"
+                        :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Buy in TELOS or Bytes?</h5>
                         <div class="d-flex">
                             <b-form-radio-group
                                 v-model="buySellRAM.buyWith"
                                 :options="options"
-                                class="mb-3 d-flex px-2"
+                                class="mb-3 mt-2 d-flex px-2"
                                 value-field="item"
                                 text-field="chain"
                                 disabled-field=""
@@ -32,13 +38,16 @@
                 </div>
                 <div class="col-12 d-flex">
                 <div class="col-6 mt-3" dir="ltr">
-                    <h5 class="font-size-15 mb-4">Amount of RAM to Buy in TELOS</h5>
+                    <h5 class="font-size-15 mb-4" 
+                    :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Amount of RAM to Buy in TELOS</h5>
                     <b-form-input
                         id="input-2"
                         v-model="buySellRAM.RAMBuyAmount"
                         type="text"
+                        :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
+
                     ></b-form-input>
-                    <h5 class="font-size-12 mb-4">
+                    <h5 class="font-size-12 mt-3 mb-4">
                         <p class="m-1">
                             ≈ {{buySellRAM.RAMBuyAmount * telosBytesScale}} Bytes
                         </p>
@@ -60,15 +69,15 @@
                     <table class="table table-nowrap mb-0">
                         <tbody class="col-12">
                         
-                        <tr>
+                        <tr :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                             <th class="col-6"  scope="row">Bought :</th>
                             <td class="col-6">{{resources.ram_limit.available}} Bytes ≈ {{(resources.ram_limit.available/telosBytesScale).toFixed(4)}} TLOS</td>
                         </tr>
-                        <tr>
+                        <tr :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                             <th class="col-6"  scope="row">In Use :</th>
                             <td class="col-6">{{resources.ram_limit.used}} Bytes ≈ {{(resources.ram_limit.used/telosBytesScale).toFixed(4)}} TLOS</td>
                         </tr>
-                        <tr>
+                        <tr :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                             <th class="col-6"  scope="row">Available :</th>
                             <td class="col-6">{{resources.ram_limit.available - resources.ram_limit.used}} Bytes ≈ {{((resources.ram_limit.available - resources.ram_limit.used)/telosBytesScale).toFixed(4)}}  TLOS</td>
                         </tr>
@@ -78,17 +87,20 @@
                 <h3 class="text-primary font-size-15 mt-4">SELL RAM</h3>
                 <div class="col-12 d-flex">
                     <div class="col-6 mt-3">
-                        <h5 class="font-size-15 mb-4">Amount of RAM to Sell (Bytes)</h5>
+                        <h5 class="font-size-15 mb-4"
+                        :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Amount of RAM to Sell (Bytes)</h5>
                         <b-form-input
                             id="input-2"
                             v-model="buySellRAM.RAMSellAmount"
                             type="number"
+                            :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
+
                         ></b-form-input>
                         <div>
-                            <b-button class="m-1" @click="calculateSellRAMAmount(25)" variant="outline-secondary">25%</b-button>
-                            <b-button class="m-1" @click="calculateSellRAMAmount(50)" variant="outline-secondary">50%</b-button>
-                            <b-button class="m-1" @click="calculateSellRAMAmount(75)" variant="outline-secondary">75%</b-button>
-                            <b-button class="m-1" @click="calculateSellRAMAmount(100)" variant="outline-secondary">100%</b-button>
+                            <b-button class="m-1 mt-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" @click="calculateSellRAMAmount(25)" variant="outline-secondary">25%</b-button>
+                            <b-button class="m-1 mt-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" @click="calculateSellRAMAmount(50)" variant="outline-secondary">50%</b-button>
+                            <b-button class="m-1 mt-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" @click="calculateSellRAMAmount(75)" variant="outline-secondary">75%</b-button>
+                            <b-button class="m-1 mt-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" @click="calculateSellRAMAmount(100)" variant="outline-secondary">100%</b-button>
                         </div>
                         <p class="text-body">Selling {{buySellRAM.RAMSellAmount}} Bytes for {{(buySellRAM.RAMSellAmount/telosBytesScale).toFixed(4)}} TLOS</p>
                     </div>

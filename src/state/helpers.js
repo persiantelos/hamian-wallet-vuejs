@@ -14,6 +14,7 @@ export const layoutComputed = {
     layoutWidth: (state) => state.layoutWidth,
     topbar: (state) => state.topbar,
     loader: (state) => state.loader,
+    themeDarkMode: (state) => state.themeDarkMode,
   })
 }
 export const loading = {

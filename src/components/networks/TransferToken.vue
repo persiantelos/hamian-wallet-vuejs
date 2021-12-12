@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 bg-white" style="min-height:75vh !important">
+    <div class="col-12 bg-white" style="min-height:75vh !important" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
         <div v-if="showSpinner">
             <Spinner v-model="showSpinner" />
         </div>
@@ -10,21 +10,25 @@
                 </h1>
             </div>
             <div class="col-12 px-1 mt-3" dir="ltr">
-                <h5 class="font-size-15 mb-4">Send To : <i class="mdi mdi-information text-primary"></i></h5>
+                <h5 class="font-size-15 mb-4"
+                :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Send To : <i class="mdi mdi-information text-primary"></i></h5>
                 <b-form-input
                     id="input-2"
                     v-model="transferToken.to"
                     type="text"
+                    :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                 ></b-form-input>
 
             </div>
             <div class="col-12 px-1 mt-3" dir="ltr">
-                <h5 class="font-size-15 mb-4">Amount:</h5>
+                <h5 class="font-size-15 mb-4"
+                :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Amount:</h5>
                 <div class="btn-group col-12 me-1 mt-2">
                     <b-form-input
                         id="input-2"
                         v-model="transferToken.quantity"
                         type="text"
+                        :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                     ></b-form-input>
                     <b-dropdown dropleft variant="primary" >
                         <template v-slot:button-content>
@@ -74,11 +78,12 @@
                 </div>
             </div>
             <div class="col-12 px-2 mt-3" dir="ltr">
-                <h5 class="font-size-15  mb-4">Memo (optional) :</h5>
+                <h5 class="font-size-15  mb-4" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Memo (optional) :</h5>
                 <b-form-input
                     id="input-2"
                     v-model="transferToken.memo"
                     type="text"
+                    :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                 ></b-form-input>
             </div>
             <div class="col-12 mt-3" align="center">

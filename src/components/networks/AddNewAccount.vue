@@ -1,20 +1,22 @@
 <template>
-    <div>
+    <div :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
     <notifications style="margin-top:20px" group="accountexist" />
 
-        <b-modal title="Add Account" centered v-model="value">
-            <p v-if="!findAccounts.length">Enter your private key to add your account!</p>
+        <b-modal :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" title="Add Account" centered v-model="value" >
+            <p v-if="!findAccounts.length" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" >Enter your private key to add your account!</p>
             <b-form class="p-2" @submit.prevent="checkNetwork">
               <b-form-group v-if="!findAccounts.length"
                 class="mb-3"
                 id="input-group-2"
                 label="Private key"
                 label-for="input-2"
+                
               >
                 <b-form-input
                   id="input-2"
                   v-model="privateKey"
                   type="text"
+                  class="input-forms"
                   placeholder="Enter your private key"
                   :class="{ 'is-invalid': submitted && !account.privateKey }"
                 ></b-form-input>
@@ -56,6 +58,7 @@
                     <b-button
                         variant="outline-secondary"
                         size="sm"
+                        :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'"
                         @click="closeModal()">
                         Close
                     </b-button>
@@ -159,3 +162,9 @@ export default class AddNewAccount extends Vue{
     }
 }
 </script>
+<style lang="scss">
+.modal-content {
+    background-color: #2a3042;
+    border: 1px solid #32394e;
+}
+</style>

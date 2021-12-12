@@ -1,5 +1,6 @@
 <template>
-    <div class="col-12 bg-white " style="min-height:75vh">
+    <div class="col-12 bg-white " style="min-height:75vh" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
+        <p class="d-none">{{counter}}</p>
         <div v-if="showSpinner">
             <Spinner v-model="showSpinner" />
         </div>
@@ -9,9 +10,9 @@
             </p>
         </div>
         <div v-if="!showSpinner" class="d-flex">
-            <div class="p-3" v-for="(account , index) in AccountList"  :key="index" >
-                <div class="card m-2 shadow-none border">
-                    <div class="card-body p-3">
+            <div class="p-3"  v-for="(account , index) in AccountList"  :key="index" >
+                <div class="card m-2 shadow-none" :class="$store.state.layout.themeDarkMode ? 'border-gray':'border'">
+                    <div class="card-body p-3" >
                         <div class="" @dblclick="setSelectedacc(account)">
                         <div class="float-end ms-2">
                             <b-dropdown
@@ -29,7 +30,7 @@
                         </div>
                         <div class="avatar-xs me-3 mb-3">
                             <div class="avatar-title bg-transparent rounded">
-                            <i class="bx bx-user font-size-24" :class="selected == account.name ? ' text-warning' : 'text-body'" ></i>
+                            <i class="bx bx-user font-size-24" :class="selected.name == account.name ? ' text-warning' : 'text-body'" ></i>
                             </div>
                         </div>
                         <div class="d-flex" >
@@ -37,7 +38,7 @@
                             <h5 class="font-size-14 text-truncate mb-1">
                                 <a
                                 href="javascript: void(0);"
-                                class="text-body"
+                                class="text-body" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf !important' :''"
                                 >{{account.name}}</a
                                 >
                             </h5>
@@ -80,6 +81,7 @@ import WalletService from '@/localService/walletService';
 export default class AccountList extends Vue{
     // @Prop({default:() =>{return []}}) value:any;
     accountList:any=[];
+    counter:number=0;
     selected:any=[]
     currentNet:any=[]
     currentAccount:any=[]
@@ -139,6 +141,7 @@ export default class AccountList extends Vue{
                 this.$store.state.currentAccount = account
                 this.$store.state.currentAccountChainName = this.currentNet._id;
                 this.selected = account.name;
+                this.counter++
                 this.$notify({
                     group: 'foo',
                     type: 'success',
@@ -216,14 +219,15 @@ export default class AccountList extends Vue{
 </script>
 <style lang="scss" scoped>
 .box{
-    background: #f8f8fb;
+    // background: #f8f8fb;
     width: 100%;
-    box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
+    // box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
     .acc-box{
-        box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
-        background: #ffffff;
+        // box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
+        // background: #ffffff;
         padding: 10px ;
         margin: 15px;
     }
 }
+
 </style>

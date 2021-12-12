@@ -6,7 +6,7 @@
     </div>
     <div v-if="!spinner" class="row justify-content-center">
       <div class="col-md-8 col-lg-6 col-xl-5">
-        <div class="card overflow-hidden">
+        <div class="card overflow-hidden" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
           <div class="bg-soft bg-primary">
             <div class="row">
               <div class="col-7">
@@ -27,7 +27,8 @@
             <div>
               <router-link tag="a" to="#" >
                 <div class="avatar-md profile-user-wid mb-4">
-                  <span class="avatar-title rounded-circle bg-light">
+                  <span class="avatar-title rounded-circle "
+                  :class="$store.state.layout.themeDarkMode ? 'background-dark-mode-melo':'bg-light'">
                     <img src="@/assets/picture/hamian.svg" alt height="34" />
                   </span>
                 </div>
@@ -35,10 +36,10 @@
             </div>
             
             <b-form class="p-2" @submit.prevent="accept">
-            <div  class="col-12 row" align="center">
+            <div  class="col-12 row" style="margin:0px;padding:0px" align="center">
             <h5 class="text-primary">via {{data.origin}}</h5>
                 <b-dropdown style="min-height:30px"  variant="outline-secondary " id="dropdown-1" 
-                :text="selectedAccount.name" class="m-md-2 w-100">
+                :text="selectedAccount.name" class="w-100">
                   <template v-slot:button-content>
                         <span v-show="!isSelected">Select your account</span>
                         <span v-show="isSelected">{{selectedAccount.name}}</span>
@@ -50,14 +51,23 @@
                     </div>
                 </b-dropdown>
             </div>
-              <div class="mt-5 d-grid">
-                <b-button v-if="!btnSpinner" @click="accept" variant="primary" class="btn-block"
+              <div class="mt-5 p-2 d-grid">
+                <b-button 
+                  v-if="!btnSpinner" 
+                  @click="accept" 
+                  variant="primary" 
+                  class="btn-block m-1"
                   >Accept</b-button
                 >
-                <div v-if="btnSpinner" class="p-1 my-1 w-100" style="border:1px solid #556ee6;border-radius:5px" align="center"  >
+                <div 
+                  v-if="btnSpinner" 
+                  class="p-1 my-1 w-100" 
+                  style="border:1px solid #556ee6;border-radius:5px" 
+                  align="center"  >
                 <b-spinner   class="m-0" variant="primary" role="status" ></b-spinner>
                 </div>
-                <b-button @click="Deny" variant="outline-secondary" class="btn-block my-2"
+                <b-button @click="Deny" variant="outline-secondary" 
+                class="btn-block m-1 my-2"
                   >Deny</b-button
                 >
               </div>

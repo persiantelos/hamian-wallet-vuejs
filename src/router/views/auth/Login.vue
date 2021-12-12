@@ -99,12 +99,12 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <Layout >
     <notifications style="margin-top:50px" group="login" />
 
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-6 col-xl-5">
-        <div class="card overflow-hidden">
+    <div class="row justify-content-center" >
+      <div class="col-md-8 col-lg-6 col-xl-5" >
+        <div class="card overflow-hidden" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
           <div class="bg-soft bg-primary">
             <div class="row">
               <div class="col-7">
@@ -116,9 +116,9 @@ export default {
               <div class="col-5 align-self-end">
                 <img
                   src="@/assets/images/profile-img.png"
-                  alt
                   class="img-fluid"
                 />
+                
               </div>
             </div>
           </div>
@@ -126,7 +126,8 @@ export default {
             <div>
               <router-link tag="a" to="/">
                 <div class="avatar-md profile-user-wid mb-4">
-                  <span class="avatar-title rounded-circle bg-light">
+                  <span class="avatar-title rounded-circle bg-light"
+                  :class="$store.state.layout.themeDarkMode ? 'background-dark-mode-melo':'bg-light'">
                     <img src="@/assets/picture/hamian.svg" alt height="34" />
                   </span>
                 </div>
@@ -158,7 +159,8 @@ export default {
                   v-model="password"
                   type="password"
                   placeholder="Enter password"
-                  :class="{ 'is-invalid': submitted && $v.password.$error }"
+                  :class="{ 'is-invalid': submitted && $v.password.$error } "
+                  :style="$store.state.layout.themeDarkMode ? 'background:#2e3446 !important;border: 1px solid #32394e !important;':''"
                 ></b-form-input>
                 <div
                   v-if="submitted && !$v.password.required"

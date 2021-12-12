@@ -1,38 +1,41 @@
 <template>
-    <div class="col-12">
-         <div class="card p-2">
+    <div class="col-12"
+          :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" >
+    
+         <div class="card p-2" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
           <div class="card-body">
-            <h4 class="card-title mb-4">
+            <h4 class="card-title text-primary mb-4" >
                  <i class="far fa-id-card"></i>
                 Resources</h4>
 
             <p
               class="text-muted mb-4"
+              :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'"
             >Hi I'm Cynthia Price,has been the industry's standard dummy text To an English person, it will seem like simplified English, as a skeptical Cambridge.</p>
             <div class="table-responsive ">
               <table class="table table-nowrap mb-0">
                 <tbody>
-                  <tr>
+                  <tr :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                     <th scope="row">Available :</th>
                     <td>{{resourcesInfo.available}}</td>
                   </tr>
-                  <tr>
+                  <tr :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                     <th scope="row">Refunding :</th>
                     <td>{{resourcesInfo.refunding}}</td>
                   </tr>
-                  <tr>
+                  <tr :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                     <th scope="row">CPU Staked :</th>
                     <td>{{resourcesInfo.CPUStaked}}</td>
                   </tr>
-                  <tr>
+                  <tr :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                     <th scope="row">NET Staked :</th>
                     <td>{{resourcesInfo.NetStaked}}</td>
                   </tr>
-                  <tr>
+                  <tr :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                     <th scope="row">Staked by Others :</th>
                     <td>{{resourcesInfo.stakedbyOthers}}</td>
                   </tr>
-                  <tr>
+                  <tr :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                     <th scope="row">TotalREX :</th>
                     <td>{{resourcesInfo.totalREX}}</td>
                   </tr>
@@ -116,7 +119,8 @@ export default class AccountList extends Vue{
 .box{
   background: #ffffff;
   width: 98%;
-  box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 10%);
+  // box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 10%);
 
 }
+
 </style>

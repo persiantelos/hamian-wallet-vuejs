@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <footer class="footer" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6">   version : {{version}} </div>
@@ -23,3 +23,11 @@ export default class footer extends Vue{
   } 
 } 
 </script>
+<style lang="scss" scoped>
+.dark-mode{
+    background: #262b3c !important;
+}
+.light-mode{
+  background: #ffffff !important;
+}
+</style>
