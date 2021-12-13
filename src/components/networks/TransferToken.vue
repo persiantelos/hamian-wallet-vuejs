@@ -33,7 +33,7 @@
                     <b-dropdown dropleft variant="primary" >
                         <template v-slot:button-content>
                             <span v-show="transferToken.customToken">
-                            {{transferToken.customToken.val[transferToken.customToken._id]}} {{transferToken.customToken.currency}}
+                            {{transferToken.customToken.balance}}
                             </span>
                             <i class="mdi mdi-chevron-down"></i>
                         </template>
@@ -41,7 +41,7 @@
                             <b-dropdown-item @click="onItemClick(token)" href="javascript: void(0);">
                                 <span
                                 :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
-                                {{token.val[token._id]}} {{token.currency}}
+                                {{token.balance}}
                                 </span>
                             </b-dropdown-item>
                         </div>
@@ -157,11 +157,7 @@ export default class AccountList extends Vue{
 
             this.tokensList =  await AccountService.getTokensList();
             this.tokensList = this.tokensList.value
-            this.accInfo =  await AccountService.getAccountInfo(this.$store.state.currentAccount.name);
-            this.accInfo = this.accInfo.value
-            this.transferToken.from = this.$store.state.currentAccount.name
-            this.transferToken.permission = this.$store.state.currentAccount.authority
-            this.setTokens()
+            this.filterByCurrentNetName()
             }
         else{
             this.$notify({
@@ -171,6 +167,38 @@ export default class AccountList extends Vue{
             });
             this.$emit('changeSelectedMenu','accountList')
         }
+    }
+    filterByCurrentNetName(){
+        let temoTokenList = []
+        for(let token of this.tokensList){
+            if(token.chain == this.$store.state.currentNet._id){
+                temoTokenList.push(token)
+            }
+        }
+        this.tokensList = temoTokenList;
+
+        this.getTokenBalanceByContractName();
+    }
+    async getTokenBalanceByContractName(){
+        let account = this.$store.state.currentAccount
+        let currentNet = this.$store.state.currentNet
+        for(let token of this.tokensList){
+            let balance = await AccountService.getDynamicTokenBalance(token,account.name,currentNet)
+            token.balance = balance
+        }
+        this.tokens = this.tokensList;
+        this.setCustomToken()
+    }
+    setCustomToken(){
+        for(let token of this.tokens){
+            if(token._id == 'telos'){
+                this.transferToken.customToken = token
+            }
+        }
+        console.log(this.tokens)
+        console.log(this.transferToken)
+
+        this.showSpinner = false;
     }
     setTokens(){
         let newarr = []
