@@ -135,6 +135,13 @@ export default {
   </div>
 </template>
 <style lang="scss">
+.custom-radio{
+  margin: 5px;
+}
+.custom-control-input{
+  margin-right: 2px;
+  margin-top: -2px;
+}
 body{
   background:#222736 !important;
 }
@@ -211,4 +218,5 @@ color:#a6b0cf !important;
 color:#626981 !important;
 
 }
+
 </style>
