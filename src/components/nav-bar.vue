@@ -7,6 +7,7 @@ import Config from '../common/config';
 import EventBus from '../localService/eventBus'
 import WalletService from '../localService/walletService'
 import Dialog from '../components/common/Dialog.vue';
+import QRCode from 'qrcode'
 
 
 
@@ -51,7 +52,10 @@ export default {
       imageUrl:'@/assets/images/users/1.jpg',
       appMode:false,
       showDialogKeys:false,
+      showDialogQrCode:false,
+      showQrCode:false,
       keys:[],
+      strToQrCode:'',
     };
   },
   components: { simplebar,
@@ -147,6 +151,28 @@ export default {
       }, 100);
     }
     },
+    generateQrCode(){
+      this.showQrCode=false
+      this.strToQrCode=''
+      this.showDialogQrCode = true;
+      setTimeout(() => {
+        document.getElementById('modalQrCode').click()
+      }, 100);
+    
+    },
+    convertStrToQrCode(){
+      console.log(this.strToQrCode)
+      if (this.strToQrCode != '') {
+        this.showQrCode=true
+        QRCode.toCanvas(document.getElementById('canvas'), this.strToQrCode, function (error) {
+            if (error){
+              console.error(error)
+            } else{
+              console.log('success!');
+            }
+        })
+      }
+    }
   },
 };
 </script>
@@ -168,6 +194,43 @@ export default {
                 size="sm"
                 @click="$bvModal.hide('modal-standard')"
                 >
+                Close
+            </b-button>
+          </div>
+        </template>
+      </b-modal>
+    </div>
+    <div v-if="showDialogQrCode">
+      <button class="d-none" id="modalQrCode" v-b-modal.modal-qrCode></button>
+      <b-modal id="modal-qrCode" title="String to qr code" title-class="font-18">
+        <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode' : ''">Type what you whant to convert to QR Code</h5>
+        <b-form-input
+          id="input-3"
+          v-model="strToQrCode"
+          type="text"
+          @keyup.enter="convertStrToQrCode()"
+          placeholder="Type something..."
+          :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
+        ></b-form-input>
+        
+        <div v-show="showQrCode" class="col-12 center mt-3" align="center">
+          <div id="qrcode-container" class="bg-grey-11" style="padding:0px">
+            <canvas style="width:160px;height:160px;padding:0px;margin:0px" id="canvas"></canvas>
+          </div>
+        </div>
+
+        <template #modal-footer>
+          <div dir="rtl" class="w-100 float-right">
+            <b-button class="pr-3 mt-2 m-1 pl-3" 
+                variant="outline-primary"
+                size="sm"
+                @click="convertStrToQrCode()">
+                Convert
+            </b-button>
+            <b-button class="pr-3 m-1 pl-3" 
+                variant="outline-secondary"
+                size="sm"
+                @click="$bvModal.hide('modal-qrCode')">
                 Close
             </b-button>
           </div>
@@ -772,6 +835,14 @@ export default {
             :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"></i>
             <span :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
               Generate keys
+            </span>
+          >
+          </b-dropdown-item>
+          <b-dropdown-item @click="generateQrCode()"  class="d-block" href="#">
+            <i class="mdi mdi-qrcode font-size-16 align-middle me-1"
+            :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"></i>
+            <span :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+              QR Code
             </span>
           >
           </b-dropdown-item>
