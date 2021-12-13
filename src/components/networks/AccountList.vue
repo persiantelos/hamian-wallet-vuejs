@@ -161,7 +161,7 @@ export default class AccountList extends Vue{
             this.filterByCurrentNetName();
         }
     }
-    async filterByCurrentNetName(){
+    filterByCurrentNetName(){
         let temoTokenList = []
         for(let token of this.tokensList){
             if(token.chain == this.$store.state.currentNet._id){
