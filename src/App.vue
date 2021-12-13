@@ -1,12 +1,8 @@
 <script>
 import appConfig from "@/app.config";
 import { Vue ,Component } from 'vue-property-decorator';
-
 import { notificationMethods } from "@/state/helpers";
-
 import VModal from 'vue-js-modal';
-
-import Dialog from "@/components/common/Dialog.vue";
 import loader from '@/components/spinner/Spinner.vue'
 import StorageService from '@/localService/storageService';
 
