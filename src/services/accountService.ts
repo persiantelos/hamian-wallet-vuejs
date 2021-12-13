@@ -39,4 +39,18 @@ export default class AccountService
     static async getAccountInfo(accountName:string){
         return BaseServices.get(Config.server+'web/getOptions?table=accounts&$filter=_id eq '+ "'"+accountName+"'")
     }
+    // get daric balance
+    static async getDynamicTokenBalance(token:any,accountName:string,currentNet:any)
+    {
+        var data={"json":true,"code":token.contract,"scope":accountName,"table":"accounts","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"","limit":"100","reverse":false,"show_payer":false};
+        let baseURL = 'https://'+currentNet.host;
+        let url = baseURL+'/v1/chain/get_table_rows'
+        var acc=await BaseServices.postData(url,data);
+        if(acc.rows[0])
+            return acc.rows[0].balance
+        let zero = 0;
+        return zero.toFixed(parseInt(token.decimals)) + ' ' + token.currency; 
+
+
+    }
 }

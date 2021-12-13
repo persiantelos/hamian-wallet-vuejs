@@ -39,35 +39,24 @@
                             <div class="avatar-title bg-transparent rounded">
                             <i class="bx bx-user font-size-24" :class="selected.name == account.name ? ' text-warning' : 'text-body'" ></i>
                             </div>
+
                         </div>
-                        <div class="d-flex" >
-                            <div class="overflow-hidden me-auto">
-                            <h5 class="font-size-14 text-truncate mb-1">
-                                <a
-                                href="javascript: void(0);"
-                                class="text-body" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf !important' :''"
-                                >{{account.name}}</a
-                                >
-                            </h5>
-                            <p v-if="account.val" class="text-muted text-truncate mb-0">
-                               {{account.val.daric}}  DRIC
-                            </p>
-                            <p v-else class="text-muted text-truncate mb-0">
-                               0  DRIC
-                            </p>
-                            </div>
-                            <div class="align-self-end ms-2">
-                            <p v-if="account.val" class="text-muted mb-0">
-                               {{account.val.telos}}  TELOS
-                            </p>
-                            <p v-else class="text-muted mb-0">
-                               0  TELOS
-                            </p>
+                        <h5 class="my-2" :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                            {{account.name}}
+                        </h5>
+                        <div class="" >
+                            <div class="overflow-hidden me-auto" v-for="(token , id) in account.val" :key="id">
+                                <h5 class="font-size-14 text-truncate mb-1">
+                                    <a
+                                    href="javascript: void(0);"
+                                    class="text-body" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker' :''"
+                                    >{{token.balance}}&#160;&#160;&#160;≈ $&#160;</a>
+                                </h5>
                             </div>
                         </div>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -86,7 +75,6 @@ import WalletService from '@/localService/walletService';
     }
 })
 export default class AccountList extends Vue{
-    // @Prop({default:() =>{return []}}) value:any;
     accountList:any=[];
     counter:number=0;
     selected:any=[]
@@ -128,7 +116,6 @@ export default class AccountList extends Vue{
         this.selected = this.$store.state.currentAccount
     }
     checkValue(newVal:any){
-        console.log('newVal of acc list',newVal)
         if(newVal.length<1){
             this.AddAccount = true;
             this.showSpinner = false;
@@ -152,7 +139,6 @@ export default class AccountList extends Vue{
                 this.$notify({
                     group: 'foo',
                     type: 'success',
-                    // title: 'Important message',
                     text: 'Account Selected'
                 });
             }
@@ -169,55 +155,33 @@ export default class AccountList extends Vue{
    
     
     async init(){
-        
-        this.tokensList =  await AccountService.getTokensList();
+        this.tokensList = await AccountService.getTokensList();
         this.tokensList = this.tokensList.value
         if(this.currentNet&&this.tokensList){
-            this.getAccountsInfo();
+            this.filterByCurrentNetName();
         }
     }
-    async getAccountsInfo(){
-        let tempAccInformation =[]
-        
-        for(let account in this.accountList){
-            this.accInfo = await AccountService.getAccountInfo(this.accountList[account].name);
-            this.accInfo = this.accInfo.value
-            tempAccInformation.push(this.accInfo)
-        }
-        this.accInfo = tempAccInformation;
-        console.log(this.accInfo)
-
-        this.setTokens()
-    }
-    setTokens(){
-        var tempArr = []
+    async filterByCurrentNetName(){
+        let temoTokenList = []
         for(let token of this.tokensList){
-            if(this.currentNet._id == token.chain)
-            {
-                for(let account of this.accInfo){
-                    for(let item of account){
-                        for(let i =0;i<Object.keys(item).length;i++){
-                            if(Object.keys(item)[i] == token._id){
-                                let objKey = Object.keys(item)[i]
-                                let objValue = item[objKey]
-                                item[objKey] = objValue.toFixed(parseInt(token.decimals))
-                                tempArr.push(item) 
-                            }
-                        }
-                    }
-                }
+            if(token.chain == this.$store.state.currentNet._id){
+                temoTokenList.push(token)
             }
         }
-        this.tokens = tempArr;
-        this.setAccountToken()
+        this.tokensList = temoTokenList;
+        this.getTokenBalanceByContractName();
     }
-    setAccountToken(){
+
+    async getTokenBalanceByContractName(){
+        let balances = []
+        let currentNet = this.$store.state.currentNet;
         for(let account of this.accountList){
-            for(let token of this.tokens){
-                if(account.name == token._id){
-                    account.val = token
-                }
+            for(let token of this.tokensList){
+                let balance = await AccountService.getDynamicTokenBalance(token,account.name,currentNet)
+                token.balance = balance
+                balances.push(token)
             }
+            account.val = balances
         }
         this.AccountList = this.accountList
         this.showSpinner = false;
