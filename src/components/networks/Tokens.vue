@@ -43,7 +43,7 @@
                                 >
                             </h5>
                             <p class="text-muted text-truncate mb-0">
-                             {{token.val[token._id]}} {{token.currency}}
+                                {{token.balance}}&#160;&#160;&#160;≈ $&#160;
                             </p>
                             </div>
                         </div>
@@ -78,9 +78,7 @@ export default class AccountList extends Vue{
         if(this.$store.state.currentNet._id == this.$store.state.currentAccountChainName){
             this.tokensList =  await AccountService.getTokensList();
             this.tokensList = this.tokensList.value
-            this.accInfo =  await AccountService.getAccountInfo(this.$store.state.currentAccount.name);
-            this.accInfo = this.accInfo.value
-            this.setTokens()
+            this.filterByCurrentNetName()
         }
         else{
             this.$notify({
@@ -90,6 +88,26 @@ export default class AccountList extends Vue{
             });
             this.$emit('changeSelectedMenu','accountList')
         }
+    }
+    filterByCurrentNetName(){
+        let temoTokenList = []
+        for(let token of this.tokensList){
+            if(token.chain == this.$store.state.currentNet._id){
+                temoTokenList.push(token)
+            }
+        }
+        this.tokensList = temoTokenList;
+        this.getTokenBalanceByContractName();
+    }
+    async getTokenBalanceByContractName(){
+        let account = this.$store.state.currentAccount
+        let currentNet = this.$store.state.currentNet
+        for(let token of this.tokensList){
+            let balance = await AccountService.getDynamicTokenBalance(token,account.name,currentNet)
+            token.balance = balance
+        }
+        this.tokens = this.tokensList;
+        this.showSpinner = false;
     }
     setTokens(){
         let newarr = []
