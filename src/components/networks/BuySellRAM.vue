@@ -8,19 +8,34 @@
         :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                 <h3 class="text-primary font-size-15 mt-2">BUY RAM</h3>
                 <div class="col-12 d-flex">
-                    <div class="col-6 mt-3" dir="ltr">
+                    <div class="col-8 mt-3" dir="ltr">
                         <h5 class="font-size-15 mb-4"
                         :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">RAM Reciver :</h5>
-                        <b-form-input
-                            id="input-2"
-                            v-model="buySellRAM.RAMReceiver"
-                            type="text"
-                            placeholder="RAM Reciver"
-                            :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
-                        ></b-form-input>
-
+                        <div class="btn-group col-12 me-1 mt-2">
+                            <b-form-input
+                                id="input-2"
+                                v-model="buySellRAM.RAMReceiver"
+                                type="text"
+                                placeholder="RAM Reciver"
+                                :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
+                            ></b-form-input>
+                            <b-dropdown variant="primary"   style="min-width:120px">
+                            <template v-slot:button-content>
+                                {{selectedOwnAccount}}
+                                <i class="mdi mdi-chevron-down"></i>
+                            </template>
+                            <div align="left"  v-for="(account , index) in accountList" :key="index">
+                                <b-dropdown-item align="left" @click="onItemClick(account)" href="javascript: void(0);">
+                                    <span
+                                    :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                                    {{account.name}}
+                                    </span>
+                                </b-dropdown-item>
+                            </div>
+                            </b-dropdown>
+                        </div>
                     </div>
-                    <div class="col-6 px-2 mt-3" dir="ltr">
+                    <div class="col-4 px-2 mt-3" dir="ltr">
                         <h5 class="font-size-15 mb-4"
                         :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Buy in TELOS or Bytes?</h5>
                         <div class="d-flex">
@@ -39,7 +54,7 @@
                 <div class="col-12 d-flex">
                 <div class="col-6 mt-3" dir="ltr">
                     <h5 class="font-size-15 mb-4" 
-                    :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Amount of RAM to Buy in TELOS</h5>
+                    :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Amount of RAM to Buy in {{buySellRAM.buyWith}}</h5>
                     <b-form-input
                         id="input-2"
                         v-model="buySellRAM.RAMBuyAmount"
@@ -48,8 +63,13 @@
 
                     ></b-form-input>
                     <h5 class="font-size-12 mt-3 mb-4">
-                        <p class="m-1">
+                        <p :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker' :''"
+                        class="m-1" v-if="buySellRAM.buyWith == 'TELOS'">
                             ≈ {{buySellRAM.RAMBuyAmount * telosBytesScale}} Bytes
+                        </p>
+                        <p :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker' :''"
+                        class="m-1" v-if="buySellRAM.buyWith == 'Bytes'">
+                            ≈ {{(buySellRAM.RAMBuyAmount/telosBytesScale).toFixed(4)}} TELOS
                         </p>
                     </h5>
 
@@ -102,7 +122,9 @@
                             <b-button class="m-1 mt-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" @click="calculateSellRAMAmount(75)" variant="outline-secondary">75%</b-button>
                             <b-button class="m-1 mt-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" @click="calculateSellRAMAmount(100)" variant="outline-secondary">100%</b-button>
                         </div>
-                        <p class="text-body">Selling {{buySellRAM.RAMSellAmount}} Bytes for {{(buySellRAM.RAMSellAmount/telosBytesScale).toFixed(4)}} TLOS</p>
+                        <p class="text-body " 
+                        :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker' :''"
+                        >Selling {{buySellRAM.RAMSellAmount}} Bytes for {{(buySellRAM.RAMSellAmount/telosBytesScale).toFixed(4)}} TLOS</p>
                     </div>
                     <div class="col-6 mt-5" align="center">
                         <b-button @click="SellRAMClick" class="m-2 w-100"  variant="primary">
@@ -131,6 +153,8 @@ export default class AccountList extends Vue{
     smartTokensOutstandingSupply:any=[]
     connectorWeight:any=[]
     quantity:any=[];
+    accountList:any=[];
+    selectedOwnAccount:'';
     resources:any=[];
     options:any= [
         { item: 'TELOS', chain: 'TELOS' },
@@ -145,16 +169,23 @@ export default class AccountList extends Vue{
         TELOSCustAmount:0,
         showCustomToken:false,
   }
+    async getAccounts(){
+        this.accountList = await WalletService.getAccounts();
+        console.log('this.accountList',this.accountList)
+    }
+    onItemClick(data:any){
+        this.selectedOwnAccount = data.name;
+        this.buySellRAM.RAMReceiver = data.name
+    }
     mounted(){
         // this.init()
-
+        this.getAccounts()
         this.showSpinner = false;
         if(this.value == []){
             this.$router.push('/')
         }
         else{
             this.resources = this.value;
-            console.log('resources',this.resources)
         }
     }
     async init(){
