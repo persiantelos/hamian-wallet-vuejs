@@ -9,15 +9,15 @@
                 </div>
                 <div v-if="value == 'resources'">
                     <Resources v-model="data.resources" />
-                    <ResourceInformation class="my-3" v-model="data.resources" />
+                    <ResourceInformation class="mt-3" v-model="data.resources" />
                 </div>
                 <div v-if="value == 'buySellRAM'  ">
                     <Resources v-model="data.resources" />
-                    <BuySellRAM class="my-3" v-model="data.resources" :showSpinner="showSpinner" />
+                    <BuySellRAM class="mt-3" v-model="data.resources" :showSpinner="showSpinner" />
                 </div>
                 <div v-if="value == 'stakeCpuNet'">
                     <Resources v-model="data.resources" />
-                    <StakeCpuNet class="my-3" v-model="data.resources" :showSpinner="showSpinner" />
+                    <StakeCpuNet class="mt-3" v-model="data.resources" :showSpinner="showSpinner" />
                 </div>
                 <div v-if="value == 'tokens'">
                     <Tokens @changeSelectedMenu="changeSelectedMenu"   />
