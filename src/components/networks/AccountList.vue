@@ -81,8 +81,6 @@ export default class AccountList extends Vue{
     currentNet:any=[]
     currentAccount:any=[]
     tokensList:any=[]
-    tokens:any=[]
-    accInfo:any=[]
     AccountList:any=[]
     showSpinner:boolean=true;
     AddAccount:boolean=false;
