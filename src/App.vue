@@ -142,6 +142,7 @@ body{
 background:#2a3042 !important;
 color:#a6b0cf !important;
 
+
 }
 .light-mode{
 background:#ffffff !important
@@ -205,5 +206,9 @@ body[data-sidebar=dark].vertical-collpsed {
 }
 .text-dark-mode{
 color:#a6b0cf !important;
+}
+.text-dark-mode-darker{
+color:#626981 !important;
+
 }
 </style>
