@@ -139,10 +139,10 @@ export default class AccountList extends Vue{
     }
     
     sendEntireBalance(){
-        let tempAmount = this.transferToken.customToken.val[this.transferToken.customToken._id]
-        tempAmount = tempAmount.split('.')
-        tempAmount = tempAmount[0]
-        this.transferToken.quantity= parseInt(tempAmount)
+        let tempAmount = this.transferToken.customToken
+        tempAmount = tempAmount.balance.split(' ')
+        tempAmount = parseFloat(tempAmount[0])
+        this.transferToken.quantity= tempAmount.toFixed(parseInt(this.transferToken.customToken.decimals))
     }
 
     onItemClick(token:any){
