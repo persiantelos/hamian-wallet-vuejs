@@ -156,9 +156,15 @@ export default class AddNewAccount extends Vue{
     }
     @Watch('value')
     valueChanged(newVal:any){
-        console.log('newVal',newVal)
         if(newVal == false){
             this.closeModal()
+        }
+    }
+    @Watch('addToken.decimals')
+    decimalsChanged(newVal:any){
+        console.log(this.addToken.decimals)
+        if(typeof newVal == 'number'){
+            this.addToken.decimals=0
         }
     }
     mounted(){
@@ -193,6 +199,7 @@ export default class AddNewAccount extends Vue{
             let balance = await AccountService.getDynamicTokenBalance(this.addToken,this.addToken._id,chain)
             if(balance){
                 this.save()
+                this.decimalsChanged('a')
                 this.contractValidate = false;
             }
             else{
@@ -214,7 +221,7 @@ export default class AddNewAccount extends Vue{
         }
     }
     async save(){
-        if(this.addToken._id != '' && this.addToken.currancy != '' && this.addToken.chain != ''){
+        if(this.addToken._id != '' && this.addToken.currancy != '' && this.addToken.decimals != '' && this.addToken.chain != ''){
             this.showSpinner = true
             let data = await StorageService.addTokenManually(this.addToken)
             if(data){
