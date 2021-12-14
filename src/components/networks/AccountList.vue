@@ -9,7 +9,7 @@
                 Account list is empty.
             </p>
         </div>
-        <div v-if="!showSpinner" class="d-flex row">
+        <div v-if="!showSpinner" class="d-flex row" style="position: relative">
             <div class="p-3" style="min-width:250px;width:auto" v-for="(account , index) in AccountList"  :key="index" >
                 <div class="card m-2 shadow-none"  :class="$store.state.layout.themeDarkMode ? 'border-gray':'border'">
                     <div class="card-body p-3" >
@@ -58,7 +58,9 @@
                     </div>
                 </div>
             </div>
+            
         </div>
+        <b-button size="lg" pill  style="position: absolute;bottom: 5%;right: 5%;width:40px;" variant="primary" class="btn-block">+</b-button>
     </div>
 </template>
 <script lang="ts">
