@@ -14,7 +14,7 @@
                       <template #button-content>
                         <i class="mdi mdi-plus me-1" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''"></i> 
                         <span :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">
-                        Account
+                        Actions
                         </span>
                       </template>
 
