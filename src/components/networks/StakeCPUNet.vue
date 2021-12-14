@@ -162,8 +162,9 @@ export default class StakeCPUNet extends Vue{
     }
     
     calculateAmountCPUtoStakeTelos(data:any){
-        let tempBalance = this.tokens.balance.split(' ')
+        let tempBalance = this.tokens.balance
         tempBalance = tempBalance[0]
+        console.log('tempBalance',tempBalance)
         tempBalance = parseFloat(tempBalance)
         if(data == 25){
             tempBalance = (tempBalance/100)*25
@@ -172,7 +173,6 @@ export default class StakeCPUNet extends Vue{
         if(data == 50){
             tempBalance = (tempBalance/100)*50
             this.stakeCPUorNET.CPUAmountToStake = tempBalance.toFixed(parseInt(this.tokens.decimals))
-            
         }
         if(data == 75){
             tempBalance = (tempBalance/100)*75
@@ -181,7 +181,6 @@ export default class StakeCPUNet extends Vue{
         if(data == 100){
             tempBalance = (tempBalance/100)*100
             this.stakeCPUorNET.CPUAmountToStake = tempBalance.toFixed(parseInt(this.tokens.decimals))
-            
             this.calculateAmountNettoStakeTelos(0);
         }
         else if(data == 0){
@@ -189,7 +188,7 @@ export default class StakeCPUNet extends Vue{
         }
     }
     calculateAmountNettoStakeTelos(data:any){
-        let tempBalance = this.tokens.balance.split(' ')
+        let tempBalance = this.tokens
         tempBalance = tempBalance[0]
         tempBalance = parseFloat(tempBalance)
         if(data == 25){
@@ -209,7 +208,6 @@ export default class StakeCPUNet extends Vue{
         if(data == 100){
             tempBalance = (tempBalance/100)*100
             this.stakeCPUorNET.NETAmountToStake = tempBalance.toFixed(parseInt(this.tokens.decimals))
-            
             this.calculateAmountCPUtoStakeTelos(0);
         }
         else if(data == 0){
@@ -261,6 +259,7 @@ export default class StakeCPUNet extends Vue{
         for(let token of this.tokens){
             if(token._id == 'telos'){
                 this.tokens = token
+                this.tokens.balance = this.tokens.balance.split(' ')
                 break
             }
         }
