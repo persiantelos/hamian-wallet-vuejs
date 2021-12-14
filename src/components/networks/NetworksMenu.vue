@@ -28,14 +28,15 @@
                         Add Account
                         </span>
                       </b-dropdown-item>
-                      <b-dropdown-item  href="#" >
+                      <b-dropdown-item @click="addTokenManually()"  href="#" >
                         <i class="bx bx-buoy me-1"
                         :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"
                         ></i>
                         <span
                         :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"
                         >
-                        Add token manually
+                        <!-- Add token manually -->
+                        Add token 
                         </span>
                     </b-dropdown-item>
                     </b-dropdown>
@@ -122,6 +123,9 @@
         <div v-if="showAddNewAccountPopUp">
             <AddNewAccount @close="showAddNewAccountPopUp = false" v-model="showAddNewAccountPopUp" />
         </div>
+        <div v-if="addNewToken">
+          <AddTokenManually @close="addNewToken = false" v-model="addNewToken" />
+        </div>
     </div>
 </template>
 
@@ -130,10 +134,12 @@ import {Vue , Component , Prop ,Watch} from 'vue-property-decorator'
 import CommonService from '@/services/commonService'
 
 import AddNewAccount from '@/components/networks/AddNewAccount.vue'
+import AddTokenManually from '@/components/networks/AddTokenManually.vue'
 
 @Component({
     components:{
         AddNewAccount,
+        AddTokenManually,
     }
 })
 export default class NetworkMenu extends Vue{
@@ -143,6 +149,7 @@ export default class NetworkMenu extends Vue{
     nets:any=[];
     accountInformation:any=[];
     showAddNewAccountPopUp:boolean=false;
+    addNewToken:boolean=false;
     selected:string='';
     @Watch('changeSelectedMenu')
     selectedMenuChanged(newVal:any){
@@ -161,6 +168,9 @@ export default class NetworkMenu extends Vue{
     }
     addNewAccount(){
     this.showAddNewAccountPopUp = true;
+    }
+    addTokenManually(){
+      this.addNewToken = true;
     }
 }
 </script>
