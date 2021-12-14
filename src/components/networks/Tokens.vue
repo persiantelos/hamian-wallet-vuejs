@@ -56,8 +56,11 @@
                                 >{{token.contract}}</a
                                 >
                             </h5>
-                            <p class="text-muted text-truncate mb-0">
+                            <p v-if="token.balance" class="text-muted text-truncate mb-0">
                                 {{token.balance}}&#160;&#160;&#160;≈ $&#160;
+                            </p>
+                            <p v-if="!token.balance" class="text-muted text-truncate mb-0">
+                                {{(0).toFixed(token.decimals)}} {{token._id}}&#160;&#160;&#160;≈ $0
                             </p>
                             </div>
                         </div>
