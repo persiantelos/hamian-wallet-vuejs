@@ -80,7 +80,21 @@
                     <div class="col-12 mt-3">
                     <h5 class="font-size-15 mb-3"
                     :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Account name of who currently holds stake:</h5>
-                    <multiselect class="" :class="$store.state.layout.themeDarkMode ? 'input-forms':''" v-model="unStakeCPUorNET.selectedAccountForUnStake" :options="unStakeCPUorNET.accountHoldStake" ></multiselect>
+                    <b-dropdown variant="outline-secondary " align="left"  style="min-width:100%">
+                            <template v-slot:button-content>
+                                {{unStakeCPUorNET.selectedAccountForUnStake}}
+                                <i class="mdi mdi-chevron-down"></i>
+                            </template>
+                            <div align="left"  v-for="(account , index) in unStakeCPUorNET.accountHoldStake" :key="index">
+                                <b-dropdown-item align="left" @click="selectHoldesAccount(account)" href="javascript: void(0);">
+                                    <span
+                                    :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                                    {{account.name}}
+                                    </span>
+                                </b-dropdown-item>
+                            </div>
+                        </b-dropdown>
+                    <!-- <multiselect class="" :class="$store.state.layout.themeDarkMode ? 'input-forms':''" v-model="unStakeCPUorNET.selectedAccountForUnStake" :options="unStakeCPUorNET.accountHoldStake" ></multiselect> -->
                 </div>
                 <!-- <div class="col-6 px-2 mt-3">
                     <h5 class="font-size-15 mb-1"
@@ -268,6 +282,9 @@ export default class StakeCPUNet extends Vue{
     onItemClick(data:any){
         this.selectedOwnAccount = data.name;
         this.stakeCPUorNET.stakReciver  = data.name;
+    }
+    selectHoldesAccount(data:any){
+        this.unStakeCPUorNET.selectedAccountForUnStake = data.name
     }
     async stakeClick()
     { 
