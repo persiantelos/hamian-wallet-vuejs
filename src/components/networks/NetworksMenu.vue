@@ -28,7 +28,7 @@
                         Add Account
                         </span>
                       </b-dropdown-item>
-                      <b-dropdown-item @click="addTokenManually()"  href="#" >
+                      <b-dropdown-item @click="displayTokenManually()"  href="#" >
                         <i class="bx bx-buoy me-1"
                         :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"
                         ></i>
@@ -169,7 +169,7 @@ export default class NetworkMenu extends Vue{
     addNewAccount(){
     this.showAddNewAccountPopUp = true;
     }
-    addTokenManually(){
+    displayTokenManually(){
       this.addNewToken = true;
     }
 }

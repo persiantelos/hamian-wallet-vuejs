@@ -147,6 +147,13 @@ export default class AddNewAccount extends Vue{
         maxFilesize: 0.5,
         headers: { "My-Awesome-Header": "header value" }
     }
+    @Watch('value')
+    valueChanged(newVal:any){
+        console.log('newVal',newVal)
+        if(newVal == false){
+            this.closeModal()
+        }
+    }
     mounted(){
         this.addToken.chain = this.$store.state.currentNet._id;
     }
@@ -172,6 +179,7 @@ export default class AddNewAccount extends Vue{
     closeModal(){
         this.$emit('close')
     }
+    
 }
 </script>
 <style lang="scss">
