@@ -3,7 +3,7 @@
         <div v-if="showSpinner">
           <Spinner  v-model="showSpinner" />
       </div>
-        <div v-if="!showSpinner" class="d-flex">
+        <div v-if="!showSpinner" class="d-flex row">
             <div class="p-3" style="width:220px" v-for="(token ,index) in tokens" :key="index" >
                 <div class="card m-2 shadow-none " :class="$store.state.layout.themeDarkMode ? 'border-gray':'border'">
                     <div class="card-body p-3">
@@ -20,9 +20,17 @@
                                 <i class="mdi mdi-dots-horizontal"></i>
                             </template>
 
-                            <b-dropdown-item href="#" @click="goToTransferToken()">Transfer</b-dropdown-item>
+                            <b-dropdown-item href="#" @click="goToTransferToken()">
+                               <span :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                                    Transfer
+                                </span>
+                            </b-dropdown-item>
                             <b-dropdown-divider></b-dropdown-divider>
-                            <b-dropdown-item href="#" @click="reload()">Refresh</b-dropdown-item>
+                            <b-dropdown-item href="#" @click="reload()">
+                               <span :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                                    Refresh
+                                </span>
+                            </b-dropdown-item>
                             </b-dropdown>
                         </div>
                         <div class="avatar-xs me-3 mb-3">
@@ -107,28 +115,21 @@ export default class AccountList extends Vue{
             token.balance = balance
         }
         this.tokens = this.tokensList;
-        this.showSpinner = false;
+        this.getLocalTokens()
     }
-    setTokens(){
-        let newarr = []
-        for(let token of this.tokensList){
-            if(this.$store.state.currentNet._id == token.chain)
-            {
-                for(let item of this.accInfo){
-                    for(let i =0;i<Object.keys(item).length;i++){
-                        if(Object.keys(item)[i] == token._id){
-                            let objKey = Object.keys(item)[i]
-                            let objValue = item[objKey]
-                            item[objKey] = objValue.toFixed(parseInt(token.decimals))
-                            token.val = item;
-                            newarr.push(token)
-                        }
-                    }
+    async getLocalTokens(){
+        let allLocalTokens = await StorageService.getLocalTolens();
+        if(allLocalTokens.message == 'success' || allLocalTokens != undefined){
+            if(allLocalTokens.data){
+                console.log('allLocalTokens.data',allLocalTokens.data[0])
+                for(let localTokens of Object.entries(allLocalTokens.data[0])){
+                    this.tokens.push(localTokens[1])
                 }
             }
         }
-        this.tokens = newarr;
-        this.showSpinner = false;
+        else{
+            this.showSpinner = false;
+        }
     }
     goToTransferToken(){
         this.$emit('changeSelectedMenu','transferToken')
@@ -138,3 +139,6 @@ export default class AccountList extends Vue{
     }
 }
 </script>
+<style lang="scss" scoped>
+
+</style>
