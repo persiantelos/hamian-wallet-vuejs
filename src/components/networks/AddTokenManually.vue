@@ -61,7 +61,8 @@
                         ></b-form-input>
                     </div>
                 </div>
-                <div class="col-12">
+                <!-- TODO:icons is not displaing on tokens page -->
+                <!-- <div class="col-12">
                     <div v-if="addToken.icon == ''" class="col-12 p-1">
                         <p class="font-size-15 mb-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Icon </p>
                         <div class="col-12 " @click="upload" style="cursor:pointer" align="center" >
@@ -92,7 +93,7 @@
                             </b-form-input>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <template dir="rtl" #modal-footer>
                 <div dir="rtl" class="w-100 float-right">
