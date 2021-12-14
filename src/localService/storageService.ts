@@ -45,4 +45,12 @@ export default class StorageService
     {
         return BaseLocalService.run(this.storageName,{action:'getPayload',data:BaseLocalService.globalId})
     }
+    static addTokenManually(data:any)
+    {
+        return BaseLocalService.run(this.storageName,{action:'saveTokenManually',data:{data}})
+    }
+    static getLocalTolens()
+    {
+        return BaseLocalService.run(this.storageName,{action:'getLocalTolens',data:{}})
+    }
 }

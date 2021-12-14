@@ -1,7 +1,7 @@
 <template>
     <div :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
     <notifications style="margin-top:20px" group="accountexist" />
-
+        
         <b-modal :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" title="Add Token Manually" centered v-model="value" >
             
             <div class="col-12">
@@ -65,18 +65,17 @@
                     <div v-if="addToken.icon == ''" class="col-12 p-1">
                         <p class="font-size-15 mb-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Icon </p>
                         <div class="col-12 " @click="upload" style="cursor:pointer" align="center" >
-                            <vue-dropzone 
+                            <div style="border:1px dashed #626981;border-radius:5px" class="p-3"
                                 :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'"
                                 id="dropzone"
                                 ref="myVueDropzone"
-                                :use-custom-slot="true"
                                 >
                             <div class="dropzone-custom-content">
                                 <i :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" class="display-4 text-muted bx bxs-cloud-upload"></i>
                                 <h4 :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
-                                    Drop files here or click to upload.</h4>
+                                    Click to upload</h4>
                             </div>
-                            </vue-dropzone>
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 p-1" v-if="addToken.icon != ''">
@@ -97,7 +96,9 @@
             </div>
             <template dir="rtl" #modal-footer>
                 <div dir="rtl" class="w-100 float-right">
-                    <!-- <Spinner v-if="!findAccounts.length && loading" /> -->
+                    <div v-if="showSpinner">
+                        <Spinner v-if="showSpinner" />
+                    </div>
                     <b-button class="pr-3 m-1 pl-3" 
                         variant="success"
                         size="sm"
@@ -115,32 +116,28 @@
             </template>
             <div style="display:none">
                 <input id="image-file" type="file" @change="fileSelected" />
-                {{counter}}
             </div>
         </b-modal>
     </div>
 </template>
 <script lang="ts">
 import {Vue , Component , Prop , Watch} from "vue-property-decorator";
-import StorageAccountModel from '@/models/storage/accountModel';
-import NetworkModel from '@/models/networkModel';
-import WalletService from '@/localService/walletService'
-import AccountService from '@/services/accountService';
-// import Spinner from "@/components/spinner/Spinner.vue"
+import Spinner from "@/components/spinner/Spinner.vue"
 import StorageService from '@/localService/storageService'
 import AddToken from '@/models/token/addTokenModel';
-import vue2Dropzone from "vue2-dropzone";
+// import vue2Dropzone from "vue2-dropzone";
 
 
 @Component({components:{
-    vueDropzone: vue2Dropzone
-    // Spinner
+    // vueDropzone: vue2Dropzone,
+    Spinner
     }})
 
 export default class AddNewAccount extends Vue{
     @Prop({default:()=>{false}}) value:boolean;
     addToken:AddToken=new AddToken();
     iconName:string=''
+    showSpinner:boolean=false;
     dropzoneOptions: {
         url: "https://httpbin.org/post",
         thumbnailWidth: 150,
@@ -169,12 +166,35 @@ export default class AddNewAccount extends Vue{
     async fileSelected()
     {
         var el:any =document.getElementById("image-file");
-        this.addToken.icon = el.files[0];
-        this.iconName = this.addToken.icon.name
+        this.iconName = el.files[0].name
+        this.addToken.icon = el.files[0].path;
     }
 
-    save(){
-        console.log('save')
+    async save(){
+        if(this.addToken._id != '' && this.addToken.contract != '' && this.addToken.currancy != '' && this.addToken.chain != ''){
+            this.showSpinner = true
+            let data = await StorageService.addTokenManually(this.addToken)
+            if(data){
+                this.$notify({
+                    group: 'foo',
+                    type: 'info',
+                    title: 'Token saved',
+                    text: data.data
+                });
+                setTimeout(() => {
+                    this.showSpinner = false
+                    this.closeModal()
+                }, 500);
+            }
+        }
+        else{
+            this.$notify({
+                    group: 'foo',
+                    type: 'warn',
+                    title: 'Some fields are empty!',
+                    text: 'Please fill in all the required fields'
+                });
+        }
     }
     closeModal(){
         this.$emit('close')
