@@ -4,7 +4,7 @@
           <Spinner  v-model="showSpinner" />
       </div>
         <div v-if="!showSpinner" class="d-flex row">
-            <div class="p-3" style="width:220px" v-for="(token ,index) in tokens" :key="index" >
+            <div class="p-3" style="width:250px" v-for="(token ,index) in tokens" :key="index" >
                 <div class="card m-2 shadow-none " :class="$store.state.layout.themeDarkMode ? 'border-gray':'border'">
                     <div class="card-body p-3">
                         <div class="">
@@ -38,9 +38,15 @@
                             <!-- <i
                                 class="bx bxs-folder font-size-24 text-warning"
                             ></i> -->
-                            <img :src="token.icon" style="width:24px;background:none;border-radius:50%;border:1px solid lightgray" alt="">
+                            <img v-if="!token.local" :src="token.icon" style="width:24px;background:none;border-radius:50%;border:1px solid lightgray" alt="">
+                            <i v-if="token.local"
+                                class="bx bx-buoy font-size-24 "
+                            ></i>
                             </div>
                         </div>
+                        <!-- <span class="my-2" :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                            {{token._id}}
+                        </span> -->
                         <div class="d-flex">
                             <div class="overflow-hidden me-auto">
                             <h5 class="font-size-14 text-truncate mb-1">
@@ -121,7 +127,6 @@ export default class AccountList extends Vue{
         let allLocalTokens = await StorageService.getLocalTolens();
         if(allLocalTokens.message == 'success' || allLocalTokens != undefined){
             if(allLocalTokens.data){
-                console.log('allLocalTokens.data',allLocalTokens.data[0])
                 for(let localTokens of Object.entries(allLocalTokens.data[0])){
                     this.tokens.push(localTokens[1])
                 }
@@ -134,6 +139,7 @@ export default class AccountList extends Vue{
             this.tokens = this.tokensList;
             this.showSpinner = false;
         }
+        console.log(this.tokens)
     }
     goToTransferToken(){
         this.$emit('changeSelectedMenu','transferToken')
