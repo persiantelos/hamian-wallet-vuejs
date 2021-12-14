@@ -37,7 +37,7 @@
                         </div>
                         <div class="avatar-xs me-3 mb-3">
                             <div class="avatar-title bg-transparent rounded">
-                            <i class="bx bx-user font-size-24" :class="selected.name == account.name ? ' text-warning' : 'text-body'" ></i>
+                            <i class="bx bx-user font-size-24" :class="selected == account.name ? ' text-warning' : 'text-body'" ></i>
                             </div>
 
                         </div>
