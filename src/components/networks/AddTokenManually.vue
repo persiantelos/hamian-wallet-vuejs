@@ -175,6 +175,7 @@ export default class AddNewAccount extends Vue{
             this.showSpinner = true
             let data = await StorageService.addTokenManually(this.addToken)
             if(data){
+                this.$store.state.globalReload +=1;
                 this.$notify({
                     group: 'foo',
                     type: 'info',

@@ -69,7 +69,7 @@
     </div>
 </template>
 <script lang="ts">
-import {Vue, Component , } from 'vue-property-decorator'
+import {Vue, Component ,Watch } from 'vue-property-decorator'
 import AccountService from '@/services/accountService'
 import StorageService from '@/localService/storageService'
 import Spinner from '@/components/spinner/Spinner.vue'
@@ -84,6 +84,11 @@ export default class AccountList extends Vue{
     tokensList:any=[];
     accInfo:any=[];
     showSpinner:boolean=true;
+    @Watch('$store.state.globalReload')
+    refresh(){
+        this.showSpinner=true;
+        this.init();
+    }
     mounted(){
         this.init();
     }
