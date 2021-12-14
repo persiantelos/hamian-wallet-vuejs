@@ -111,7 +111,7 @@ export default class AccountList extends Vue{
     }
     getCurrentAccount(){
         this.currentAccount = this.$store.state.currentAccount
-        this.selected = this.$store.state.currentAccount
+        this.selected = this.$store.state.currentAccount.name
     }
     checkValue(newVal:any){
         if(newVal.length<1){
