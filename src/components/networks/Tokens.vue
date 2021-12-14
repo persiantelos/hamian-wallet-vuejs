@@ -142,7 +142,7 @@
                 </div>
             </div>
         </div>
-        
+        <b-button size="lg" pill  style="position: absolute;bottom: 5%;right: 5%;width:40px;" variant="primary" class="btn-block">+</b-button>
     </div>
 </template>
 <script lang="ts">
