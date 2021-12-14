@@ -50,15 +50,20 @@
                     </div>
                     <div class="col-4 p-1">
                         <p class="font-size-15 mb-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Chain</p>
-                        <b-form-input
-                            id="input-2"
-                            v-model="addToken.chain"
-                            type="text"
-                            disabled
-                            style="cursor: no-drop"
-                            placeholder="Chain"
-                            :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
-                        ></b-form-input>
+                        <b-dropdown variant="outline-secondary "   style="min-width:100%">
+                            <template v-slot:button-content>
+                                {{addToken.chain}}
+                                <i class="mdi mdi-chevron-down"></i>
+                            </template>
+                            <div align="left"  v-for="(blockchain , index) in $store.state.blockchain" :key="index">
+                                <b-dropdown-item align="left" @click="onItemClick(blockchain)" href="javascript: void(0);">
+                                    <span
+                                    :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                                    {{blockchain.name}}
+                                    </span>
+                                </b-dropdown-item>
+                            </div>
+                        </b-dropdown>
                     </div>
                 </div>
                 <!-- TODO:icons is not displaing on tokens page -->
@@ -154,6 +159,9 @@ export default class AddNewAccount extends Vue{
     }
     mounted(){
         this.addToken.chain = this.$store.state.currentNet._id;
+    }
+    onItemClick(data:any){
+        this.addToken.chain = data.name
     }
     upload()
     {
