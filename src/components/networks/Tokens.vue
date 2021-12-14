@@ -125,9 +125,13 @@ export default class AccountList extends Vue{
                 for(let localTokens of Object.entries(allLocalTokens.data[0])){
                     this.tokens.push(localTokens[1])
                 }
+                this.showSpinner = false;
+            }else{
+                this.showSpinner = false;
             }
         }
         else{
+            this.tokens = this.tokensList;
             this.showSpinner = false;
         }
     }
