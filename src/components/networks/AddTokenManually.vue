@@ -166,7 +166,6 @@ export default class AddNewAccount extends Vue{
         this.iconName = this.addToken.icon.name
     }
 
-
     save(){
         console.log('save')
     }

@@ -35,7 +35,7 @@
                         <span
                         :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"
                         >
-                        <!-- Add token manually -->
+                        <!-- Add token manually  -->
                         Add token 
                         </span>
                     </b-dropdown-item>

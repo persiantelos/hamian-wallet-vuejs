@@ -6,4 +6,5 @@ export default class AddTokenModel
     decimals:number=4;
     chain:string='';
     icon:string='';
+    
 }      
