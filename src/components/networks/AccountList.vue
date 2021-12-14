@@ -29,7 +29,7 @@
                             <b-dropdown-item @click="setSelectedacc(account)" href="#">
                             <span
                             :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
-
+                            <i class="mdi mdi-check-bold"></i>
                                 select
                             </span>
                             </b-dropdown-item>
