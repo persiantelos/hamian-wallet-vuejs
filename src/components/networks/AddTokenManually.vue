@@ -7,7 +7,7 @@
             <div class="col-12">
                 <div class="col-12 d-flex">
                     <div class="col-6 p-1">
-                        <p class="font-size-15 mb-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Name</p>
+                        <p class="font-size-15 mb-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Name <span v-if="validate" class="text-danger">*</span></p>
                         <b-form-input
                             id="input-2"
                             v-model="addToken._id"
@@ -17,7 +17,7 @@
                         ></b-form-input>
                     </div>
                     <div class="col-6 p-1">
-                        <p class="font-size-15 mb-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Contract</p>
+                        <p class="font-size-15 mb-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Contract <span v-if="contractValidate" class="text-danger">*</span></p>
                         <b-form-input
                             id="input-2"
                             v-model="addToken.contract"
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-12 d-flex">
                     <div class="col-4 p-1">
-                        <p class="font-size-15 mb-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Currancy</p>
+                        <p class="font-size-15 mb-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Currancy <span v-if="validate" class="text-danger">*</span></p>
                         <b-form-input
                             id="input-2"
                             v-model="addToken.currancy"
@@ -39,7 +39,7 @@
                         ></b-form-input>
                     </div>
                     <div class="col-4 p-1">
-                        <p class="font-size-15 mb-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Decimals</p>
+                        <p class="font-size-15 mb-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Decimals <span v-if="validate" class="text-danger">*</span></p>
                         <b-form-input
                             id="input-2"
                             v-model="addToken.decimals"
@@ -108,7 +108,7 @@
                     <b-button class="pr-3 m-1 pl-3" 
                         variant="success"
                         size="sm"
-                        @click="save()">
+                        @click="getTokenBalanceByContractName()">
                         Add Token
                     </b-button>
                     <b-button
@@ -131,6 +131,8 @@ import {Vue , Component , Prop , Watch} from "vue-property-decorator";
 import Spinner from "@/components/spinner/Spinner.vue"
 import StorageService from '@/localService/storageService'
 import AddToken from '@/models/token/addTokenModel';
+import AccountService from '@/services/accountService'
+
 // import vue2Dropzone from "vue2-dropzone";
 
 
@@ -144,6 +146,8 @@ export default class AddNewAccount extends Vue{
     addToken:AddToken=new AddToken();
     iconName:string=''
     showSpinner:boolean=false;
+    contractValidate:boolean=false;
+    validate:boolean=false;
     dropzoneOptions: {
         url: "https://httpbin.org/post",
         thumbnailWidth: 150,
@@ -178,9 +182,39 @@ export default class AddNewAccount extends Vue{
         this.iconName = el.files[0].name
         this.addToken.icon = el.files[0].path;
     }
-
+    async getTokenBalanceByContractName(){
+        if(this.addToken.contract != ''){
+            var chain = []
+            for(let net of this.$store.state.blockchain){
+                if(net._id == this.addToken.chain){
+                    chain = net;
+                }
+            }
+            let balance = await AccountService.getDynamicTokenBalance(this.addToken,this.addToken._id,chain)
+            if(balance){
+                this.save()
+                this.contractValidate = false;
+            }
+            else{
+                this.$notify({
+                    group: 'foo',
+                    type: 'warn',
+                    text: 'Contract is not valid'
+                });
+                this.contractValidate = true;
+            }
+        }
+        else{
+            this.$notify({
+                group: 'foo',
+                type: 'warn',
+                text: 'Contract is not valid'
+            });
+            this.contractValidate = true;
+        }
+    }
     async save(){
-        if(this.addToken._id != '' && this.addToken.contract != '' && this.addToken.currancy != '' && this.addToken.chain != ''){
+        if(this.addToken._id != '' && this.addToken.currancy != '' && this.addToken.chain != ''){
             this.showSpinner = true
             let data = await StorageService.addTokenManually(this.addToken)
             if(data){
@@ -199,11 +233,12 @@ export default class AddNewAccount extends Vue{
         }
         else{
             this.$notify({
-                    group: 'foo',
-                    type: 'warn',
-                    title: 'Some fields are empty!',
-                    text: 'Please fill in all the required fields'
-                });
+                group: 'foo',
+                type: 'warn',
+                // title: 'Some fields are empty!',
+                text: 'Please fill in all the required fields'
+            });
+            this.validate = true;
         }
     }
     closeModal(){
