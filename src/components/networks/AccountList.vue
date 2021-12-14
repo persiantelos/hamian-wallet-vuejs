@@ -9,7 +9,7 @@
                 Account list is empty.
             </p>
         </div>
-        <div v-if="!showSpinner" class="d-flex">
+        <div v-if="!showSpinner" class="d-flex row">
             <div class="p-3"  v-for="(account , index) in AccountList"  :key="index" >
                 <div class="card m-2 shadow-none" :class="$store.state.layout.themeDarkMode ? 'border-gray':'border'">
                     <div class="card-body p-3" >
