@@ -4,7 +4,7 @@
           <Spinner  v-model="showSpinner" />
       </div>
         <div v-if="!showSpinner" class="d-flex row">
-            <div class="p-3" style="width:250px" v-for="(token ,index) in tokens" :key="index" >
+            <div class="p-3" style="min-width:250px;width:auto" v-for="(token ,index) in tokens" :key="index" >
                 <div class="card m-2 shadow-none " :class="$store.state.layout.themeDarkMode ? 'border-gray':'border'">
                     <div class="card-body p-3">
                         <div class="">
