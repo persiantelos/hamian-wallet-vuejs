@@ -3,7 +3,9 @@
         <div v-if="showSpinner">
           <Spinner  v-model="showSpinner" />
       </div>
+      
         <div v-if="!showSpinner" class="d-flex row">
+            
             <div class="p-3" style="min-width:250px;width:auto" v-for="(token ,index) in tokens" :key="index" >
                 <div class="card m-2 shadow-none " :class="$store.state.layout.themeDarkMode ? 'border-gray':'border'">
                     <div class="card-body p-3">
@@ -22,17 +24,23 @@
 
                             <b-dropdown-item href="#" @click="goToTransferToken()">
                                <span :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
-                                    Transfer
+                                    <i class="mdi mdi-swap-horizontal "  ></i> Transfer
                                 </span>
                             </b-dropdown-item>
-                            <b-dropdown-divider></b-dropdown-divider>
                             <b-dropdown-item href="#" @click="reload()">
-                               <span :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
-                                    Refresh
+                                <span :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                                   <i class="bx bx-sync "  ></i> Refresh
+                                </span>
+                            </b-dropdown-item>
+                            <b-dropdown-divider v-if="token.local"></b-dropdown-divider>
+                            <b-dropdown-item v-if="token.local" href="#" @click="remove(token)">
+                                <span :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                                   <i class="bx bx-trash-alt text-danger"  ></i> Remove
                                 </span>
                             </b-dropdown-item>
                             </b-dropdown>
                         </div>
+                        
                         <div class="avatar-xs me-3 mb-3">
                             <div class="avatar-title bg-transparent rounded">
                             <!-- <i
@@ -66,9 +74,75 @@
                         </div>
                         </div>
                     </div>
+                    <div v-if="showRemovePopUp">
+                        <b-modal :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" :title="'Remove ' + selectedToRemove.contract +' permanently!'" centered v-model="showRemovePopUp" >
+                            <div class="col-12 d-flex"  :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" >
+                                <p class="col-6">
+                                Name : 
+                                </p>
+                                <p class="col-6">
+                                {{selectedToRemove._id}}
+                                </p>
+                            </div>
+                            <div class="col-12 d-flex"  :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" >
+                                <p class="col-6">
+                                Contract : 
+                                </p>
+                                <p class="col-6">
+                                {{selectedToRemove.contract}}
+                                </p>
+                            </div>
+                            <div class="col-12 d-flex"  :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" >
+                                <p class="col-6">
+                                Decimals : 
+                                </p>
+                                <p class="col-6">
+                                {{selectedToRemove.decimals}}
+                                </p>
+                            </div>
+                            <div class="col-12 d-flex"  :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" >
+                                <p class="col-6">
+                                Currancy : 
+                                </p>
+                                <p class="col-6">
+                                {{selectedToRemove.currancy}}
+                                </p>
+                            </div>
+                            <div class="col-12 d-flex"  :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" >
+                                <p class="col-6">
+                                Chain : 
+                                </p>
+                                <p class="col-6">
+                                {{selectedToRemove.chain}}
+                                </p>
+                            </div>
+                            <template dir="rtl" #modal-footer>
+                                <div dir="rtl" class="w-100 float-right">
+                                    <div v-if="showSpinner">
+                                        <Spinner v-if="showSpinner" />
+                                    </div>
+                                    <b-button class="pr-3 m-1 pl-3" 
+                                        variant="danger"
+                                        size="sm"
+                                        @click="deleteToken()">
+                                        Delete Token
+                                    </b-button>
+                                    <b-button
+                                        variant="outline-secondary"
+                                        size="sm"
+                                        :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'"
+                                        @click="showRemovePopUp = false">
+                                        Close
+                                    </b-button>
+                                </div>
+                            </template>
+                        </b-modal>
+                    </div>
+                    
                 </div>
             </div>
         </div>
+        
     </div>
 </template>
 <script lang="ts">
@@ -76,10 +150,12 @@ import {Vue, Component ,Watch } from 'vue-property-decorator'
 import AccountService from '@/services/accountService'
 import StorageService from '@/localService/storageService'
 import Spinner from '@/components/spinner/Spinner.vue'
+import Confirm from "@/components/common/Confirm.vue"
 
 @Component({
     components:{
-        Spinner
+        Spinner,
+        Confirm
     }
 })
 export default class AccountList extends Vue{
@@ -87,6 +163,8 @@ export default class AccountList extends Vue{
     tokensList:any=[];
     accInfo:any=[];
     showSpinner:boolean=true;
+    showRemovePopUp:boolean=false;
+    selectedToRemove:any=[];
     @Watch('$store.state.globalReload')
     refresh(){
         this.showSpinner=true;
@@ -147,13 +225,22 @@ export default class AccountList extends Vue{
             this.tokens = this.tokensList;
             this.showSpinner = false;
         }
-        console.log(this.tokens)
     }
     goToTransferToken(){
         this.$emit('changeSelectedMenu','transferToken')
     }
     reload(){
         this.init()
+    }
+    remove(data:any){
+        this.showRemovePopUp = true;
+        this.selectedToRemove = data;
+    }
+    acceptAddToBlackList(){
+        console.log('acceptAddToBlackList')
+    }
+    rejectAddToBlackList(){
+        console.log('rejectAddToBlackList')
     }
 }
 </script>
