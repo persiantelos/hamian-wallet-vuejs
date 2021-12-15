@@ -16,23 +16,21 @@ export default {
   components: { Layout, Column , ProfileContent  },
   data() {
     return {
-      statData: [
-        {
-          icon: "bx bx-check-circle",
-          title: "Completed Projects",
-          value: "125"
-        },
-        {
-          icon: "bx bx-hourglass",
-          title: "Pending Projects",
-          value: "12"
-        },
-        {
-          icon: "bx bx-package",
-          title: "Total Revenue",
-          value: "$36,524"
-        }
-      ]
+      informationCard:{
+        name:'mrgoudarzi25',
+        items:10,
+        sets:5,
+        firstName:'Mohammad',
+        lastName:'goudarzi',
+        location:'Iran , Tehran',
+        bio:'(Xtorage , Mega App) Front-end Developer',
+        avatar:'https://api.dstor.cloud/ipfs/QmagVWUrmMWWZkwx1DAyaxL47aS3cNsPjA3ETTKRwPR83g',
+        cover:'https://api.dstor.cloud/ipfs/QmXZHv2ctTRLSKXv3PygFzm3sR4VkPX3UBswGha9iVfwGs',
+        email:'',
+        telegram:'',
+        twitter:'',
+        website:'',
+      }
     };
   },
   mounted(){
@@ -47,7 +45,7 @@ export default {
   <Layout>
     <div class="row">
       <div class="col-xl-4">
-        <Column />
+        <Column :informationCard="informationCard"/>
       </div>
 
       <div class="col-xl-8">
