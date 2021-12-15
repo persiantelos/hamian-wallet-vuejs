@@ -3,14 +3,17 @@
         <div class="card overflow-hidden" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
           <div class="bg-soft bg-primary">
             <div class="row">
-              <div class="col-7">
+              <div v-if="informationCard.cover == ''" :class="informationCard.cover != '' ? '' :'col-7'">
                 <div class="text-primary p-3">
-                  <h5 class="text-primary" >Welcome Back !</h5>
-                  <p >It will seem like simplified</p>
+                  <!-- <h5 class="text-primary" >Welcome Back !</h5> -->
+                  <!-- <p>{{informationCard.bio}}</p> -->
                 </div>
               </div>
               <div class="col-5 align-self-end">
-                <img src="@/assets/images/profile-img.png" alt class="img-fluid" />
+                <img v-if="informationCard.cover == ''" src="@/assets/images/profile-img.png" alt class="img-fluid" />
+              </div>
+              <div class="col-12">
+                <img v-if="informationCard.cover != ''" :src="informationCard.cover" alt class="img-fluid" />
               </div>
             </div>
           </div>
@@ -18,13 +21,14 @@
             <div class="row">
               <div class="col-sm-4">
                 <div class="avatar-md profile-user-wid mb-4">
-                  <img
+                  <img v-if="informationCard.avatar == ''"
                     src="@/assets/images/users/avatar-1.jpg"
                     alt
                     class="img-thumbnail rounded-circle"
                   />
+                  <img v-if="informationCard.avatar != ''" :src="informationCard.avatar" class="img-thumbnail rounded-circle">
                 </div>
-                <h5 class="font-size-15 text-truncate" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Cynthia Price</h5>
+                <h5 class="font-size-15 text-truncate" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">{{informationCard.name}}</h5>
                 <p class="text-muted mb-0 text-truncate" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">UI/UX Designer</p>
               </div>
 
@@ -32,17 +36,17 @@
                 <div class="pt-4">
                   <div class="row">
                     <div class="col-6">
-                      <h5 class="font-size-15" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">125</h5>
-                      <p class="text-muted mb-0" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Projects</p>
+                      <h5 class="font-size-15" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">{{informationCard.items}}</h5>
+                      <p class="text-muted mb-0" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Items</p>
                     </div>
                     <div class="col-6">
-                      <h5 class="font-size-15" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">$1245</h5>
-                      <p class="text-muted mb-0" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Revenue</p>
+                      <h5 class="font-size-15" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">{{informationCard.sets}}</h5>
+                      <p class="text-muted mb-0" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Sets</p>
                     </div>
                   </div>
                   <div class="mt-4">
                     <a href class="btn btn-primary btn-sm">
-                      View Profile
+                      Edit Profile for (5.0000 DRIC)
                       <i class="mdi mdi-arrow-right ms-1"></i>
                     </a>
                   </div>
@@ -60,96 +64,47 @@
             <p
               class="text-muted mb-4"
               :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''"
-            >Hi I'm Cynthia Price,has been the industry's standard dummy text To an English person, it will seem like simplified English, as a skeptical Cambridge.</p>
+            >{{informationCard.bio}}</p>
             <div class="table-responsive ">
               <table class="table table-nowrap mb-0">
                 <tbody>
                   <tr>
-                    <th scope="row" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Full Name :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">Cynthia Price</td>
+                    <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                        <i class="bx bx-user"></i> Full Name :</th>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{informationCard.firstName + ' ' + informationCard.lastName}}</td>
                   </tr>
                   <tr>
-                    <th scope="row" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Mobile :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">(123) 123 1234</td>
+                    <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                        <i class="mdi mdi-email-outline"></i> E-mail :</th>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{informationCard.email}}</td>
                   </tr>
                   <tr>
-                    <th scope="row" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">E-mail :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">cynthiaskote@gmail.com</td>
+                    <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                        <i class="mdi mdi-telegram"></i> Telegram :</th>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{informationCard.telegram}}</td>
                   </tr>
                   <tr>
-                    <th scope="row" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Location :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">California, United States</td>
+                    <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                        <i class="mdi mdi-twitter"></i> Twitter :</th>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{informationCard.twitter}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                        <i class="dripicons-location"></i> Location :</th>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{informationCard.location}}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
-        <!-- end card -->
-
-        <!-- <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
-          <div class="card-body">
-            <h4 class="card-title mb-5" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Experience</h4>
-            <div class>
-              <ul class="verti-timeline list-unstyled">
-                <li class="event-list active">
-                  <div class="event-timeline-dot">
-                    <i class="bx bx-right-arrow-circle bx-fade-right"></i>
-                  </div>
-                  <div class="media">
-                    <div class="me-3">
-                      <i class="bx bx-server h4 text-primary"></i>
-                    </div>
-                    <div class="media-body">
-                      <div>
-                        <h5 class="font-size-15">
-                          <a href="javascript: void(0);" class="text-dark" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Back end Developer</a>
-                        </h5>
-                        <span class="text-primary">2016 - 19</span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="event-list">
-                  <div class="event-timeline-dot">
-                    <i class="bx bx-right-arrow-circle"></i>
-                  </div>
-                  <div class="media">
-                    <div class="me-3">
-                      <i class="bx bx-code h4 text-primary"></i>
-                    </div>
-                    <div class="media-body">
-                      <div>
-                        <h5 class="font-size-15">
-                          <a href="javascript: void(0);" class="text-dark" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Front end Developer</a>
-                        </h5>
-                        <span class="text-primary">2013 - 16</span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="event-list">
-                  <div class="event-timeline-dot">
-                    <i class="bx bx-right-arrow-circle"></i>
-                  </div>
-                  <div class="media">
-                    <div class="me-3">
-                      <i class="bx bx-edit h4 text-primary"></i>
-                    </div>
-                    <div class="media-body">
-                      <div>
-                        <h5 class="font-size-15">
-                          <a href="javascript: void(0);" class="text-dark" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">UI /UX Designer</a>
-                        </h5>
-                        <span class="text-primary">2011 - 13</span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div> -->
-        <!-- end card -->
     </div>
 </template>
+<script lang="ts">
+import {Vue , Component , Prop} from "vue-property-decorator"
+@Component({components:{}})
+export default class Content extends Vue{
+  @Prop({default:()=>{return []}}) informationCard:any;
+ 
+};
+</script>
