@@ -87,7 +87,7 @@
         </div>
         <!-- end card -->
 
-        <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
+        <!-- <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
           <div class="card-body">
             <h4 class="card-title mb-5" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Experience</h4>
             <div class>
@@ -149,7 +149,7 @@
               </ul>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- end card -->
     </div>
 </template>
