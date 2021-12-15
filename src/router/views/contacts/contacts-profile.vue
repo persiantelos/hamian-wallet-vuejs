@@ -15,7 +15,7 @@
         <ProfileContent @save="formChanged" :forms="forms" />
       </div>
       <div class="col-xl-8" v-if="!spinner && defaultContent">
-        <ProfileContent @save="formChanged" :forms="forms" />
+        <DefaultPage />
       </div>
       <div class="col-xl-8" v-if="spinner">
         <Spinner v-model="spinner" />
@@ -32,6 +32,7 @@ import Spinner from "@/components/spinner/Spinner.vue"
 
 import Column from '@/components/profile/Column.vue'
 import ProfileContent from '@/components/profile/Content.vue'
+import DefaultPage from '@/components/profile/DefaultPage.vue'
 
 /**
  * Contacts-Profile component
@@ -41,7 +42,7 @@ export default {
     title: "Profile",
     meta: [{ name: "description", content: appConfig.description }]
   },
-  components: { Layout, Column , ProfileContent, Spinner },
+  components: { Layout, Column , ProfileContent, DefaultPage,Spinner },
   data() {
     return {
       accInformation:{
