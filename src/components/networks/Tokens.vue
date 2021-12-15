@@ -138,11 +138,15 @@
                             </template>
                         </b-modal>
                     </div>
-                    
+                    <div v-if="addNewTokenModal">
+                        <AddNewToken @close="addNewTokenModal = false" v-model="addNewTokenModal" />
+                    </div>
                 </div>
             </div>
         </div>
-        <b-button size="lg" pill  style="position: absolute;bottom: 5%;right: 5%;width:40px;" variant="primary" class="btn-block">+</b-button>
+        <b-button size="lg" pill  
+        style="position: absolute;bottom: 5%;right: 5%;width:40px;"
+         variant="primary" class="btn-block" @click="addNewToken()">+</b-button>
     </div>
 </template>
 <script lang="ts">
@@ -151,11 +155,13 @@ import AccountService from '@/services/accountService'
 import StorageService from '@/localService/storageService'
 import Spinner from '@/components/spinner/Spinner.vue'
 import Confirm from "@/components/common/Confirm.vue"
+import AddNewToken from "@/components/networks/AddTokenManually.vue"
 
 @Component({
     components:{
         Spinner,
-        Confirm
+        Confirm,
+        AddNewToken
     }
 })
 export default class AccountList extends Vue{
@@ -164,6 +170,7 @@ export default class AccountList extends Vue{
     accInfo:any=[];
     showSpinner:boolean=true;
     showRemovePopUp:boolean=false;
+    addNewTokenModal:boolean=false;
     selectedToRemove:any=[];
     @Watch('$store.state.globalReload')
     refresh(){
@@ -172,6 +179,9 @@ export default class AccountList extends Vue{
     }
     mounted(){
         this.init();
+    }
+    addNewToken(){
+        this.addNewTokenModal=true;
     }
     async init(){
         this.showSpinner=true;
