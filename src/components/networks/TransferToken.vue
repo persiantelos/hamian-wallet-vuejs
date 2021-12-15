@@ -235,6 +235,7 @@ export default class AccountList extends Vue{
     async transferClick()
     { 
         if(this.transferToken.to){
+            this.transferToken.from = this.$store.state.currentAccount.name
             this.quantity = this.transferToken.quantity
             this.quantity = parseInt(this.quantity)
             this.quantity = this.quantity.toFixed(parseInt(this.transferToken.customToken.decimals)) 
