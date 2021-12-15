@@ -112,7 +112,7 @@
         <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
             <div class="card-body">
                 <h4 class="card-title mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
-                    Social Information
+                    Social Network Information
                 </h4>
                 <b-form>
                 <b-form-group
@@ -172,7 +172,7 @@
                 </b-form-group>
                 </b-form>
                 <div class="col-12" align="right">
-                    <b-button variant="primary" @click="save()">Save</b-button>
+                    <b-button variant="primary" @click="save()">Edit Profile for (5.0000 DRIC)</b-button>
                 </div>
             </div>
         </div>

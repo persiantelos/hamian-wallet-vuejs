@@ -11,7 +11,10 @@
         />
       </div>
 
-      <div class="col-xl-8" v-if="!spinner">
+      <div class="col-xl-8" v-if="!spinner && editProfileForm">
+        <ProfileContent @save="formChanged" :forms="forms" />
+      </div>
+      <div class="col-xl-8" v-if="!spinner && defaultContent">
         <ProfileContent @save="formChanged" :forms="forms" />
       </div>
       <div class="col-xl-8" v-if="spinner">
@@ -38,7 +41,7 @@ export default {
     title: "Profile",
     meta: [{ name: "description", content: appConfig.description }]
   },
-  components: { Layout, Column , ProfileContent, Spinner  },
+  components: { Layout, Column , ProfileContent, Spinner },
   data() {
     return {
       accInformation:{
@@ -72,6 +75,9 @@ export default {
       },
       counter:0,
       spinner:true,
+      defaultContent:true,
+      editProfileForm:false,
+
     };
   },
   mounted(){
@@ -82,6 +88,8 @@ export default {
     this.accInformation.chain = this.$store.state.currentNet.name;
     this.accInformation.items = 60 ;
     this.accInformation.sets =  5 ;
+    this.defaultContent = true;
+    this.editProfileForm = false;
     setTimeout(() => {
       this.spinner = false;
     }, 500);
@@ -93,6 +101,7 @@ export default {
     },
     editProfile(){
       this.spinner = true;
+      this.editProfileForm = true;
       setTimeout(() => {
         this.spinner = false;
       }, 300);

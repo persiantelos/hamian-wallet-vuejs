@@ -51,9 +51,9 @@
                       <p class="text-muted mb-0" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Sets</p>
                     </div>
                   </div>
-                  <div class="mt-4">
+                  <div class="mt-4" align="right">
                     <a href class="btn btn-primary btn-sm" @click="edditProfile()">
-                      Edit Profile for (5.0000 DRIC)
+                      Edit Profile
                       <i class="mdi mdi-arrow-right ms-1"></i>
                     </a>
                   </div>
