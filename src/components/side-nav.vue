@@ -85,7 +85,12 @@ export default {
         async getNet(){
             this.$store.state.blockchain = await CommonService.getNetworks()
             if(this.$store.state.blockchain){
+                // console.log('this.$route',this.$route)
+                if(this.$route.name == 'walletNetwork' || this.$route.name == 'default'){
+                    // console.log('this.$route.name',this.$route.name)
                 this.setNetwork()
+                }
+
             }
         },
         async setNetwork(){
