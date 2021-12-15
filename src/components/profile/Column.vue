@@ -52,7 +52,7 @@
                     </div>
                   </div>
                   <div class="mt-4" align="right">
-                    <a href class="btn btn-primary btn-sm" @click="edditProfile()">
+                    <a href="#" class="btn btn-primary btn-sm" @click="edditProfile()">
                       Edit Profile
                       <i class="mdi mdi-arrow-right ms-1"></i>
                     </a>

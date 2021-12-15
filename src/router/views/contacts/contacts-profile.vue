@@ -103,6 +103,7 @@ export default {
     editProfile(){
       this.spinner = true;
       this.editProfileForm = true;
+      this.defaultContent = false;
       setTimeout(() => {
         this.spinner = false;
       }, 300);
