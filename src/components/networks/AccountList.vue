@@ -10,7 +10,7 @@
             </p>
         </div>
         <div v-if="!showSpinner" class="d-flex row" style="position: relative">
-            <div class="p-3" style="min-width:250px;width:auto" v-for="(account , index) in AccountList"  :key="index" >
+            <div class="p-3" style="min-width:250px;width:auto" v-for="(account , index) in AccountListFinal"  :key="index" >
                 <div class="card m-2 shadow-none"  :class="$store.state.layout.themeDarkMode ? 'border-gray':'border'">
                     <div class="card-body p-3" >
                         <div class="" @dblclick="setSelectedacc(account)">
@@ -50,7 +50,7 @@
                                     <a
                                     href="javascript: void(0);"
                                     class="text-body" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker' :''"
-                                    >{{token.balance}}&#160;&#160;&#160;≈ $&#160;</a>
+                                    >{{token}}&#160;&#160;&#160;≈ $&#160;</a>
                                 </h5>
                             </div>
                         </div>
@@ -83,7 +83,7 @@ export default class AccountList extends Vue{
     currentNet:any=[]
     currentAccount:any=[]
     tokensList:any=[]
-    AccountList:any=[]
+    AccountListFinal:any=[]
     showSpinner:boolean=true;
     AddAccount:boolean=false;
     @Watch('$store.state.globalReload')
@@ -173,17 +173,15 @@ export default class AccountList extends Vue{
     }
 
     async getTokenBalanceByContractName(){
-        let balances = []
-        let currentNet = this.$store.state.currentNet;
+        var currentNet = this.$store.state.currentNet;
         for(let account of this.accountList){
-            for(let token of this.tokensList){
+            account.val = []
+            for(var token of this.tokensList){
                 let balance = await AccountService.getDynamicTokenBalance(token,account.name,currentNet)
-                token.balance = balance
-                balances.push(token)
+                account.val.push(balance)
             }
-            account.val = balances
         }
-        this.AccountList = this.accountList
+        this.AccountListFinal = this.accountList
         this.showSpinner = false;
     }
 }
