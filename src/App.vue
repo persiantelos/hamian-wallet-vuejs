@@ -218,5 +218,9 @@ color:#a6b0cf !important;
 color:#626981 !important;
 
 }
+.text-dark-mode-lighter{
+color:#9096ad !important;
+
+}
 
 </style>
