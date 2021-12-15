@@ -58,9 +58,14 @@
                     </div>
                 </div>
             </div>
+            <div v-if="addAccModal">
+                <AddNewAccount @close="addAccModal = false" v-model="addAccModal" />
+            </div>
             
         </div>
-        <b-button size="lg" pill  style="position: absolute;bottom: 5%;right: 5%;width:40px;" variant="primary" class="btn-block">+</b-button>
+        <b-button size="lg" pill  
+        style="position: absolute;bottom: 5%;right: 5%;width:40px;" 
+        variant="primary" class="btn-block" @click="addAccountModal()" >+</b-button>
     </div>
 </template>
 <script lang="ts">
@@ -69,11 +74,13 @@ import StorageService from '@/localService/storageService'
 import AccountService from '@/services/accountService'
 import Spinner from '@/components/spinner/Spinner.vue'
 import WalletService from '@/localService/walletService';
+import AddNewAccount from "@/components/networks/AddNewAccount.vue"
 
 
 @Component({
     components:{
-        Spinner
+        Spinner,
+        AddNewAccount
     }
 })
 export default class AccountList extends Vue{
@@ -86,6 +93,8 @@ export default class AccountList extends Vue{
     AccountListFinal:any=[]
     showSpinner:boolean=true;
     AddAccount:boolean=false;
+    addAccModal:boolean = false;
+
     @Watch('$store.state.globalReload')
     reload(){
         this.showSpinner=true;
@@ -93,6 +102,9 @@ export default class AccountList extends Vue{
     }
     mounted(){
         this.getCurrentNet();
+    }
+    addAccountModal(){
+        this.addAccModal = true;
     }
     async getCurrentNet(){
         this.currentNet =   this.$store.state.currentNet
