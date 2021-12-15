@@ -29,7 +29,7 @@ export default {
 <template>
 <div>  
     <Vertical :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" v-if="layoutType === 'vertical'" :layout="layoutType">
-        <PageHeader  :title="$store.state.currentPageTitle" :items="$store.state.currentPageItems" />
+        <PageHeader v-if="$route.name == 'walletNetwork'" :title="$store.state.currentPageTitle" :items="$store.state.currentPageItems" />
         <slot />
     </Vertical>
 
