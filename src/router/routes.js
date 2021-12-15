@@ -46,14 +46,11 @@ export default [
     name: 'NFTs',
     component: () => import('./views/NFTs/NFTs.vue')
   },
-  // {
-  //   path: '/login',
-  //   // component: () => import('./layouts/auth.vue'),
-  //   children: [
-  //     // { path: '', component: () => import('./views/auth/Login.vue'),name:'Login',meta:{isPublic:true} },
-  //     { path: 'local', component: () => import('./views/auth/LocalLogin.vue'),name:'LocalLogin' },
-  //   ],
-  // },
+  {
+    path: '/contacts/profile',
+    name: 'Profile',
+    component: () => import('./views/contacts/contacts-profile')
+  },
   
   {
     path: '/ReLink',

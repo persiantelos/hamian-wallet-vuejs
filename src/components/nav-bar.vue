@@ -830,6 +830,7 @@ export default {
             {{ $t("navbar.dropdown.henry.list.mywallet") }}
           </b-dropdown-item>
           -->
+          
           <b-dropdown-item @click="generateKey()"  class="d-block" href="#">
             <i class="bx bxs-key font-size-16 align-middle me-1"
             :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"></i>
@@ -838,6 +839,7 @@ export default {
             </span>
           >
           </b-dropdown-item>
+          
           <b-dropdown-item @click="generateQrCode()"  class="d-block" href="#">
             <i class="mdi mdi-qrcode font-size-16 align-middle me-1"
             :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"></i>
@@ -845,6 +847,12 @@ export default {
               QR Code
             </span>
           >
+          </b-dropdown-item>
+          <b-dropdown-item>
+            <router-link :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''" tag="span" to="/contacts/profile">
+              <i class="bx bx-user font-size-16 align-middle me-1"></i>
+              {{ $t("navbar.dropdown.henry.list.profile") }}
+            </router-link>
           </b-dropdown-item>
           <div class="my-3 d-flex justify-content-center">
           <toggle-button id="appMode" v-model="appMode" :labels="true" @change="themeDarkMode"
