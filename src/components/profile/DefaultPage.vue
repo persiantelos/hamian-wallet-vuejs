@@ -51,6 +51,7 @@ export default class DefaultPage extends Vue{
     spinner:boolean=true;
     mounted(){
         if(this.defaultProfileInfomation){
+            console.log(this.defaultProfileInfomation)
             this.init();
         }
     }

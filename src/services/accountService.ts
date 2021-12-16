@@ -54,4 +54,85 @@ export default class AccountService
     static async getCollectors(){
         return BaseServices.get(Config.areaXBaseURL+'/web/getCollectors?$filter=_id%20eq%20%27babyevils.gm%27')
     }
+    
+    static async getSocialProfile(accountName:any){
+        let json = {"json":true, "code":'nftsoc.code',"scope":'nftsoc.code',"table":"profiles","upper_bound":accountName,"lower_bound":accountName,"limit":1}
+        let url = Config.persianTelos+'/v1/chain/get_table_rows'
+        var acc=await BaseServices.postData(url,json);
+        if(acc.rows[0]){
+            var accountInformation = {
+                FirstName:'',
+                LastName:'',
+                Location:'',
+                Bio:'',
+                Avatar:'',
+                Cover:'',
+                Contacts:{
+                    email:'',
+                    Telegram:'',
+                    Twitter:'',
+                    Website:'',
+                },
+            }
+            try {
+                var tempInformation = JSON.parse(acc.rows[0].information);
+              } catch (error) {
+                var tempInformation = acc.rows[0].information;
+                var properties = tempInformation.split("⬥");
+                for (const prop of properties) {
+                  var arrow = prop.split("⇨");
+                  switch(arrow[0]){
+                    case "1":
+                        accountInformation.FirstName = arrow[1];
+                    break;
+                    case "2":
+                      accountInformation.LastName = arrow[1];
+                    break;
+                    case "3":
+                      accountInformation.Location = arrow[1];
+                    break;
+                    case "4":
+                      accountInformation.Bio = arrow[1];
+                    break;
+                    case "5":
+                      accountInformation.Avatar = arrow[1];
+                    break;
+                    case "6":
+                      accountInformation.Cover = arrow[1];
+                    break;
+                    case "7":
+                      var arr = arrow[1].split("⬝");
+                      for (let i = 0; i < arr.length; i++) {
+                        switch(i){
+                          case 0:
+                            accountInformation.Contacts["email"] = arr[0];
+                          break;
+                          case 1:
+                            accountInformation.Contacts["Telegram"] = arr[1];
+                          break;
+                          case 2:
+                            accountInformation.Contacts["Twitter"] = arr[2];
+                          case 3:
+                              accountInformation.Contacts["Website"] = arr[3];
+                          break;
+                        } 
+                      }
+                    break;
+                  }
+                }
+              }
+            return accountInformation
+        }
+        else{
+            return 'account not found'
+        }
+
+    }
+    static async getProfileEditPrice(){
+
+    }
+
+    static async saveEditProfile(data:any){
+        return data
+    }
 }

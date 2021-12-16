@@ -28,6 +28,8 @@ import Column from '@/components/profile/Column.vue';
 import ProfileContent from '@/components/profile/Content.vue';
 import DefaultPage from '@/components/profile/DefaultPage.vue';
 import AccountService from '@/services/accountService';
+import ProfileModel from "@/models/profile/profileModel"
+
 
 
 /**
@@ -47,30 +49,8 @@ export default {
         items:0,
         sets:0,
       },
-      informationCard:{
-        firstName:'',
-        lastName:'',
-        location:'',
-        bio:'',
-        avatar:'',
-        cover:'',
-        email:'',
-        telegram:'',
-        twitter:'',
-        website:'',
-      },
-      forms:{
-        firstName:'',
-        lastName:'',
-        location:'',
-        email:'',
-        bio:'',
-        avatar:'',
-        cover:'',
-        telegram:'',
-        twitter:'',
-        website:'',
-      },
+      informationCard:new ProfileModel(),
+      forms:new ProfileModel(),
       counter:0,
       defaultContent:true,
       editProfileForm:false,
@@ -82,15 +62,32 @@ export default {
     this.$store.state.currentPageTitle = 'Profile'
     this.$store.state.currentPageItems[0].text = 'Contacts';
     this.$store.state.currentPageItems[1].text = 'Profile';
-        this.init();
-
+    this.init();
     this.accInformation.name = this.$store.state.currentAccount.name;
     this.accInformation.chain = this.$store.state.currentNet.name;
-    this.defaultContent = true;
     this.editProfileForm = false;
     
   },
   methods:{
+    async profileInfo(){
+        // var profileInformation = await AccountService.getSocialProfile(this.$store.state.currentAccount.name);
+        var profileInformation = await AccountService.getSocialProfile('mgoudarzii25');
+        if(profileInformation){
+          this.defaultContent = true;
+          // this.informationCard = profileInformation
+            profileInformation.FirstName ? this.informationCard.FirstName = profileInformation.FirstName : this.informationCard.FirstName = '';
+            profileInformation.LastName ? this.informationCard.LastName = profileInformation.LastName : this.informationCard.LastName =  '';
+            profileInformation.Location ? this.informationCard.Location = profileInformation.Location : this.informationCard.Location =  '';
+            profileInformation.Bio ? this.informationCard.Bio = profileInformation.Bio : this.informationCard.Bio = '';
+            profileInformation.Avatar ? this.informationCard.Avatar = profileInformation.Avatar : this.informationCard.Avatar =  '';
+            profileInformation.Cover ? this.informationCard.Cover = profileInformation.Cover : this.informationCard.Cover =  '';
+            profileInformation.Contacts.email ? this.informationCard.Contacts.email = profileInformation.Contacts.email : this.informationCard.Contacts.email =  '';
+            profileInformation.Contacts.Telegram ? this.informationCard.Contacts.Telegram = profileInformation.Contacts.Telegram : this.informationCard.Contacts.Telegram =  '';
+            profileInformation.Contacts.Twitter ? this.informationCard.Contacts.Twitter = profileInformation.Contacts.Twitter : this.informationCard.Contacts.Twitter =  '';
+            profileInformation.Contacts.Websit ? this.informationCard.Contacts.Websit = profileInformation.Contacts.Websit : this.informationCard.Contacts.Websit =  '';
+          this.counter++
+        }
+    },
     async init(){
       let accInfo = await AccountService.getCollectors();
       if(accInfo.value[0]){
@@ -98,16 +95,9 @@ export default {
         accInfo = accInfo.value[0];
         accInfo.items ? this.accInformation.items = accInfo.items : this.accInformation.items = 0;
         accInfo.sets ? this.accInformation.sets =  accInfo.sets : this.accInformation.sets =  0;
-        accInfo.Avatar ? this.informationCard.avatar = accInfo.Avatar : this.informationCard.avatar = '';
-        accInfo.Cover ? this.informationCard.cover = accInfo.Cover : this.informationCard.cover = '';
-        accInfo.FirstName ? this.informationCard.firstName = accInfo.FirstName : this.informationCard.firstName = '';
-        accInfo.LastName ? this.informationCard.lastName = accInfo.LastName : this.informationCard.lastName = '';
-        accInfo.Bio ? this.informationCard.bio = accInfo.Bio : this.informationCard.bio = '';
-        accInfo.Location ? this.informationCard.location = accInfo.Location : this.informationCard.location = '';
-        accInfo.Contacts.email ? this.informationCard.email = accInfo.Contacts.email : this.informationCard.email = '';
-        accInfo.Contacts.Telegram ? this.informationCard.telegram = accInfo.Contacts.Telegram : this.informationCard.telegram = '';
-        accInfo.Contacts.Twitter ? this.informationCard.twitter = accInfo.Contacts.Twitter : this.informationCard.twitter = '';
-        accInfo.website ? this.informationCard.website = accInfo.website : this.informationCard.website = '';
+        this.profileInfo()
+
+
       }
 
     },

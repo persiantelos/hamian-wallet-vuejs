@@ -10,17 +10,17 @@
         <div v-if="!spinner" class="card overflow-hidden" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
           <div class="bg-soft bg-primary">
             <div class="row">
-              <div v-if="formInformation.cover == ''" :class="formInformation.cover != '' ? '' :'col-7'">
+              <div v-if="formInformation.Cover == ''" :class="formInformation.Cover != '' ? '' :'col-7'">
                 <div class="text-primary p-3">
                   <!-- <h5 class="text-primary" >Welcome Back !</h5> -->
                   <!-- <p>{{formInformation.bio}}</p> -->
                 </div>
               </div>
               <div class="col-5 align-self-end">
-                <img v-if="formInformation.cover == ''" src="@/assets/images/profile-img.png" alt class="img-fluid" />
+                <img v-if="formInformation.Cover == ''" src="@/assets/images/profile-img.png" alt class="img-fluid" />
               </div>
               <div class="col-12 cover">
-                <img v-if="formInformation.cover != ''" :src="formInformation.cover" alt class="img-fluid" />
+                <img v-if="formInformation.Cover != ''" :src="formInformation.Cover" alt class="img-fluid" />
               </div>
             </div>
           </div>
@@ -28,12 +28,12 @@
             <div class="row">
               <div class="col-sm-4">
                 <div class="avatar-md profile-user-wid mb-4">
-                  <img v-if="formInformation.avatar == ''"
+                  <img v-if="formInformation.Avatar == ''"
                     src="@/assets/images/users/avatar-1.jpg"
                     alt
                     class="img-thumbnail rounded-circle"
                   />
-                  <img v-if="formInformation.avatar != ''" :src="formInformation.avatar" class="img-thumbnail rounded-circle">
+                  <img v-if="formInformation.Avatar != ''" :src="formInformation.Avatar" class="img-thumbnail rounded-circle">
                 </div>
                 <h5 class="font-size-15 text-truncate" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">{{accountInformation.name}}</h5>
                 <p class="text-muted mb-0 text-truncate" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">{{accountInformation.chain}}</p>
@@ -70,34 +70,34 @@
             <p
               class="text-muted mb-4"
               :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''"
-            >{{formInformation.bio}}</p>
+            >{{formInformation.Bio}}</p>
             <div class="table-responsive ">
               <table class="table table-nowrap mb-0">
                 <tbody>
                   <tr>
                     <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                         <i class="bx bx-user"></i> Full Name :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.firstName + ' ' + formInformation.lastName}}</td>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.FirstName + ' ' + formInformation.LastName}}</td>
                   </tr>
                   <tr>
                     <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                         <i class="mdi mdi-email-outline"></i> E-mail :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.email}}</td>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.Contacts.email}}</td>
                   </tr>
                   <tr>
                     <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                         <i class="mdi mdi-telegram"></i> Telegram :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.telegram}}</td>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.Contacts.Telegram}}</td>
                   </tr>
                   <tr>
                     <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                         <i class="mdi mdi-twitter"></i> Twitter :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.twitter}}</td>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.Contacts.Twitter}}</td>
                   </tr>
                   <tr>
                     <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                         <i class="dripicons-location"></i> Location :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.location}}</td>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.Location}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -131,7 +131,7 @@ export default class Content extends Vue{
         this.accountInformation = this.accInformation;
         setTimeout(() => {
             this.spinner=false
-        }, 10000);
+        }, 400);
     }
     edditProfile(){
         this.$emit('editProfile')

@@ -21,7 +21,7 @@
                                 <b-form-input
                                 id="formrow-firstname-input"
                                 type="text"
-                                v-model="forms.firstName"
+                                v-model="formModel.FirstName"
                                 :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                                 ></b-form-input>
                             </b-form-group>
@@ -36,7 +36,7 @@
                                 <b-form-input
                                     id="formrow-lastname-input"
                                     type="text"
-                                    v-model="forms.lastName"
+                                    v-model="formModel.LastName"
                                     :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                                 ></b-form-input>
                                 </b-form-group>
@@ -53,7 +53,7 @@
                                 <b-form-input
                                 id="formrow-location-input"
                                 type="text"
-                                v-model="forms.location"
+                                v-model="formModel.Location"
                                 :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                                 ></b-form-input>
                             </b-form-group>
@@ -68,7 +68,7 @@
                                 <b-form-input
                                     id="formrow-bio-input"
                                     type="text"
-                                    v-model="forms.bio"
+                                    v-model="formModel.Bio"
                                     :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                                 ></b-form-input>
                                 </b-form-group>
@@ -86,7 +86,7 @@
                                 <b-form-input
                                 id="formrow-avatar-input"
                                 type="text"
-                                v-model="forms.avatar"
+                                v-model="formModel.Avatar"
                                 :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                                 ></b-form-input>
                             </b-form-group>
@@ -101,7 +101,7 @@
                                 <b-form-input
                                     id="formrow-cover-input"
                                     type="text"
-                                    v-model="forms.cover"
+                                    v-model="formModel.Cover"
                                     :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                                 ></b-form-input>
                             </b-form-group>
@@ -130,7 +130,7 @@
                     <b-form-input
                     id="horizontal-email-input"
                     type="email"
-                    v-model="forms.email"
+                    v-model="formModel.Contacts.email"
                     :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                     ></b-form-input>
                 </b-form-group>
@@ -143,7 +143,7 @@
                     <b-form-input
                     id="horizontal-telegram-input"
                     type="text"
-                    v-model="forms.telegram"
+                    v-model="formModel.Contacts.Telegram"
                     :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                     ></b-form-input>
                 </b-form-group>
@@ -158,7 +158,7 @@
                     <b-form-input
                     id="horizontal-twitter-input"
                     type="text"
-                    v-model="forms.twitter"
+                    v-model="formModel.Contacts.Twitter"
                     :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                     ></b-form-input>
                 </b-form-group>
@@ -172,13 +172,13 @@
                     <b-form-input
                     id="horizontal-website-input"
                     type="text"
-                    v-model="forms.website"
+                    v-model="formModel.Contacts.Website"
                     :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                     ></b-form-input>
                 </b-form-group>
                 </b-form>
                 <div class="col-12" align="right">
-                    <b-button variant="primary" @click="save()">Edit Profile for (5.0000 DRIC)</b-button>
+                    <b-button variant="primary" @click="save()">Edit profile for {{price}}</b-button>
                 </div>
             </div>
         </div>
@@ -187,17 +187,30 @@
 <script lang="ts">
 import {Vue , Component , Prop } from "vue-property-decorator"
 import Spinner from "../spinner/Spinner.vue"
+import AccountService from '@/services/accountService';
 @Component({components:{Spinner}})
 export default class Content extends Vue{
     @Prop({default:() =>{return []}}) forms:any;
     Spinner:boolean=true;
-    save(){
-        this.$emit('save',this.forms)
+    formModel:any=[]
+    price:string='';
+    async save(){
+
+        let res = await AccountService.saveEditProfile(this.formModel)
+        if(res){
+            console.log(res)
+            this.$emit('save',this.forms)
+        }
     }
     mounted(){
-        setTimeout(() => {
-            this.Spinner = false;
-        }, 300);
+        if(this.forms){
+            this.formModel = this.forms;
+            setTimeout(() => {
+                this.Spinner = false;
+            }, 300);
+        }
+       
     }
+  
 };
 </script>
