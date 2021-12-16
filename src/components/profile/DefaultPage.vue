@@ -26,28 +26,12 @@
 <script lang="ts">
 import {Vue , Component , Prop , Watch} from 'vue-property-decorator'
 import Stat from "@/components/profile/stat.vue";
-import AccountService from '@/services/accountService';
+// import AccountService from '@/services/accountService';
 import Spinner from '../spinner/Spinner.vue';
 
 @Component({components:{Stat,Spinner}})
 export default class DefaultPage extends Vue{
-    // statData: [
-    //     {
-    //       icon: "bx bx-check-circle",
-    //       title: "Sell By TELOS",
-    //       value: "125"
-    //     },
-    //     {
-    //       icon: "bx bx-hourglass",
-    //       title: "Sell By DARIC",
-    //       value: "12"
-    //     },
-    //     {
-    //       icon: "bx bx-package",
-    //       title: "Royalty",
-    //       value: "$36,524"
-    //     }
-    // ]
+    @Prop({default:()=>{return []}}) defaultProfileInfomation:any;
     statData:any= {
         royalty:{
             icon: "mdi mdi-star-four-points-outline",
@@ -65,21 +49,24 @@ export default class DefaultPage extends Vue{
             value: ""
         },
     }
-    defaultProfileInfomation:any=[]
+    // defaultProfileInfomation:any=[]
     spinner:boolean=true;
     mounted(){
-        this.init();
+        if(this.defaultProfileInfomation){
+            this.init();
+        }
+    }
+    @Watch('defaultProfileInfomation')
+    defaultProfileInfomationChanged(newVal:any){
+        if(newVal){
+            this.init();
+        }
     }
     async init(){
-        this.defaultProfileInfomation = await AccountService.getCollectors();
-        
-        if(this.defaultProfileInfomation.value[0]){
-            this.defaultProfileInfomation = this.defaultProfileInfomation.value[0]
             this.statData.royalty.value = this.defaultProfileInfomation.royalty;
             this.statData.SellByTelos.value = this.defaultProfileInfomation.sellTLOS;
             this.statData.SellByDaric.value = this.defaultProfileInfomation.sellDRIC;
             this.spinner = false;
-        }
     }
 };
 </script>
