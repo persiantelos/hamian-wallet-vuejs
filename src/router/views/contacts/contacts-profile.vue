@@ -8,14 +8,18 @@
         :informationCard="informationCard" 
         :accInformation="accInformation"
         @editProfile="editProfile" 
+        :showCompeleteTheProfileInformation="showCompeleteTheProfileInformation"
         />
       </div>
 
       <div class="col-xl-8" v-if="editProfileForm">
-        <ProfileContent @save="formChanged" :forms="forms" :price="price" />
+        <ProfileContent @save="formChanged" 
+        :showCompeleteTheProfileInformation="showCompeleteTheProfileInformation" 
+        :forms="forms" :price="price" />
       </div>
       <div class="col-xl-8" v-if="defaultContent">
-        <DefaultPage :defaultProfileInfomation="defaultProfileInfomation"/>
+        <DefaultPage :defaultProfileInfomation="defaultProfileInfomation"
+        :showCompeleteTheProfileInformation="showCompeleteTheProfileInformation"  />
       </div>
     </div>
     <!-- end row -->
@@ -55,6 +59,7 @@ export default {
       counter:0,
       defaultContent:true,
       editProfileForm:false,
+      showCompeleteTheProfileInformation:false,
       defaultProfileInfomation:[]
 
     };
@@ -90,12 +95,16 @@ export default {
     },
     async init(){
       let accInfo = await AccountService.getCollectors(this.$store.state.currentAccount.name);
+      console.log('accInfo',accInfo)
       if(accInfo.value[0]){
         this.defaultProfileInfomation = accInfo.value[0];
         accInfo = accInfo.value[0];
         accInfo.items ? this.accInformation.items = accInfo.items : this.accInformation.items = 0;
         accInfo.sets ? this.accInformation.sets =  accInfo.sets : this.accInformation.sets =  0;
         this.profileInfo()
+      }
+      if(accInfo.value.length == 0){
+        this.showCompeleteTheProfileInformation = true
       }
     },
     async getSocialPrice(){

@@ -74,30 +74,55 @@
             <div class="table-responsive ">
               <table class="table table-nowrap mb-0">
                 <tbody>
-                  <tr>
+                  <tr >
                     <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                         <i class="bx bx-user"></i> Full Name :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.FirstName + ' ' + formInformation.LastName}}</td>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"> 
+                      <span v-if="!showCompeleteTheProfile">
+                       {{formInformation.FirstName + ' ' + formInformation.LastName}}
+                      </span>
+                      <span v-if="showCompeleteTheProfile" class="text-truncate">No information</span>
+                    </td>
                   </tr>
                   <tr>
                     <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                         <i class="mdi mdi-email-outline"></i> E-mail :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.Contacts.email}}</td>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"> 
+                      <span v-if="!showCompeleteTheProfile">
+                       {{formInformation.Contacts.email}}
+                      </span>
+                      <span v-if="showCompeleteTheProfile" class="text-truncate">No information</span>
+                    </td>
                   </tr>
                   <tr>
                     <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                         <i class="mdi mdi-telegram"></i> Telegram :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.Contacts.Telegram}}</td>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"> 
+                      <span v-if="!showCompeleteTheProfile">
+                       {{formInformation.Contacts.Telegram}}
+                      </span>
+                      <span v-if="showCompeleteTheProfile" class="text-truncate">No information</span>
+                    </td>
                   </tr>
                   <tr>
                     <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                         <i class="mdi mdi-twitter"></i> Twitter :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.Contacts.Twitter}}</td>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"> 
+                      <span v-if="!showCompeleteTheProfile">
+                       {{formInformation.Contacts.Twitter}}
+                      </span>
+                      <span v-if="showCompeleteTheProfile" class="text-truncate">No information</span>
+                    </td>
                   </tr>
                   <tr>
                     <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                         <i class="dripicons-location"></i> Location :</th>
-                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{formInformation.Location}}</td>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"> 
+                      <span v-if="!showCompeleteTheProfile">
+                       {{formInformation.Location}}
+                      </span>
+                      <span v-if="showCompeleteTheProfile" class="text-truncate">No information</span>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -114,9 +139,11 @@ export default class Content extends Vue{
     @Prop({default:()=>{return []}}) informationCard:any;
     @Prop({default:()=>{return []}}) accInformation:any;
     @Prop({default:()=>{return 0}}) counter:any;
+    @Prop({default:()=>{return false}}) showCompeleteTheProfileInformation:boolean;
     accountInformation:any=[];
     formInformation:any=[];
     spinner:boolean=true;
+    showCompeleteTheProfile:boolean=false;
     mounted(){
         this.formInformation = this.informationCard;
         this.accountInformation = this.accInformation;
@@ -129,6 +156,13 @@ export default class Content extends Vue{
         this.spinner=true
         this.formInformation = this.informationCard;
         this.accountInformation = this.accInformation;
+        setTimeout(() => {
+            this.spinner=false
+        }, 400);
+    }
+    @Watch('showCompeleteTheProfileInformation')
+    CompeleteTheProfileInformation(newVal:any){
+      this.showCompeleteTheProfile = newVal;
         setTimeout(() => {
             this.spinner=false
         }, 400);

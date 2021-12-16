@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="row">
+        <div v-if="!showCompeleteTheProfile" class="row">
             <div v-if="!spinner" class="col-md-4">
                 <Stat :icon="statData.royalty.icon" :title="statData.royalty.title" :value="statData.royalty.value" />
             </div>
@@ -20,6 +20,9 @@
                 <Spinner  v-model="spinner" />
             </div>
         </div>
+        <div v-if="showCompeleteTheProfile" class="card p-3" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
+            <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">First you have to complete your profile information, To do that click the Edit profile button</h5>
+        </div>
     </div>
 </template>
 
@@ -31,6 +34,8 @@ import Spinner from '../spinner/Spinner.vue';
 @Component({components:{Stat,Spinner}})
 export default class DefaultPage extends Vue{
     @Prop({default:()=>{return []}}) defaultProfileInfomation:any;
+    @Prop({default:()=>{return false}}) showCompeleteTheProfileInformation:boolean;
+    showCompeleteTheProfile:boolean=false
     statData:any= {
         royalty:{
             icon: "mdi mdi-star-four-points-outline",
@@ -60,6 +65,13 @@ export default class DefaultPage extends Vue{
         if(newVal){
             this.init();
         }
+    }
+    @Watch('showCompeleteTheProfileInformation')
+    CompeleteTheProfileInformation(newVal:any){
+      this.showCompeleteTheProfile = newVal;
+        setTimeout(() => {
+            this.spinner=false
+        }, 400);
     }
     async init(){
         this.statData.royalty.value = this.defaultProfileInfomation.royalty;
