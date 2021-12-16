@@ -50,7 +50,8 @@ export default class AccountService
             return acc.rows[0].balance
         let zero = 0;
         return zero.toFixed(parseInt(token.decimals)) + ' ' + token.currency; 
-
-
+    }
+    static async getCollectors(){
+        return BaseServices.get(Config.areaXBaseURL+'/web/getCollectors?$filter=_id%20eq%20%27babyevils.gm%27')
     }
 }

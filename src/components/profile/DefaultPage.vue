@@ -1,43 +1,85 @@
 <template>
     <div>
         <div class="row">
-          <div v-for="stat of statData" :key="stat.icon" class="col-md-4">
-            <Stat :icon="stat.icon" :title="stat.title" :value="stat.value" />
-          </div>
+            <div v-if="!spinner" class="col-md-4">
+                <Stat :icon="statData.royalty.icon" :title="statData.royalty.title" :value="statData.royalty.value" />
+            </div>
+            <div v-if="spinner" class="col-md-4">
+                <Spinner  v-model="spinner" />
+            </div>
+            <div v-if="!spinner" class="col-md-4">
+                <Stat :icon="statData.SellByTelos.icon" :title="statData.SellByTelos.title" :value="statData.SellByTelos.value" />
+            </div>
+            <div v-if="spinner" class="col-md-4">
+                <Spinner  v-model="spinner" />
+            </div>
+            <div v-if="!spinner" class="col-md-4">
+                <Stat :icon="statData.SellByDaric.icon" :title="statData.SellByDaric.title" :value="statData.SellByDaric.value" />
+            </div>
+            <div v-if="spinner" class="col-md-4">
+                <Spinner  v-model="spinner" />
+            </div>
         </div>
     </div>
 </template>
 
-<script>
-
-
+<script lang="ts">
+import {Vue , Component , Prop , Watch} from 'vue-property-decorator'
 import Stat from "@/components/profile/stat.vue";
+import AccountService from '@/services/accountService';
+import Spinner from '../spinner/Spinner.vue';
 
-/**
- * Contacts-Profile component
- */
-export default {
-  components: {  Stat },
-  data() {
-    return {
-      statData: [
-        {
-          icon: "bx bx-check-circle",
-          title: "Completed Projects",
-          value: "125"
+@Component({components:{Stat,Spinner}})
+export default class DefaultPage extends Vue{
+    // statData: [
+    //     {
+    //       icon: "bx bx-check-circle",
+    //       title: "Sell By TELOS",
+    //       value: "125"
+    //     },
+    //     {
+    //       icon: "bx bx-hourglass",
+    //       title: "Sell By DARIC",
+    //       value: "12"
+    //     },
+    //     {
+    //       icon: "bx bx-package",
+    //       title: "Royalty",
+    //       value: "$36,524"
+    //     }
+    // ]
+    statData:any= {
+        royalty:{
+            icon: "mdi mdi-star-four-points-outline",
+            title: "Royalty",
+            value: ""
         },
-        {
-          icon: "bx bx-hourglass",
-          title: "Pending Projects",
-          value: "12"
+        SellByTelos:{
+            icon: "fas fa-coins",
+            title: "Sell By TELOS",
+            value: ""
         },
-        {
-          icon: "bx bx-package",
-          title: "Total Revenue",
-          value: "$36,524"
+        SellByDaric:{
+            icon: "fas fa-coins",
+            title: "Sell By DARIC",
+            value: ""
+        },
+    }
+    defaultProfileInfomation:any=[]
+    spinner:boolean=true;
+    mounted(){
+        this.init();
+    }
+    async init(){
+        this.defaultProfileInfomation = await AccountService.getCollectors();
+        
+        if(this.defaultProfileInfomation.value[0]){
+            this.defaultProfileInfomation = this.defaultProfileInfomation.value[0]
+            this.statData.royalty.value = this.defaultProfileInfomation.royalty;
+            this.statData.SellByTelos.value = this.defaultProfileInfomation.sellTLOS;
+            this.statData.SellByDaric.value = this.defaultProfileInfomation.sellDRIC;
+            this.spinner = false;
         }
-      ]
-    };
-  }
+    }
 };
 </script>

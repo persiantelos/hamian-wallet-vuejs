@@ -26,7 +26,7 @@ export default {
       <div class="media">
         <div class="media-body">
           <p class="text-muted fw-medium mb-2" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">{{title}}</p>
-          <h4 class="mb-0" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">{{value}}</h4>
+          <h4 class="mb-0" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"><span v-if="value">{{value}}</span><span v-else>0</span></h4>
         </div>
 
         <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
