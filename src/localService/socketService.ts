@@ -67,7 +67,8 @@ ipcRenderer.on('socketResponse', (event, payload) => {
 		{
 			var dt=payload.request.data;
 			dt.payloadId=payload.id;
-			dt.payloadOrigin=payload.origin;
+			if(payload.origin)
+				dt.payloadOrigin=payload.origin;
 			SocketService.emit(payload.request.data.type,dt); 
 
 		}
