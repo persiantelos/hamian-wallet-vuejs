@@ -72,8 +72,7 @@ export default {
   },
   methods:{
     async profileInfo(){
-        // var profileInformation = await AccountService.getSocialProfile(this.$store.state.currentAccount.name);
-        var profileInformation = await AccountService.getSocialProfile('mgoudarzii25');
+        var profileInformation = await AccountService.getSocialProfile(this.$store.state.currentAccount.name);
         if(profileInformation){
           this.defaultContent = true;
             profileInformation.FirstName ? this.informationCard.FirstName = profileInformation.FirstName : this.informationCard.FirstName = '';
@@ -90,7 +89,7 @@ export default {
         }
     },
     async init(){
-      let accInfo = await AccountService.getCollectors('mgoudarzii25');
+      let accInfo = await AccountService.getCollectors(this.$store.state.currentAccount.name);
       if(accInfo.value[0]){
         this.defaultProfileInfomation = accInfo.value[0];
         accInfo = accInfo.value[0];
