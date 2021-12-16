@@ -191,9 +191,9 @@ import AccountService from '@/services/accountService';
 @Component({components:{Spinner}})
 export default class Content extends Vue{
     @Prop({default:() =>{return []}}) forms:any;
+    @Prop({default:() =>{return ''}}) price:any;
     Spinner:boolean=true;
     formModel:any=[]
-    price:string='';
     async save(){
 
         let res = await AccountService.saveEditProfile(this.formModel)

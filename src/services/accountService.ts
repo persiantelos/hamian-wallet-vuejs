@@ -129,6 +129,18 @@ export default class AccountService
         }
 
     }
+    static async getSocialPriceEdit(){
+            var json = {"code":'nftsoc.code',"scope":'nftsoc.code',"table":"amounts","upper_bound":"profileprice","lower_bound":"profileprice","json":true,"limit":1,
+            };
+            let url = Config.persianTelos+'/v1/chain/get_table_rows'
+            var acc=await BaseServices.postData(url,json);
+            if(acc.rows[0]){
+                return acc.rows[0]
+            }
+            else{
+                return false
+            }
+    }
     static async getProfileEditPrice(){
 
     }

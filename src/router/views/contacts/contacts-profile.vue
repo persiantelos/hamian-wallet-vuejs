@@ -12,7 +12,7 @@
       </div>
 
       <div class="col-xl-8" v-if="editProfileForm">
-        <ProfileContent @save="formChanged" :forms="forms" />
+        <ProfileContent @save="formChanged" :forms="forms" :price="price" />
       </div>
       <div class="col-xl-8" v-if="defaultContent">
         <DefaultPage :defaultProfileInfomation="defaultProfileInfomation"/>
@@ -43,6 +43,7 @@ export default {
   components: { Layout, Column , ProfileContent, DefaultPage },
   data() {
     return {
+      price:'',
       accInformation:{
         name:'',
         chain:'',
@@ -59,6 +60,7 @@ export default {
     };
   },  
   mounted(){
+    this.getSocialPrice()
     this.$store.state.currentPageTitle = 'Profile'
     this.$store.state.currentPageItems[0].text = 'Contacts';
     this.$store.state.currentPageItems[1].text = 'Profile';
@@ -89,7 +91,7 @@ export default {
         }
     },
     async init(){
-      let accInfo = await AccountService.getCollectors();
+      let accInfo = await AccountService.getCollectors('mgoudarzii25');
       if(accInfo.value[0]){
         this.defaultProfileInfomation = accInfo.value[0];
         accInfo = accInfo.value[0];
@@ -100,6 +102,10 @@ export default {
 
       }
 
+    },
+    async getSocialPrice(){
+       this.price = await AccountService.getSocialPriceEdit()
+       this.price = this.price.amount
     },
 
     formChanged(data){
