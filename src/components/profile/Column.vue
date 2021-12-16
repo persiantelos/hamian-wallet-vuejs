@@ -29,7 +29,7 @@
               <div class="col-sm-4">
                 <div class="avatar-md profile-user-wid mb-4">
                   <img v-if="formInformation.Avatar == ''"
-                    src="@/assets/images/users/avatar-1.jpg"
+                    src="@/assets/images/users/1.jpg"
                     alt
                     class="img-thumbnail rounded-circle"
                   />
