@@ -147,6 +147,7 @@ export default class Content extends Vue{
     mounted(){
         this.formInformation = this.informationCard;
         this.accountInformation = this.accInformation;
+        this.showCompeleteTheProfile = this.showCompeleteTheProfileInformation
         setTimeout(() => {
             this.spinner=false
         }, 400);

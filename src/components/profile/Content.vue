@@ -187,7 +187,7 @@
 <script lang="ts">
 import {Vue , Component , Prop } from "vue-property-decorator"
 import Spinner from "../spinner/Spinner.vue"
-import AccountService from '@/services/accountService';
+import WalletService from '@/localService/walletService';
 @Component({components:{Spinner}})
 export default class Content extends Vue{
     @Prop({default:() =>{return []}}) forms:any;
@@ -195,13 +195,64 @@ export default class Content extends Vue{
     Spinner:boolean=true;
     formModel:any=[]
     async save(){
-
-        let res = await AccountService.saveEditProfile(this.formModel)
+        var str = `1⇨${this.formModel.FirstName}⬥2⇨${this.formModel.LastName}⬥3⇨${this.formModel.Location}⬥4⇨${this.formModel.Bio}⬥5⇨${this.formModel.Avatar}⬥6⇨${this.formModel.Cover}⬥7⇨${this.formModel.Contacts.email}⬝${this.formModel.Contacts.Telegram}⬝${this.formModel.Contacts.Twitter}`;
+        if(str.length > 551){
+            this.$notify({
+            group: 'foo',
+            type: 'warn',
+            text: 'You just allowed to upload 551 characters for your profile'
+        });
+            return;
+        }
+    var res=await WalletService.reunTransaction([
+        { 
+          account: "persiandaric",
+          name: "transfer",
+          data: {
+            from: this.$store.state.currentAccount.name,
+            to: 'nftsoc.code',
+            quantity: this.price,
+            memo:"[deposit]"
+          }
+        },
+        { 
+          account: 'nftsoc.code',
+          name: "setprofile",
+          data: {
+            account: this.$store.state.currentAccount.name,
+            information: str,
+          }
+        }],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id)
         if(res){
             console.log(res)
-            this.$emit('save',this.forms)
+            this.$notify({
+                group: 'foo',
+                type: 'success',
+                speed:500,
+                text: 'Stake CPU/NET successfully'
+            });
+            // this.$emit('save',this.forms)
         }
+    //   try {
+    //     const transaction = await this.$store.$api.signTransaction(actions);
+    //     if(transaction){
+    //       this.$router.go()
+    //       this.$q.notify({
+    //         type: "positive",
+    //         message: `Transaction was successful!`
+    //       });
+    //     }        
+    //   } catch (error) {
+    //     console.log(error)
+    //     this.$q.notify({
+    //       type: "negative",
+    //       message: error
+    //     });
+    //   }			
+
+        
     }
+
     mounted(){
         if(this.forms){
             this.formModel = this.forms;

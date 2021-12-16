@@ -141,9 +141,6 @@ export default class AccountService
                 return false
             }
     }
-    static async getProfileEditPrice(){
-
-    }
 
     static async saveEditProfile(data:any){
         return data

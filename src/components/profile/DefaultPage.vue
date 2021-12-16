@@ -35,7 +35,7 @@ import Spinner from '../spinner/Spinner.vue';
 export default class DefaultPage extends Vue{
     @Prop({default:()=>{return []}}) defaultProfileInfomation:any;
     @Prop({default:()=>{return false}}) showCompeleteTheProfileInformation:boolean;
-    showCompeleteTheProfile:boolean=false
+    showCompeleteTheProfile:boolean=true
     statData:any= {
         royalty:{
             icon: "mdi mdi-star-four-points-outline",
@@ -55,6 +55,8 @@ export default class DefaultPage extends Vue{
     }
     spinner:boolean=true;
     mounted(){
+        this.showCompeleteTheProfile = this.showCompeleteTheProfileInformation
+
         if(this.defaultProfileInfomation){
             console.log(this.defaultProfileInfomation)
             this.init();

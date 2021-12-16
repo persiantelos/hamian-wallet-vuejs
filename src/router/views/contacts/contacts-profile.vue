@@ -14,7 +14,6 @@
 
       <div class="col-xl-8" v-if="editProfileForm">
         <ProfileContent @save="formChanged" 
-        :showCompeleteTheProfileInformation="showCompeleteTheProfileInformation" 
         :forms="forms" :price="price" />
       </div>
       <div class="col-xl-8" v-if="defaultContent">
@@ -59,7 +58,7 @@ export default {
       counter:0,
       defaultContent:true,
       editProfileForm:false,
-      showCompeleteTheProfileInformation:false,
+      showCompeleteTheProfileInformation:true,
       defaultProfileInfomation:[]
 
     };
@@ -102,9 +101,7 @@ export default {
         accInfo.items ? this.accInformation.items = accInfo.items : this.accInformation.items = 0;
         accInfo.sets ? this.accInformation.sets =  accInfo.sets : this.accInformation.sets =  0;
         this.profileInfo()
-      }
-      if(accInfo.value.length == 0){
-        this.showCompeleteTheProfileInformation = true
+        this.showCompeleteTheProfileInformation = false
       }
     },
     async getSocialPrice(){

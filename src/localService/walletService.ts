@@ -87,13 +87,6 @@ export default class WalletService
             }
         }
         return await BaseLocalService.run(this.walletName,{action:'manualTransaction',data:obj},1000*60);
-        
-        // if(dt.serializedTransaction)
-        // {
-        //     // var data =await BaseServices.postData(network.httpEndpoint+'/v1/chain/push_transaction', {
-        //     //     "signatures":dt.signatures ,"compression":0,"packed_context_free_data":"",
-        //     //     "packed_trx":dt.serializedTransaction
-        //     //     })
-        // }
+   
     }
 }
