@@ -244,7 +244,7 @@ export default class AccountList extends Vue{
                 {
                     account:this.transferToken.customToken.contract,
                     name:'transfer',
-                    authorization:[ { actor: this.$store.state.currentAccount.name, permission:this.$store.state.currentAccount.authority }],
+                    //authorization:[ { actor: this.$store.state.currentAccount.name, permission:this.$store.state.currentAccount.authority }],
                     data:{
                         from:this.$store.state.currentAccount.name,
                         to:this.transferToken.to,
@@ -252,7 +252,8 @@ export default class AccountList extends Vue{
                         memo:this.transferToken.memo
                     }
                 }
-            ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id)
+            ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id,
+            this.$store.state.currentAccount)
             if(res){
                 if(res.transaction_id){
                     this.$notify({

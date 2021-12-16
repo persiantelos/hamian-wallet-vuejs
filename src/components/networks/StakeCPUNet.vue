@@ -303,7 +303,7 @@ export default class StakeCPUNet extends Vue{
                 {
                     account:"eosio",
                     name:"delegatebw",
-                    authorization:[ { actor: this.$store.state.currentAccount.name, permission: this.$store.state.currentAccount.authority }],
+                    //authorization:[ { actor: this.$store.state.currentAccount.name, permission: this.$store.state.currentAccount.authority }],
                     data:{
                         from:this.$store.state.currentAccount.name,
                         receiver:this.stakeCPUorNET.stakReciver,
@@ -312,7 +312,8 @@ export default class StakeCPUNet extends Vue{
                         transfer:false
                     }
                 }
-            ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id)
+            ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id,
+            this.$store.state.currentAccount)
             if(res){
                 if(res.transaction_id){
                     this.tempCPUAmountStake = [],
