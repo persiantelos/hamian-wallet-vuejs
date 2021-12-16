@@ -142,7 +142,22 @@ export default class AccountService
             }
     }
 
-    static async saveEditProfile(data:any){
-        return data
+    static async getCPUNetStaked(accountName:string){
+      let json = {
+        'code': "eosio",
+        'index_position': 1,
+        'json': true,
+        'key_type': "",
+        'limit': "100",
+        'lower_bound': null,
+        'reverse': false,
+        'scope': accountName,
+        'show_payer': false,
+        'table': "delband",
+        'upper_bound': null,
+      }
+
+      let url = Config.chainAddress+'/v1/chain/get_table_rows'
+      return BaseServices.postData(url,json)
     }
 }

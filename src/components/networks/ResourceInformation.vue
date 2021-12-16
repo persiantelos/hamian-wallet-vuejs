@@ -48,6 +48,7 @@
 </template>
 <script lang="ts">
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
+import AccountService from '@/services/accountService'
 @Component({
     components:{}
 })
@@ -67,7 +68,13 @@ export default class AccountList extends Vue{
     valChanged(newVal:any){
       console.log('newVal',newVal);
       this.resource = newVal;
+      console.log('this.resource',this.resource)
       this.init();
+      this.getCPUNETStake()
+    }
+    async getCPUNETStake(){
+      let data= await AccountService.getCPUNetStaked(this.$store.state.currentAccount.name)
+      console.log('data',data)
     }
     init(){
         if(this.resource.core_liquid_balance)
