@@ -26,7 +26,6 @@
 <script lang="ts">
 import {Vue , Component , Prop , Watch} from 'vue-property-decorator'
 import Stat from "@/components/profile/stat.vue";
-// import AccountService from '@/services/accountService';
 import Spinner from '../spinner/Spinner.vue';
 
 @Component({components:{Stat,Spinner}})
@@ -49,7 +48,6 @@ export default class DefaultPage extends Vue{
             value: ""
         },
     }
-    // defaultProfileInfomation:any=[]
     spinner:boolean=true;
     mounted(){
         if(this.defaultProfileInfomation){
@@ -63,10 +61,12 @@ export default class DefaultPage extends Vue{
         }
     }
     async init(){
-            this.statData.royalty.value = this.defaultProfileInfomation.royalty;
-            this.statData.SellByTelos.value = this.defaultProfileInfomation.sellTLOS;
-            this.statData.SellByDaric.value = this.defaultProfileInfomation.sellDRIC;
+        this.statData.royalty.value = this.defaultProfileInfomation.royalty;
+        this.statData.SellByTelos.value = this.defaultProfileInfomation.sellTLOS;
+        this.statData.SellByDaric.value = this.defaultProfileInfomation.sellDRIC;
+        setTimeout(() => {
             this.spinner = false;
+        }, 300);
     }
 };
 </script>
