@@ -76,7 +76,6 @@ export default {
         var profileInformation = await AccountService.getSocialProfile('mgoudarzii25');
         if(profileInformation){
           this.defaultContent = true;
-          // this.informationCard = profileInformation
             profileInformation.FirstName ? this.informationCard.FirstName = profileInformation.FirstName : this.informationCard.FirstName = '';
             profileInformation.LastName ? this.informationCard.LastName = profileInformation.LastName : this.informationCard.LastName =  '';
             profileInformation.Location ? this.informationCard.Location = profileInformation.Location : this.informationCard.Location =  '';
@@ -98,10 +97,7 @@ export default {
         accInfo.items ? this.accInformation.items = accInfo.items : this.accInformation.items = 0;
         accInfo.sets ? this.accInformation.sets =  accInfo.sets : this.accInformation.sets =  0;
         this.profileInfo()
-
-
       }
-
     },
     async getSocialPrice(){
        this.price = await AccountService.getSocialPriceEdit()
