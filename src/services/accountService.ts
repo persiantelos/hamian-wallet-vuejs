@@ -51,8 +51,9 @@ export default class AccountService
         let zero = 0;
         return zero.toFixed(parseInt(token.decimals)) + ' ' + token.currency; 
     }
-    static async getCollectors(){
-        return BaseServices.get(Config.areaXBaseURL+'/web/getCollectors?$filter=_id%20eq%20%27babyevils.gm%27')
+    static async getCollectors(accountName:string){
+        let url = '/web/getCollectors?$filter=_id eq '+accountName
+        return BaseServices.get(Config.areaXBaseURL+url)
     }
     
     static async getSocialProfile(accountName:any){
