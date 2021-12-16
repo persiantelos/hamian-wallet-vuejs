@@ -1,7 +1,10 @@
 <template>
     <div>
         <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
-          <div class="card-body">
+          <div v-if="Spinner" style="min-height:300px">
+            <Spinner v-model="Spinner" />
+          </div>
+          <div class="card-body" v-if="!Spinner">
             <h4 
             class="card-title mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                 Personal Information
@@ -110,7 +113,10 @@
           </div>
         </div>
         <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
-            <div class="card-body">
+            <div v-if="Spinner" style="min-height:300px">
+                <Spinner v-model="Spinner" />
+            </div>
+            <div class="card-body" v-if="!Spinner">
                 <h4 class="card-title mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                     Social Network Information
                 </h4>
@@ -180,11 +186,18 @@
 </template>
 <script lang="ts">
 import {Vue , Component , Prop } from "vue-property-decorator"
-@Component({components:{}})
+import Spinner from "../spinner/Spinner.vue"
+@Component({components:{Spinner}})
 export default class Content extends Vue{
     @Prop({default:() =>{return []}}) forms:any;
+    Spinner:boolean=true;
     save(){
         this.$emit('save',this.forms)
+    }
+    mounted(){
+        setTimeout(() => {
+            this.Spinner = false;
+        }, 300);
     }
 };
 </script>
