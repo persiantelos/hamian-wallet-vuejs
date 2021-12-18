@@ -13,7 +13,7 @@
       </div>
 
       <div class="col-xl-8" v-if="editProfileForm">
-        <ProfileContent @save="formChanged" 
+        <ProfileContent @saveed="formChanged" 
         :forms="forms" :price="price" />
       </div>
       <div class="col-xl-8" v-if="defaultContent">

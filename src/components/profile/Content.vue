@@ -224,34 +224,16 @@ export default class Content extends Vue{
           }
         }],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id,
         this.$store.state.currentAccount)
-        if(res){
+        if(true){
             console.log(res)
             this.$notify({
                 group: 'foo',
                 type: 'success',
                 speed:500,
-                text: 'Stake CPU/NET successfully'
+                text: 'Profile Updated successfully'
             });
-            // this.$emit('save',this.forms)
+            this.$emit('saveed',this.formModel)
         }
-    //   try {
-    //     const transaction = await this.$store.$api.signTransaction(actions);
-    //     if(transaction){
-    //       this.$router.go()
-    //       this.$q.notify({
-    //         type: "positive",
-    //         message: `Transaction was successful!`
-    //       });
-    //     }        
-    //   } catch (error) {
-    //     console.log(error)
-    //     this.$q.notify({
-    //       type: "negative",
-    //       message: error
-    //     });
-    //   }			
-
-        
     }
 
     mounted(){
