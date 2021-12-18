@@ -1,11 +1,6 @@
 <script>
 import VueSlideBar from "vue-slide-bar";
-// import axios from "axios";
-
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
-
 import { clothsData } from "./data-products";
 
 /**
@@ -16,7 +11,7 @@ export default {
     title: "Product",
     meta: [{ name: "description", content: appConfig.description }],
   },
-  components: { VueSlideBar, Layout, PageHeader },
+  components: { VueSlideBar},
   data() {
     return {
       clothsData: clothsData,
@@ -90,9 +85,6 @@ export default {
 </script>
 
 <template>
-  <Layout>
-    <PageHeader :title="title" :items="items" />
-
     <div class="row">
       <div class="col-lg-3">
         <div class="card">
@@ -346,6 +338,4 @@ export default {
         </div>
       </div>
     </div>
-    <!-- end row -->
-  </Layout>
 </template>

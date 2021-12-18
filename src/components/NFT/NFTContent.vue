@@ -5,7 +5,7 @@
             <p style="display:none">{{counter}}</p>
             <div class="col-12">
                 <div v-if="value == 'NFTs'" :style="$store.state.layout.themeDarkMode ? 'background:#2a3042 !important':'background:#ffffff !important'">
-                    <!-- <NFTs  /> --> NFTs
+                    <NFTs  /> 
                 </div>
             </div>
         </div>
@@ -14,13 +14,13 @@
 <script lang="ts">
 import {Vue , Component ,Prop,Watch} from 'vue-property-decorator';
 import AccountService from '@/services/accountService';
-// import NFTs from '@/components/NFT/products.vue'
+import NFTs from '@/components/NFT/products.vue'
 
 
 
 @Component({
     components:{
-        // NFTs
+        NFTs
     }
 })
 export default class NetworksContent extends Vue{
