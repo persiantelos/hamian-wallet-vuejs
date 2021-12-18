@@ -38,10 +38,13 @@ export default class NetworksContent extends Vue{
     }
     @Watch('value')
     valueChanged(newValue:any){
+        this.displayItemDetail=false;
         if(newValue == 'NFTs'){
             this.$store.state.currentPageTitle = 'NFTs'
-            this.displayItemDetail=false;
-
+            this.counter++
+        }
+        else{
+            this.$store.state.currentPageTitle = newValue
             this.counter++
         }
     }
