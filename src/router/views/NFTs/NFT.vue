@@ -26,7 +26,6 @@ export default class NFT extends Vue{
   selectedItemChanged(data:any){
     this.selectedItem = data;
   }
-  
 }
 </script>
 <style lang="scss">
