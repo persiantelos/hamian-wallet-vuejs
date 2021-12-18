@@ -60,6 +60,10 @@ export default {
         return product.discount >= Math.max.apply(null, this);
       }, this.discountRates);
     },
+    GoToItem(id){
+      console.log(id);
+      this.$emit('itemDetails',id)
+    }
   },
 };
 </script>
@@ -278,7 +282,8 @@ export default {
                   </div>
                   <router-link
                     tag="a"
-                    :to="`/ecommerce/product-detail/${data.id}`"
+                    to="#"
+                    @click.native="GoToItem(data.id)"
                   >
                     <img
                       :src="`${data.product}`"
@@ -292,7 +297,8 @@ export default {
                     <router-link
                       tag="a"
                       class="text-dark"
-                      :to="`/ecommerce/product-detail/${data.id}`"
+                      to="#"
+                      @click.native="GoToItem(data.id)"
                       :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''"
                       >{{ data.name }}</router-link
                     >

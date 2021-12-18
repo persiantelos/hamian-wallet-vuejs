@@ -4,9 +4,12 @@
             <div></div>
             <p style="display:none">{{counter}}</p>
             <div class="col-12">
-                <div v-if="value == 'NFTs'" >
-                    <NFTs  /> 
-                </div>
+                <!-- <div v-if="value == 'NFTs' && itemDetailsId == 0" > -->
+                    <!-- <NFTs @itemDetails="itemDetails" />  -->
+                <!-- </div> -->
+                <!-- <div v-if="itemDetailsId != 0"> -->
+                    <ItemDetail v-model="itemDetailsId" />
+                <!-- </div> -->
             </div>
         </div>
     </div>
@@ -15,17 +18,20 @@
 import {Vue , Component ,Prop,Watch} from 'vue-property-decorator';
 import AccountService from '@/services/accountService';
 import NFTs from '@/components/NFT/products.vue'
+import ItemDetail from '@/components/NFT/product-detail.vue'
 
 
 
 @Component({
     components:{
-        NFTs
+        NFTs,
+        ItemDetail
     }
 })
 export default class NetworksContent extends Vue{
     @Prop({default:() =>{return []}}) value:any;
     counter:number=0;
+    itemDetailsId:number=0;
     showSpinner:boolean=true;
     mounted(){
     }
@@ -35,6 +41,9 @@ export default class NetworksContent extends Vue{
             this.$store.state.currentPageTitle = 'NFTs'
             this.counter++
         }
+    }
+    itemDetails(id:any){
+        console.log('itemDetails',id)
     }
   
  

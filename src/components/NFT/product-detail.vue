@@ -1,8 +1,5 @@
 <script>
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
-
 import { clothsData } from "./data-products";
 
 /**
@@ -11,31 +8,22 @@ import { clothsData } from "./data-products";
 export default {
   page: {
     title: "Product Detail",
+    value:0,
     meta: [{ name: "description", content: appConfig.description }],
   },
-  components: { Layout, PageHeader },
+  components: { },
   data() {
     return {
       productDetail: null,
       clothsData: clothsData,
-      title: "Product Detail",
-      items: [
-        {
-          text: "Ecommerce",
-          href: "/",
-        },
-        {
-          text: "Product Detail",
-          active: true,
-        },
-      ],
     };
   },
   created() {
     this.productDetail = clothsData.filter((product) => {
-      return product.id === parseInt(this.$route.params.id);
+      return product.id === parseInt('1');
     });
   },
+  
   methods: {
     /**
      * Selected image shows
@@ -50,11 +38,10 @@ export default {
 </script>
 
 <template>
-  <Layout>
-    <PageHeader :title="title" :items="items" />
+<div>
     <div class="row">
       <div class="col-lg-12">
-        <div class="card">
+        <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
           <div class="card-body">
             <div class="row">
               <div class="col-xl-6">
@@ -64,15 +51,15 @@ export default {
                     vertical
                     nav-wrapper-class="col-md-2 col-sm-3 col-4"
                   >
-                    <b-tab>
-                      <template v-slot:title>
+                    <b-tab >
+                      <template v-slot:title >
                         <img
                           :src="productDetail[0].images[0]"
                           alt
                           class="img-fluid mx-auto d-block tab-img rounded"
                         />
                       </template>
-                      <div class="product-img">
+                      <div class="product-img" >
                         <img
                           :src="productDetail[0].images[0]"
                           alt
@@ -134,7 +121,7 @@ export default {
 
               <div class="col-xl-6">
                 <div class="mt-3">
-                  <h4 class="mt-1 mb-3">{{ productDetail[0].name }}</h4>
+                  <h4 class="mt-1 mb-3" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">{{ productDetail[0].name }}</h4>
 
                   <p class="text-muted float-left me-3">
                     <span class="bx bx-star text-warning"></span>
@@ -143,19 +130,19 @@ export default {
                     <span class="bx bx-star text-warning ml-1"></span>
                     <span class="bx bx-star ml-1"></span>
                   </p>
-                  <p class="text-muted mb-4">( 152 Customers Review )</p>
+                  <p class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">( 152 Customers Review )</p>
 
-                  <h6 class="text-success text-uppercase">
+                  <h6 class="text-success text-uppercase" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                     {{ productDetail[0].discount }} Off
                   </h6>
-                  <h5 class="mb-4">
+                  <h5 class="mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                     Price :
                     <span class="text-muted me-2">
                       <del>${{ productDetail[0].oldprice }} USD</del>
                     </span>
                     <b>${{ productDetail[0].newprice }} USD</b>
                   </h5>
-                  <p class="text-muted mb-4">
+                  <p class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
                     To achieve this, it would be necessary to have uniform
                     grammar pronunciation and more common words If several
                     languages coalesce
@@ -166,7 +153,7 @@ export default {
                         v-for="(item, index) in productDetail[0].feature"
                         :key="index"
                       >
-                        <p class="text-muted">
+                        <p class="text-muted" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
                           <i
                             class="bx bx-unlink font-size-16 align-middle text-primary me-1"
                           ></i>
@@ -176,13 +163,13 @@ export default {
                     </div>
                     <div class="col-md-6">
                       <div>
-                        <p class="text-muted">
+                        <p class="text-muted" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
                           <i
                             class="bx bx-user-voice font-size-16 align-middle text-primary me-1"
                           ></i>
                           Bass
                         </p>
-                        <p class="text-muted">
+                        <p class="text-muted" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
                           <i
                             class="bx bx-cog font-size-16 align-middle text-primary me-1"
                           ></i>
@@ -193,7 +180,7 @@ export default {
                   </div>
 
                   <div class="product-color">
-                    <h5 class="font-size-15">Color :</h5>
+                    <h5 class="font-size-15" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Color :</h5>
                     <a
                       href="javascript: void(0);"
                       class="active"
@@ -211,7 +198,7 @@ export default {
             </div>
             <!-- end row -->
 
-            <div class="mt-5">
+            <!-- <div class="mt-5">
               <h5 class="mb-3">Specifications :</h5>
 
               <div class="table-responsive">
@@ -227,10 +214,10 @@ export default {
                   </tbody>
                 </table>
               </div>
-            </div>
+            </div> -->
             <!-- end Specifications -->
 
-            <div class="mt-5">
+            <!-- <div class="mt-5">
               <h5 class="mb-4">Reviews :</h5>
 
               <div class="media py-3 border-bottom">
@@ -355,7 +342,7 @@ export default {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- end card -->
@@ -366,11 +353,11 @@ export default {
     <div class="row mt-3">
       <div class="col-lg-12">
         <div>
-          <h5 class="mb-3">Recent product :</h5>
+          <h5 class="mb-3" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Recent product :</h5>
 
           <div class="row">
             <div class="col-xl-4 col-sm-6">
-              <div class="card">
+              <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col-md-4">
@@ -381,9 +368,9 @@ export default {
                       />
                     </div>
                     <div class="col-md-8">
-                      <div class="text-center text-md-start pt-3 pt-md-0">
+                      <div class="text-center text-md-start pt-3 pt-md-0" >
                         <h5 class="mb-3 text-truncate">
-                          <a href="javascript: void(0);" class="text-dark"
+                          <a href="javascript: void(0);" class="text-dark" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''"
                             >Wirless Headphone</a
                           >
                         </h5>
@@ -406,7 +393,7 @@ export default {
                 </div>
               </div>
             </div>
-            <div class="col-xl-4 col-sm-6">
+            <!-- <div class="col-xl-4 col-sm-6">
               <div class="card">
                 <div class="card-body">
                   <div class="row align-items-center">
@@ -479,12 +466,11 @@ export default {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
           <!-- end row -->
         </div>
       </div>
     </div>
-    <!-- end row -->
-  </Layout>
+</div>
 </template>
