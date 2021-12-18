@@ -4,12 +4,12 @@
             <div></div>
             <p style="display:none">{{counter}}</p>
             <div class="col-12">
-                <!-- <div v-if="value == 'NFTs' && itemDetailsId == 0" > -->
-                    <!-- <NFTs @itemDetails="itemDetails" />  -->
-                <!-- </div> -->
-                <!-- <div v-if="itemDetailsId != 0"> -->
+                <div v-if="value == 'NFTs' && itemDetailsId == 0" >
+                    <NFTs @itemDetails="itemDetails" /> 
+                </div>
+                <div v-if="itemDetailsId != 0">
                     <ItemDetail v-model="itemDetailsId" />
-                <!-- </div> -->
+                </div>
             </div>
         </div>
     </div>
