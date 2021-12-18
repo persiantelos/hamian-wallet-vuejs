@@ -223,4 +223,11 @@ color:#9096ad !important;
 
 }
 
+.page-item.disabled .page-link {
+    color: #c3cbe4;
+    pointer-events: none;
+    background-color: #32394e;
+    border-color: #32394e;
+}
+
 </style>
