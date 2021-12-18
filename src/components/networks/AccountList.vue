@@ -50,7 +50,10 @@
                                     <a
                                     href="javascript: void(0);"
                                     class="text-body" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker' :''"
-                                    >{{token}}&#160;&#160;&#160;≈ $&#160;</a>
+                                    >{{token}}&#160;&#160;&#160;≈ 
+                                    <span v-if="token.split(' ')[1]== 'TLOS'">${{(token.split(' ')[0]*dollarPrice).toFixed(2)}}</span> 
+                                    <span v-if="token.split(' ')[1]== 'DRIC'">${{((token.split(' ')[0]*dricPrice)*dollarPrice).toFixed(2)}}</span> 
+                                    &#160;</a>
                                 </h5>
                             </div>
                         </div>
@@ -75,6 +78,7 @@ import AccountService from '@/services/accountService'
 import Spinner from '@/components/spinner/Spinner.vue'
 import WalletService from '@/localService/walletService';
 import AddNewAccount from "@/components/networks/AddNewAccount.vue"
+import GlobalService from "@/services/globalService"
 
 
 @Component({
@@ -94,6 +98,8 @@ export default class AccountList extends Vue{
     showSpinner:boolean=true;
     AddAccount:boolean=false;
     addAccModal:boolean = false;
+    dollarPrice:any=[];
+    dricPrice:any=[];
 
     @Watch('$store.state.globalReload')
     reload(){
@@ -101,7 +107,18 @@ export default class AccountList extends Vue{
         this.getCurrentNet();
     }
     mounted(){
+        this.calculateTelosPrice()
         this.getCurrentNet();
+    }
+    async calculateTelosPrice(){
+        this.dollarPrice = await GlobalService.getTelosPrice();
+        this.dricPrice = await GlobalService.getDaricPrice();
+        if(this.dollarPrice){
+            this.dollarPrice = this.dollarPrice.telos.usd
+        }
+        if(this.dricPrice){
+            this.dricPrice = this.dricPrice.symbolInfo.askPrice
+        }
     }
     addAccountModal(){
         this.addAccModal = true;
