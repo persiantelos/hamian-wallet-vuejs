@@ -1,17 +1,17 @@
 export const menuItems = [
     
-    // {
-    //     id: 1,
-    //     label: "menuitems.menu.text",
-    //     isTitle: true
-    // },
-    // {
-    //     id: 2,
-    //     label: "menuitems.NFTs.text",
-    //     isTitle: false,
-    //     icon:'bx bx-shape-circle',
-    //     link: "/NFTs",
-    // },
+    {
+        id: 1,
+        label: "menuitems.menu.text",
+        isTitle: true
+    },
+    {
+        id: 2,
+        label: "menuitems.NFTs.text",
+        isTitle: false,
+        icon:'bx bx-shape-circle',
+        link: "/NFT",
+    },
     // {
     //     id: 34,
     //     label: "menuitems.relink.text",

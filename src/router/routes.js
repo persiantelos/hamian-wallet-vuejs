@@ -42,9 +42,9 @@ export default [
     component: () => import('./views/wallet/Signature.vue')
   },
   {
-    path: '/NFTs',
-    name: 'NFTs',
-    component: () => import('./views/NFTs/NFTs.vue')
+    path: '/NFT',
+    name: 'NFT',
+    component: () => import('./views/NFTs/NFT.vue')
   },
   {
     path: '/contacts/profile',
