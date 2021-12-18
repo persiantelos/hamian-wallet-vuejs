@@ -222,7 +222,8 @@ export default class Content extends Vue{
             account: this.$store.state.currentAccount.name,
             information: str,
           }
-        }],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id)
+        }],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id,
+        this.$store.state.currentAccount)
         if(res){
             console.log(res)
             this.$notify({

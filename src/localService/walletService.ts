@@ -36,7 +36,7 @@ export default class WalletService
     {
         return BaseLocalService.run(this.walletName,{action:'generateKeyOffline',data:{}});
     }
-    static async reunTransaction(actions:any[],currentNet:any,publicKey:any,_id:any)
+    static async reunTransaction(actions:any[],currentNet:any,publicKey:any,_id:any,account:any)
     {
         var network={
             name: currentNet.name,
@@ -51,7 +51,7 @@ export default class WalletService
         var connection={
             "result": {
                 "hash": "f85df5433d53208b0b95d71012ece2b19f94463d3f3b7b6f8684f5065982f6c2",
-                "name": actions[0].authorization[0].actor,
+                "name": account.name,
                 "publicKey": "EOS6NmVCbqhxf1bopxV9Q8XqtM58uboyxj4NPr1NCPwEaKA6mehi6",
                 "accounts": [
                     {
@@ -60,8 +60,8 @@ export default class WalletService
                         "chainId": currentNet.chainId,
                         "blockchain": currentNet.type,
                         "privateKey": "",
-                        "name": actions[0].authorization[0].actor,
-                        "authority": actions[0].authorization[0].permission,
+                        "name": account.name,
+                        "authority": account.authority,
                         "publicKey": publicKey,
                         "_id": _id
                     }
@@ -69,7 +69,11 @@ export default class WalletService
             },
             "id": "5191110191491071262312593110015226342091465011913624822716321",
             "key": "f13be6430922399c1c21c25d5739421bb7ba3c22ff25f5284d67ccb6134efb9e"
-        };  
+        }; 
+        for(var a of actions)
+        {
+            a.authorization=[{actor:account.name,permission:account.authority}]
+        } 
         var rand='rand'+Math.random();
         var obj={
             connection,
