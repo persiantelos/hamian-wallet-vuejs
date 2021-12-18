@@ -124,6 +124,16 @@
                       <span v-if="showCompeleteTheProfile" class="text-truncate">No information</span>
                     </td>
                   </tr>
+                  <tr>
+                    <th scope="row d-flex" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                        <i class="mdi mdi-web"></i> Website :</th>
+                    <td :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"> 
+                      <span v-if="!showCompeleteTheProfile">
+                       {{formInformation.Contacts.Website}}
+                      </span>
+                      <span v-if="showCompeleteTheProfile" class="text-truncate">No information</span>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
