@@ -4,10 +4,10 @@
             <div></div>
             <p style="display:none">{{counter}}</p>
             <div class="col-12">
-                <div v-if="value == 'NFTs' && itemDetailsId == 0" >
+                <div v-if="value == 'NFTs' && !displayItemDetail" >
                     <NFTs @itemDetails="itemDetails" /> 
                 </div>
-                <div v-if="itemDetailsId != 0">
+                <div v-if="displayItemDetail">
                     <ItemDetail v-model="itemDetailsId" />
                 </div>
             </div>
@@ -33,16 +33,20 @@ export default class NetworksContent extends Vue{
     counter:number=0;
     itemDetailsId:number=0;
     showSpinner:boolean=true;
+    displayItemDetail:boolean=false;
     mounted(){
     }
     @Watch('value')
     valueChanged(newValue:any){
         if(newValue == 'NFTs'){
             this.$store.state.currentPageTitle = 'NFTs'
+            this.displayItemDetail=false;
+
             this.counter++
         }
     }
     itemDetails(id:any){
+        this.displayItemDetail=true;
         console.log('itemDetails',id)
     }
   
