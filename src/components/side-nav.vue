@@ -168,9 +168,12 @@ export default {
                 Blockchain
             </li>
             <li aria-expanded="false" >
-                <router-link to="#"  class="side-nav-link-a-ref has-arrow" href="javascript:void(0);">
+                <router-link to="#"  class="side-nav-link-a-ref  has-arrow" href="javascript:void(0);">
                     <i :class="`bx bx-file`" ></i>
+                    <span
+                    class="side-nav-link-ref">
                     Blockchain
+                    </span>
                 </router-link>
                 <ul  class="sub-menu mm-collapse" aria-expanded="false">
                     <li v-for="(blocks, index) of $store.state.blockchain" :key="index">
