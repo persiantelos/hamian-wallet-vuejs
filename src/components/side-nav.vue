@@ -172,7 +172,7 @@ export default {
                     <i :class="`bx bx-file`" ></i>
                     <span
                     class="side-nav-link-ref">
-                    Blockchain
+                        Blockchain
                     </span>
                 </router-link>
                 <ul  class="sub-menu mm-collapse" aria-expanded="false">
