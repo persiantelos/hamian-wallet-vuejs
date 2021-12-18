@@ -142,7 +142,7 @@ export default class AccountService
             }
     }
 
-    static async getCPUNetStaked(accountName:string){
+    static async getCPUNetStaked(host:any,accountName:string){
       let json = {
         'code': "eosio",
         'index_position': 1,
@@ -157,7 +157,13 @@ export default class AccountService
         'upper_bound': null,
       }
 
-      let url = Config.chainAddress+'/v1/chain/get_table_rows'
-      return BaseServices.postData(url,json)
+      let url = 'https://' +host+'/v1/chain/get_table_rows'
+      let data:any = BaseServices.postData(url,json)
+      if(data){
+        return data
+      }
+      else{
+        return false
+      }
     }
 }

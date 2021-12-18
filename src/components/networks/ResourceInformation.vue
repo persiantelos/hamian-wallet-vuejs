@@ -73,8 +73,12 @@ export default class AccountList extends Vue{
       this.getCPUNETStake()
     }
     async getCPUNETStake(){
-      let data= await AccountService.getCPUNetStaked(this.$store.state.currentAccount.name)
-      console.log('data',data)
+      console.log('this.$store.state.currentNet',this.$store.state.currentNet)
+      let data= await AccountService.getCPUNetStaked(this.$store.state.currentNet.host,this.$store.state.currentAccount.name)
+      if(data.rows[0]){
+        this.resourcesInfo.CPUStaked = data.rows[0].cpu_weight
+        this.resourcesInfo.NetStaked = data.rows[0].net_weight
+      }
     }
     init(){
         if(this.resource.core_liquid_balance)
@@ -92,18 +96,6 @@ export default class AccountList extends Vue{
         {
             this.resourcesInfo.refunding ='0 TELOS';
         }
-        if(this.resource.total_resources){
-            this.resourcesInfo.CPUStaked = this.resource.total_resources.cpu_weight;
-            }
-            else{
-                this.resourcesInfo.CPUStaked = '0.0000 TELOS';
-            }
-        if(this.resource.total_resources){
-            this.resourcesInfo.NetStaked = this.resource.total_resources.net_weight;
-            }
-            else{
-                this.resourcesInfo.NetStaked = '0.0000 TELOS';
-            }
         if(this.resource.rex_info){
             this.resourcesInfo.totalREX = this.resource.rex_info;
             }
