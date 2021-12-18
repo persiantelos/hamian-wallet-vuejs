@@ -47,7 +47,10 @@
                     </template>
                     <div class="col-12" v-for="(userAccount , index) in account" :key="index">
                     <b-dropdown-item @click="selecteAccount(userAccount)" class="col-12 w-100"
-                    >{{userAccount.name}}</b-dropdown-item>
+                    ><span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                      {{userAccount.name}}
+                    </span> 
+                      </b-dropdown-item>
                     </div>
                 </b-dropdown>
             </div>
@@ -253,4 +256,5 @@ export default class LocalLogin extends Vue{
 .pointer{
   cursor: pointer;
 }
+
 </style>
