@@ -849,7 +849,7 @@ export default {
           >
           </b-dropdown-item>
           <b-dropdown-item>
-            <router-link :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''" tag="span" to="/contacts/profile">
+            <router-link :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''"  to="/contacts/profile">
               <i class="bx bx-user font-size-16 align-middle me-1"></i>
               {{ $t("navbar.dropdown.henry.list.profile") }}
             </router-link>
