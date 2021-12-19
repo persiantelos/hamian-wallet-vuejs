@@ -5,10 +5,16 @@
             <p style="display:none">{{counter}}</p>
             <div class="col-12">
                 <div v-if="value == 'NFTs' && !displayItemDetail" >
-                    <NFTs @itemDetails="itemDetails" /> 
+                    <NFTs v-model="itemsList" @itemDetails="itemDetails" /> 
                 </div>
                 <div v-if="displayItemDetail">
                     <ItemDetail v-model="itemDetailsId" />
+                </div>
+                <div v-if="value == 'Sets' && !displaySetDetail" >
+                    <Sets  @SetDetails="setDetails"/> 
+                </div>
+                <div v-if="displaySetDetail">
+                    <SetDetail v-model="setDetailsItem" />
                 </div>
             </div>
         </div>
@@ -19,28 +25,45 @@ import {Vue , Component ,Prop,Watch} from 'vue-property-decorator';
 import AccountService from '@/services/accountService';
 import NFTs from '@/components/NFT/products.vue'
 import ItemDetail from '@/components/NFT/product-detail.vue'
+import SetDetail from '@/components/NFT/SetDetail.vue'
+import Sets from '@/components/NFT/Sets.vue'
+import NFTsServices from '@/services/NFTsServices'
+
 
 
 
 @Component({
     components:{
         NFTs,
-        ItemDetail
+        ItemDetail,
+        Sets,
+        SetDetail,
     }
 })
 export default class NetworksContent extends Vue{
     @Prop({default:() =>{return []}}) value:any;
     counter:number=0;
     itemDetailsId:any=[];
+    setDetailsItem:any=[];
     showSpinner:boolean=true;
     displayItemDetail:boolean=false;
+    displaySetDetail:boolean=false;
+    itemsList:any=[];
     mounted(){
     }
     @Watch('value')
-    valueChanged(newValue:any){
+    async valueChanged(newValue:any){
         this.displayItemDetail=false;
+        console.log('newValue',newValue)
         if(newValue == 'NFTs'){
+            this.itemsList = await NFTsServices.getItemByOwner(this.$store.state.currentAccount.name)
             this.$store.state.currentPageTitle = 'NFTs'
+            this.$store.state.currentPageItems[0].text = 'Market';
+            this.$store.state.currentPageItems[1].text = 'NFTs';
+            this.counter++
+        }
+        if(newValue == 'Sets'){
+            this.$store.state.currentPageTitle = 'Sets'
             this.$store.state.currentPageItems[0].text = 'Market';
             this.$store.state.currentPageItems[1].text = 'NFTs';
             this.counter++
@@ -53,6 +76,11 @@ export default class NetworksContent extends Vue{
     itemDetails(item:any){
         this.displayItemDetail=true;
         this.itemDetailsId = item
+    }
+    setDetails(set:any){
+        console.log('sesDetails',set)
+        this.displaySetDetail=true;
+        this.setDetailsItem = set
     }
   
  

@@ -3,7 +3,6 @@ import appConfig from "@/app.config";
 import { clothsData } from "./data-products";
 import NFTsServices from '@/services/NFTsServices'
 import Spinner from "@/components/spinner/Spinner.vue"
-
 /**
  * Products component
  */
@@ -21,61 +20,64 @@ export default {
       discountRates: [],
       itemsList:[],
       showSpinner :true,
-
+      sets:[]
       
     };
   },
   mounted() {
-    this.getitems()
+    this.getSets()
   },
   methods: {
-    valuechange(value) {
-      this.clothsData = clothsData.filter(function (product) {
-        return product.newprice <= value.currentValue;
-      });
-    },
+    // valuechange(value) {
+    //   this.clothsData = clothsData.filter(function (product) {
+    //     return product.newprice <= value.currentValue;
+    //   });
+    // },
 
-    searchFilter(e) {
-      const searchStr = e.target.value;
-      this.clothsData = clothsData.filter((product) => {
-        return (
-          product.name.toLowerCase().search(searchStr.toLowerCase()) !== -1
-        );
-      });
-    },
+    // searchFilter(e) {
+    //   const searchStr = e.target.value;
+    //   this.clothsData = clothsData.filter((product) => {
+    //     return (
+    //       product.name.toLowerCase().search(searchStr.toLowerCase()) !== -1
+    //     );
+    //   });
+    // },
 
-    discountLessFilter(e, percentage) {
-      if (e === "accepted" && this.discountRates.length === 0) {
-        this.clothsData = clothsData.filter((product) => {
-          return product.discount < percentage;
-        });
-      } else {
-        this.clothsData = clothsData.filter((product) => {
-          return product.discount >= Math.max.apply(null, this);
-        }, this.discountRates);
-      }
-    },
+    // discountLessFilter(e, percentage) {
+    //   if (e === "accepted" && this.discountRates.length === 0) {
+    //     this.clothsData = clothsData.filter((product) => {
+    //       return product.discount < percentage;
+    //     });
+    //   } else {
+    //     this.clothsData = clothsData.filter((product) => {
+    //       return product.discount >= Math.max.apply(null, this);
+    //     }, this.discountRates);
+    //   }
+    // },
 
-    discountMoreFilter(e, percentage) {
-      if (e === "accepted") {
-        this.discountRates.push(percentage);
-      } else {
-        this.discountRates.splice(this.discountRates.indexOf(percentage), 1);
-      }
-      this.clothsData = clothsData.filter((product) => {
-        return product.discount >= Math.max.apply(null, this);
-      }, this.discountRates);
+    // discountMoreFilter(e, percentage) {
+    //   if (e === "accepted") {
+    //     this.discountRates.push(percentage);
+    //   } else {
+    //     this.discountRates.splice(this.discountRates.indexOf(percentage), 1);
+    //   }
+    //   this.clothsData = clothsData.filter((product) => {
+    //     return product.discount >= Math.max.apply(null, this);
+    //   }, this.discountRates);
+    // },
+    GoToItem(set){
+      this.$emit('SetDetails',set)
     },
-    GoToItem(item){
-      console.log(item);
-      this.$emit('itemDetails',item)
-    },
-    async getitems(){
-      this.itemsList = await NFTsServices.getItemByOwner(this.$store.state.currentAccount.name)
-      if(this.itemsList){
-        console.log('items',this.itemsList)
-        this.showSpinner = false;
-      }
+    async getSets(){
+        this.sets  = await NFTsServices.getSetsByCreator(this.$store.state.currentAccount.name)
+        if(this.sets.message != false){   
+            console.log('sets',this.sets)
+            this.showSpinner = false;
+        }
+        else{
+            this.showSpinner = false;
+            this.setsIsEmpty = true;
+        }
     }
   },
 };
@@ -245,13 +247,16 @@ export default {
       </div> -->
 
         <div class="mt-5" v-if="showSpinner">
-          <Spinner v-model="showSpinner" />
+            <Spinner v-model="showSpinner" />
         </div>
-      <div  v-if="!showSpinner" class="col-lg-12">
+        <div v-if="setsIsEmpty">
+            <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">You have no set to display!</h5>
+        </div>
+      <div  v-if="!showSpinner && !setsIsEmpty" class="col-lg-12">
         <div class="row mb-3">
           <div class="col-2 col-sm-6">
             <div class="mt-2">
-              <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Items</h5>
+              <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Sets</h5>
             </div>
           </div>
           <div class="col-10 col-sm-6">
@@ -267,7 +272,7 @@ export default {
                   <i class="bx bx-search-alt search-icon"></i>
                 </div>
               </div>
-              <ul class="nav nav-pills product-view-nav">
+              <!-- <ul class="nav nav-pills product-view-nav">
                 <li class="nav-item">
                   <a class="nav-link active" href="javascript: void(0);">
                     <i class="bx bx-grid-alt"></i>
@@ -278,80 +283,67 @@ export default {
                     <i class="bx bx-list-ul"></i>
                   </a>
                 </li>
-              </ul>
+              </ul> -->
             </form>
           </div>
         </div>
         <div  class="row" >
           <div 
-            v-for="data in itemsList.items"
+            v-for="data in sets.result"
             :key="data.item.serial"
             class="col-xl-4 col-sm-6"
           >
             <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
               <div class="card-body" >
                 <div class="product-img position-relative">
-                  <div v-if="data" class="avatar-sm product-ribbon">
+                  <!-- <div v-if="data" class="avatar-sm product-ribbon">
                     <span class="avatar-title rounded-circle bg-primary"
                       >{{ data.like }} <i class="bx bx-like"></i> </span>
-                  </div>
+                  </div> -->
                   <div class="">
                     <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="mb-3 text-truncate d-flex">
-                      <img class="avatar-sm" v-if="$store.state.avatar" :src="$store.state.avatar" style="border-radius:50%" alt=""> <span class="mt-2 pt-1 mx-1"> {{ data.item.owner }} </span> 
+                      <img class="avatar-sm" v-if="$store.state.avatar" :src="$store.state.avatar" style="border-radius:50%" alt=""> <span class="mt-2 pt-1 mx-1"> {{ data.item.creator }} </span> 
                     </h5>
                   </div>
                   <router-link
                     tag="a"
                     to="#"
-                    @click.native="GoToItem(data)"
+                    @click.native="GoToItem(data.item)"
                   >
-                  <div v-for="(tags , id) in data.tags" :key="id">
-                    
-                    <img v-if="tags.tag_name == 'asset'"
-                      :src="tags.content"
+                    <img 
+                      :src="JSON.parse(data.item.data).dt"
                       alt
                       class="img-fluid mx-auto d-block"
                     />
-                  </div>
                   </router-link>
                 </div>
-                <div class="mt-4 text-center" v-for="(tags , indexJ) in data.tags" :key="indexJ">
-                  <h5 class="mb-3 text-truncate" v-if="tags.tag_name == 'title'">
+                <div class="mt-4 text-center">
+                  <h5 class="mb-3 text-truncate">
                     <router-link
                       tag="a"
                       class="text-dark"
                       to="#"
-                      @click.native="GoToItem(data)"
+                      @click.native="GoToItem(data.item)"
                       :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''"
-                      >Title : {{ tags.content }}</router-link
+                      >Title : {{ JSON.parse(data.item.data).ti }}</router-link
                     >
                   </h5>
-                  <!-- <p class="text-muted">
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star"></i>
-                  </p> -->
+                 
                   <h5 class="my-0">
-                    <!-- <span class="text-muted me-2" v-if="tags.tag_name == 'creator'">
-                      <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Creator : {{tags.content}}</span>
-                    </span> -->
-                    <!-- <div class="stored d-flex text-center justify-content-center" v-if="tags.tag_name == 'asset'" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
-                      <span class="mt-2">Stored in : </span> 
-                      <img v-if="data.isProtected" src="@/assets/logos/protected.svg" style="max-height:36px;max-width:36px;border-radius:50%" alt=""> 
-                      <p class="mt-2" v-if="data.isProtected">Xtorage Protected</p>
-                      <img v-if="data.isXtorage" src="@/assets/logos/xtorage.svg" style="max-height:36px;max-width:36px;border-radius:50%" alt=""> 
-                      <p class="mt-2" v-if="data.isXtorage">Xtorage</p>
-                      <img v-if="data.isDstore" src="@/assets/logos/dstor.svg" style="max-height:36px;max-width:36px;border-radius:50%" alt=""> 
-                      <p class="mt-2" v-if="data.isDstore">Dstor</p>
-                    </div> -->
+                   
                   </h5>
                 </div>
-                <div class="text-center">
+                <div class="text-center mt-3">
                   <h5>
-                    <span class="text-muted me-2" >
-                      <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Serial Number : {{data.item.serial}}</span>
+                    <span class="text-muted" >
+                      <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Id Number : {{data.item.id}}</span>
+                    </span>
+                  </h5>
+                </div>
+                <div class="text-center mt-3">
+                  <h5>
+                    <span class="text-muted" >
+                      <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Remains : {{data.item.remains +'/'+ data.item.max}} </span>
                     </span>
                   </h5>
                 </div>

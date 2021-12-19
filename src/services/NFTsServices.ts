@@ -103,5 +103,41 @@ export default class NFTsServices
     } 
     return {items:list,more:list.length==top,nextKey:skip+top};
     }
+    static async getSetsByCreator(accountName:string,skip:number=0,top:number=10){
+        let url:string =Config.areaXBaseURL2+'/hyberion/getSets';
+        var data = {
+            $filter:"creator eq '"+accountName+"'",
+            $skip:skip,
+            $top:top,
+            $orderby:'_id desc'
+          };
+        let sets = await BaseServices.postData(url,data)
+        if(sets.data.value.length == 0){
+            return {message : false}
+        }
+        else{
+            var res = [];
+            var ind = 0;
+            var serial_filter = []
+            for (const row of sets.data.value) {
+                serial_filter.push(`${row._id}`)
+                row.minImage=Config.areaXBaseURL2+'set/'+(Math.floor(row.id/100))+'/'+row.id+'_min.png'
+                if(row.url)
+                {
+                row.minImage=Config.areaXBaseURL2+row.url
+                }
+                res[ind] = {
+                item : row,
+                }
+                ind++;
+            } 
+        }
+        // var likes = await this.isSetLikeByListOfSerials(accountName , serial_filter)
+        // for(var i in res){
+        //   res[i].item['isLiked'] = likes[i] == 1 ? true : false
+        // }
+      return {result:res,nextKey:skip+top,more:sets.data.value.length==top};
+
+    }
     
 }
