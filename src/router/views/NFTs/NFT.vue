@@ -19,9 +19,6 @@ import NFTContent from "@/components/NFT/NFTContent.vue"
 export default class NFT extends Vue{
     selectedItem:any=[];
     mounted(){
-        this.$store.state.currentPageTitle = 'NFTs'
-        this.$store.state.currentPageItems[0].text = 'Market';
-        this.$store.state.currentPageItems[1].text = 'NFTs';
     }
   selectedItemChanged(data:any){
     this.selectedItem = data;

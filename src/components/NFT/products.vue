@@ -1,8 +1,8 @@
 <script>
-import VueSlideBar from "vue-slide-bar";
 import appConfig from "@/app.config";
 import { clothsData } from "./data-products";
 import NFTsServices from '@/services/NFTsServices'
+import Spinner from "@/components/spinner/Spinner.vue"
 
 /**
  * Products component
@@ -12,14 +12,16 @@ export default {
     title: "Product",
     meta: [{ name: "description", content: appConfig.description }],
   },
-  components: { VueSlideBar},
+  components: {Spinner},
   data() {
     return {
       clothsData: clothsData,
       sliderPrice: 800,
       currentPage: 1,
       discountRates: [],
-      itemsList:[]
+      itemsList:[],
+      showSpinner :true,
+
       
     };
   },
@@ -69,16 +71,18 @@ export default {
       this.$emit('itemDetails',item)
     },
     async getitems(){
-      console.log('getItems')
       this.itemsList = await NFTsServices.getItemByOwner(this.$store.state.currentAccount.name)
-      console.log('items',this.itemsList)
+      if(this.itemsList){
+        console.log('items',this.itemsList)
+        this.showSpinner = false;
+      }
     }
   },
 };
 </script>
 
 <template>
-    <div class="row">
+    <div class="row" >
       <!-- <div class="col-lg-3">
         <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
           <div class="card-body">
@@ -240,11 +244,14 @@ export default {
         </div>
       </div> -->
 
-      <div class="col-lg-12">
+        <div class="mt-5" v-if="showSpinner">
+          <Spinner v-model="showSpinner" />
+        </div>
+      <div  v-if="!showSpinner" class="col-lg-12">
         <div class="row mb-3">
           <div class="col-xl-4 col-sm-6">
             <div class="mt-2">
-              <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Clothes</h5>
+              <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Items</h5>
             </div>
           </div>
           <div class="col-lg-8 col-sm-6">
@@ -275,7 +282,7 @@ export default {
             </form>
           </div>
         </div>
-        <div class="row" >
+        <div  class="row" >
           <div 
             v-for="data in itemsList.items"
             :key="data.item.serial"
@@ -346,6 +353,7 @@ export default {
             </div>
           </div>
         </div>
+        
         <!-- end row -->
 
         <div class="row">

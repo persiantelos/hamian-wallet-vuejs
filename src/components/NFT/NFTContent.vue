@@ -31,7 +31,7 @@ import ItemDetail from '@/components/NFT/product-detail.vue'
 export default class NetworksContent extends Vue{
     @Prop({default:() =>{return []}}) value:any;
     counter:number=0;
-    itemDetailsId:number=0;
+    itemDetailsId:any=[];
     showSpinner:boolean=true;
     displayItemDetail:boolean=false;
     mounted(){
@@ -41,6 +41,8 @@ export default class NetworksContent extends Vue{
         this.displayItemDetail=false;
         if(newValue == 'NFTs'){
             this.$store.state.currentPageTitle = 'NFTs'
+            this.$store.state.currentPageItems[0].text = 'Market';
+            this.$store.state.currentPageItems[1].text = 'NFTs';
             this.counter++
         }
         else{
@@ -48,9 +50,9 @@ export default class NetworksContent extends Vue{
             this.counter++
         }
     }
-    itemDetails(id:any){
+    itemDetails(item:any){
         this.displayItemDetail=true;
-        console.log('itemDetails',id)
+        this.itemDetailsId = item
     }
   
  

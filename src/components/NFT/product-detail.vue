@@ -6,22 +6,65 @@ import { clothsData } from "./data-products";
  * Product detail component
  */
 export default {
+  props: {
+    value: {
+      type: Array,
+      required: true,
+    },
+  },
   page: {
-    title: "Product Detail",
-    value:0,
+    title: "Item Detail",
     meta: [{ name: "description", content: appConfig.description }],
   },
   components: { },
   data() {
     return {
       productDetail: null,
+      title: "",
+      creator: "",
+      serial: "",
+      itemDate: "",
+      dateItem: "",
+      time: "",
+      group: "",
+      setId: "",
       clothsData: clothsData,
+
     };
   },
   created() {
     this.productDetail = clothsData.filter((product) => {
       return product.id === parseInt('1');
     });
+  },
+  mounted(){
+    console.log('this.value',this.value)
+    this.$store.state.currentPageItems[0].text = 'Item Detail';
+    for(let tag of this.value.tags){
+      if(tag.tag_name == 'title'){
+        this.$store.state.currentPageItems[1].text = tag.content;
+        this.title = tag.content
+      }
+      if(tag.tag_name == 'creator'){
+        this.creator = tag.content
+      }
+      if(tag.tag_name == 'asset'){
+        this.picture = tag.content
+      }
+    }
+    this.serial = this.value.item.serial
+    this.group = this.value.item.group
+    for(let att of this.value.attributes){
+      if(att.attribute_name == 'mintdate'){
+        var itemDate = new Date(att.points*1000).toISOString().split('T');
+        this.dateItem = itemDate[0]
+        this.time = itemDate[1].split('.')[0]
+      }
+      if(att.attribute_name == 'set'){
+        this.setId = att.points
+      }
+    }
+
   },
   
   methods: {
@@ -51,103 +94,87 @@ export default {
                     vertical
                     nav-wrapper-class="col-md-2 col-sm-3 col-4"
                   >
-                    <b-tab >
+                    <b-tab v-if="value.isProtected">
                       <template v-slot:title >
                         <img
-                          :src="productDetail[0].images[0]"
+                          src="@/assets/logos/protected.svg"
                           alt
                           class="img-fluid mx-auto d-block tab-img rounded"
                         />
                       </template>
                       <div class="product-img" >
-                        <img
-                          :src="productDetail[0].images[0]"
+                        <img 
+                          :src="picture"
                           alt
                           class="img-fluid mx-auto d-block"
                         />
                       </div>
                     </b-tab>
-                    <b-tab>
-                      <template v-slot:title>
+                    <b-tab v-if="value.isXtorage">
+                      <template v-slot:title >
                         <img
-                          :src="productDetail[0].images[1]"
+                          src="@/assets/logos/xtorage.svg"
                           alt
                           class="img-fluid mx-auto d-block tab-img rounded"
                         />
                       </template>
-                      <div class="product-img">
-                        <img
-                          :src="productDetail[0].images[1]"
+                      <div class="product-img" >
+                        <img 
+                          :src="picture"
                           alt
                           class="img-fluid mx-auto d-block"
                         />
                       </div>
                     </b-tab>
-                    <b-tab>
-                      <template v-slot:title>
+                    <b-tab v-if="value.isDstore">
+                      <template v-slot:title >
                         <img
-                          :src="productDetail[0].images[2]"
+                          src="@/assets/logos/dstor.svg"
                           alt
                           class="img-fluid mx-auto d-block tab-img rounded"
                         />
                       </template>
-                      <div class="product-img">
-                        <img
-                          :src="productDetail[0].images[2]"
+                      <div class="product-img" >
+                        <img 
+                          :src="picture"
                           alt
                           class="img-fluid mx-auto d-block"
                         />
                       </div>
                     </b-tab>
-                    <b-tab>
-                      <template v-slot:title>
-                        <img
-                          :src="productDetail[0].images[3]"
-                          alt
-                          class="img-fluid mx-auto d-block tab-img rounded"
-                        />
-                      </template>
-                      <div class="product-img">
-                        <img
-                          :src="productDetail[0].images[3]"
-                          alt
-                          class="img-fluid mx-auto d-block"
-                        />
-                      </div>
-                    </b-tab>
+                    
                   </b-tabs>
                 </div>
               </div>
 
               <div class="col-xl-6">
-                <div class="mt-3">
-                  <h4 class="mt-1 mb-3" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">{{ productDetail[0].name }}</h4>
+                <div class="mt-3" >
+                  
+                  <h4 class="mt-1 mb-3" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" v-if="title">Title :{{title}}</h4>
+                  
 
-                  <p class="text-muted float-left me-3">
-                    <span class="bx bx-star text-warning"></span>
-                    <span class="bx bx-star text-warning ml-1"></span>
-                    <span class="bx bx-star text-warning ml-1"></span>
-                    <span class="bx bx-star text-warning ml-1"></span>
-                    <span class="bx bx-star ml-1"></span>
-                  </p>
-                  <p class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">( 152 Customers Review )</p>
+                  <p class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" v-if="creator">( Create by : {{creator}} )</p>
 
-                  <h6 class="text-success text-uppercase" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                  <!-- <h6 class="text-success text-uppercase" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                     {{ productDetail[0].discount }} Off
-                  </h6>
-                  <h5 class="mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
-                    Price :
-                    <span class="text-muted me-2">
-                      <del>${{ productDetail[0].oldprice }} USD</del>
-                    </span>
-                    <b>${{ productDetail[0].newprice }} USD</b>
+                  </h6> -->
+                  <h5 v-if="serial" class="mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                    Serial Number :
+                    <b>{{serial}}</b>
                   </h5>
-                  <p class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
-                    To achieve this, it would be necessary to have uniform
-                    grammar pronunciation and more common words If several
-                    languages coalesce
+                  <p v-if="picture" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
+                    <b>Asset :</b> {{picture}}
                   </p>
-                  <div class="row mb-3">
+                  <p v-if="dateItem && time" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
+                    <b>Mint Date :</b> {{dateItem + ' ' + time}}
+                  </p>
+                  <p v-if="group" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
+                    <b>Group :</b> {{group}}
+                  </p>
+                  <p v-if="setId" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
+                    <b>Set Id :</b> {{setId}}
+                  </p>
+                  <!-- <div class="row mb-3">
                     <div class="col-md-6">
                       <div
                         v-for="(item, index) in productDetail[0].feature"
@@ -177,9 +204,9 @@ export default {
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
-                  <div class="product-color">
+                  <!-- <div class="product-color">
                     <h5 class="font-size-15" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Color :</h5>
                     <a
                       href="javascript: void(0);"
@@ -192,7 +219,7 @@ export default {
                       </div>
                       <p>{{ item.key }}</p>
                     </a>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -350,7 +377,7 @@ export default {
     </div>
     <!-- end row -->
 
-    <div class="row mt-3">
+    <!-- <div class="row mt-3">
       <div class="col-lg-12">
         <div>
           <h5 class="mb-3" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Recent product :</h5>
@@ -393,7 +420,7 @@ export default {
                 </div>
               </div>
             </div>
-            <!-- <div class="col-xl-4 col-sm-6">
+            <div class="col-xl-4 col-sm-6">
               <div class="card">
                 <div class="card-body">
                   <div class="row align-items-center">
@@ -466,11 +493,12 @@ export default {
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div> 
           </div>
-          <!-- end row -->
         </div>
       </div>
-    </div>
+    </div> -->
+    <!-- end row -->
+
 </div>
 </template>
