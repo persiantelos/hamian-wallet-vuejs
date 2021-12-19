@@ -8,6 +8,7 @@ export default class Config
     static soket:SocketService;
     static payloadOrigin:string='Mega App';
     static areaXBaseURL:string='https://api1.areaxnft.com';
+    static areaXBaseURL2:string='https://api.areaxnft.com';
     static persianTelos:string='https://mainnet.persiantelos.com';
 
 

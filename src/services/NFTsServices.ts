@@ -7,6 +7,7 @@ export default class NFTsServices
         let url:string =Config.areaXBaseURL2+'/hyberion/getItems';
         let items =  await BaseServices.postData(url,{$skip:skip , $top:top , $filter:"owner eq '"+accountName+"'" , $orderby:'_id desc' })
         var list=[]
+        var Dstore:boolean= false;
         for(var a of items.data.value)
         {
             var tags = []
@@ -75,7 +76,13 @@ export default class NFTsServices
         }
         tags.push(data_obj)
         }
-
+        var itemUrl = a.url;
+        if(itemUrl.includes("https://api.dstor.cloud") || itemUrl.includes("https://ja3cgw.dstor.cloud")){
+            Dstore= true;
+        }
+        else{
+            Dstore= false;
+        }
         var obj={
         item:{
             group:a.group,
@@ -90,6 +97,7 @@ export default class NFTsServices
         like:a.like ? a.like : 0,
         isXtorage:a.isXtorage,
         isProtected:a.isProtected,
+        isDstore: Dstore,
         }
         list.push(obj);
     } 

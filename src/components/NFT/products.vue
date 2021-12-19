@@ -2,6 +2,7 @@
 import VueSlideBar from "vue-slide-bar";
 import appConfig from "@/app.config";
 import { clothsData } from "./data-products";
+import NFTsServices from '@/services/NFTsServices'
 
 /**
  * Products component
@@ -18,9 +19,12 @@ export default {
       sliderPrice: 800,
       currentPage: 1,
       discountRates: [],
+      itemsList:[]
+      
     };
   },
   mounted() {
+    this.getitems()
   },
   methods: {
     valuechange(value) {
@@ -63,6 +67,11 @@ export default {
     GoToItem(id){
       console.log(id);
       this.$emit('itemDetails',id)
+    },
+    async getitems(){
+      console.log('getItems')
+      this.itemsList = await NFTsServices.getItemByOwner(this.$store.state.currentAccount.name)
+      console.log('items',this.itemsList)
     }
   },
 };
@@ -70,7 +79,7 @@ export default {
 
 <template>
     <div class="row">
-      <div class="col-lg-3">
+      <!-- <div class="col-lg-3">
         <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
           <div class="card-body">
             <h4 class="card-title mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Filter</h4>
@@ -229,9 +238,9 @@ export default {
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div class="col-lg-9">
+      <div class="col-lg-12">
         <div class="row mb-3">
           <div class="col-xl-4 col-sm-6">
             <div class="mt-2">
@@ -268,53 +277,69 @@ export default {
         </div>
         <div class="row" >
           <div 
-            v-for="data in clothsData"
-            :key="data.id"
-            class="col-xl-4 col-sm-6"
+            v-for="data in itemsList.items"
+            :key="data.item.serial"
+            class="col-xl-5 col-sm-6"
           >
             <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
               <div class="card-body" >
                 <div class="product-img position-relative">
-                  <div v-if="data.discount" class="avatar-sm product-ribbon">
+                  <div v-if="data" class="avatar-sm product-ribbon">
                     <span class="avatar-title rounded-circle bg-primary"
-                      >-{{ data.discount }}%</span
-                    >
+                      >{{ data.like }} <i class="bx bx-like"></i> </span>
+                  </div>
+                  <div class="">
+                    <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="mb-3 text-truncate d-flex">
+                      <img class="avatar-sm" v-if="$store.state.avatar" :src="$store.state.avatar" style="border-radius:50%" alt=""> <span class="mt-2 pt-1 mx-1"> {{ data.item.owner }} </span> 
+                    </h5>
                   </div>
                   <router-link
                     tag="a"
                     to="#"
-                    @click.native="GoToItem(data.id)"
+                    @click.native="GoToItem(data.item.serial)"
                   >
-                    <img
-                      :src="`${data.product}`"
+                  <div v-for="(tags , id) in data.tags" :key="id">
+                    
+                    <img v-if="tags.tag_name == 'asset'"
+                      :src="tags.content"
                       alt
+                      style="max-height:269px;max-width:269px;"
                       class="img-fluid mx-auto d-block"
                     />
+                  </div>
                   </router-link>
                 </div>
-                <div class="mt-4 text-center">
-                  <h5 class="mb-3 text-truncate">
+                <div class="mt-4 text-center" v-for="(tags , indexJ) in data.tags" :key="indexJ">
+                  <h5 class="mb-3 text-truncate" v-if="tags.tag_name == 'title'">
                     <router-link
                       tag="a"
                       class="text-dark"
                       to="#"
-                      @click.native="GoToItem(data.id)"
+                      @click.native="GoToItem(data.item.serial)"
                       :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''"
-                      >{{ data.name }}</router-link
+                      >Title : {{ tags.content }}</router-link
                     >
                   </h5>
-                  <p class="text-muted">
+                  <!-- <p class="text-muted">
                     <i class="bx bxs-star text-warning"></i>
                     <i class="bx bxs-star text-warning"></i>
                     <i class="bx bxs-star text-warning"></i>
                     <i class="bx bxs-star text-warning"></i>
                     <i class="bx bxs-star"></i>
-                  </p>
+                  </p> -->
                   <h5 class="my-0">
-                    <span class="text-muted me-2">
-                      <del :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">${{ data.oldprice }}</del>
+                    <span class="text-muted me-2" v-if="tags.tag_name == 'creator'">
+                      <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Creator : {{tags.content}}</span>
                     </span>
-                    <b :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">${{ data.newprice }}</b>
+                    <div class="stored d-flex text-center justify-content-center" v-if="tags.tag_name == 'asset'" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                      <span class="mt-2">Stored in : </span> 
+                      <img v-if="data.isProtected" src="@/assets/logos/protected.svg" style="max-height:36px;max-width:36px;border-radius:50%" alt=""> 
+                      <p class="mt-2" v-if="data.isProtected">Xtorage Protected</p>
+                      <img v-if="data.isXtorage" src="@/assets/logos/xtorage.svg" style="max-height:36px;max-width:36px;border-radius:50%" alt=""> 
+                      <p class="mt-2" v-if="data.isXtorage">Xtorage</p>
+                      <img v-if="data.isDstore" src="@/assets/logos/dstor.svg" style="max-height:36px;max-width:36px;border-radius:50%" alt=""> 
+                      <p class="mt-2" v-if="data.isDstore">Dstor</p>
+                    </div>
                   </h5>
                 </div>
               </div>
