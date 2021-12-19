@@ -1,6 +1,5 @@
 <script>
 import appConfig from "@/app.config";
-import { clothsData } from "./data-products";
 
 /**
  * Product detail component
@@ -12,10 +11,7 @@ export default {
       required: true,
     },
   },
-  page: {
-    title: "Item Detail",
-    meta: [{ name: "description", content: appConfig.description }],
-  },
+ 
   components: { },
   data() {
     return {
@@ -24,19 +20,14 @@ export default {
       creator: "",
       serial: "",
       itemDate: "",
-      dateItem: "",
+      dateItem: "", 
       time: "",
       group: "",
       setId: "",
-      clothsData: clothsData,
 
     };
   },
-  created() {
-    this.productDetail = clothsData.filter((product) => {
-      return product.id === parseInt('1');
-    });
-  },
+  
   mounted(){
     console.log('this.value',this.value)
     this.$store.state.currentPageItems[0].text = 'Item Detail';
