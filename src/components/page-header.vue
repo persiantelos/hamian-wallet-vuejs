@@ -10,14 +10,14 @@ import {Vue , Component ,Prop,Watch} from 'vue-property-decorator';
 export default class PageHeader extends Vue{
   @Prop({default:() =>{return ''}}) title:string;
   @Prop({default:() =>{return []}}) items:any;
-  @Watch('title')
-  titleChanged(newVal:any){
-    console.log('page header new val',newVal)
-  }
-  @Watch('items')
-  itemsChanged(newVal:any){
-    console.log('page header new val',newVal)
-  }
+  // @Watch('title')
+  // titleChanged(newVal:any){
+    // console.log('page header new val',newVal)
+  // }
+  // @Watch('items')
+  // itemsChanged(newVal:any){
+    // console.log('page header new val',newVal)
+  // }
 }
 </script>
 
