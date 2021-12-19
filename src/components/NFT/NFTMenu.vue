@@ -132,6 +132,9 @@ import {Vue , Component , Prop ,Watch} from 'vue-property-decorator'
 })
 export default class NetworkMenu extends Vue{
     selected:string='';
+    mounted(){
+        this.selectedItem('NFTs')
+    }
     selectedItem(data:string){
         this.selected = data;
         this.$emit('selectedItem',data)
