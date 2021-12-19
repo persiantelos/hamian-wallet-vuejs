@@ -286,7 +286,7 @@ export default {
           <div 
             v-for="data in itemsList.items"
             :key="data.item.serial"
-            class="col-xl-5 col-sm-6"
+            class="col-xl-4 col-sm-6"
           >
             <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
               <div class="card-body" >
@@ -310,7 +310,6 @@ export default {
                     <img v-if="tags.tag_name == 'asset'"
                       :src="tags.content"
                       alt
-                      style="max-height:269px;max-width:269px;"
                       class="img-fluid mx-auto d-block"
                     />
                   </div>
