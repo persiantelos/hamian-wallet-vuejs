@@ -54,6 +54,7 @@ export default class NetworksContent extends Vue{
     @Watch('value')
     async valueChanged(newValue:any){
         this.displayItemDetail=false;
+        this.displaySetDetail=false;
         console.log('newValue',newValue)
         if(newValue == 'NFTs'){
             this.itemsList = await NFTsServices.getItemByOwner(this.$store.state.currentAccount.name)
