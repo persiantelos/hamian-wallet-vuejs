@@ -346,6 +346,7 @@ export default {
                       <img v-if="data.isDstore" src="@/assets/logos/dstor.svg" style="max-height:36px;max-width:36px;border-radius:50%" alt=""> 
                       <p class="mt-2" v-if="data.isDstore">Dstor</p>
                     </div> -->
+                    
                   </h5>
                 </div>
                 <div class="text-center">
