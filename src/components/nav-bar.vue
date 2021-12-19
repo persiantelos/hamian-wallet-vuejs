@@ -8,6 +8,7 @@ import EventBus from '../localService/eventBus'
 import WalletService from '../localService/walletService'
 import Dialog from '../components/common/Dialog.vue';
 import QRCode from 'qrcode'
+import AccountService from '@/services/accountService';
 
 
 
@@ -62,6 +63,7 @@ export default {
   Dialog },
     
   mounted() {
+    this.getAvatar()
     this.username=Config.username;
     this.value = this.languages.find((x) => x.language === i18n.locale);
     this.text = this.value.title;
@@ -77,6 +79,12 @@ export default {
 
   },
   methods: {
+    async getAvatar(){
+      var profileInformation = await AccountService.getSocialProfile(this.$store.state.currentAccount.name);
+      if(profileInformation){
+        profileInformation.Avatar ? this.$store.state.avatar = profileInformation.Avatar : '';
+      }
+    },
     themeDarkMode(data){
       this.appMode=data.value
       if(data.value == true){
@@ -799,7 +807,12 @@ export default {
           menu-class="dropdown-menu-end"
         >
           <template v-slot:button-content>
-            <img 
+            <img v-if="$store.state.avatar"
+              class="rounded-circle header-profile-user"
+              :src="$store.state.avatar"
+              alt="A"
+            />
+            <img v-else
               class="rounded-circle header-profile-user"
               src="@/assets/images/users/1.jpg"
               alt="A"

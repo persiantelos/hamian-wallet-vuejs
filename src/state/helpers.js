@@ -46,6 +46,11 @@ export const currentPageTitle = {
     currentPageItems: (state) => state.currentPageItems,
   })
 }
+export const avatar = {
+  ...mapState('avatar', {
+    avatar: (state) => state.avatar,
+  })
+}
 
 
 

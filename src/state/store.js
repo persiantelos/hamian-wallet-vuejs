@@ -31,6 +31,7 @@ const store = new Vuex.Store({
         active:true,
       },
     ],
+    avatar:''
   },
   // actions:{
   //   showLoading({commit}){
