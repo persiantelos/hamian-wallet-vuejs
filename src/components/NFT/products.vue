@@ -292,7 +292,7 @@ export default {
               <div class="card-body" >
                 <div class="product-img position-relative">
                   <div v-if="data" class="avatar-sm product-ribbon">
-                    <span class="avatar-title rounded-circle bg-primary"
+                    <span class="avatar-title rounded-circle bg-outline-primary"
                       >{{ data.like }} <i class="bx bx-like"></i> </span>
                   </div>
                   <div class="">
@@ -334,10 +334,10 @@ export default {
                     <i class="bx bxs-star"></i>
                   </p> -->
                   <h5 class="my-0">
-                    <span class="text-muted me-2" v-if="tags.tag_name == 'creator'">
+                    <!-- <span class="text-muted me-2" v-if="tags.tag_name == 'creator'">
                       <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Creator : {{tags.content}}</span>
-                    </span>
-                    <div class="stored d-flex text-center justify-content-center" v-if="tags.tag_name == 'asset'" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                    </span> -->
+                    <!-- <div class="stored d-flex text-center justify-content-center" v-if="tags.tag_name == 'asset'" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                       <span class="mt-2">Stored in : </span> 
                       <img v-if="data.isProtected" src="@/assets/logos/protected.svg" style="max-height:36px;max-width:36px;border-radius:50%" alt=""> 
                       <p class="mt-2" v-if="data.isProtected">Xtorage Protected</p>
@@ -345,7 +345,14 @@ export default {
                       <p class="mt-2" v-if="data.isXtorage">Xtorage</p>
                       <img v-if="data.isDstore" src="@/assets/logos/dstor.svg" style="max-height:36px;max-width:36px;border-radius:50%" alt=""> 
                       <p class="mt-2" v-if="data.isDstore">Dstor</p>
-                    </div>
+                    </div> -->
+                  </h5>
+                </div>
+                <div class="text-center">
+                  <h5>
+                    <span class="text-muted me-2" >
+                      <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Serial Number : {{data.item.serial}}</span>
+                    </span>
                   </h5>
                 </div>
               </div>
