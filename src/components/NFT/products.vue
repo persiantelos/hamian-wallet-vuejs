@@ -64,9 +64,9 @@ export default {
         return product.discount >= Math.max.apply(null, this);
       }, this.discountRates);
     },
-    GoToItem(id){
-      console.log(id);
-      this.$emit('itemDetails',id)
+    GoToItem(item){
+      console.log(item);
+      this.$emit('itemDetails',item)
     },
     async getitems(){
       console.log('getItems')
@@ -296,7 +296,7 @@ export default {
                   <router-link
                     tag="a"
                     to="#"
-                    @click.native="GoToItem(data.item.serial)"
+                    @click.native="GoToItem(data)"
                   >
                   <div v-for="(tags , id) in data.tags" :key="id">
                     
@@ -315,7 +315,7 @@ export default {
                       tag="a"
                       class="text-dark"
                       to="#"
-                      @click.native="GoToItem(data.item.serial)"
+                      @click.native="GoToItem(data)"
                       :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''"
                       >Title : {{ tags.content }}</router-link
                     >
