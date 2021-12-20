@@ -4,37 +4,42 @@
             <Spinner v-model="spinner" />
         </div>
         <div v-if="!spinner" class="row d-flex">
-            <div v-for="(user , index) in getFollowersDetails" :key="index" class="col-lg-4 col-md-6 col-sm-12">
-                <div  class="card overflow-hidden" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
-                    <div class="bg-soft bg-primary">
-                        <div class="row">
-                        <div v-if="user[0].Cover == ''" :class="user.Cover != '' ? '' :'col-7'">
-                            <div class="text-primary p-3">
-                                <p>{{user[0].bio}}</p> 
+            <div v-if="emptyList">
+                Followers List is Empty
+            </div>
+            <div v-if="!emptyList">
+                <div v-for="(user , index) in getFollowersDetails" :key="index" class="col-lg-4 col-md-6 col-sm-12">
+                    <div  class="card overflow-hidden" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
+                        <div class="bg-soft bg-primary">
+                            <div class="row">
+                            <div v-if="user[0].Cover == ''" :class="user.Cover != '' ? '' :'col-7'">
+                                <div class="text-primary p-3">
+                                    <p>{{user[0].bio}}</p> 
+                                </div>
+                            </div>
+                            <div class="col-5 align-self-end">
+                                <img v-if="user[0].Cover == ''" src="@/assets/images/profile-img.png" alt class="img-fluid" />
+                            </div>
+                            <div class="col-12 cover" >
+                                <img v-if="user[0].Cover != ''" loading="lazy"  :src="user[0].Cover" alt class="img-fluid" />
+                            </div>
                             </div>
                         </div>
-                        <div class="col-5 align-self-end">
-                            <img v-if="user[0].Cover == ''" src="@/assets/images/profile-img.png" alt class="img-fluid" />
-                        </div>
-                        <div class="col-12 cover" >
-                            <img v-if="user[0].Cover != ''" loading="lazy"  :src="user[0].Cover" alt class="img-fluid" />
-                        </div>
-                        </div>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="row">
-                        <div class="col-12">
-                            <div class="avatar-md profile-user-wid mb-4">
-                            <img v-if="user[0].Avatar == ''"
-                                src="@/assets/images/users/1.jpg"
-                                alt
-                                class="img-thumbnail rounded-circle"
-                            />
-                            <img v-if="user[0].Avatar != ''" loading="lazy" :src="user[0].Avatar" class="img-thumbnail rounded-circle">
+                        <div class="card-body pt-0">
+                            <div class="row">
+                            <div class="col-12">
+                                <div class="avatar-md profile-user-wid mb-4">
+                                <img v-if="user[0].Avatar == ''"
+                                    src="@/assets/images/users/1.jpg"
+                                    alt
+                                    class="img-thumbnail rounded-circle"
+                                />
+                                <img v-if="user[0].Avatar != ''" loading="lazy" :src="user[0].Avatar" class="img-thumbnail rounded-circle">
+                                </div>
+                                <h5 class="font-size-15 text-truncate" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">{{user[0].FirstName + ' ' + user[0].LastName}}</h5>
+                                <p class="text-muted mb-0 text-truncate" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">{{user[0].Location}}</p>
                             </div>
-                            <h5 class="font-size-15 text-truncate" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">{{user[0].FirstName + ' ' + user[0].LastName}}</h5>
-                            <p class="text-muted mb-0 text-truncate" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">{{user[0].Location}}</p>
-                        </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -53,6 +58,7 @@ import ProfileModel from "@/models/profile/profileModel"
 @Component({components:{Spinner}})
 export default class Followers extends Vue{
     spinner:boolean=true;
+    emptyList:boolean=false;
     getFollowersDetails:any=[];
     userInformation:ProfileModel = new ProfileModel();
     Followers:any=[];
@@ -61,8 +67,14 @@ export default class Followers extends Vue{
     }
     async getFollowers(){
         this.Followers = await NFTsServices.getFollowers(this.$store.state.currentAccount.name)
-        if(this.Followers){
+        console.log('this.Followers',this.Followers)
+        if(this.Followers.items.length > 0){
             this.getDetails();
+            this.emptyList=false
+        }
+        else{
+            this.emptyList=true
+            this.spinner=false;
         }
     }
     async getDetails(){
