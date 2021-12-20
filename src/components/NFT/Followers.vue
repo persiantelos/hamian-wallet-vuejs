@@ -60,8 +60,7 @@ export default class Followers extends Vue{
         this.getFollowers()
     }
     async getFollowers(){
-        // this.Followers = await NFTsServices.getFollowers(this.$store.state.currentAccount.name)
-        this.Followers = await NFTsServices.getFollowers('moh3ndehghan')
+        this.Followers = await NFTsServices.getFollowers(this.$store.state.currentAccount.name)
         if(this.Followers){
             this.getDetails();
         }
