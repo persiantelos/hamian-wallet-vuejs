@@ -182,5 +182,14 @@ export default class NFTsServices
         }
         else{return {message:false}}
     }
-    
+    // static async getSubmitedOffers(accountName:string,skip:number=0,top:number=10){
+    // }
+    static async getIncomingOffers(accountName:string,skip:number=0,top:number=10){
+        let data = {$filter:'owner eq \''+accountName+'\''};
+        let url = Config.areaXBaseURL2+"/hyberion/getOffersItems"
+        let incomingOffers = await BaseServices.postData(url,data)
+        console.log('incomingOffers',incomingOffers)
+
+
+    }
 }

@@ -25,6 +25,12 @@
                 <div v-if="value == 'Followers'">
                     <Followers />
                 </div>
+                <div v-if="value == 'Submitted_Offers'">
+                    <SubmitedOffers />
+                </div>
+                <div v-if="value == 'Incoming_Offers'">
+                    <IncommingOffers />
+                </div>
             </div>
         </div>
     </div>
@@ -40,6 +46,8 @@ import NFTsServices from '@/services/NFTsServices'
 import Collections from '@/components/NFT/Collections.vue'
 import Following from "@/components/NFT/Following.vue"
 import Followers from "@/components/NFT/Followers.vue"
+import SubmitedOffers from "@/components/NFT/SubmitedOffers.vue"
+import IncommingOffers from "@/components/NFT/IncomingOffers.vue"
 
 
 
@@ -51,7 +59,9 @@ import Followers from "@/components/NFT/Followers.vue"
         SetDetail,
         Collections,
         Following,
-        Followers
+        Followers,
+        SubmitedOffers,
+        IncommingOffers,
     }
 })
 export default class NetworksContent extends Vue{
@@ -101,8 +111,16 @@ export default class NetworksContent extends Vue{
             this.$store.state.currentPageItems[1].text = 'NFTs';
             this.counter++
         }
-        else{
-            this.$store.state.currentPageTitle = newValue
+        if(newValue == 'Submitted_Offers'){
+            this.$store.state.currentPageTitle = 'Submitted Offers'
+            this.$store.state.currentPageItems[0].text = 'Submitted Offers';
+            this.$store.state.currentPageItems[1].text = 'NFTs';
+            this.counter++
+        }
+        if(newValue == 'Incoming Offers'){
+            this.$store.state.currentPageTitle = 'Incoming Offers'
+            this.$store.state.currentPageItems[0].text = 'Incoming Offers';
+            this.$store.state.currentPageItems[1].text = 'NFTs';
             this.counter++
         }
     }
