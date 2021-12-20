@@ -16,6 +16,9 @@
                 <div v-if="displaySetDetail">
                     <SetDetail v-model="setDetailsItem" />
                 </div>
+                <div v-if="value == 'Collections'">
+                    <Collections />
+                </div>
             </div>
         </div>
     </div>
@@ -28,7 +31,7 @@ import ItemDetail from '@/components/NFT/product-detail.vue'
 import SetDetail from '@/components/NFT/SetDetail.vue'
 import Sets from '@/components/NFT/Sets.vue'
 import NFTsServices from '@/services/NFTsServices'
-
+import Collections from '@/components/NFT/Collections.vue'
 
 
 
@@ -38,6 +41,7 @@ import NFTsServices from '@/services/NFTsServices'
         ItemDetail,
         Sets,
         SetDetail,
+        Collections
     }
 })
 export default class NetworksContent extends Vue{
@@ -66,6 +70,12 @@ export default class NetworksContent extends Vue{
         if(newValue == 'Sets'){
             this.$store.state.currentPageTitle = 'Sets'
             this.$store.state.currentPageItems[0].text = 'Market';
+            this.$store.state.currentPageItems[1].text = 'NFTs';
+            this.counter++
+        }
+        if(newValue == 'Collections'){
+            this.$store.state.currentPageTitle = 'Collections'
+            this.$store.state.currentPageItems[0].text = 'Collections';
             this.$store.state.currentPageItems[1].text = 'NFTs';
             this.counter++
         }

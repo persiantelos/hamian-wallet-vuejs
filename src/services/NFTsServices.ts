@@ -105,7 +105,7 @@ export default class NFTsServices
     }
     static async getSetsByCreator(accountName:string,skip:number=0,top:number=10){
         let url:string =Config.areaXBaseURL2+'/hyberion/getSets';
-        var data = {
+        var data:any = {
             $filter:"creator eq '"+accountName+"'",
             $skip:skip,
             $top:top,
@@ -137,6 +137,31 @@ export default class NFTsServices
         //   res[i].item['isLiked'] = likes[i] == 1 ? true : false
         // }
       return {result:res,nextKey:skip+top,more:sets.data.value.length==top};
+
+    }
+    static async getCollectionsByOwner(accountName:string,skip:number=0,top:number=10){
+        var data:any= {
+            $filter: 'owner eq \''+accountName+'\'',
+            $skip:skip,
+            $top:top, 
+            $orderby:'_id desc',
+        }
+        var url:string =Config.areaXBaseURL+'/web/getCollections';
+        let collections = await BaseServices.postData(url,data)
+        if (collections){
+            return collections.data.value
+        }
+        // var serial_filter = []
+        // for(var a of collections.data.value){
+            // serial_filter.push(a._id)
+        // }
+        // var likes = await this.isCollcLikeByListOfSerials(accountName , serial_filter)
+        // console.log(likes);
+        // for(var i in collections.data.value){
+        //     collections.data.value[i]['isLiked'] = likes[i] == 1 ? true : false
+        // }
+        // return collections
+        // console.log('collections',collections)
 
     }
     
