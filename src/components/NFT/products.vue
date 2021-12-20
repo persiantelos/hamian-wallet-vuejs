@@ -297,7 +297,7 @@ export default {
                   </div>
                   <div class="">
                     <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="mb-3 text-truncate d-flex">
-                      <img class="avatar-sm" v-if="$store.state.avatar" :src="$store.state.avatar" style="border-radius:50%" alt=""> <span class="mt-2 pt-1 mx-1"> {{ data.item.owner }} </span> 
+                      <img loading="lazy" class="avatar-sm" v-if="$store.state.avatar" :src="$store.state.avatar" style="border-radius:50%" alt=""> <span class="mt-2 pt-1 mx-1"> {{ data.item.owner }} </span> 
                     </h5>
                   </div>
                   <router-link
@@ -307,7 +307,7 @@ export default {
                   >
                   <div v-for="(tags , id) in data.tags" :key="id">
                     
-                    <img v-if="tags.tag_name == 'asset'"
+                    <img loading="lazy" v-if="tags.tag_name == 'asset'"
                       :src="tags.content"
                       alt
                       class="img-fluid mx-auto d-block"

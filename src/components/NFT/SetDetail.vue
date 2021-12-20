@@ -93,7 +93,8 @@ export default {
                         />
                       </template>
                       <div class="product-img" >
-                        <img 
+                        <img
+                          loading="lazy" 
                           :src="picture"
                           alt
                           class="img-fluid mx-auto d-block"
@@ -110,6 +111,7 @@ export default {
                       </template>
                       <div class="product-img" >
                         <img 
+                          loading="lazy"
                           :src="picture"
                           alt
                           class="img-fluid mx-auto d-block"
@@ -126,6 +128,7 @@ export default {
                       </template>
                       <div class="product-img" >
                         <img 
+                          loading="lazy"
                           :src="picture"
                           alt
                           class="img-fluid mx-auto d-block"

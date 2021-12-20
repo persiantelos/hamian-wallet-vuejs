@@ -50,17 +50,17 @@ export default class Collections extends Vue{
         </div> 
           <div class="card-body">
             <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="mb-3 text-truncate d-flex">
-                <img class="avatar-sm" v-if="$store.state.avatar" :src="$store.state.avatar" style="border-radius:50%" alt=""> <span class="mt-2 pt-1 mx-1"> {{ collectionsItem.owner }} </span> 
+                <img loading="lazy" class="avatar-sm" v-if="$store.state.avatar" :src="$store.state.avatar" style="border-radius:50%" alt=""> <span class="mt-2 pt-1 mx-1"> {{ collectionsItem.owner }} </span> 
             </h5>
             <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">{{collectionsItem.title}}</h4>
             <p
               class="card-title-desc" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"
             >{{JSON.parse(collectionsItem.data).des}}</p>
             <div class="popup-gallery d-flex flex-wrap">
-                <img @click="showImg(0)" :src='JSON.parse(collectionsItem.data).cover' style="width:100%" />
-                <img @click="showImg(1)" :src="JSON.parse(collectionsItem.data).img1" width="132" class="p-1" />
-                <img @click="showImg(2)" :src="JSON.parse(collectionsItem.data).img2" width="132" class="p-1" />
-                <img @click="showImg(3)" :src="JSON.parse(collectionsItem.data).img3" width="132" class="p-1" />
+                <img loading="lazy" @click="showImg(0)" :src='JSON.parse(collectionsItem.data).cover' style="width:100%" />
+                <img loading="lazy" @click="showImg(1)" :src="JSON.parse(collectionsItem.data).img1" width="132" class="p-1" />
+                <img loading="lazy" @click="showImg(2)" :src="JSON.parse(collectionsItem.data).img2" width="132" class="p-1" />
+                <img loading="lazy" @click="showImg(3)" :src="JSON.parse(collectionsItem.data).img3" width="132" class="p-1" />
             </div>
           </div>
         </div>

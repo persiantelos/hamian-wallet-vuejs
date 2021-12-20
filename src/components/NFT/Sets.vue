@@ -302,7 +302,7 @@ export default {
                   </div> -->
                   <div class="">
                     <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="mb-3 text-truncate d-flex">
-                      <img class="avatar-sm" v-if="$store.state.avatar" :src="$store.state.avatar" style="border-radius:50%" alt=""> <span class="mt-2 pt-1 mx-1"> {{ data.item.creator }} </span> 
+                      <img loading="lazy" class="avatar-sm" v-if="$store.state.avatar" :src="$store.state.avatar" style="border-radius:50%" alt=""> <span class="mt-2 pt-1 mx-1"> {{ data.item.creator }} </span> 
                     </h5>
                   </div>
                   <router-link
@@ -310,7 +310,8 @@ export default {
                     to="#"
                     @click.native="GoToItem(data.item)"
                   >
-                    <img 
+                    <img
+                      loading="lazy" 
                       :src="JSON.parse(data.item.data).dt"
                       alt
                       class="img-fluid mx-auto d-block"

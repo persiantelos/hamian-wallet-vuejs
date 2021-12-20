@@ -808,6 +808,7 @@ export default {
         >
           <template v-slot:button-content>
             <img v-if="$store.state.avatar"
+              loading="lazy"
               class="rounded-circle header-profile-user"
               :src="$store.state.avatar"
               alt="A"

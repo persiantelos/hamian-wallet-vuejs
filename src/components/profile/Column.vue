@@ -20,7 +20,7 @@
                 <img v-if="formInformation.Cover == ''" src="@/assets/images/profile-img.png" alt class="img-fluid" />
               </div>
               <div class="col-12 cover">
-                <img v-if="formInformation.Cover != ''" :src="formInformation.Cover" alt class="img-fluid" />
+                <img loading="lazy" v-if="formInformation.Cover != ''" :src="formInformation.Cover" alt class="img-fluid" />
               </div>
             </div>
           </div>
@@ -33,7 +33,7 @@
                     alt
                     class="img-thumbnail rounded-circle"
                   />
-                  <img v-if="formInformation.Avatar != ''" :src="formInformation.Avatar" class="img-thumbnail rounded-circle">
+                  <img loading="lazy" v-if="formInformation.Avatar != ''" :src="formInformation.Avatar" class="img-thumbnail rounded-circle">
                 </div>
                 <h5 class="font-size-15 text-truncate" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">{{accountInformation.name}}</h5>
                 <p class="text-muted mb-0 text-truncate" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">{{accountInformation.chain}}</p>
