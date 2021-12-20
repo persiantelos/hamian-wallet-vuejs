@@ -148,9 +148,9 @@ export default class NetworkMenu extends Vue{
     // min-height:75vh;
     min-height:100% !important;
     background: #ffffff;
-  .menue-boxs-parent{
+  // .menue-boxs-parent{
     // min-height:100vh;
-  }
+  // }
   .menue-internal-box{
     border-radius: 10px;
     .internal-titles{
