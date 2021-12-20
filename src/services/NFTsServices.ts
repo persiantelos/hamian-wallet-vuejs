@@ -164,5 +164,23 @@ export default class NFTsServices
         // console.log('collections',collections)
 
     }
+    static async getFollowing(accountNmae:string,skip:number=0,top:number=10){
+        var data = {$skip:skip,$top:top,$filter:'scope eq \''+accountNmae+'\''}
+        let url = Config.areaXBaseURL2+"/hyberion/getFollowing"
+        let following = await BaseServices.postData(url,data)
+        if(following){
+            return {items:following.data.value,more:following.data.value.length==top,nextKey:skip+top};
+        }
+        else{return {message:false}}
+    }
+    static async getFollowers(accountNmae:string,skip:number=0,top:number=10){
+        var data = {$skip:skip,$top:top,$filter:'scope eq \''+accountNmae+'\''}
+        let url = Config.areaXBaseURL2+"/hyberion/getFollowers"
+        let following = await BaseServices.postData(url,data)
+        if(following){
+            return {items:following.data.value,more:following.data.value.length==top,nextKey:skip+top};
+        }
+        else{return {message:false}}
+    }
     
 }

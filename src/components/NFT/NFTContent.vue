@@ -19,6 +19,12 @@
                 <div v-if="value == 'Collections'">
                     <Collections />
                 </div>
+                <div v-if="value == 'Following'">
+                    <Following />
+                </div>
+                <div v-if="value == 'Followers'">
+                    <Followers />
+                </div>
             </div>
         </div>
     </div>
@@ -32,6 +38,8 @@ import SetDetail from '@/components/NFT/SetDetail.vue'
 import Sets from '@/components/NFT/Sets.vue'
 import NFTsServices from '@/services/NFTsServices'
 import Collections from '@/components/NFT/Collections.vue'
+import Following from "@/components/NFT/Following.vue"
+import Followers from "@/components/NFT/Followers.vue"
 
 
 
@@ -41,7 +49,9 @@ import Collections from '@/components/NFT/Collections.vue'
         ItemDetail,
         Sets,
         SetDetail,
-        Collections
+        Collections,
+        Following,
+        Followers
     }
 })
 export default class NetworksContent extends Vue{
@@ -76,6 +86,18 @@ export default class NetworksContent extends Vue{
         if(newValue == 'Collections'){
             this.$store.state.currentPageTitle = 'Collections'
             this.$store.state.currentPageItems[0].text = 'Collections';
+            this.$store.state.currentPageItems[1].text = 'NFTs';
+            this.counter++
+        }
+        if(newValue == 'Following'){
+            this.$store.state.currentPageTitle = 'Following'
+            this.$store.state.currentPageItems[0].text = 'Following';
+            this.$store.state.currentPageItems[1].text = 'NFTs';
+            this.counter++
+        }
+        if(newValue == 'Followers'){
+            this.$store.state.currentPageTitle = 'Followers'
+            this.$store.state.currentPageItems[0].text = 'Followers';
             this.$store.state.currentPageItems[1].text = 'NFTs';
             this.counter++
         }
