@@ -28,8 +28,11 @@
                 <div v-if="value == 'Submitted_Offers'">
                     <SubmitedOffers />
                 </div>
-                <div v-if="value == 'Incoming_Offers'">
-                    <IncommingOffers />
+                <div v-if="value == 'Incoming_Offers' && !displayIncommingOfferItemDetails">
+                    <IncommingOffers @IncommingOfferItemDetails="IncommingOfferItemDetails" />
+                </div>
+                <div v-if="displayIncommingOfferItemDetails">
+                    <IncommingOfferDetail v-model="incommingOfferItemDetail"  />
                 </div>
             </div>
         </div>
@@ -48,6 +51,7 @@ import Following from "@/components/NFT/Following.vue"
 import Followers from "@/components/NFT/Followers.vue"
 import SubmitedOffers from "@/components/NFT/SubmitedOffers.vue"
 import IncommingOffers from "@/components/NFT/IncomingOffers.vue"
+import IncommingOfferDetail from "@/components/NFT/IncommingOfferDetail.vue"
 
 
 
@@ -62,6 +66,7 @@ import IncommingOffers from "@/components/NFT/IncomingOffers.vue"
         Followers,
         SubmitedOffers,
         IncommingOffers,
+        IncommingOfferDetail,
     }
 })
 export default class NetworksContent extends Vue{
@@ -69,9 +74,11 @@ export default class NetworksContent extends Vue{
     counter:number=0;
     itemDetailsId:any=[];
     setDetailsItem:any=[];
+    incommingOfferItemDetail:any=[];
     showSpinner:boolean=true;
     displayItemDetail:boolean=false;
     displaySetDetail:boolean=false;
+    displayIncommingOfferItemDetails:boolean=false;
     itemsList:any=[];
     mounted(){
     }
@@ -79,6 +86,7 @@ export default class NetworksContent extends Vue{
     async valueChanged(newValue:any){
         this.displayItemDetail=false;
         this.displaySetDetail=false;
+        this.displayIncommingOfferItemDetails=false;
         console.log('newValue',newValue)
         if(newValue == 'NFTs'){
             this.itemsList = await NFTsServices.getItemByOwner(this.$store.state.currentAccount.name)
@@ -133,7 +141,10 @@ export default class NetworksContent extends Vue{
         this.displaySetDetail=true;
         this.setDetailsItem = set
     }
-  
+    IncommingOfferItemDetails(item:any){
+        this.displayIncommingOfferItemDetails= true;
+        this.incommingOfferItemDetail = item
+    }
  
 }
 </script>

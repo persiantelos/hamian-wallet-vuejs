@@ -188,8 +188,33 @@ export default class NFTsServices
         let data = {$filter:'owner eq \''+accountName+'\''};
         let url = Config.areaXBaseURL2+"/hyberion/getOffersItems"
         let incomingOffers = await BaseServices.postData(url,data)
-        console.log('incomingOffers',incomingOffers)
+        var strOr='';
+        var serial_filter = []
+        for(var a of incomingOffers.data.value)
+        {
+            serial_filter.push(`${a.serial}`)
+            strOr+='_id eq '+a.serial+ ' or ';
+        }
+        if(strOr)
+        {
+            strOr=strOr.substr(0,strOr.length-4)
+            var json = {
+                $filter:strOr,
+                $skip:skip,
+                $top:top,
+            };
+            let url = Config.areaXBaseURL2+"/hyberion/getAllItems"
+            let items = await BaseServices.postData(url,json)
+            for(var a of incomingOffers.data.value)
+            {
+                a.item = items.data.value.filter(p=>p._id==a.serial)[0];
+            }
+        }
 
-
+        // var likes = await this.isItemLikeByListOfSerials(accountName , serial_filter)
+        // for(var i in incomingOffers.data.value){
+        // incomingOffers.data.value[i]['isLiked'] = likes[i] == 1 ? true : false
+        // }
+        return {items:incomingOffers.data.value,more:incomingOffers.data.value.length==top,nextKey:skip+top};
     }
 }
