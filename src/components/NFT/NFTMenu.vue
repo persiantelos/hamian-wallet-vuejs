@@ -64,6 +64,17 @@
                         <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Collections</span>
                       </a>
                     </li>
+                    <li :class="selected == 'Bookmarks' ? $store.state.layout.themeDarkMode?'menu-selected-dark':'menu-selected-light':''" @click="selectedItem('Bookmarks')">
+                      <a
+                        href="javascript: void(0);"
+                        class="text-body d-flex align-items-center"
+                      >
+                        <i class="mdi mdi-bookmark-multiple-outline "
+                            :class="selected != 'Bookmarks' ? 'text-body font-size-16 me-2':'text-primary font-size-16 me-3'"
+                        ></i>
+                        <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Bookmarks</span>
+                      </a>
+                    </li>
                     <li :class="selected == 'Following' ? $store.state.layout.themeDarkMode?'menu-selected-dark':'menu-selected-light':''" @click="selectedItem('Following')">
                       <a
                         href="javascript: void(0);"

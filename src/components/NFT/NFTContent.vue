@@ -19,6 +19,9 @@
                 <div v-if="value == 'Collections'">
                     <Collections />
                 </div>
+                <div v-if="value == 'Bookmarks'">
+                    <Bookmarks />
+                </div>
                 <div v-if="value == 'Following'">
                     <Following />
                 </div>
@@ -43,13 +46,13 @@
 </template>
 <script lang="ts">
 import {Vue , Component ,Prop,Watch} from 'vue-property-decorator';
-import AccountService from '@/services/accountService';
 import NFTs from '@/components/NFT/products.vue'
 import ItemDetail from '@/components/NFT/product-detail.vue'
 import SetDetail from '@/components/NFT/SetDetail.vue'
 import Sets from '@/components/NFT/Sets.vue'
 import NFTsServices from '@/services/NFTsServices'
 import Collections from '@/components/NFT/Collections.vue'
+import Bookmarks from "@/components/NFT/Bookmarks.vue"
 import Following from "@/components/NFT/Following.vue"
 import Followers from "@/components/NFT/Followers.vue"
 import SubmitedOffers from "@/components/NFT/SubmitedOffers.vue"
@@ -65,6 +68,7 @@ import IncommingOfferDetail from "@/components/NFT/IncommingOfferDetail.vue"
         Sets,
         SetDetail,
         Collections,
+        Bookmarks,
         Following,
         Followers,
         SubmitedOffers,
@@ -110,6 +114,12 @@ export default class NetworksContent extends Vue{
         if(newValue == 'Collections'){
             this.$store.state.currentPageTitle = 'Collections'
             this.$store.state.currentPageItems[0].text = 'Collections';
+            this.$store.state.currentPageItems[1].text = 'NFTs';
+            this.counter++
+        }
+        if(newValue == 'Bookmarks'){
+            this.$store.state.currentPageTitle = 'Bookmarks'
+            this.$store.state.currentPageItems[0].text = 'Bookmarks';
             this.$store.state.currentPageItems[1].text = 'NFTs';
             this.counter++
         }
