@@ -1,5 +1,5 @@
 <template>
-    <Layout>
+    <div>
         <div class="p-3">
             <div v-if="showSpinner">
                 <Spinner v-model="showSpinner" />
@@ -33,18 +33,16 @@
                 </b-tab>
             </b-tabs>
         </div>
-    </Layout>
+    </div>
 </template>
 <script lang="ts">
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
-import Layout from "../../layouts/main";
 
 import Spinner from '@/components/spinner/Spinner.vue'
 
 @Component({
     components:{
         Spinner,
-        Layout
         
     }
 })

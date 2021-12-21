@@ -131,24 +131,33 @@
 
               </div>
             </div>
+        <!-- <div v-if="displayTransferNFT">
+          <TransferNFTs v-model="displayTransferNFT" @close="displayTransferNFT = false" />
+        </div> -->
     </div>
 </template>
 
 <script lang="ts">
-import {Vue , Component , Prop ,Watch} from 'vue-property-decorator'
+import {Vue , Component , Prop ,Watch} from 'vue-property-decorator';
+import TransferNFTs from '@/components/NFT/TransferNFTs.vue'
 
 @Component({
     components:{
+      TransferNFTs
     }
 })
 export default class NetworkMenu extends Vue{
     selected:string='';
+    displayTransferNFT:boolean=false;
     mounted(){
         this.selectedItem('NFTs')
     }
     selectedItem(data:string){
         this.selected = data;
         this.$emit('selectedItem',data)
+    }
+    TransferNFT(){
+      this.displayTransferNFT = true;
     }
 }
 </script>
