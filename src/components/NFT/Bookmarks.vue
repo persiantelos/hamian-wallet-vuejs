@@ -136,7 +136,7 @@ export default class Bookmarks extends Vue{
     }
     async getBookmarks(){
         let bookmarks = await NFTsServices.getBookmarks(this.$store.state.currentNet.host,this.$store.state.currentAccount.name)
-        if(bookmarks.length > 0){
+        if(bookmarks.value){
             this.bookmarks = bookmarks.value
             this.getOwnerAvatar();
         }
