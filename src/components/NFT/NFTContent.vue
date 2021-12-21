@@ -25,8 +25,11 @@
                 <div v-if="value == 'Followers'">
                     <Followers />
                 </div>
-                <div v-if="value == 'Submitted_Offers'">
-                    <SubmitedOffers />
+                <div v-if="value == 'Submitted_Offers' && !displaySubmitedOfferItemDetails">
+                    <SubmitedOffers @submitedOfferItemDetails="submitedOfferItemDetails" />
+                </div>
+                <div v-if="displaySubmitedOfferItemDetails">
+                    <IncommingOfferDetail v-model="submitedOfferItemDetail"  />
                 </div>
                 <div v-if="value == 'Incoming_Offers' && !displayIncommingOfferItemDetails">
                     <IncommingOffers @IncommingOfferItemDetails="IncommingOfferItemDetails" />
@@ -75,10 +78,12 @@ export default class NetworksContent extends Vue{
     itemDetailsId:any=[];
     setDetailsItem:any=[];
     incommingOfferItemDetail:any=[];
+    submitedOfferItemDetail:any=[];
     showSpinner:boolean=true;
     displayItemDetail:boolean=false;
     displaySetDetail:boolean=false;
     displayIncommingOfferItemDetails:boolean=false;
+    displaySubmitedOfferItemDetails:boolean=false;
     itemsList:any=[];
     mounted(){
     }
@@ -87,6 +92,7 @@ export default class NetworksContent extends Vue{
         this.displayItemDetail=false;
         this.displaySetDetail=false;
         this.displayIncommingOfferItemDetails=false;
+        this.displaySubmitedOfferItemDetails=false;
         console.log('newValue',newValue)
         if(newValue == 'NFTs'){
             this.itemsList = await NFTsServices.getItemByOwner(this.$store.state.currentAccount.name)
@@ -144,6 +150,10 @@ export default class NetworksContent extends Vue{
     IncommingOfferItemDetails(item:any){
         this.displayIncommingOfferItemDetails= true;
         this.incommingOfferItemDetail = item
+    }
+    submitedOfferItemDetails(item:any){
+        this.displaySubmitedOfferItemDetails= true;
+        this.submitedOfferItemDetail = item
     }
  
 }

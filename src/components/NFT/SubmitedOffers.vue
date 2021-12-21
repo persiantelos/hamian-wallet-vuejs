@@ -156,5 +156,10 @@ export default class IncommingOffers extends Vue{
             this.emptyList = true
         }
     }
+    GoToItem(item:any){
+      console.log(item);
+      this.$emit('submitedOfferItemDetails',item)
+    }
+
 }
 </script>
