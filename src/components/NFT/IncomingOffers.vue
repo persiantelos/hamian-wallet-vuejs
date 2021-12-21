@@ -131,8 +131,7 @@ export default class IncommingOffers extends Vue{
         this.getIncommingOffers()
     }
     async getIncommingOffers(){
-        // let incommingOffers = await NFTsServices.getIncomingOffers(this.$store.state.currentAccount.name)
-        let incommingOffers = await NFTsServices.getIncomingOffers('vahidhosaini')
+        let incommingOffers = await NFTsServices.getIncomingOffers(this.$store.state.currentAccount.name)
         if(incommingOffers){
             console.log('incommingOffers1',incommingOffers)
             this.incommingOffers = incommingOffers
