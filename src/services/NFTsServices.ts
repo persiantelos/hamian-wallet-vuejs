@@ -182,8 +182,72 @@ export default class NFTsServices
         }
         else{return {message:false}}
     }
-    // static async getSubmitedOffers(accountName:string,skip:number=0,top:number=10){
-    // }
+    static async getSubmitedOffers(accountName:string,serial:any,skip:number=0,top:number=10){
+        var filter='';
+        if(serial)filter='serial eq \''+serial+'\'';
+        if(accountName)
+        {
+        if(filter) filter+=' and '
+            filter+='from eq \''+accountName+'\''
+        }
+        var query={
+            $top:top,
+        }
+        if(filter)
+        {
+            query['$filter']=filter
+        }
+        query['$orderby'] = '_id desc'
+        var t = await BaseServices.postData(Config.areaXBaseURL2+"/hyberion/getOffers",query);
+        var strOr='';
+        for(var a of t.data.value)
+        {
+            strOr+='_id eq '+a.serial+ ' or ';
+        }
+        if(strOr)
+        {
+            strOr=strOr.substr(0,strOr.length-4)
+            var items= await BaseServices.postData(Config.areaXBaseURL2+"/hyberion/getAllItems",{$filter:strOr});
+            for(var a of t.data.value)
+            {
+                a.item = items.data.value.filter(p=>p._id==a.serial)[0];
+            }
+        }
+        var fltr = ""
+        var serial_filter = []
+
+        for(var b in t.data.value){
+            serial_filter.push(`${t.data.value[b].serial}`)
+            if(t.data.value[b].owner == 'market.code'){
+                fltr+= 'nftSerial eq \''+t.data.value[b].serial+'\' or '
+            }
+        }
+        if(fltr)
+        {
+        fltr=fltr.substr(0,fltr.length-4);
+        var marketItems = await this.getNewMarketItemsByQueryFilter(fltr)
+        marketItems.forEach(item => {
+            var x = t.data.value.find(listItm => listItm.serial == item.nftSerial)
+            x.owner = item.owner
+        });
+        }
+        return {items:t.data.value,more:t.data.value.length==top,nextKey:skip+top};
+
+    }
+    static async getNewMarketItemsByQueryFilter(filter:any , skip:number=0 , top:number=24){
+        var f = {
+          $filter:filter,
+          $skip:skip,
+          $top:top,
+          $orderby:'_id desc',
+          version:'1'
+        };
+    
+        var t = await BaseServices.postData(Config.areaXBaseURL2+"/hyberion/getMarket",f);
+        console.log('t line 248',t)
+
+        return t.data.value
+      }
     static async getIncomingOffers(accountName:string,skip:number=0,top:number=10){
         let data = {$filter:'owner eq \''+accountName+'\''};
         let url = Config.areaXBaseURL2+"/hyberion/getOffersItems"
