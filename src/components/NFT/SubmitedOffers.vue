@@ -135,7 +135,7 @@ import NFTsServices from '@/services/NFTsServices'
 import Spinner from '@/components/spinner/Spinner.vue';
 
 @Component({components:{Spinner}})
-export default class IncommingOffers extends Vue{
+export default class SubmitedOffers extends Vue{
     submitedOffers:any=[];
     spinner:boolean=true;
     emptyList:boolean=false;
