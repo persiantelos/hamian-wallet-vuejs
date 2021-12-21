@@ -247,7 +247,7 @@ export default class NFTsServices
         console.log('t line 248',t)
 
         return t.data.value
-      }
+    }
     static async getIncomingOffers(accountName:string,skip:number=0,top:number=10){
         let data = {$filter:'owner eq \''+accountName+'\''};
         let url = Config.areaXBaseURL2+"/hyberion/getOffersItems"
@@ -280,5 +280,47 @@ export default class NFTsServices
         // incomingOffers.data.value[i]['isLiked'] = likes[i] == 1 ? true : false
         // }
         return {items:incomingOffers.data.value,more:incomingOffers.data.value.length==top,nextKey:skip+top};
+    }
+    static async getBookmarks(host:string,accountName:string,skip:number=0,top:number=10){
+        var json = {
+            "code":'nftsoc.code',
+            "scope":accountName,
+            "table":"bookmarks",
+            "json":true,
+            "limit":100,
+          };
+          let url = 'https://' +host+'/v1/chain/get_table_rows'
+          let bookmarks = await BaseServices.postData(url,json)
+          bookmarks = bookmarks.rows;
+          var bookmarksSerial:any= []
+          for(let serial of bookmarks){
+            bookmarksSerial.push(serial.serial)
+          }
+          if(bookmarksSerial.length < 1)
+            {
+                return []
+            }
+        else{
+            var strOr='';
+            for(var a of bookmarksSerial)
+            {
+                strOr+='_id eq '+a+ ' or ';
+            }
+            if(strOr)
+            {
+                strOr=strOr.substr(0,strOr.length-4)
+            }
+            var query={
+                $filter:strOr,
+                $skip:skip,
+                $top:top,
+                $orderby:'_id desc',
+            }
+            let url2:any = Config.areaXBaseURL2+"/hyberion/getItems";
+            let t = await BaseServices.postData(url2,query)
+            if(t.data){
+                return t.data
+            }
+        }
     }
 }

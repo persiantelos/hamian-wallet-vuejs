@@ -16,11 +16,14 @@
                 <div v-if="displaySetDetail">
                     <SetDetail v-model="setDetailsItem" />
                 </div>
-                <div v-if="value == 'Collections'">
+                <div v-if="value == 'Collections' ">
                     <Collections />
                 </div>
-                <div v-if="value == 'Bookmarks'">
-                    <Bookmarks />
+                <div v-if="value == 'Bookmarks' && !displaybookmarksItemDetails">
+                    <Bookmarks @bookmarksItemDetails="bookmarksItemDetails" />
+                </div>
+                <div v-if="displaybookmarksItemDetails">
+                    <IncommingOfferDetail v-model="bookmarksItemDetail"  />
                 </div>
                 <div v-if="value == 'Following'">
                     <Following />
@@ -83,11 +86,13 @@ export default class NetworksContent extends Vue{
     setDetailsItem:any=[];
     incommingOfferItemDetail:any=[];
     submitedOfferItemDetail:any=[];
+    bookmarksItemDetail:any=[];
     showSpinner:boolean=true;
     displayItemDetail:boolean=false;
     displaySetDetail:boolean=false;
     displayIncommingOfferItemDetails:boolean=false;
     displaySubmitedOfferItemDetails:boolean=false;
+    displaybookmarksItemDetails:boolean=false;
     itemsList:any=[];
     mounted(){
     }
@@ -97,6 +102,7 @@ export default class NetworksContent extends Vue{
         this.displaySetDetail=false;
         this.displayIncommingOfferItemDetails=false;
         this.displaySubmitedOfferItemDetails=false;
+        this.displaybookmarksItemDetails=false;
         console.log('newValue',newValue)
         if(newValue == 'NFTs'){
             this.itemsList = await NFTsServices.getItemByOwner(this.$store.state.currentAccount.name)
@@ -164,6 +170,10 @@ export default class NetworksContent extends Vue{
     submitedOfferItemDetails(item:any){
         this.displaySubmitedOfferItemDetails= true;
         this.submitedOfferItemDetail = item
+    }
+    bookmarksItemDetails(item:any){
+        this.displaybookmarksItemDetails= true;
+        this.bookmarksItemDetail = item
     }
  
 }
