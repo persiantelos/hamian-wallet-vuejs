@@ -131,7 +131,7 @@ export default class NetworksContent extends Vue{
             this.$store.state.currentPageItems[1].text = 'NFTs';
             this.counter++
         }
-        if(newValue == 'Incoming Offers'){
+        if(newValue == 'Incoming_Offers'){
             this.$store.state.currentPageTitle = 'Incoming Offers'
             this.$store.state.currentPageItems[0].text = 'Incoming Offers';
             this.$store.state.currentPageItems[1].text = 'NFTs';
