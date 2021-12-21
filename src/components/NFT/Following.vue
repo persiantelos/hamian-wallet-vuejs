@@ -4,8 +4,10 @@
             <Spinner v-model="spinner" />
         </div>
         <div v-if="!spinner" class="row d-flex">
-            <div v-if="emptyList">
+            <div v-if="emptyList" class="col-12 text-center">
+                <h4  class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                 Following List is Empty
+                </h4>
             </div>
             <div v-if="!emptyList">
                 <div v-for="(user , index) in getFolloingDetails" :key="index" class="col-lg-4 col-md-6 col-sm-12">

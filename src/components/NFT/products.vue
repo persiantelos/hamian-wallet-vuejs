@@ -21,6 +21,7 @@ export default {
       discountRates: [],
       itemsList:[],
       showSpinner :true,
+      ListIsEmpty :false,
 
       
     };
@@ -75,6 +76,11 @@ export default {
       if(this.itemsList){
         console.log('items',this.itemsList)
         this.showSpinner = false;
+        this.ListIsEmpty = false;
+      }
+      else{
+        this.showSpinner = false;
+        this.ListIsEmpty = true;
       }
     }
   },
@@ -243,10 +249,14 @@ export default {
           </div>
         </div>
       </div> -->
-
-        <div class="mt-5" v-if="showSpinner">
-          <Spinner v-model="showSpinner" />
-        </div>
+      <div class="mt-5" v-if="showSpinner">
+        <Spinner v-model="showSpinner" />
+      </div>
+      <div v-if="ListIsEmpty" class="col-12 text-center"> 
+        <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+          NFTs list is empty
+        </h4>
+      </div>
       <div  v-if="!showSpinner" class="col-lg-12">
         <div class="row mb-3">
           <div class="col-2 col-sm-6">

@@ -4,8 +4,10 @@
             <Spinner v-model="spinner" />
         </div>
         <div>
-            <div v-if="emptyList">
+            <div v-if="emptyList" class="col-12 text-center">
+                <h4  class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                 Bookmarks list is empty
+                </h4>
             </div>
             <div  v-if="!spinner && !emptyList" class="col-lg-12">
                  <div class="row mb-3">

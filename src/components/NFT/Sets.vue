@@ -20,6 +20,7 @@ export default {
       discountRates: [],
       itemsList:[],
       showSpinner :true,
+      setsIsEmpty :false,
       sets:[]
       
     };
@@ -73,6 +74,7 @@ export default {
         if(this.sets.message != false){   
             console.log('sets',this.sets)
             this.showSpinner = false;
+            this.setsIsEmpty = false;
         }
         else{
             this.showSpinner = false;
@@ -249,8 +251,8 @@ export default {
         <div class="mt-5" v-if="showSpinner">
             <Spinner v-model="showSpinner" />
         </div>
-        <div v-if="setsIsEmpty">
-            <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">You have no set to display!</h5>
+        <div v-if="setsIsEmpty" class="col-12 text-center">
+            <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">You have no set to display!</h4>
         </div>
       <div  v-if="!showSpinner && !setsIsEmpty" class="col-lg-12">
         <div class="row mb-3">

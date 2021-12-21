@@ -38,7 +38,9 @@ export default class Collections extends Vue{
         <Spinner v-model="spinner" />
     </div>
     <div v-if="!spinner" class="row">
-    <h4 v-if="ListIsEmpty" class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Collections is empty</h4>
+      <div v-if="ListIsEmpty" class="col-12 text-center">
+        <h4  class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Collections is empty</h4>
+      </div>
       <div class="col-lg-6" v-for="(collectionsItem , index) in collections" :key="index">
         <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
         <div  class="product-img position-relative">
