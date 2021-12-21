@@ -23,7 +23,7 @@
                     <Bookmarks @bookmarksItemDetails="bookmarksItemDetails" />
                 </div>
                 <div v-if="displaybookmarksItemDetails">
-                    <IncommingOfferDetail v-model="bookmarksItemDetail"  />
+                    <BookmarkItemDetails v-model="bookmarksItemDetail"  />
                 </div>
                 <div v-if="value == 'Following'">
                     <Following />
@@ -61,6 +61,7 @@ import Followers from "@/components/NFT/Followers.vue"
 import SubmitedOffers from "@/components/NFT/SubmitedOffers.vue"
 import IncommingOffers from "@/components/NFT/IncomingOffers.vue"
 import IncommingOfferDetail from "@/components/NFT/IncommingOfferDetail.vue"
+import BookmarkItemDetails from "@/components/NFT/BookmarkItemDetails.vue"
 
 
 
@@ -77,6 +78,7 @@ import IncommingOfferDetail from "@/components/NFT/IncommingOfferDetail.vue"
         SubmitedOffers,
         IncommingOffers,
         IncommingOfferDetail,
+        BookmarkItemDetails,
     }
 })
 export default class NetworksContent extends Vue{
