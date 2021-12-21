@@ -76,16 +76,28 @@
                 Stake {{stakeCPUorNET.CPUAmountToStake}} TELOS of CPU and {{stakeCPUorNET.NETAmountToStake}} TELOS of NET to {{stakeCPUorNET.stakReciver}}
                 </b-button>
             </div>
-            <div class="col-12 mt-5 d-flex">
+            <div class="col-12 pt-3">
+                <h1 class="font-size-16 text-primary">
+                    UNSTAKE
+                </h1>
+            </div>
+            <div class="col-12 mt-3 d-flex">
                     <div class="col-12 mt-3">
                     <h5 class="font-size-15 mb-3"
                     :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Account name of who currently holds stake:</h5>
-                    <b-dropdown variant="outline-secondary " align="left"  style="min-width:100%">
+                    <div class="col-12 d-flex">
+                        <b-form-input
+                        id="input-2"
+                        v-model="unStakeCPUorNET.selectedAccountForUnStake"
+                        type="text"
+                        :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
+                        ></b-form-input>
+                        <b-dropdown variant="primary"   style="min-width:120px">
                             <template v-slot:button-content>
                                 {{unStakeCPUorNET.selectedAccountForUnStake}}
                                 <i class="mdi mdi-chevron-down"></i>
                             </template>
-                            <div align="left"  v-for="(account , index) in unStakeCPUorNET.accountHoldStake" :key="index">
+                            <div align="left"  v-for="(account , index) in accountList" :key="index">
                                 <b-dropdown-item align="left" @click="selectHoldesAccount(account)" href="javascript: void(0);">
                                     <span
                                     :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
@@ -94,19 +106,8 @@
                                 </b-dropdown-item>
                             </div>
                         </b-dropdown>
-                    <!-- <multiselect class="" :class="$store.state.layout.themeDarkMode ? 'input-forms':''" v-model="unStakeCPUorNET.selectedAccountForUnStake" :options="unStakeCPUorNET.accountHoldStake" ></multiselect> -->
+                    </div>
                 </div>
-                <!-- <div class="col-6 px-2 mt-3">
-                    <h5 class="font-size-15 mb-1"
-                    :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">Amount of CPU to Unstake (in TLOS)</h5>
-                    <b-form-input class="" 
-                        id="input-2"
-                        v-model="unStakeCPUorNET.amountCPUUnstake"
-                        type="text"
-                        :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
-                    ></b-form-input>
-
-                </div> -->
             </div>
             <div class="col-12 d-flex mt-3">
                 <div class="col-6 mt-3 mx-1" dir="ltr">
@@ -136,7 +137,6 @@
                 </b-button>
             </div>
         </div>
-            <!-- <b-tab title="REFOUND"><p>I'm a REFOUND tab!</p></b-tab> -->
         </div>
     </div>
 </template>
@@ -307,8 +307,8 @@ export default class StakeCPUNet extends Vue{
                     data:{
                         from:this.$store.state.currentAccount.name,
                         receiver:this.stakeCPUorNET.stakReciver,
-                        stake_net_quantity: this.tempCPUAmountStake,
-                        stake_cpu_quantity: this.tempNETAmountStake,
+                        stake_cpu_quantity: this.tempCPUAmountStake,
+                        stake_net_quantity: this.tempNETAmountStake,
                         transfer:false
                     }
                 }
@@ -343,6 +343,41 @@ export default class StakeCPUNet extends Vue{
     }
     async unStakeClick(){
         // TODO:unstake method 
+        if(this.unStakeCPUorNET.selectedAccountForUnStake){
+            this.unStakeCPUorNET.amountCPUUnstake = parseInt(this.unStakeCPUorNET.amountCPUUnstake)
+            this.unStakeCPUorNET.amountCPUUnstake = this.unStakeCPUorNET.amountCPUUnstake.toFixed(4)
+            this.unStakeCPUorNET.amountCPUUnstake += ' TLOS'
+            console.log(this.unStakeCPUorNET.amountCPUUnstake)
+
+            this.unStakeCPUorNET.amountNETUnstake = parseInt(this.unStakeCPUorNET.amountNETUnstake)
+            this.unStakeCPUorNET.amountNETUnstake = this.unStakeCPUorNET.amountNETUnstake.toFixed(4)
+            this.unStakeCPUorNET.amountNETUnstake += ' TLOS'
+            console.log(this.unStakeCPUorNET.amountNETUnstake)
+
+            var res=await WalletService.reunTransaction([
+                {
+                    account:"eosio",
+                    name:"undelegatebw",
+                    authorization:[ { actor: this.$store.state.currentAccount.name, permission: this.$store.state.currentAccount.authority }],
+                    data:{
+                        from:this.$store.state.currentAccount.name,
+                        receiver:this.unStakeCPUorNET.selectedAccountForUnStake,
+                        unstake_net_quantity: this.unStakeCPUorNET.amountNETUnstake,
+                        unstake_cpu_quantity: this.unStakeCPUorNET.amountCPUUnstake,
+                        transfer:false
+                    }
+                }
+            ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id,
+            this.$store.state.currentAccount)
+        }
+        else{
+            this.$notify({
+                group: 'foo',
+                type: 'warn',
+                speed:500,
+                text: 'Account name of who currently holds stake is necessary'
+            });
+        }
     }
    
 
