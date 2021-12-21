@@ -143,9 +143,7 @@ export default class IncommingOffers extends Vue{
         this.getSubmitedOffers()
     }
     async getSubmitedOffers(){
-        let submitedOffers = await NFTsServices.getSubmitedOffers('vahidhosaini')
-        // let submitedOffers = await NFTsServices.getSubmitedOffers(this.$store.state.currentAccount.name)
-            console.log('submitedOffers',submitedOffers)
+        let submitedOffers = await NFTsServices.getSubmitedOffers(this.$store.state.currentAccount.name)
         if(submitedOffers){
             this.submitedOffers = submitedOffers
             this.spinner = false
