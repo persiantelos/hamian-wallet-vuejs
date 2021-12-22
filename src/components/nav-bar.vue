@@ -9,6 +9,9 @@ import WalletService from '../localService/walletService'
 import Dialog from '../components/common/Dialog.vue';
 import QRCode from 'qrcode'
 import AccountService from '@/services/accountService';
+import StorageService from '@/localService/storageService';
+import Spinner from "@/components/spinner/Spinner.vue"
+
 
 
 
@@ -54,16 +57,21 @@ export default {
       appMode:false,
       showDialogKeys:false,
       showDialogQrCode:false,
+      showSpinner:true,
       showQrCode:false,
       keys:[],
+      accountList:[],
+      tokensList:[],
+      AccountListFinal:[],
       strToQrCode:'',
     };
   },
-  components: { simplebar,
+  components: { simplebar,Spinner,
   Dialog },
     
   mounted() {
     this.getAvatar()
+    this.getAccounts()
     this.username=Config.username;
     this.value = this.languages.find((x) => x.language === i18n.locale);
     this.text = this.value.title;
@@ -79,6 +87,90 @@ export default {
 
   },
   methods: {
+    async setSelectedacc(account){
+      if(this.$store.state.currentAccount.name != account.name){
+          if(this.$store.state.currentNet){
+              account.chainId=this.$store.state.currentNet.chainId;
+              account.network = this.$store.state.currentNet._id;
+              var data =  await StorageService.saveSelectedAccount(account);
+              if(data.message){
+                  this.$store.state.currentAccount = account
+                  this.$store.state.currentAccountChainName = this.$store.state.currentNet._id;
+                  this.selected = account.name;
+                  this.$store.state.globalReload++
+                  this.counter++
+                  this.$notify({
+                      group: 'foo',
+                      type: 'success',
+                      text: 'Account Selected'
+                  });
+              }
+              else{
+                  this.$notify({
+                      group: 'foo',
+                      type: 'warn',
+                      title: 'Oops!!!',
+                      text: 'Something whent wrong!'
+                  });
+              }
+          }
+      }
+      else{
+        this.$notify({
+            group: 'foo',
+            type: 'info',
+            text: 'This account is already selected'
+        });
+      }
+    },
+    async getAccounts(){
+        var thempAccountList = []
+        let accountList = await WalletService.getAccounts();
+        for(let acc of accountList){
+            if(acc.chainId == this.$store.state.currentNet.chainId)
+            {
+                thempAccountList.push(acc)
+            }
+        }
+        this.accountList = thempAccountList;
+        console.log('this.accountListthis.accountList',this.accountList)
+        this.checkValue(this.accountList);
+        // this.getCurrentAccount();
+    },
+    checkValue(newVal){
+        if(newVal.length>1){
+            this.getTokensList();
+        }
+    },
+    async getTokensList(){
+        this.tokensList = await AccountService.getTokensList();
+        this.tokensList = this.tokensList.value
+        if(this.$store.state.currentNet&&this.tokensList){
+            this.filterByCurrentNetName();
+        }
+    },
+    filterByCurrentNetName(){
+        let temoTokenList = []
+        for(let token of this.tokensList){
+            if(token.chain == this.$store.state.currentNet._id){
+                temoTokenList.push(token)
+            }
+        }
+        this.tokensList = temoTokenList;
+        this.getTokenBalanceByContractName();
+    },
+    async getTokenBalanceByContractName(){
+        var currentNet = this.$store.state.currentNet;
+        for(let account of this.accountList){
+            account.val = []
+            for(var token of this.tokensList){
+                let balance = await AccountService.getDynamicTokenBalance(token,account.name,currentNet)
+                account.val.push(balance)
+            }
+        }
+        this.showSpinner = false;
+        this.AccountListFinal = this.accountList
+    },
     async getAvatar(){
       var profileInformation = await AccountService.getSocialProfile(this.$store.state.currentAccount.name);
       if(profileInformation){
@@ -284,18 +376,40 @@ export default {
         <!-- App Search-->
         <div class="app-search d-none d-lg-block">
           <div class="position-relative my-4">
-            <router-link style="margin-left:-10px;margin-top:-20px;display:flex" class="d-flex" v-if="$store.state.currentAccount.length != 0" tag="span"  to="#" align="left">
-              <i  class="bx bx-user font-size-16 align-middle"></i>
-              <span style="margin-left:5px;margin-top:-10px;font-size:14px"
-              :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">
-              {{this.$store.state.currentAccount.name}}
-              </span>
+            
+            <router-link style="margin-left:-30px;margin-top:-20px;display:flex" class="d-flex" v-if="$store.state.currentAccount.length != 0" tag="span"  to="#" align="left">
+            <b-dropdown style="margin-left:0px;min-width:150px"
+              right
+              variant="black"
+              toggle-class="header-item"
+              menu-class="dropdown-menu-end"
+            >
+            <template  v-slot:button-content>
+                  <span style="margin-left:5px;margin-top:-10px;font-size:14px"
+                  :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">
+                  <i  class="bx bx-user font-size-16 " style="margin-left:0px"></i>
+                  {{$store.state.currentAccount.name}}
+                </span>
+            </template>
+            <div v-if="!showSpinner">
+              <div  v-for="(account , index) in AccountListFinal" :key="index">
+                <b-dropdown-item @click="setSelectedacc(account)" class="d-block" href="#">
+                  <p class="font-size-15" :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                    <i  class="bx bx-user " style="margin-top:-30px"></i>
+                    {{account.name}}
+                  </p>
+                </b-dropdown-item>
+              </div>
+            </div>
+            <div v-if="showSpinner" style="min-height:50px">
+              <Spinner v-model="showSpinner" />
+            </div>
+            </b-dropdown>
             </router-link>
             <router-link style="margin-left:-5px;margin-top:-10px;display:flex" class="d-flex" v-if="$store.state.currentNet.length != 0" tag="span"  to="#" align="left">
-              <!-- <i class="mdi mdi-network-outline font-size-16 align-middle"></i> -->
               <span 
               style="margin-top:2px;color:gray;font-size:13px;width:100px">
-              {{this.$store.state.currentNet.name}}
+              {{$store.state.currentNet.name}}
               </span>
             </router-link>
           </div>
