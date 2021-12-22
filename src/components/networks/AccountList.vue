@@ -5,7 +5,7 @@
             <Spinner v-model="showSpinner" />
         </div>
         <div v-if="AddAccount">
-            <p class="text-body p-3">
+            <p class="text-body p-3" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                 Account list is empty.
             </p>
         </div>

@@ -33,6 +33,10 @@ export default class Networks extends Vue{
   @Watch('$route.params.chainId')
   chainIdchanged(newVal:any){
       this.selectedItem=[];
+      setTimeout(() => {
+          this.selectedItem='accountList';
+      }, 10);
+
   }
 }
 </script>
