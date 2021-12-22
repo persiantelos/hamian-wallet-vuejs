@@ -12,6 +12,9 @@ export default class Account{
         this.total_cpu=data.total_resources.cpu_weight;
         this.total_net=data.total_resources.net_weight;
         this.total_ram=data.total_resources.ram_bytes;
+        this.refund_request=data.refund_request;
+        this.total_resources=data.total_resources;
+        this.rex_info=data.rex_info;
         for(var a of data.permissions)
         {
             var parent=a.parent;
@@ -36,7 +39,7 @@ export default class Account{
     total_net:string;
     total_ram:number;
 
-
+    
     
     privileged:boolean;
     cpu_weight:number;
@@ -45,6 +48,9 @@ export default class Account{
     head_block_time:string;
     last_code_update:string;
     permissions:Permission[]=[];
+    refund_request:RefoundData;
+    total_resources:StakedByOthers;
+    rex_info:rexInfo;
 }
 
 export class Permission
@@ -57,3 +63,34 @@ export class Permission
     authority:string;
     parent:string;
 } 
+export class RefoundData
+{
+    constructor(data:any)
+    {
+        Object.assign(this,data);
+    }
+    cpu_amount:string;
+    net_amount:string;
+    owner:string;
+    request_time:string;
+
+}
+export class StakedByOthers
+{
+    constructor(data:any)
+    {
+        Object.assign(this,data);
+    }
+    cpu_weight:string;
+    net_weight:string;
+    owner:string;
+    ram_bytes:string;
+
+}
+export class rexInfo
+{
+    constructor(data:any)
+    {
+        Object.assign(this,data);
+    }
+}
