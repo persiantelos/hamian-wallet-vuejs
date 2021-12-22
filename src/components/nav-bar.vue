@@ -393,9 +393,9 @@ export default {
             </template>
             <div v-if="!showSpinner">
               <div  v-for="(account , index) in AccountListFinal" :key="index">
-                <b-dropdown-item @click="setSelectedacc(account)" class="d-block" href="#">
+                <b-dropdown-item  style="max-height:50px" @click="setSelectedacc(account)" class="d-block" href="#">
                   <p class="font-size-15" :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
-                    <i  class="bx bx-user " style="margin-top:-30px"></i>
+                    <i  class="bx bx-user  " :class="$store.state.currentAccount.name == account.name ? 'text-warning' : ''"></i>
                     {{account.name}}
                   </p>
                 </b-dropdown-item>
