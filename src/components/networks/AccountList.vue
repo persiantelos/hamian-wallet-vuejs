@@ -5,9 +5,11 @@
             <Spinner v-model="showSpinner" />
         </div>
         <div v-if="AddAccount">
-            <p class="text-body p-3" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
-                Account list is empty.
-            </p>
+            <div class="col-12 text-center">
+            <h4  class="card-title p-1" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                Account list is empty
+            </h4>
+            </div>
         </div>
         <div v-if="!showSpinner" class="d-flex row" style="position: relative">
             <div class="p-3" style="min-width:250px;width:auto" v-for="(account , index) in AccountListFinal"  :key="index" >
