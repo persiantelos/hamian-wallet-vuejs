@@ -1,16 +1,29 @@
 export const menuItems = [
     
     {
-        id: 1,
+        id: 5,
         label: "menuitems.menu.text",
         isTitle: true
     },
     {
-        id: 2,
+        id: 6,
         label: "menuitems.NFTs.text",
         isTitle: false,
         icon:'bx bx-shape-circle',
-        link: "/NFT",
+        subItems: [
+            {
+                id: 7,
+                label: "AreaX NFT",
+                link: "/NFT",
+                parentId: 6
+            },
+            {
+                id: 8,
+                label: "Reports",
+                link: "/Reports",
+                parentId: 6
+            },
+        ]
     },
     // {
     //     id: 34,
