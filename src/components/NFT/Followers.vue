@@ -9,8 +9,8 @@
                 Followers List is Empty
                 </h4>
             </div>
-            <div v-if="!emptyList">
-                <div v-for="(user , index) in getFollowersDetails" :key="index" class="col-lg-4 col-md-6 col-sm-12">
+            <div v-if="!emptyList" class="d-flex">
+                <div v-for="(user , index) in getFollowersDetails" :key="index" class="col-lg-4 col-md-6 col-sm-12 m-1">
                     <div  class="card overflow-hidden" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
                         <div class="bg-soft bg-primary">
                             <div class="row">

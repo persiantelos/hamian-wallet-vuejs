@@ -37,7 +37,8 @@ export default {
     this.$store.state.currentPageItems[1].text = 'NFTs';
     this.creator = this.value.creator
     this.title = JSON.parse(this.value.data).ti
-    this.picture = JSON.parse(this.value.data).dt
+    // this.picture = JSON.parse(this.value.data).dt
+    this.picture = 'https://api.areaxnft.com/'+this.value.url
     this.serial = this.value.id
     this.group = this.value.category
     this.price = this.value.price

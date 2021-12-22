@@ -69,10 +69,10 @@
                                 to="#"
                                 @click.native="GoToItem(data)"
                             >
-                            <div v-for="(tags , id) in data.tags" :key="id">
+                            <div >
                                 
-                                <img loading="lazy" v-if="tags.tag_name == 'asset'"
-                                :src="tags.content"
+                                <img loading="lazy" v-if="data.url"
+                                :src="'https://api.areaxnft.com/'+data.url"
                                 alt
                                 class="img-fluid mx-auto d-block"
                                 />
@@ -138,6 +138,7 @@ export default class Bookmarks extends Vue{
     }
     async getBookmarks(){
         let bookmarks = await NFTsServices.getBookmarks(this.$store.state.currentNet.host,this.$store.state.currentAccount.name)
+        console.log('bookmarks',bookmarks)
         if(bookmarks.value){
             this.bookmarks = bookmarks.value
             this.getOwnerAvatar();

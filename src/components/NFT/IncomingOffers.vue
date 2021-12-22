@@ -65,10 +65,10 @@
                             to="#"
                             @click.native="GoToItem(data)"
                         >
-                        <div v-for="(tags , id) in data.item.tags" :key="id">
+                        <div >
                             
-                            <img loading="lazy" v-if="tags.tag_name == 'asset'"
-                            :src="tags.content"
+                            <img loading="lazy" 
+                            :src="'https://api.areaxnft.com/'+data.item.url"
                             alt
                             class="img-fluid mx-auto d-block"
                             />

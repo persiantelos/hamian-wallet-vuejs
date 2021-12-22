@@ -51,8 +51,8 @@
                                 Serial Number :
                                 <b>{{serial}}</b>
                             </h5>
-                            <p v-if="picture" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
-                                <b>Asset :</b> {{picture}}
+                            <p v-if="assets" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
+                                <b>Asset :</b> {{assets}}
                             </p>
                             <p v-if="dateItem && time" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
                                 <b>Mint Date :</b> {{dateItem + ' ' + time}}
@@ -83,6 +83,7 @@ export default class BookmarkItemDetails extends Vue{
     title:string='';
     creator:string='';
     picture:string='';
+    assets:string='';
     serial:string='';
     group:string='';
     time:string='';
@@ -92,6 +93,7 @@ export default class BookmarkItemDetails extends Vue{
     mounted(){
         if(this.value){
             this.$store.state.currentPageItems[0].text = 'Bookmark Item Detail';
+            this.picture = 'https://api.areaxnft.com/'+this.value.url
             this.serial = this.value.serial
             this.group = this.value.group
             for(let tag of this.value.tags){
@@ -103,7 +105,7 @@ export default class BookmarkItemDetails extends Vue{
                     this.creator = tag.content
                 }
                 if(tag.tag_name == 'asset'){
-                    this.picture = tag.content
+                    this.assets = tag.content
                 }
             }
             for(let att of this.value.attributes){

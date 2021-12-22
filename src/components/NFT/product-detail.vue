@@ -23,6 +23,8 @@ export default {
       dateItem: "", 
       time: "",
       group: "",
+      picture: "",
+      assets: "",
       setId: "",
 
     };
@@ -40,9 +42,11 @@ export default {
         this.creator = tag.content
       }
       if(tag.tag_name == 'asset'){
-        this.picture = tag.content
+        this.assets = tag.content
       }
     }
+    this.picture = this.value.url
+    console.log('this.value.item2',this.value.item)
     this.serial = this.value.item.serial
     this.group = this.value.item.group
     for(let att of this.value.attributes){
@@ -156,8 +160,8 @@ export default {
                     Serial Number :
                     <b>{{serial}}</b>
                   </h5>
-                  <p v-if="picture" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
-                    <b>Asset :</b> {{picture}}
+                  <p v-if="assets" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
+                    <b>Asset :</b> {{assets}}
                   </p>
                   <p v-if="dateItem && time" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
                     <b>Mint Date :</b> {{dateItem + ' ' + time}}
