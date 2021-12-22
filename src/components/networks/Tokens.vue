@@ -65,7 +65,9 @@
                                 >
                             </h5>
                             <p v-if="token.balance" class="text-muted text-truncate mb-0">
-                                {{token.balance}}&#160;&#160;&#160;≈ $&#160;
+                                {{token.balance}}&#160;&#160;&#160;≈ 
+                                <span v-if="token.balance.split(' ')[1] == 'DRIC'">${{((token.balance.split(' ')[0]*dricPrice)*dollarPrice).toFixed(2)}}</span> 
+                                <span v-if="token.balance.split(' ')[1]== 'TLOS'">${{(token.balance.split(' ')[0]*dollarPrice).toFixed(2)}}</span>
                             </p>
                             <p v-if="!token.balance" class="text-muted text-truncate mb-0">
                                 {{(0).toFixed(token.decimals)}} {{token._id}}&#160;&#160;&#160;≈ $0
@@ -156,6 +158,8 @@ import StorageService from '@/localService/storageService'
 import Spinner from '@/components/spinner/Spinner.vue'
 import Confirm from "@/components/common/Confirm.vue"
 import AddNewToken from "@/components/networks/AddTokenManually.vue"
+import GlobalService from "@/services/globalService"
+
 
 @Component({
     components:{
@@ -172,13 +176,26 @@ export default class AccountList extends Vue{
     showRemovePopUp:boolean=false;
     addNewTokenModal:boolean=false;
     selectedToRemove:any=[];
+    dollarPrice:any=[];
+    dricPrice:any=[];
     @Watch('$store.state.globalReload')
     refresh(){
         this.showSpinner=true;
         this.init();
     }
     mounted(){
+        this.calculateTelosPrice()
         this.init();
+    }
+    async calculateTelosPrice(){
+        this.dollarPrice = await GlobalService.getTelosPrice();
+        this.dricPrice = await GlobalService.getDaricPrice();
+        if(this.dollarPrice){
+            this.dollarPrice = this.dollarPrice.telos.usd
+        }
+        if(this.dricPrice){
+            this.dricPrice = this.dricPrice.symbolInfo.askPrice
+        }
     }
     addNewToken(){
         this.addNewTokenModal=true;
@@ -221,7 +238,7 @@ export default class AccountList extends Vue{
     }
     async getLocalTokens(){
         let allLocalTokens = await StorageService.getLocalTolens();
-        if(allLocalTokens.message == 'success' || allLocalTokens != undefined){
+        if(allLocalTokens.message == 'success'){
             if(allLocalTokens.data){
                 for(let localTokens of Object.entries(allLocalTokens.data[0])){
                     this.tokens.push(localTokens[1])
@@ -232,7 +249,6 @@ export default class AccountList extends Vue{
             }
         }
         else{
-            this.tokens = this.tokensList;
             this.showSpinner = false;
         }
     }
