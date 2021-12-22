@@ -315,10 +315,9 @@ export default {
                     to="#"
                     @click.native="GoToItem(data)"
                   >
-                  <div v-for="(tags , id) in data.tags" :key="id">
-                    
-                    <img loading="lazy" v-if="tags.tag_name == 'asset'"
-                      :src="tags.content"
+                  <div>
+                    <img loading="lazy" v-if="data.url"
+                      :src="data.url"
                       alt
                       class="img-fluid mx-auto d-block"
                     />

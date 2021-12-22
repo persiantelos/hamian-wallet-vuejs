@@ -93,7 +93,7 @@ export default class NFTsServices
         },
         attributes:a.attributes,
         tags:tags,
-        url:Config.areaXBaseURL2+a.url,
+        url:Config.areaXBaseURL2+'/'+a.url,
         like:a.like ? a.like : 0,
         isXtorage:a.isXtorage,
         isProtected:a.isProtected,

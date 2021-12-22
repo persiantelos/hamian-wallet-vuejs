@@ -314,10 +314,16 @@ export default {
                   >
                     <img
                       loading="lazy" 
-                      :src="JSON.parse(data.item.data).dt"
+                      :src="'https://api.areaxnft.com/'+data.item.url"
                       alt
                       class="img-fluid mx-auto d-block"
                     />
+                    <!-- <img
+                      loading="lazy" 
+                      :src="JSON.parse(data.item.data).dt"
+                      alt
+                      class="img-fluid mx-auto d-block"
+                    /> -->
                   </router-link>
                 </div>
                 <div class="mt-4 text-center">
