@@ -1,42 +1,67 @@
 <template>
-    <div>
-        <div class="p-3">
+    <div class="dark-mode" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
+        
+        <notifications style="margin-top:20px" group="accountexist" />
+        <b-modal class="dark-mode" title="Transfer NFT" style="background:red !important" centered v-model="value" >
             <div v-if="showSpinner">
                 <Spinner v-model="showSpinner" />
             </div>
-            <b-tabs v-if="!showSpinner"
-            class="box"
-                active-nav-item-class="font-weight-bold text-uppercase text-primary"
-                active-tab-class="font-weight-bold text-secondary"
-                content-class="mt-3"
-            >
-                <b-tab title="NFTs" align="left">
-                <div class="col-12 px-1 mt-3" dir="ltr">
-                    <h5 class="font-size-15 mb-4">Send To : <i class="mdi mdi-information text-primary"></i></h5>
+            <div  v-if="!showSpinner">
+                <div class="col-12 px-1 mt-3" dir="ltr" >
+                    <h5 class="font-size-15 mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Send To : <i class="mdi mdi-information text-primary"></i></h5>
                     <b-form-input
-                        id="input-2"
-                        v-model="transferNFTs.sendTo"
+                        id="input-3"
+                        :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
+                        v-model="sendTo"
+                        placeholder="Account Name"
                         type="text"
                     ></b-form-input>
                 </div> 
                 <div class="col-12 px-1 mt-3" dir="ltr">
-                    <b-dropdown variant="primary" class="col-12">
-                        <template v-slot:button-content>
-                            Select NFT
-                            <i class="mdi mdi-chevron-down"></i>
-                        </template>
-                        <div  v-for="(nft,index) in nftList" :key="index">
-                            <b-dropdown-item @click="selectNft(nft)" href="javascript: void(0);">{{nft.title}}</b-dropdown-item>
-                        </div>
-                    </b-dropdown>
-                </div>  
-                </b-tab>
-            </b-tabs>
-        </div>
+                    <h5 class="font-size-15 mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Serial Number : </h5>
+                    <b-form-input
+                        id="input-3"
+                        :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
+                        v-model="itemSerial"
+                        placeholder="Item serial number"
+                        type="text"
+                    ></b-form-input>
+                </div>    
+            </div>
+        
+            <template dir="rtl" #modal-footer>
+                <div dir="rtl" class="w-100 float-right">
+                    <!-- <b-button class="pr-3 m-1 pl-3" v-if="!findAccounts.length && !loading"
+                        variant="primary"
+                        size="sm"
+                        >
+                        Search
+                    </b-button> -->
+                    
+                    <Spinner v-if="loading" />
+                    
+                    <b-button class="pr-3 m-1 pl-3"
+                        variant="success"
+                        size="sm"
+                        @click="send()"
+                        >
+                        Send
+                    </b-button>
+                    <b-button
+                        variant="outline-secondary"
+                        size="sm"
+                        :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'"
+                        @click="closeModal()">
+                        Close
+                    </b-button>
+                </div>
+            </template>
+        </b-modal>
     </div>
 </template>
 <script lang="ts">
 import {Vue, Component , Prop , Watch} from 'vue-property-decorator'
+import WalletService from '../../localService/walletService'
 
 import Spinner from '@/components/spinner/Spinner.vue'
 
@@ -46,23 +71,15 @@ import Spinner from '@/components/spinner/Spinner.vue'
         
     }
 })
-export default class AccountList extends Vue{
-    @Prop({default:() =>{return []}}) value:any;
+export default class TransferNFTs extends Vue{
+    @Prop({default:()=>{false}}) value:boolean;
     showCustomToken:boolean=false;
     showSpinner:boolean=true;
-    transferNFTs:any={
-        sendTo:'',
-        memo:'',
-        symbol:'',
-        contract:'',
-    }
-    option:any=[    
-        
-    ]
-    nftList:any=[
-        {title:'test1'},
-        {title:'test2'},
-    ]
+    loading:boolean=false;
+    sendTo:string='';
+    itemSerial:string='';
+    
+   
     selectNft(data:any){
         }
     mounted(){
@@ -70,16 +87,67 @@ export default class AccountList extends Vue{
             this.showSpinner = false;
         }, 1000);
     }
-
-
+    async send(){
+        if(!this.sendTo){
+        this.$q.notify({
+            type: "negative",
+            message: 'Please enter receiver account'!
+        });
+        return;
+        }
+        else{
+            var res= await WalletService.reunTransaction([
+                {
+                    account: 'nftmrkt.code',
+                    name: "transferitm",
+                    data: {
+                        owner: this.$store.state.currentAccount.name,
+                        to: this.sendTo,
+                        id: this.itemSerial,
+                        memo: 'transfer ' + this.itemSerial + ' item to ' + this.sendTo + ' by ' +this.$store.state.currentAccount.name,
+                    }
+                }
+            ],this.$store.state.currentNet,this.$store.state.currentAccount.publicKey,this.$store.state.currentAccount._id,
+            this.$store.state.currentAccount)
+            if(res){
+                if(res.transaction_id){
+                    this.sendTo='';
+                    this.itemSerial='';
+                    this.$notify({
+                        group: 'foo',
+                        type: 'success',
+                        speed:500,
+                        text: 'The item was sent successfully'
+                    });
+                }
+            }
+        }
+    }
+    closeModal(){
+        this.$emit('close')
+    }
+    @Watch('value')
+    valueChanged(newVal:any){
+        newVal == false?
+        this.closeModal() : '';
+    }
 }
 </script>
-<style lang="scss">
-.pointer{
-    cursor: pointer;
+<style >
+.modal-header {
+    border-bottom: 1px solid #232837;
 }
-.dropdown-menu {
-    text-align: center;
-    width: 100% !important;
+.modal-footer {
+    border-top: 1px solid #232837;
 }
+.modal-title {
+    color:#a6b0cf;
+}
+.modal-header .close, .alert .close {
+    color:#a6b0cf;
+}
+.modal-content{
+    color:#a6b0cf;
+}
+
 </style>

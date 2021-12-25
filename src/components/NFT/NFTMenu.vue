@@ -2,7 +2,7 @@
     <div class="col-12  menue-body" :style="$store.state.layout.themeDarkMode ? 'background:#2a3042 !important':'background:#ffffff !important'">
         <div class="card-body" > 
             <div class="d-flex flex-column h-100">
-            <div class="mb-4">
+              <div class="mb-4">
                 <div class="mb-3 d-grid"
                     :class="$store.state.layout.themeDarkMode ? 'border-gray':''">
                     <b-dropdown 
@@ -128,12 +128,11 @@
                     </li>
                   </ul>
                 </div>
-
-              </div>
             </div>
-        <!-- <div v-if="displayTransferNFT">
+        </div>
+        <div v-if="displayTransferNFT">
           <TransferNFTs v-model="displayTransferNFT" @close="displayTransferNFT = false" />
-        </div> -->
+        </div>
     </div>
 </template>
 
