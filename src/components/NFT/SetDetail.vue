@@ -80,7 +80,15 @@ export default {
             <div class="row">
               <div class="col-xl-6">
                 <div class="product-detai-imgs">
-                  <b-tabs
+                  <div class="product-img" >
+                    <img 
+                      loading="lazy"
+                      :src="picture"
+                      alt
+                      class="img-fluid mx-auto d-block"
+                    />
+                  </div>
+                  <!-- <b-tabs
                     pills
                     vertical
                     nav-wrapper-class="col-md-2 col-sm-3 col-4"
@@ -137,7 +145,7 @@ export default {
                       </div>
                     </b-tab>
                     
-                  </b-tabs>
+                  </b-tabs> -->
                 </div>
               </div>
 
@@ -173,6 +181,15 @@ export default {
                     <p v-if="setId" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
                         <b>Set Id :</b> {{setId}}
                     </p>
+                    <div v-if="value.isProtected" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
+                    <b>Stored in :</b> <img style="width:45px" src="@/assets/logos/protected.svg"> <b>Xtorage Protected File</b>
+                  </div>
+                  <div v-if="value.isXtorage" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
+                    <b>Stored in :</b> <img style="width:45px" src="@/assets/logos/xtorage.svg"> <b>Xtorage</b>
+                  </div>
+                  <div v-if="value.isDstore" class="text-muted mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
+                    <b>Stored in :</b> <img style="width:45px" src="@/assets/logos/dstor.svg"> <b>DStor</b>
+                  </div>
                 </div>
               </div>
             </div>

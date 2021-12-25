@@ -58,15 +58,41 @@ export default class Collections extends Vue{
             <p
               class="card-title-desc" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"
             >{{JSON.parse(collectionsItem.data).des}}</p>
-            <div class="popup-gallery d-flex flex-wrap">
-                <img loading="lazy" @click="showImg(0)" :src='JSON.parse(collectionsItem.data).cover' style="width:100%" />
-                <img loading="lazy" @click="showImg(1)" :src="JSON.parse(collectionsItem.data).img1" width="132" class="p-1" />
-                <img loading="lazy" @click="showImg(2)" :src="JSON.parse(collectionsItem.data).img2" width="132" class="p-1" />
-                <img loading="lazy" @click="showImg(3)" :src="JSON.parse(collectionsItem.data).img3" width="132" class="p-1" />
-            </div>
+            <!-- <div class="collections popup-gallery d-flex flex-wrap"> -->
+              <div class="col-12">
+                <div class="col-12 img-cover">
+                  <img loading="lazy"  @click="showImg(0)" :src='JSON.parse(collectionsItem.data).cover'/>
+                </div>
+                <div class="col-12 d-flex">
+                  <div class="col-4 img-item">
+                    <img loading="lazy" class=" p-1" @click="showImg(1)" :src="JSON.parse(collectionsItem.data).img1" />
+                  </div>
+                  <div class="col-4 img-item">
+                    <img loading="lazy" class=" p-1" @click="showImg(2)" :src="JSON.parse(collectionsItem.data).img2" />
+                  </div>
+                  <div class="col-4 img-item">
+                    <img loading="lazy" class=" p-1" @click="showImg(3)" :src="JSON.parse(collectionsItem.data).img3" />
+                  </div>
+                </div>
+              </div>
+            <!-- </div> -->
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+<style lang="scss" scoped>
+  .img-cover{
+    position: relative;
+    img{
+      width: 100%;
+    }
+  }
+  .img-item{
+  position: relative;
+    img{
+      width: 100%;
+    }
+  }
+</style>
