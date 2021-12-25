@@ -1,5 +1,30 @@
 export const menuItems = [
     
+    // {
+    //     id: 1,
+    //     label: "menuitems.blockchain.text",
+    //     isTitle: true
+    // },
+    // {
+    //     id: 2,
+    //     label: "menuitems.blockchaintitle.text",
+    //     isTitle: false,
+    //     icon:'bx bx-file',
+    //     subItems: [
+    //         {
+    //             id: 3,
+    //             label: "TELOS",
+    //             link: "#",
+    //             parentId: 2
+    //         },
+    //         {
+    //             id: 4,
+    //             label: "TELOS test net",
+    //             link: "#",
+    //             parentId: 2
+    //         },
+    //     ]
+    // },
     {
         id: 5,
         label: "menuitems.menu.text",

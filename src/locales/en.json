@@ -95,6 +95,12 @@
     "menu": {
       "text": "Menu"
     },
+    "blockchain": {
+      "text": "BLOCKCHAIN"
+    },
+    "blockchaintitle": {
+      "text": "BLOCKCHAIN"
+    },
     "NFTs":{
       "text":"NFTs"
     },
