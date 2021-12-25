@@ -119,6 +119,7 @@ export default class TransferNFTs extends Vue{
                         speed:500,
                         text: 'The item was sent successfully'
                     });
+                    this.closeModal();
                 }
             }
         }
@@ -135,19 +136,19 @@ export default class TransferNFTs extends Vue{
 </script>
 <style >
 .modal-header {
-    border-bottom: 1px solid #232837;
+    border-bottom: 1px solid #232837 !important;
 }
 .modal-footer {
-    border-top: 1px solid #232837;
+    border-top: 1px solid #232837 !important;
 }
 .modal-title {
-    color:#a6b0cf;
+    color:#a6b0cf !important;
 }
 .modal-header .close, .alert .close {
-    color:#a6b0cf;
+    color:#a6b0cf !important;
 }
 .modal-content{
-    color:#a6b0cf;
+    color:#a6b0cf !important;
 }
 
 </style>
