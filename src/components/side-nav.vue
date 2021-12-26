@@ -165,10 +165,9 @@ export default {
                 }
                 // console.log('this.$route',this.$route)
                     this.activeMenu()
-                // if(this.$route.name == 'walletNetwork' || this.$route.name == 'default'){
-                    // console.log('this.$route.name',this.$route.name)
-                // this.setNetwork()
-                // }
+                if(this.$route.name == 'walletNetwork' || this.$route.name == 'default'){
+                    this.setNetwork()
+                }
 
             }
         },
