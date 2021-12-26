@@ -15,7 +15,60 @@ import {
 export default {
     data() {
         return {
-            menuItems: menuItems,
+            // menuItems: menuItems,
+            menuItems: [
+
+            {
+                id: 1,
+                label: "menuitems.blockchain.text",
+                isTitle: true
+            },
+            {
+                id: 2,
+                label: "menuitems.blockchaintitle.text",
+                isTitle: false,
+                icon:'bx bx-file',
+                subItems: [
+                    {
+                        id: 3,
+                        label: "TELOS",
+                        link: "/networks/:chainId",
+                        parentId: 2
+                    },
+                    {
+                        id: 4,
+                        label: "TELOS test net",
+                        link: "/networks/:chainId",
+                        parentId: 2
+                    },
+                ]
+            },
+            {
+                id: 5,
+                label: "menuitems.menu.text",
+                isTitle: true
+            },
+            {
+                id: 6,
+                label: "menuitems.NFTs.text",
+                isTitle: false,
+                icon:'bx bx-shape-circle',
+                subItems: [
+                    {
+                        id: 7,
+                        label: "AreaX NFT",
+                        link: "/NFT",
+                        parentId: 6
+                    },
+                    {
+                        id: 8,
+                        label: "Reports",
+                        link: "/Reports",
+                        parentId: 6
+                    },
+                ]
+            },
+            ],
             menuData: null,
             selectedNetwork:[],
         };
@@ -25,19 +78,33 @@ export default {
             this.getNet()
 
         // eslint-disable-next-line no-unused-vars
-        var menuRef = new MetisMenu("#side-menu");
+       
+    },
+    methods: {
+        activeMenu(){
+             var menuRef = new MetisMenu("#side-menu");
         var links = document.getElementsByClassName("side-nav-link-ref");
         var matchingMenuItem = null;
         const paths = [];
     
         for (var i = 0; i < links.length; i++) {
-            paths.push(links[i]["pathname"]);
+            paths.push(links[i]["href"]);
         }
-        var itemIndex = paths.indexOf(window.location.pathname);
+        var itemIndex = paths.indexOf(window.location.href);
         if (itemIndex === -1) {
-            const strIndex = window.location.pathname.lastIndexOf("/");
-            const item = window.location.pathname.substr(0, strIndex).toString();
-            matchingMenuItem = links[paths.indexOf(item)];
+            const strtIndex = window.location.href.lastIndexOf("#");
+            const strIndex = window.location.href.lastIndexOf("/");
+            const item = window.location.href.substr(strtIndex+1, (strIndex-strtIndex)).toString();
+            for(let link of links){
+                if(link.href.indexOf(item) != -1){
+                    if(link.textContent == this.$store.state.currentNet.name){
+                        matchingMenuItem = link;
+                    }
+                    else{
+                        link.classList.remove("active");
+                    }
+                }
+            }
         } else {
             matchingMenuItem = links[itemIndex];
         }
@@ -80,16 +147,28 @@ export default {
                 }
             }
         }
-    },
-    methods: {
+        },
         async getNet(){
             this.$store.state.blockchain = await CommonService.getNetworks()
             if(this.$store.state.blockchain){
-                // console.log('this.$route',this.$route)
-                if(this.$route.name == 'walletNetwork' || this.$route.name == 'default'){
-                    // console.log('this.$route.name',this.$route.name)
-                this.setNetwork()
+                let id = 3
+                this.menuItems[1].subItems = []
+                for(let chain of this.$store.state.blockchain){
+                    console.log('chain',chain)
+                    this.menuItems[1].subItems.push({
+                        id: id,
+                        label: chain.name,
+                        link: "/networks/"+chain.chainId,
+                        parentId: 2
+                    },)
+                    id++
                 }
+                // console.log('this.$route',this.$route)
+                    this.activeMenu()
+                // if(this.$route.name == 'walletNetwork' || this.$route.name == 'default'){
+                    // console.log('this.$route.name',this.$route.name)
+                // this.setNetwork()
+                // }
 
             }
         },
@@ -121,14 +200,7 @@ export default {
                 }
             }
         },
-        hasItems(item) {
-            return item.subItems !== undefined ? item.subItems.length > 0 : false;
-        },
-
-        toggleMenu(event) {
-            event.currentTarget.nextElementSibling.classList.toggle("mm-show");
-        },
-         async showNetworkList(selectedNet)
+        async showNetworkList(selectedNet)
         {
             // this.$store.state.currentPageTitle = '';
             this.$store.state.currentPageItems[0].text = 'Blockchain';
@@ -151,7 +223,26 @@ export default {
                 }
                 this.$router.push({name : 'walletNetwork' , params:{'chainId':selectedNet.chainId}})
             }
+        },
+        hasItems(item) {
+            return item.subItems !== undefined ? item.subItems.length > 0 : false;
+        },
+
+        toggleMenu(event) {
+            event.currentTarget.nextElementSibling.classList.toggle("mm-show");
+        },
+        clicked(data){
+            let blockchain =  this.$store.state.blockchain;
+            for(let chain of blockchain){
+                if(data.label == chain.name){
+                    this.$store.state.currentNet = chain;
+                    this.showNetworkList(chain)
+                    // this.showNetworkList(chain);
+                    // this.$router.push({name : 'walletNetwork' , params:{'chainId':chain.chainId}})
+                }
+            }
         }
+        
     },
 };
 </script>
@@ -163,7 +254,7 @@ export default {
 <div id="sidebar-menu">
     <!-- Left Menu Start -->
     <ul id="side-menu" class="metismenu list-unstyled">
-        <template  v-if="$store.state.blockchain">
+        <!-- <template  v-if="$store.state.blockchain">
             <li class="menu-title">
                 Blockchain
             </li>
@@ -184,7 +275,7 @@ export default {
                     </li>
                 </ul>
             </li>
-        </template>
+        </template> -->
             
 
         <template v-for="item in menuItems">
@@ -198,7 +289,7 @@ export default {
                     <span :class="`badge rounded-pill bg-${item.badge.variant} float-end`" v-if="item.badge">{{ $t(item.badge.text) }}</span>
                 </a>
 
-                <router-link :to="item.link" v-if="!hasItems(item)" class="side-nav-link-ref">
+                <router-link  :to="item.link" v-if="!hasItems(item)" class="side-nav-link-ref">
                     <i :class="`bx ${item.icon}`" v-if="item.icon"></i>
                     <span>{{ $t(item.label) }}</span>
                     <span :class="`badge rounded-pill bg-${item.badge.variant} float-end`" v-if="item.badge">{{ $t(item.badge.text) }}</span>
@@ -206,11 +297,11 @@ export default {
 
                 <ul v-if="hasItems(item)" class="sub-menu" aria-expanded="false">
                     <li v-for="(subitem, index) of item.subItems" :key="index">
-                        <router-link :to="subitem.link" v-if="!hasItems(subitem)" class="side-nav-link-ref">{{ $t(subitem.label) }}</router-link>
+                        <router-link :to="subitem.link" v-if="!hasItems(subitem)" @click.native="clicked(subitem)" class="side-nav-link-ref">{{ $t(subitem.label) }}</router-link>
                         <a v-if="hasItems(subitem)" class="side-nav-link-a-ref has-arrow" href="javascript:void(0);">{{ $t(subitem.label) }}</a>
                         <ul v-if="hasItems(subitem)" class="sub-menu mm-collapse" aria-expanded="false">
                             <li v-for="(subSubitem, index) of subitem.subItems" :key="index">
-                                <router-link :to="subSubitem.link" class="side-nav-link-ref">{{ $t(subSubitem.label) }}</router-link>
+                                <router-link  :to="subSubitem.link" class="side-nav-link-ref">{{ $t(subSubitem.label) }}</router-link>
                             </li>
                         </ul>
                     </li>

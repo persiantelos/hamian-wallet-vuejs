@@ -1,30 +1,30 @@
 export const menuItems = [
     
-    // {
-    //     id: 1,
-    //     label: "menuitems.blockchain.text",
-    //     isTitle: true
-    // },
-    // {
-    //     id: 2,
-    //     label: "menuitems.blockchaintitle.text",
-    //     isTitle: false,
-    //     icon:'bx bx-file',
-    //     subItems: [
-    //         {
-    //             id: 3,
-    //             label: "TELOS",
-    //             link: "#",
-    //             parentId: 2
-    //         },
-    //         {
-    //             id: 4,
-    //             label: "TELOS test net",
-    //             link: "#",
-    //             parentId: 2
-    //         },
-    //     ]
-    // },
+    {
+        id: 1,
+        label: "menuitems.blockchain.text",
+        isTitle: true
+    },
+    {
+        id: 2,
+        label: "menuitems.blockchaintitle.text",
+        isTitle: false,
+        icon:'bx bx-file',
+        subItems: [
+            {
+                id: 3,
+                label: "TELOS",
+                link: "/networks/:chainId",
+                parentId: 2
+            },
+            {
+                id: 4,
+                label: "TELOS test net",
+                link: "/networks/:chainId",
+                parentId: 2
+            },
+        ]
+    },
     {
         id: 5,
         label: "menuitems.menu.text",
@@ -38,13 +38,13 @@ export const menuItems = [
         subItems: [
             {
                 id: 7,
-                label: "AreaX NFT",
+                label: "menuitems.AreaXNFT.text",
                 link: "/NFT",
                 parentId: 6
             },
             {
                 id: 8,
-                label: "Reports",
+                label: "menuitems.Reports.text",
                 link: "/Reports",
                 parentId: 6
             },
