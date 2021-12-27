@@ -22,7 +22,14 @@
                   <tr 
                   v-if="resourcesInfo.refunding" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                     <th  scope="row">Refunding :</th>
-                    <td ><div v-b-tooltip.hover :title="resourcesInfo.refunding.cpu_amount + resourcesInfo.refunding.net_amount">{{refoundSum}}</div></td>
+                    <td ><div v-b-tooltip.hover :title="resourcesInfo.refunding.cpu_amount + resourcesInfo.refunding.net_amount">
+                      <span v-if="typeof refoundSum != 'object'">
+                        {{refoundSum}}
+                      </span>
+                      <span>
+                        0.0000 TLOS
+                      </span>
+                    </div></td>
                   </tr>
                   <tr  v-if="!resourcesInfo.refunding" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
                     <th  scope="row">Refunding :</th>
@@ -110,15 +117,17 @@ export default class AccountList extends Vue{
             this.resourcesInfo.refunding ='0 TELOS';
         }
         if(this.resource.rex_info){
-          // console.log('this.resourcesInfo.available',this.resourcesInfo.available)
-          // console.log('this.resource.rex_info',this.resource.rex_info)
-          // console.log('this.$store.state.currentAccount',this.$store.state.currentAccount)
-            // this.resourcesInfo.totalREX = this.resourcesInfo.available - this.resource.rex_info;
+          var allToken:any =[] 
+          for(let token of this.$store.state.currentAccount.val){
+            if(token.split(' ')[1] == "TLOS"){
+              allToken = token.split(' ')[0]
+            }
+          }
+            this.resourcesInfo.totalREX = parseFloat(allToken) - parseFloat(this.resource.core_liquid_balance.split(' ')[0]);
+        }
+        else{
             this.resourcesInfo.totalREX = '0.0000 TELOS';
-            }
-            else{
-                this.resourcesInfo.totalREX = '0.0000 TELOS';
-            }
+        }
         if(this.resource.total_resources){
             let temp = parseFloat(this.resource.total_resources.cpu_weight.split(' ')[0]) + parseFloat(this.resource.total_resources.net_weight.split(' ')[0])
             console.log('temp',temp)
