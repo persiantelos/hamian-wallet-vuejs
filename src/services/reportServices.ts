@@ -58,7 +58,7 @@ export default class ReportServices
     
     // https://api1.areaxnft.com/report/buyChart
 
-    static async buyChart(data:any)
+    static async buyChart(data:any=null)
     {
         let url = Config.areaXBaseURL+'/report/buyChart'
         var data=await BaseServices.postData(url,data);
@@ -71,7 +71,7 @@ export default class ReportServices
     }
     // https://api1.areaxnft.com/report/buyChart?account=vahidhosaini
 
-    static async buyChartBaseOnAccountName(accountName:string,data:any)
+    static async buyChartBaseOnAccountName(accountName:string,data:any=null)
     {
         let url = Config.areaXBaseURL+"/report/buyChart?account="+"'"+accountName+"'"
         var data=await BaseServices.postData(url,data);
