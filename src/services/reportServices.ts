@@ -3,5 +3,84 @@ import Config from "@/common/config";
 
 export default class ReportServices
 {
+    // GET  
+ 
+    // http://api1.areaxnft.com/report/itemOffer
+    static async bestSeller(){
+        return BaseServices.get(Config.areaXBaseURL+'/report/bestSeller',)
+    }
+    // https://api1.areaxnft.com/report/bestSeller?token=TLOS&price=true
+ 
+    static async bestSellerBaseOnToken(token:string,price:boolean){
+        return BaseServices.get(Config.areaXBaseURL+`/report/bestSeller?token=${token}&price=${price}`,)
+    }
+    
+    // https://api1.areaxnft.com/report/buySellInfo?account=babyevils.gm
+    static async buySellInfo(accountName:string){
+        return BaseServices.get(Config.areaXBaseURL+`/report/buySellInfo?account='${accountName}'`,)
+    }
+    
+    // http://api1.areaxnft.com/report/itemOffer
+    static async itemOffer(){
+        return BaseServices.get(Config.areaXBaseURL+`/report/itemOffer`,)
+    }
+
+    // http://api1.areaxnft.com/report/itemOffer?account=vahidhosaini
+    static async itemOfferBaseOnAccountName(accountName:string){
+        return BaseServices.get(Config.areaXBaseURL+`/report/itemOffer?account='${accountName}'`,)
+    }
+    
+    // https://api1.areaxnft.com/report/bestBuyer
+    static async bestBuyer(){
+        return BaseServices.get(Config.areaXBaseURL+`/report/bestBuyer`,)
+    }
+    
+    // https://api1.areaxnft.com/report/bestBuyer?token=TLOS&price=true
+    static async bestBuyerBaseOnToken(token:string,price:boolean){
+        return BaseServices.get(Config.areaXBaseURL+`/report/bestBuyer?token=${token}&price=${price}`,)
+    }
+    
+    // https://api1.areaxnft.com/report/bestBuyer?account=hossainiiiir
+    static async bestBuyerBaseOnAccountName(accountName:string){
+        return BaseServices.get(Config.areaXBaseURL+`/report/bestBuyer?account=${accountName}`,)
+    }
+    
+    // https://api1.areaxnft.com/report/bestBuyer?account=hossainiiiir&token=TLOS&by=price
+    static async bestBuyerBaseOnAccountNameAndToken(accountName:string,token:string,price:boolean){
+        return BaseServices.get(Config.areaXBaseURL+`/report/bestBuyer?account=${accountName}&token=${token}&by=${price}`,)
+    }
+    
+    
+
+    // POST
+
+    // data = {token:['TLOS','DRIC']}
+    
+    // https://api1.areaxnft.com/report/buyChart
+
+    static async buyChart(data:any)
+    {
+        let url = Config.areaXBaseURL+'/report/buyChart'
+        var data=await BaseServices.postData(url,data);
+        if(data){
+            return data
+        }
+        else{
+            return 'false'
+        }
+    }
+    // https://api1.areaxnft.com/report/buyChart?account=vahidhosaini
+
+    static async buyChartBaseOnAccountName(accountName:string,data:any)
+    {
+        let url = Config.areaXBaseURL+"/report/buyChart?account="+"'"+accountName+"'"
+        var data=await BaseServices.postData(url,data);
+        if(data){
+            return data
+        }
+        else{
+            return 'false'
+        }
+    }
    
 }
