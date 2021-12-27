@@ -5,7 +5,7 @@ export default class ReportServices
 {
     // GET  
  
-    // http://api1.areaxnft.com/report/itemOffer
+    // http://api1.areaxnft.com/report/bestSeller
     static async bestSeller(){
         return BaseServices.get(Config.areaXBaseURL+'/report/bestSeller',)
     }

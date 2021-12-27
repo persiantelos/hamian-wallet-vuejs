@@ -1,22 +1,27 @@
 <template>
-    <div>
-        <div class="col-xl-6">
+<div>
+    <div class="row d-flex">
+        <div v-if="bestBuyerLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div style="width:100%;height:300px;padding:5px"  >
+                <Spinner v-model="bestBuyerLoader" />
+            </div>
+        </div>
+        <div v-if="!bestBuyerLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
         <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" >
           <div class="card-body">
+            
             <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Best Buyer</h4>
             <p class="card-title-desc" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
               Top {{ bestBuyer.value.length}} Best Buyer NFTs Base on Number
             </p>
-            <div v-if="bestBuyerLoader" class="">
-                <Spinner v-model="bestBuyerLoader" />
-            </div>
-            <div v-if="!bestBuyerLoader" class="table-responsive">
+            
+            <div  class="table-responsive">
               <table class="table mb-0">
                 <thead>
                   <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                     <th>#</th>
                     <th>Account Name</th>
-                    <th>Total</th>
+                    <th>Item</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -32,14 +37,20 @@
           </div>
         </div>
       </div>
-        <div class="col-xl-6">
+        <div  v-if="bestBuyerBaseOnTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div style="width:100%;height:300px;padding:5px" >
+                <Spinner v-model="bestBuyerBaseOnTokenLoader" />
+            </div>
+        </div>
+        <div v-if="!bestBuyerBaseOnTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
         <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" >
           <div class="card-body">
+              
             <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Best Buyer Base on Token</h4>
             <div class="d-flex col-12">
-            <div class="col">
+            <div class="col" style="position:relative">
                 <p class="card-title-desc" style="margin-top: 9px;position: absolute;" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
-                Top {{ bestBuyerBaseOnToken.value.length}} Best Buyer NFTs Base on Number
+                Top {{ bestBuyerBaseOnToken.value.length}} Best Buyer NFTs Base on Token
                 </p>
             </div>
             <b-dropdown class="col" variant="#2a3042"   style="min-width:120px;border:1px solid #eff2f7;border-radius:2px">
@@ -62,16 +73,14 @@
                 </b-dropdown>
             </div>
 
-            <div v-if="bestBuyerBaseOnTokenLoader" class="">
-                <Spinner v-model="bestBuyerBaseOnTokenLoader" />
-            </div>
-            <div v-if="!bestBuyerBaseOnTokenLoader" class="table-responsive">
+            
+            <div  class="table-responsive">
               <table class="table mb-0">
                 <thead>
                   <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                     <th>#</th>
                     <th>Account Name</th>
-                    <th>Total({{token}})</th>
+                    <th>{{token}}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -87,10 +96,27 @@
           </div>
         </div>
       </div>
-        bestSeller {{bestSeller}}
-        itemOffer {{itemOffer}}
-        <!-- activeaccountsday {{activeaccountsday}} -->
     </div>
+    <div class="row d-flex">
+        <div v-if="bestSellerLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div style="width:100%;height:300px;padding:5px"  >
+                <Spinner v-model="bestSellerLoader" />
+            </div>
+        </div>
+        <div v-if="!bestSellerLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            bestSeller {{bestSeller}}
+        </div>
+        <div v-if="itemOfferLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div style="width:100%;height:300px;padding:5px"  >
+                <Spinner v-model="itemOfferLoader" />
+            </div>
+        </div>
+        <div v-if="!itemOfferLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            itemOffer {{itemOffer}}
+        </div>
+    </div>
+</div>
+
 </template>
 <script lang="ts">
 import {Vue , Component} from 'vue-property-decorator'
@@ -107,6 +133,8 @@ export default class ParticularReports extends Vue{
     tokenList:any=[]
     bestBuyerLoader:boolean=true;
     bestBuyerBaseOnTokenLoader:boolean=true;
+    bestSellerLoader:boolean=true;
+    itemOfferLoader:boolean=true;
     price:boolean=true;
     token:string='TLOS';
     // activeaccountsday:any=[]
@@ -136,20 +164,33 @@ export default class ParticularReports extends Vue{
     async getBestBuyer(){
         this.bestBuyer = await ReportServices.bestBuyer();
         if(this.bestBuyer){
-            this.bestBuyerLoader=false
+            setTimeout(() => {
+                this.bestBuyerLoader=false
+            }, 100);
         }
     }
     async getBestSeller(){
+        this.bestSellerLoader=false
         this.bestSeller = await ReportServices.bestSeller()
+        // if(this.bestSeller){   
+            // this.bestSellerLoader=false
+        // }
+
     }
     async getItemOffer(){
+        this.itemOfferLoader = false
         this.itemOffer = await ReportServices.itemOffer()
+        // if(this.itemOffer){
+            // this.itemOfferLoader = false
+        // }
     }
     async getBestBuyerBaseOnToken(){
         this.bestBuyerBaseOnTokenLoader = true
         this.bestBuyerBaseOnToken = await ReportServices.bestBuyerBaseOnToken(this.token,this.price)
         if(this.bestBuyerBaseOnToken){
-            this.bestBuyerBaseOnTokenLoader = false;
+            setTimeout(() => {
+                this.bestBuyerBaseOnTokenLoader = false;
+            }, 100);
         }
     }
     onItemClick(token:any){
