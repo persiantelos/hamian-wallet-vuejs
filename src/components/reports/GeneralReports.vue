@@ -15,7 +15,7 @@
                 <thead>
                   <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                     <th>#</th>
-                    <th>Buyer</th>
+                    <th>Account Name</th>
                     <th>Total</th>
                   </tr>
                 </thead>
@@ -70,7 +70,7 @@
                 <thead>
                   <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
                     <th>#</th>
-                    <th>Buyer</th>
+                    <th>Account Name</th>
                     <th>Total({{token}})</th>
                   </tr>
                 </thead>
