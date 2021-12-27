@@ -52,7 +52,7 @@ export default class AccountService
         return zero.toFixed(parseInt(token.decimals)) + ' ' + token.currency; 
     }
     static async getCollectors(accountName:string){
-        let url = '/web/getCollectors?$filter=_id eq '+accountName
+        let url = '/web/getCollectors?$filter=_id eq '+"'"+accountName+"'"
         return BaseServices.get(Config.areaXBaseURL+url)
     }
     
