@@ -57,7 +57,7 @@
                         </div> -->
                         <div class="">
                             <h5 :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="mb-3 text-truncate d-flex">
-                            <img loading="lazy" class="avatar-sm" v-if="$store.state.avatar" :src="$store.state.avatar" style="border-radius:50%" alt=""> <span class="mt-2 pt-1 mx-1"> {{ data.owner }} </span> 
+                            <img loading="lazy" class="avatar-sm" v-if="data.owner[0].Avatar" :src="data.owner[0].Avatar" style="border-radius:50%" alt=""> <span class="mt-2 pt-1 mx-1"> {{ data.owner[0]._id }} </span> 
                             </h5>
                         </div>
                         <router-link
@@ -133,6 +133,8 @@
 import {Vue , Component} from "vue-property-decorator"
 import NFTsServices from '@/services/NFTsServices'
 import Spinner from '@/components/spinner/Spinner.vue';
+import AccountService from '@/services/accountService';
+
 
 @Component({components:{Spinner}})
 export default class SubmitedOffers extends Vue{
@@ -147,13 +149,28 @@ export default class SubmitedOffers extends Vue{
         console.log('submitedOffers',submitedOffers)
         if(submitedOffers.items.length>0){
             this.submitedOffers = submitedOffers
-            this.spinner = false
-            this.emptyList = false
+            // this.spinner = false
+            // this.emptyList = false
+            this.getDetails()
         }
         else{
             this.spinner = false
             this.emptyList = true
         }
+    }
+    async getDetails(){
+        for(let item of this.submitedOffers.items)
+        {
+            let userInfo = await AccountService.getCollectors(item.owner);
+            if(userInfo.value){
+                let userInformation = userInfo.value
+                item.owner = userInformation
+            }
+        }
+        console.log('this.submitedOffers',this.submitedOffers)
+        this.spinner = false
+        this.emptyList = false
+
     }
     GoToItem(item:any){
       console.log(item);
