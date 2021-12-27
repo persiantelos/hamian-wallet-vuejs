@@ -47,6 +47,11 @@ export default [
     component: () => import('./views/NFTs/NFT.vue')
   },
   {
+    path: '/Reports',
+    name: 'Reports',
+    component: () => import('./views/reports/Reports.vue')
+  },
+  {
     path: '/contacts/profile',
     name: 'Profile',
     component: () => import('./views/contacts/contacts-profile')
