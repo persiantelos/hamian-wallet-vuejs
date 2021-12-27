@@ -11,16 +11,17 @@ import ReportServices from "@/services/reportServices"
 export default class ParticularReports extends Vue{
     bestSellerBaseOnToken:any=[]
     buySellInfo:any=[]
-    accountName:string=''
+    token:string='TELOS'
+    accountName:string='babyevils.gm'
     mounted(){
         this.getBestSellerBaseOnToken();
-        this.buySellInfo();
+        this.getBuySellInfo();
     }    
     async getBestSellerBaseOnToken(){
-        this.bestSellerBaseOnToken = await ReportServices.bestSellerBaseOnToken(this.accountName)
+        this.bestSellerBaseOnToken = await ReportServices.bestSellerBaseOnToken(this.token,'true')
     }
     async getBuySellInfo(){
-        this.buySellInfo = await ReportServices.buySellInfo()
+        this.buySellInfo = await ReportServices.buySellInfo(this.accountName)
     }
 }
 </script>
