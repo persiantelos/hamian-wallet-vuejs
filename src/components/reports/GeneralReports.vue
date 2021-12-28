@@ -12,7 +12,7 @@
             
             <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Best Buyer</h4>
             <p class="card-title-desc" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
-              Top {{ bestBuyer.value.length}} Best Buyer NFTs Base on Number
+              Top {{ bestBuyer.value.length}} Best Buyer NFTs Base on Item
             </p>
             
             <div  class="table-responsive">
