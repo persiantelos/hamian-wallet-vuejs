@@ -13,7 +13,7 @@
                     <div class="col-12 d-flex">
                         <div class="col-6" style="position:relative">
                             <p class="card-title-desc" style="margin-top: 9px;position: absolute;" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
-                            Top {{ bestBuyerBaseOnAccountName.value.length}} Best Buyer NFTs Base on AccountName
+                            Top {{ bestBuyerBaseOnAccountName.value.length}} Best Buyer NFTs Base on Account name
                             </p>
                         </div>
                         <div class="col-4" style="border:1px solid #eff2f7;border-radius:3px">
@@ -51,6 +51,78 @@
                 </div>
                 </div>
             </div>
+
+            <div v-if="bestBuyerBaseOnAccountNameAndTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+                <div style="width:100%;height:300px;padding:5px">
+                        <Spinner v-model="bestBuyerBaseOnAccountNameAndTokenLoader" />
+                </div>
+            </div>
+            <div v-if="!bestBuyerBaseOnAccountNameAndTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" >
+                <div class="card-body">
+                    <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Best Buyer</h4>
+                    <div class="col-12 d-flex">
+                        <p class="card-title-desc" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
+                        Top {{ bestBuyerBaseOnAccountNameAndToken.value.length}} Best Buyer NFTs Base on Account name and Token
+                        </p>
+                    </div>
+                    <div class="col-12 d-flex">
+                        <div class="col-5" style="border:1px solid #eff2f7;border-radius:3px">
+                            <b-form-input 
+                            id="input-2"
+                            v-model="accountName"
+                            type="text"
+                            :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
+                            ></b-form-input>
+                        </div>
+                        <div class="col-5 text-center" >
+                            <b-dropdown class="col" variant="#2a3042"   style="min-width:120px;border:1px solid #eff2f7;border-radius:2px">
+                                <template v-slot:button-content >
+                                    <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
+                                        {{token}}
+                                    </span>
+                                    <i class="mdi mdi-chevron-down" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"></i>
+                                </template>
+                                <div align="left"  v-for="(token , i) in tokenList" :key="i">
+                                    <b-dropdown-item :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" 
+                                    align="left" @click="onItemClick(token)" href="javascript: void(0);">
+                                        <span
+                                        :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                                        {{token._id.toUpperCase()}}
+                                        <!-- {{token.currency}} ({{token._id.toUpperCase()}}) -->
+                                        </span>
+                                    </b-dropdown-item>
+                                </div>
+                            </b-dropdown>
+                        </div>
+                        <div class="col-2 text-center" >
+                            <b-button  @click="getBestBuyerBaseOnAccountNameAndToken()"  variant="outline-light" style="border:0px solid #eff2f7;border-radius:3px"><i :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="bx bx-search-alt font-size-15"></i></b-button>
+                        </div>
+                    </div>
+                    
+                    <div  class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                        <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                            <th>#</th>
+                            <th>Account Name</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" 
+                        v-for="(buyer , index) in bestBuyerBaseOnAccountNameAndToken.value" :key="index">
+                            <th scope="row">{{index+1}}</th>
+                            <td>{{buyer.buyer}}</td>
+                            <td>{{(buyer.total).toFixed(4)}} {{token}} </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
             <div v-if="buySellInfoLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
                 <div  style="width:100%;height:300px;padding:5px">
                     <Spinner v-model="buySellInfoLoader" />
@@ -124,6 +196,7 @@
                 </div>
                 </div>
             </div>
+            
             <div v-if="bestSellerBaseOnTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
                 <div style="width:100%;height:300px;padding:5px">
                         <Spinner v-model="bestSellerBaseOnTokenLoader" />
@@ -139,9 +212,13 @@
 import {Vue , Component} from 'vue-property-decorator'
 import ReportServices from "@/services/reportServices"
 import Spinner from "@/components/spinner/Spinner.vue"
+import AccountService from '@/services/accountService'
+
 
 @Component({components:{Spinner}})
 export default class ParticularReports extends Vue{
+    tokenList:any=[]
+
     bestSellerBaseOnToken:any=[]
     bestSellerBaseOnTokenLoader:boolean=true
     bestBuyerBaseOnAccountName:any=[]
@@ -150,17 +227,43 @@ export default class ParticularReports extends Vue{
     buySellInfo:any=[]
     itemOfferBaseOnAccountName:any=[]
     itemOfferBaseOnAccountNameLoader:boolean=true
+    bestBuyerBaseOnAccountNameAndToken:any=[]
+    bestBuyerBaseOnAccountNameAndTokenLoader:boolean=true
     token:string='TLOS'
+    price:boolean=true
     accountName:string='babyevils.gm'
     buySellAccountName:string='babyevils.gm'
     itemOfferAccountNameLoader:string='babyevils.gm'
+    bestBuyerBaseOnAccountNameAndTokenAccountName:string='babyevils.gm'
     
     mounted(){
+        this.getTokenList()
         this.getBestSellerBaseOnToken();
         this.getBuySellInfo();
         this.getBestBuyerBaseOnAccountName();
         this.getItemOfferBaseOnAccountName();
-    }    
+        // this.getBestBuyerBaseOnAccountNameAndToken();
+    }  
+    onItemClick(token:any){
+        this.token =token['currency']
+        // this.getBestBuyerBaseOnToken()
+    }  
+    async getTokenList(){
+        this.bestBuyerBaseOnAccountNameAndTokenLoader = true
+        this.tokenList = await AccountService.getTokensList();
+        this.tokenList = this.tokenList.value
+        this.filterByCurrentNetName();
+    }
+    filterByCurrentNetName(){
+        let temoTokenList = []
+        for(let token of this.tokenList){
+            if(token.chain == this.$store.state.currentNet._id){
+                temoTokenList.push(token)
+            }
+        }
+        this.tokenList = temoTokenList;
+        this.getBestBuyerBaseOnAccountNameAndToken();
+    }
     async getBestSellerBaseOnToken(){
         this.bestSellerBaseOnTokenLoader = false
         this.bestSellerBaseOnToken = await ReportServices.bestSellerBaseOnToken(this.token,'true')
@@ -175,6 +278,12 @@ export default class ParticularReports extends Vue{
         this.bestBuyerBaseOnAccountName = await ReportServices.bestBuyerBaseOnAccountName(this.accountName)
         if(this.bestBuyerBaseOnAccountName){
             this.bestBuyerLoader=false
+        }
+    }
+    async getBestBuyerBaseOnAccountNameAndToken(){
+        this.bestBuyerBaseOnAccountNameAndToken = await ReportServices.bestBuyerBaseOnAccountNameAndToken(this.bestBuyerBaseOnAccountNameAndTokenAccountName,this.token,this.price)
+        if(this.bestBuyerBaseOnAccountNameAndToken){
+            this.bestBuyerBaseOnAccountNameAndTokenLoader=false
         }
     }
     async getItemOfferBaseOnAccountName(){

@@ -47,7 +47,7 @@ export default class ReportServices
     
     // https://api1.areaxnft.com/report/bestBuyer?account=hossainiiiir&token=TLOS&by=price
     static async bestBuyerBaseOnAccountNameAndToken(accountName:string,token:string,price:string){
-        return BaseServices.get(Config.areaXBaseURL+`/report/bestBuyer?account=${accountName}&token=${token}&by=${price}`,)
+        return BaseServices.get(Config.areaXBaseURL+`/report/bestBuyer?account=${accountName}&token=${token}&price=${price}`,)
     }
     //  https://data.chainspector.io/telos/activeaccountsday
     // static async activeaccountsday(){
@@ -55,17 +55,13 @@ export default class ReportServices
     // }
     
     
-
-    // POST
-
-    // data = {token:['TLOS','DRIC']}
     
     // https://api1.areaxnft.com/report/buyChart
 
-    static async buyChart(data:any=null)
+    static async buyChart()
     {
         let url = Config.areaXBaseURL+'/report/buyChart'
-        var data=await BaseServices.postData(url,data);
+        var data=await BaseServices.get(url,);
         if(data){
             return data
         }
@@ -73,6 +69,10 @@ export default class ReportServices
             return 'false'
         }
     }
+
+    // POST
+
+    // data = {token:['TLOS','DRIC']}
     // https://api1.areaxnft.com/report/buyChart?account=vahidhosaini
 
     static async buyChartBaseOnAccountName(accountName:string,data:any=null)
