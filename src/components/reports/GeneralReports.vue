@@ -6,7 +6,7 @@
                 <Spinner v-model="BuyChartLoader" />
             </div>
         </div>
-        <div v-if="!bestBuyerLoader" align="center" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+        <div v-if="!BuyChartLoader" align="center" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
             <!-- <div class="col-lg-6">
                 <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
                     <div class="card-body">
