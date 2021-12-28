@@ -8,8 +8,28 @@
             </div>
             <div v-if="!buyChartBaseOnAccountNameLoader" align="center" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
                 <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
+                    <div class="row d-flex m-2" >
+                        <div class="col-5" align=left>
+                            <label class="mt-3">Account Name</label>
+                            <b-form-input 
+                                id="input-2"
+                                v-model="buyChartBaseOnAccountNameAccountName"
+                                type="text"
+                                placeholder="Type Account name"
+                                :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
+                                :style="$store.state.layout.themeDarkMode ? 'color:#bed1da !important':''"
+                            ></b-form-input>
+                        </div>
+                        <div class="col-5" align=left>
+                            <label class="mt-3">Token List</label>
+                            <multiselect v-model="tokens" placeholder="Select Tokens" track-by="currency" :clear-on-select="false" label="currency" :options="tokenList" :multiple="true"></multiselect>
+                        </div>
+                        <div class="col-2" align=left>
+                            <b-button :style="$store.state.layout.themeDarkMode ? 'color:#bed1da !important':''" class=" mt-4 pt-4 font-size-15"  :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''"  @click="getBuyChart()"  variant="outline-light" style="border:0px solid #eff2f7;border-radius:3px"><i :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="bx bx-search-alt font-size-15"></i>Search</b-button>
+                        </div>
+                    </div>
                     <div class="card-body">
-                        <h4 class="card-title mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Mix Line-Bar</h4>
+                        <h4 class="card-title mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Best Buy Base On Account name and token list</h4>
                         <v-chart class="w-100" :options="mixedBarChart" autoresize />
                     </div>
                 </div>
@@ -227,6 +247,8 @@ import {Vue , Component} from 'vue-property-decorator'
 import ReportServices from "@/services/reportServices"
 import Spinner from "@/components/spinner/Spinner.vue"
 import AccountService from '@/services/accountService'
+import Multiselect from "vue-multiselect";
+
 
 import ECharts from "vue-echarts";
 import "echarts/lib/chart/line";
@@ -244,7 +266,7 @@ import "echarts/lib/component/toolbox";
 import "echarts/lib/component/grid";
 import "echarts/lib/component/axis";
 
-@Component({components:{Spinner,"v-chart": ECharts}})
+@Component({components:{Spinner,"v-chart": ECharts,Multiselect}})
 export default class ParticularReports extends Vue{
      mixedBarChart:any= {
         grid: {
@@ -358,16 +380,17 @@ export default class ParticularReports extends Vue{
     buyChartBaseOnAccountName:any=[]
     buyChartBaseOnAccountNameLoader:boolean=true
     token:string='TLOS'
-    tokens:any=['TLOS','DRIC']
+    tokens:any=[]
     price:boolean=true
     accountName:string='babyevils.gm'
     buySellAccountName:string='babyevils.gm'
     itemOfferAccountNameLoader:string='babyevils.gm'
     bestBuyerBaseOnAccountNameAndTokenAccountName:string='babyevils.gm'
     buyChartBaseOnAccountNameAccountName:string=''
-    
+        
     mounted(){
-        this.getTokenList()
+        this.buyChartBaseOnAccountNameAccountName=this.$store.state.currentAccount.name
+        this.getTokenList()        
         this.getBestSellerBaseOnToken();
         this.getBuySellInfo();
         this.getBestBuyerBaseOnAccountName();
@@ -376,38 +399,42 @@ export default class ParticularReports extends Vue{
         
     } 
     async getBuyChart(){
+        this.buyChartBaseOnAccountNameLoader=true;
         let data={token:[]}
-        data.token = this.tokens
-        this.buyChartBaseOnAccountNameLoader = false
-        // this.buyChartBaseOnAccountName = await ReportServices.buyChartBaseOnAccountName(this.buyChartBaseOnAccountNameAccountName,data)
-        this.buyChartBaseOnAccountName = {
-            "data": {
-            "TLOS": {
-                "2021-10": {
-                    "count": 165,
-                    "price": 11716.654399999996
-                },
-                "2021-11": {
-                    "count": 384,
-                    "price": 8646.6566
-                },
-                "2021-12": {
-                    "count": 119,
-                    "price": 3902.9
-                }
-            },
-            "DRIC": {
-                "2021-11": {
-                    "count": 4,
-                    "price": 900
-                },
-                 "2021-12": {
-                    "count": 119,
-                    "price": 3902.9
-                }
-                }
-            }
+        for(let token in this.tokens){
+            data.token.push(this.tokens[token].currency)
         }
+        console.log(data)
+        this.buyChartBaseOnAccountNameLoader = false
+        this.buyChartBaseOnAccountName = await ReportServices.buyChartBaseOnAccountName(this.buyChartBaseOnAccountNameAccountName,data)
+        // this.buyChartBaseOnAccountName = {
+        //     "data": {
+        //     "TLOS": {
+        //         "2021-10": {
+        //             "count": 165,
+        //             "price": 11716.654399999996
+        //         },
+        //         "2021-11": {
+        //             "count": 384,
+        //             "price": 8646.6566
+        //         },
+        //         "2021-12": {
+        //             "count": 119,
+        //             "price": 3902.9
+        //         }
+        //     },
+        //     "DRIC": {
+        //         "2021-11": {
+        //             "count": 4,
+        //             "price": 900
+        //         },
+        //          "2021-12": {
+        //             "count": 119,
+        //             "price": 3902.9
+        //         }
+        //         }
+        //     }
+        // }
 
         if(this.buyChartBaseOnAccountName){
             console.log(this.buyChartBaseOnAccountName.data)
