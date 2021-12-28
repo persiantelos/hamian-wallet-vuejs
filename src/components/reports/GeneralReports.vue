@@ -268,22 +268,7 @@ export default class ParticularReports extends Vue{
         }
     ],
     series: [
-        {
-            name: 'Item',
-            type: 'bar',
-            data: []
-        },
-        {
-            name: '',
-            type: 'bar',
-            data: []
-        },
-        {
-            name: 'Amount',
-            type: 'line',
-            yAxisIndex: 1,
-            data: []
-        }
+        
     ]
 };;
 
@@ -292,11 +277,11 @@ export default class ParticularReports extends Vue{
     itemOffer:any=[]
     bestBuyerBaseOnToken:any=[]
     tokenList:any=[]
-    BuyChart:any=[]
     bestBuyerLoader:boolean=true;
     bestBuyerBaseOnTokenLoader:boolean=true;
     bestSellerLoader:boolean=true;
     itemOfferLoader:boolean=true;
+    BuyChart:any=[]
     BuyChartLoader:boolean=true;
     price:boolean=true;
     token:string='TLOS';
@@ -449,48 +434,35 @@ export default class ParticularReports extends Vue{
     async getBuyChart(){
         this.BuyChart = await ReportServices.buyChart()
         if(this.BuyChart){
-            // Base on item
-
+           
             for(let objct of Object.entries(this.BuyChart)){
+                let item={
+                    name: 'Item',
+                    type: 'bar',
+                    data: []
+                }
+                let price={
+                    name: 'Amount',
+                    type: 'line',
+                    yAxisIndex: 1,
+                    data: []
+                }
+                price.name=objct[0]
                 for(let dt of Object.entries(objct[1])){
                     if(dt[1].count > this.mixedBarChart.yAxis[0].max){
                         this.mixedBarChart.yAxis[0].max = dt[1].count+100
                     }
                     if(dt[1].price > this.mixedBarChart.yAxis[1].max){
-                        this.mixedBarChart.yAxis[1].max = (dt[1].price).toFixed(4)
-                        // this.mixedBarChart.yAxis[1].max = (dt[1].price/100).toFixed(4)
+                        this.mixedBarChart.yAxis[1].max = (dt[1].price).toFixed(2)
                     }
                     this.mixedBarChart.xAxis[0].data.push(dt[0])
-                    this.mixedBarChart.series[0].data.push(dt[1]['count'])
-                    this.mixedBarChart.series[2].data.push(dt[1]['price'].toFixed(4))
-                // this.mixedBarChart.series[2].data.push((dt[1]['price']/1000).toFixed(4))
+                    item.data.push(dt[1]['count'])
+                    price.data.push(dt[1]['price'].toFixed(4))
                 }
-                // this.linewithDataChart.series[0].name = objct[0] 
+                    this.mixedBarChart.series.push(item)
+                    this.mixedBarChart.series.push(price)
                 this.BuyChartLoader = false
             }
-            // for(let objct of Object.entries(this.BuyChart)){
-            //     for(let dt of Object.entries(objct[1])){
-            //         if(dt[1].count > this.linewithDataChart.chartOptions.yaxis.max){
-            //             this.linewithDataChart.chartOptions.yaxis.max = dt[1].count
-            //         }
-            //         this.linewithDataChart.chartOptions.xaxis.categories.push(dt[0])
-            //         this.linewithDataChart.series[0].data.push(dt[1]['count'])
-            //     }
-            //     // this.linewithDataChart.series[0].name = objct[0] 
-            //     this.BuyChartLoader = false
-            // }
-            // Base on price
-            // for(let objct of Object.entries(this.BuyChart)){
-            //     for(let dt of Object.entries(objct[1])){
-            //         if(dt[1].price > this.linewithDataChart.chartOptions.yaxis.max){
-            //             this.linewithDataChart.chartOptions.yaxis.max = dt[1].price
-            //         }
-            //         this.linewithDataChart.chartOptions.xaxis.categories.push(dt[0])
-            //         this.linewithDataChart.series[0].data.push(dt[1]['price'].toFixed(4))
-            //     }
-            //     // this.linewithDataChart.series[0].name = objct[0] 
-            //     this.BuyChartLoader = false
-            // }
         }
     }
 
