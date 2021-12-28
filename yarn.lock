@@ -2153,13 +2153,6 @@
   optionalDependencies:
     "prettier" "^1.18.2 || ^2.0.0"
 
-"@vue/composition-api@^1.0.0-rc.1", "@vue/composition-api@^1.0.5":
-  "integrity" "sha512-mjhfLjpCBecARYVJX65F0TYerlJQWtEgKjom4Btuu0x7k701EcvL66zyWQryf64HuIj9YR4h6aNRhM0AP/E3eQ=="
-  "resolved" "https://registry.npmjs.org/@vue/composition-api/-/composition-api-1.3.3.tgz"
-  "version" "1.3.3"
-  dependencies:
-    "tslib" "^2.3.1"
-
 "@vue/preload-webpack-plugin@^1.1.0":
   "integrity" "sha512-LIZMuJk38pk9U9Ur4YzHjlIyMuxPlACdBIHH9/nGYVTsaGKOSnSuELiE8vS9wa+dJpIYspYUOqk+L1Q4pgHQHQ=="
   "resolved" "https://registry.npmjs.org/@vue/preload-webpack-plugin/-/preload-webpack-plugin-1.1.2.tgz"
@@ -4077,7 +4070,7 @@
   "resolved" "https://registry.npmjs.org/core-js/-/core-js-2.6.12.tgz"
   "version" "2.6.12"
 
-"core-js@^3.0.1", "core-js@^3.3.2", "core-js@^3.4.3", "core-js@^3.6.5", "core-js@^3.7.0":
+"core-js@^3.0.1", "core-js@^3.3.2", "core-js@^3.4.3", "core-js@^3.4.4", "core-js@^3.6.5", "core-js@^3.7.0":
   "integrity" "sha512-Tnc7E9iKd/b/ff7GFbhwPVzJzPztGrChB8X8GLqoYGdEOG8IpLnK1xPyo3ZoO3HsK6TodJS58VGPOxA+hLHQMg=="
   "resolved" "https://registry.npmjs.org/core-js/-/core-js-3.19.1.tgz"
   "version" "3.19.1"
@@ -4908,13 +4901,12 @@
     "jsbn" "~0.1.0"
     "safer-buffer" "^2.1.0"
 
-"echarts@^5.1.2", "echarts@^5.2.2":
-  "integrity" "sha512-yxuBfeIH5c+0FsoRP60w4De6omXhA06c7eUYBsC1ykB6Ys2yK5fSteIYWvkJ4xJVLQgCvAdO8C4mN6MLeJpBaw=="
-  "resolved" "https://registry.npmjs.org/echarts/-/echarts-5.2.2.tgz"
-  "version" "5.2.2"
+"echarts@^4.1.0", "echarts@^4.9.0":
+  "integrity" "sha512-+ugizgtJ+KmsJyyDPxaw2Br5FqzuBnyOWwcxPKO6y0gc5caYcfnEUIlNStx02necw8jmKmTafmpHhGo4XDtEIA=="
+  "resolved" "https://registry.npmjs.org/echarts/-/echarts-4.9.0.tgz"
+  "version" "4.9.0"
   dependencies:
-    "tslib" "2.3.0"
-    "zrender" "5.2.1"
+    "zrender" "4.3.2"
 
 "ecurve@^1.0.5":
   "integrity" "sha512-/BzEjNfiSuB7jIWKcS/z8FK9jNjmEWvUV2YZ4RLSmcDtP7Lq0m6FvDuSnJpBlDpGRpfRQeTLGLBI8H+kEv0r+w=="
@@ -9969,10 +9961,10 @@
   "resolved" "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz"
   "version" "1.0.0"
 
-"resize-detector@^0.3.0":
-  "integrity" "sha512-R/tCuvuOHQ8o2boRP6vgx8hXCCy87H1eY9V5imBYeVNyNVpuL9ciReSccLj2gDcax9+2weXy3bc8Vv+NRXeEvQ=="
-  "resolved" "https://registry.npmjs.org/resize-detector/-/resize-detector-0.3.0.tgz"
-  "version" "0.3.0"
+"resize-detector@^0.1.10":
+  "integrity" "sha512-iLcXC8A6Fb0DfA+TRiywrK/0A22bFqkhntjMJMEzXDA4XkcEkfwpNbv7W8iewUiD0xYIaeiXOfiEehTqGKsUFw=="
+  "resolved" "https://registry.npmjs.org/resize-detector/-/resize-detector-0.1.10.tgz"
+  "version" "0.1.10"
 
 "resize-observer-polyfill@^1.5.1":
   "integrity" "sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg=="
@@ -11438,15 +11430,10 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   "version" "1.14.1"
 
-"tslib@^2.0.3", "tslib@^2.1.0", "tslib@^2.3.1":
+"tslib@^2.0.3", "tslib@^2.1.0":
   "integrity" "sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.3.1.tgz"
   "version" "2.3.1"
-
-"tslib@2.3.0":
-  "integrity" "sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg=="
-  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.3.0.tgz"
-  "version" "2.3.0"
 
 "tslint@^5.20.1":
   "integrity" "sha512-EcMxhzCFt8k+/UP5r8waCf/lzmeSyVlqxqMEDQE7rWYiQky8KpIBz1JAoYXfROHrPZ1XXd43q8yQnULOLiBRQg=="
@@ -11988,23 +11975,19 @@
   dependencies:
     "cropperjs" "^1.5.6"
 
-"vue-demi@^0.11.2":
-  "integrity" "sha512-/3xFwzSykLW2HiiLie43a+FFgNOcokbBJ+fzvFXd0r2T8MYohqvphUyDQ8lbAwzQ3Dlcrb1c9ykifGkhSIAk6A=="
-  "resolved" "https://registry.npmjs.org/vue-demi/-/vue-demi-0.11.4.tgz"
-  "version" "0.11.4"
-
 "vue-easy-lightbox@^0.14.0":
   "integrity" "sha512-hXC0kGSqO1/Pj8jimbfMtFhJ4SOVFkwS4p79d4cjkfyZZdou+X40eSFX346+kq6yE8YIKxGeGPkDGcaCs8kPCQ=="
   "resolved" "https://registry.npmjs.org/vue-easy-lightbox/-/vue-easy-lightbox-0.14.1.tgz"
   "version" "0.14.1"
 
-"vue-echarts@^6.0.0":
-  "integrity" "sha512-eB3fnnu8Oc+kwVTlBz95o/rliTbWIiUdxTG7vRQIIgRpINWW07WLSPm+UhlD6FZ/P8IqCoVG87pJeLRKsaHeMw=="
-  "resolved" "https://registry.npmjs.org/vue-echarts/-/vue-echarts-6.0.0.tgz"
-  "version" "6.0.0"
+"vue-echarts@^5.0.0-beta.0":
+  "integrity" "sha512-QZFKGXDAYFQo+F20REpzcdLx79nsl4kOorJRpN+08aYq4YiIlmtWss1Lxadm7Fo+NYyWm8nnT+h4xHv3uqWIDQ=="
+  "resolved" "https://registry.npmjs.org/vue-echarts/-/vue-echarts-5.0.0-beta.0.tgz"
+  "version" "5.0.0-beta.0"
   dependencies:
-    "resize-detector" "^0.3.0"
-    "vue-demi" "^0.11.2"
+    "core-js" "^3.4.4"
+    "lodash" "^4.17.15"
+    "resize-detector" "^0.1.10"
 
 "vue-form-wizard@^0.8.1":
   "integrity" "sha512-/Zk1+B7bz7qHFJ16mwu021lpPXWf/9Tlr2mTNG3J7M0Hdy3rgA802lWsbKYySns0B0qtsD8BYGjQ2Wyxgg+4uw=="
@@ -12193,7 +12176,7 @@
     "core-js" "^3.3.2"
     "vue" "^2.6.10"
 
-"vue@*", "vue@^2 || ^3.0.0-0", "vue@^2.0.0", "vue@^2.2.6", "vue@^2.5.0", "vue@^2.5.13", "vue@^2.5.16", "vue@^2.5.17", "vue@^2.5.18", "vue@^2.5.22", "vue@^2.6.10", "vue@^2.6.11", "vue@^2.6.12", "vue@^2.6.12 || ^3.1.1", "vue@^2.6.14", "vue@^3.0.0-0 || ^2.6.0", "vue@>= 2.5 < 3":
+"vue@*", "vue@^2 || ^3.0.0-0", "vue@^2.0.0", "vue@^2.2.6", "vue@^2.4.0", "vue@^2.5.0", "vue@^2.5.13", "vue@^2.5.16", "vue@^2.5.17", "vue@^2.5.18", "vue@^2.5.22", "vue@^2.6.10", "vue@^2.6.11", "vue@^2.6.12", "vue@^2.6.14":
   "integrity" "sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-2.6.14.tgz"
   "version" "2.6.14"
@@ -12898,9 +12881,7 @@
     "normalize-path" "^1.0.0"
     "strip-indent" "^2.0.0"
 
-"zrender@5.2.1":
-  "integrity" "sha512-M3bPGZuyLTNBC6LiNKXJwSCtglMp8XUEqEBG+2MdICDI3d1s500Y4P0CzldQGsqpRVB7fkvf3BKQQRxsEaTlsw=="
-  "resolved" "https://registry.npmjs.org/zrender/-/zrender-5.2.1.tgz"
-  "version" "5.2.1"
-  dependencies:
-    "tslib" "2.3.0"
+"zrender@4.3.2":
+  "integrity" "sha512-bIusJLS8c4DkIcdiK+s13HiQ/zjQQVgpNohtd8d94Y2DnJqgM1yjh/jpDb8DoL6hd7r8Awagw8e3qK/oLaWr3g=="
+  "resolved" "https://registry.npmjs.org/zrender/-/zrender-4.3.2.tgz"
+  "version" "4.3.2"

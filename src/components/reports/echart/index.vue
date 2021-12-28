@@ -15,6 +15,9 @@ import "echarts/lib/component/toolbox";
 import "echarts/lib/component/grid";
 import "echarts/lib/component/axis";
 
+// import Layout from "../../../layouts/main";
+import Layout from "@/router/layouts/main.vue";
+import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
 
 import {
@@ -33,7 +36,7 @@ export default {
     title: "Echart Chart",
     meta: [{ name: "description", content: appConfig.description }]
   },
-  components: { "v-chart": ECharts },
+  components: { Layout, PageHeader, "v-chart": ECharts },
   data() {
     return {
       polarChart: polarChart,
@@ -61,7 +64,8 @@ export default {
 </script>
 
 <template>
-  <div>
+  <Layout>
+    <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-lg-6">
         <div class="card">
@@ -135,5 +139,5 @@ export default {
         </div>
       </div>
     </div>
-  </div>
+  </Layout>
 </template>
