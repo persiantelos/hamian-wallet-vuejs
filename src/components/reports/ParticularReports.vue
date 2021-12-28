@@ -16,13 +16,16 @@
                             Top {{ bestBuyerBaseOnAccountName.value.length}} Best Buyer NFTs Base on AccountName
                             </p>
                         </div>
-                        <div class="col-6" style="min-width:120px;border:1px solid #eff2f7;border-radius:3px">
+                        <div class="col-4" style="border:1px solid #eff2f7;border-radius:3px">
                             <b-form-input 
                             id="input-2"
                             v-model="accountName"
                             type="text"
                             :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                             ></b-form-input>
+                        </div>
+                        <div class="col-2 text-center" >
+                            <b-button  @click="BestBuyerAccountNameSearch()"  variant="outline-light" style="border:0px solid #eff2f7;border-radius:3px"><i :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="bx bx-search-alt font-size-15"></i></b-button>
                         </div>
                     </div>
                     
@@ -65,13 +68,16 @@
                             Buy / Sell Base On Account Name
                             </p>
                         </div>
-                        <div class="col-6" style="min-width:120px;border:1px solid #eff2f7;border-radius:3px">
+                        <div class="col-4" style="min-width:120px;border:1px solid #eff2f7;border-radius:3px">
                             <b-form-input 
                             id="input-2"
                             v-model="buySellAccountName"
                             type="text"
                             :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                             ></b-form-input>
+                        </div>
+                        <div class="col-2 text-center">
+                            <b-button @click="BuySellAccountNameSearch()"  variant="outline-light" style="border:0px solid #eff2f7;border-radius:3px"><i :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="bx bx-search-alt font-size-15"></i></b-button>
                         </div>
                     </div>
                     
@@ -173,6 +179,29 @@ export default class ParticularReports extends Vue{
     }
     async getItemOfferBaseOnAccountName(){
         this.itemOfferBaseOnAccountName = await ReportServices.itemOfferBaseOnAccountName(this.itemOfferAccountNameLoader)
+    }
+    BestBuyerAccountNameSearch(){
+        if(this.accountName.length == 12){
+            this.getBestBuyerBaseOnAccountName()
+        }else{
+            this.$notify({
+                group: 'foo',
+                type: 'warn',
+                text: 'Account name must be 12 characters long'
+            });
+        }
+    }
+    BuySellAccountNameSearch(){
+        if(this.buySellAccountName.length == 12){
+            this.getBuySellInfo()
+        }
+        else{
+            this.$notify({
+                group: 'foo',
+                type: 'warn',
+                text: 'Account name must be 12 characters long'
+            });
+        }
     }
 }
 </script>
