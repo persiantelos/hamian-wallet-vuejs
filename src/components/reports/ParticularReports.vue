@@ -25,7 +25,15 @@
                             <multiselect v-model="tokens" placeholder="Select Tokens" track-by="currency" :clear-on-select="false" label="currency" :options="tokenList" :multiple="true"></multiselect>
                         </div>
                         <div class="col-2" align=left>
-                            <b-button :style="$store.state.layout.themeDarkMode ? 'color:#bed1da !important':''" class=" mt-4 pt-4 font-size-15"  :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''"  @click="getBuyChart()"  variant="outline-light" style="border:0px solid #eff2f7;border-radius:3px"><i :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="bx bx-search-alt font-size-15"></i>Search</b-button>
+                            <label class="mt-3 col-12">&nbsp;</label>
+                            <b-button 
+                            :style="$store.state.layout.themeDarkMode ? 'color:#bed1da !important':''" class="font-size-15"  :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''"  
+                            @click="reloadBuyChart()"  
+                            variant="outline-light" 
+                            style="border:0px solid #eff2f7;border-radius:3px">
+                                <i :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="bx bx-search-alt font-size-15"></i>
+                                Search
+                            </b-button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -406,76 +414,90 @@ export default class ParticularReports extends Vue{
         this.getBuyChart();
         
     } 
-    async getBuyChart(){
-        this.buyChartBaseOnAccountNameLoader=true;
-        let data={token:[]}
-        for(let token in this.tokens){
-            data.token.push(this.tokens[token].currency)
+    reloadBuyChart(){
+        if(this.tokens.length>0){
+            this.buyChartBaseOnAccountNameLoader=true;
+            this.getBuyChart();
         }
-        console.log(data)
-        this.buyChartBaseOnAccountNameLoader = false
-        this.buyChartBaseOnAccountName = await ReportServices.buyChartBaseOnAccountName(this.buyChartBaseOnAccountNameAccountName,data)
-        // this.buyChartBaseOnAccountName = {
-        //     "data": {
-        //     "TLOS": {
-        //         "2021-10": {
-        //             "count": 165,
-        //             "price": 11716.654399999996
-        //         },
-        //         "2021-11": {
-        //             "count": 384,
-        //             "price": 8646.6566
-        //         },
-        //         "2021-12": {
-        //             "count": 119,
-        //             "price": 3902.9
-        //         }
-        //     },
-        //     "DRIC": {
-        //         "2021-11": {
-        //             "count": 4,
-        //             "price": 900
-        //         },
-        //          "2021-12": {
-        //             "count": 119,
-        //             "price": 3902.9
-        //         }
-        //         }
-        //     }
-        // }
+        else{
+        this.buyChartBaseOnAccountNameLoader=false;
+           this.$notify({
+                group: 'foo',
+                type: 'warn',
+                text: 'Please select at least one token'
+            }); 
+        }
+    }
+    async getBuyChart(){
+        if(this.tokens.length>0){
+            let data={token:[]}
+            for(let token in this.tokens){
+                data.token.push(this.tokens[token].currency)
+            }
+            this.buyChartBaseOnAccountName = await ReportServices.buyChartBaseOnAccountName(this.buyChartBaseOnAccountNameAccountName,data)
+            // this.buyChartBaseOnAccountName = {
+            //     "data": {
+            //     "TLOS": {
+            //         "2021-10": {
+            //             "count": 165,
+            //             "price": 11716.654399999996
+            //         },
+            //         "2021-11": {
+            //             "count": 384,
+            //             "price": 8646.6566
+            //         },
+            //         "2021-12": {
+            //             "count": 119,
+            //             "price": 3902.9
+            //         }
+            //     },
+            //     "DRIC": {
+            //         "2021-11": {
+            //             "count": 4,
+            //             "price": 900
+            //         },
+            //          "2021-12": {
+            //             "count": 119,
+            //             "price": 3902.9
+            //         }
+            //         }
+            //     }
+            // }
 
-        if(this.buyChartBaseOnAccountName){
-            console.log(this.buyChartBaseOnAccountName.data)
-            
-            for(let objct of Object.entries(this.buyChartBaseOnAccountName.data)){
-                let item={
-                name: 'Item',
-                type: 'bar',
-                data: []
-            }
-            let price={
-                name: 'Amount',
-                type: 'line',
-                yAxisIndex: 1,
-                data: []
-            }
-                item.name=objct[0]
-                price.name=objct[0]
-                for(let dt of Object.entries(objct[1])){
-                    if(dt[1].count > this.mixedBarChart.yAxis[0].max){
-                        this.mixedBarChart.yAxis[0].max = dt[1].count+100
-                    }
-                    if(dt[1].price > this.mixedBarChart.yAxis[1].max){
-                        this.mixedBarChart.yAxis[1].max = (dt[1].price).toFixed(2)
-                    }
-                    this.mixedBarChart.xAxis[0].data.push(dt[0])
-                    item.data.push(dt[1]['count'])
-                    price.data.push(dt[1]['price'].toFixed(4))
-                }
-                    this.mixedBarChart.series.push(item)
-                    this.mixedBarChart.series.push(price)
+            if(this.buyChartBaseOnAccountName){
                 this.buyChartBaseOnAccountNameLoader = false
+                for(let objct of Object.entries(this.buyChartBaseOnAccountName.data)){
+                    let item={
+                    name: 'Item',
+                    type: 'bar',
+                    data: []
+                }
+                let price={
+                    name: 'Amount',
+                    type: 'line',
+                    yAxisIndex: 1,
+                    data: []
+                }
+                    item.name=objct[0]
+                    price.name=objct[0]
+                    for(let dt of Object.entries(objct[1])){
+                        if(dt[1].count > this.mixedBarChart.yAxis[0].max){
+                            this.mixedBarChart.yAxis[0].max = dt[1].count+100
+                        }
+                        if(dt[1].price > this.mixedBarChart.yAxis[1].max){
+                            this.mixedBarChart.yAxis[1].max = (dt[1].price).toFixed(2)
+                        }
+                        this.mixedBarChart.xAxis[0].data.push(dt[0])
+                        item.data.push(dt[1]['count'])
+                        price.data.push(dt[1]['price'].toFixed(4))
+                    }
+                        this.mixedBarChart.series.push(item)
+                        this.mixedBarChart.series.push(price)
+                }
             }
+        }
+        else{
+            this.buyChartBaseOnAccountNameLoader=false;
         }
     }
  
