@@ -55,6 +55,30 @@
                         <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Particular Report</span>
                       </a>
                     </li>
+                    <li :class="selected == 'Purchased_items' ? $store.state.layout.themeDarkMode?'menu-selected-dark':'menu-selected-light':''" @click="selectedItem('Purchased_items')">
+                      <a
+                        href="javascript: void(0);"
+                        class="text-body d-flex align-items-center"
+                      >
+                        <i 
+                            class="mdi mdi-tag-text-outline"
+                            :class="selected != 'Purchased_items' ? 'text-body ont-size-16  me-2':'text-primary font-size-16 me-3'"
+                        ></i>
+                        <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Purchased items</span>
+                      </a>
+                    </li>
+                    <li :class="selected == 'Item_sold' ? $store.state.layout.themeDarkMode?'menu-selected-dark':'menu-selected-light':''" @click="selectedItem('Item_sold')">
+                      <a
+                        href="javascript: void(0);"
+                        class="text-body d-flex align-items-center"
+                      >
+                        <i 
+                            class="fas fa-coins"
+                            :class="selected != 'Item_sold' ? 'text-body ont-size-16  me-2':'text-primary font-size-16 me-3'"
+                        ></i>
+                        <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Item sold</span>
+                      </a>
+                    </li>
                   </ul>
                 </div>
             </div>

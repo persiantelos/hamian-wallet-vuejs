@@ -10,6 +10,12 @@
                 <div v-if="value == 'particular'">
                     <ParticularReports /> 
                 </div>
+                <div v-if="value == 'Purchased_items'">
+                    <PurchasedItems /> 
+                </div>
+                <div v-if="value == 'Item_sold'">
+                    <ItemSold /> 
+                </div>
             </div>
         </div>
     </div>
@@ -18,6 +24,8 @@
 import {Vue , Component ,Prop,Watch} from 'vue-property-decorator';
 import GeneralReports from "@/components/reports/GeneralReports.vue"
 import ParticularReports from "@/components/reports/ParticularReports.vue"
+import PurchasedItems from "@/components/reports/PurchasedItems.vue"
+import ItemSold from "@/components/reports/ItemSold.vue"
 
 
 
@@ -25,7 +33,9 @@ import ParticularReports from "@/components/reports/ParticularReports.vue"
 @Component({
     components:{
         GeneralReports,
-        ParticularReports
+        ParticularReports,
+        PurchasedItems,
+        ItemSold,
     }
 })
 export default class ReportsContent extends Vue{
