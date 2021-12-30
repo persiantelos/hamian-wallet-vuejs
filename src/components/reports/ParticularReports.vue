@@ -519,7 +519,17 @@ export default class ParticularReports extends Vue{
             }
         }
         this.tokenList = temoTokenList;
-        this.getBestBuyerBaseOnAccountNameAndToken();
+        if(this.bestBuyerBaseOnAccountNameAndTokenAccountName.length==12){
+            this.bestBuyerBaseOnAccountNameAndTokenLoader=true
+            this.getBestBuyerBaseOnAccountNameAndToken();
+        }
+        else{
+           this.$notify({
+                group: 'foo',
+                type: 'warn',
+                text: 'Please enter a account name'
+            });  
+        }
     }
     async getBestSellerBaseOnToken(){
         this.bestSellerBaseOnTokenLoader = false
@@ -538,6 +548,7 @@ export default class ParticularReports extends Vue{
         }
     }
     async getBestBuyerBaseOnAccountNameAndToken(){
+        this.bestBuyerBaseOnAccountNameAndTokenLoader=true
         this.bestBuyerBaseOnAccountNameAndToken = await ReportServices.bestBuyerBaseOnAccountNameAndToken(this.bestBuyerBaseOnAccountNameAndTokenAccountName,this.token,this.price)
         if(this.bestBuyerBaseOnAccountNameAndToken){
             this.bestBuyerBaseOnAccountNameAndTokenLoader=false
@@ -554,6 +565,7 @@ export default class ParticularReports extends Vue{
     }
     BestBuyerAccountNameSearch(){
         if(this.accountName.length == 12){
+            this.bestBuyerLoader=true
             this.getBestBuyerBaseOnAccountName()
         }else{
             this.$notify({
@@ -565,6 +577,7 @@ export default class ParticularReports extends Vue{
     }
     BuySellAccountNameSearch(){
         if(this.buySellAccountName.length == 12){
+            this.buySellInfoLoader=true
             this.getBuySellInfo()
         }
         else{
