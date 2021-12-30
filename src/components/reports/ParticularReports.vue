@@ -239,6 +239,14 @@
             <div v-if="!bestSellerBaseOnTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
             bestSellerBaseOnToken {{bestSellerBaseOnToken}}
             </div>
+            <div v-if="itemOfferBaseOnAccountNameLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+                <div style="width:100%;height:300px;padding:5px">
+                        <Spinner v-model="itemOfferBaseOnAccountNameLoader" />
+                </div>
+            </div>
+            <div v-if="!itemOfferBaseOnAccountNameLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            itemOfferBaseOnAccountName {{itemOfferBaseOnAccountName}}
+            </div>
         </div>
     </div>
 </template>
@@ -514,7 +522,13 @@ export default class ParticularReports extends Vue{
         }
     }
     async getItemOfferBaseOnAccountName(){
+        this.itemOfferBaseOnAccountNameLoader = false;
+
         this.itemOfferBaseOnAccountName = await ReportServices.itemOfferBaseOnAccountName(this.itemOfferAccountNameLoader)
+        // if(this.itemOfferBaseOnAccountName){
+        //     this.itemOfferBaseOnAccountNameLoader = false;
+        // }
+        console.log('itemOffer?account=vahidhosaini',this.itemOfferBaseOnAccountName)
     }
     BestBuyerAccountNameSearch(){
         if(this.accountName.length == 12){
