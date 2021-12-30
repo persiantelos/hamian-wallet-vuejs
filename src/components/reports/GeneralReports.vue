@@ -24,7 +24,7 @@
             </div> -->
             <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
                 <div class="card-body">
-                    <h4 class="card-title mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Mix Line-Bar</h4>
+                    <h4 class="card-title mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Best Buy Chart</h4>
                     <v-chart class="w-100" :options="mixedBarChart" autoresize />
                 </div>
             </div>
