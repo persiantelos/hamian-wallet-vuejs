@@ -239,14 +239,7 @@
                 </div>
             </div>
             
-            <div v-if="bestSellerBaseOnTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
-                <div style="width:100%;height:300px;padding:5px">
-                        <Spinner v-model="bestSellerBaseOnTokenLoader" />
-                </div>
-            </div>
-            <div v-if="!bestSellerBaseOnTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
-            bestSellerBaseOnToken {{bestSellerBaseOnToken}}
-            </div>
+            
             <div v-if="itemOfferBaseOnAccountNameLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
                 <div style="width:100%;height:300px;padding:5px">
                         <Spinner v-model="itemOfferBaseOnAccountNameLoader" />
@@ -383,8 +376,6 @@ export default class ParticularReports extends Vue{
     };;
     tokenList:any=[]
 
-    bestSellerBaseOnToken:any=[]
-    bestSellerBaseOnTokenLoader:boolean=true
     bestBuyerBaseOnAccountName:any=[]
     bestBuyerLoader:boolean=true
     buySellInfoLoader:boolean=true
@@ -407,7 +398,6 @@ export default class ParticularReports extends Vue{
     mounted(){
         this.buyChartBaseOnAccountNameAccountName=this.$store.state.currentAccount.name
         this.getTokenList()        
-        this.getBestSellerBaseOnToken();
         this.getBuySellInfo();
         this.getBestBuyerBaseOnAccountName();
         this.getItemOfferBaseOnAccountName();
@@ -531,10 +521,7 @@ export default class ParticularReports extends Vue{
             });  
         }
     }
-    async getBestSellerBaseOnToken(){
-        this.bestSellerBaseOnTokenLoader = false
-        this.bestSellerBaseOnToken = await ReportServices.bestSellerBaseOnToken(this.token,'true')
-    }
+    
     async getBuySellInfo(){
         this.buySellInfo = await ReportServices.buySellInfo(this.buySellAccountName)
         if(this.buySellInfo){

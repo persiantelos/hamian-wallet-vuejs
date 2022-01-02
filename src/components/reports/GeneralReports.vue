@@ -101,8 +101,6 @@
                     </div>
                 </b-dropdown>
             </div>
-
-            
             <div  class="table-responsive">
               <table class="table mb-0">
                 <thead>
@@ -133,7 +131,92 @@
             </div>
         </div>
         <div v-if="!bestSellerLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
-            bestSeller {{bestSeller}}
+            <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" >
+          <div class="card-body">
+            
+            <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Best Seller</h4>
+            <p class="card-title-desc" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
+              Top {{ bestSeller.value.length}} Best Seller NFTs Base on Item
+            </p>
+            
+            <div  class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                    <th>#</th>
+                    <th>Account Name</th>
+                    <th>Item</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" 
+                  v-for="(seller , index) in bestSeller.value" :key="index">
+                    <th scope="row">{{index+1}}</th>
+                    <td>{{seller.owner}}</td>
+                    <td>{{seller.total}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div v-if="bestSellerBaseOnTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div style="width:100%;height:300px;padding:5px">
+                    <Spinner v-model="bestSellerBaseOnTokenLoader" />
+            </div>
+        </div>
+        <div v-if="!bestSellerBaseOnTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" >
+          <div class="card-body">
+              
+            <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Best Seller Base on Token</h4>
+            <div class="d-flex col-12">
+            <div class="col" style="position:relative">
+                <p class="card-title-desc" style="margin-top: 9px;position: absolute;" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
+                Top {{ bestSellerBaseOnToken.value.length}} Best Seller NFTs Base on Token
+                </p>
+            </div>
+            <b-dropdown class="col" variant="#2a3042"   style="min-width:120px;border:1px solid #eff2f7;border-radius:2px">
+                    <template v-slot:button-content >
+                        <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
+                            {{sectoken}}
+                        </span>
+                        <i class="mdi mdi-chevron-down" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"></i>
+                    </template>
+                    <div align="left"  v-for="(token , i) in tokenList" :key="i">
+                        <b-dropdown-item :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" 
+                        align="left" @click="onItemClickSec(token)" href="javascript: void(0);">
+                            <span
+                            :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                            {{token._id.toUpperCase()}}
+                            <!-- {{token.currency}} ({{token._id.toUpperCase()}}) -->
+                            </span>
+                        </b-dropdown-item>
+                    </div>
+                </b-dropdown>
+            </div>
+            <div  class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                    <th>#</th>
+                    <th>Account Name</th>
+                    <th>{{token}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" 
+                  v-for="(seller , index) in bestSellerBaseOnToken.value" :key="index">
+                    <th scope="row">{{index+1}}</th>
+                    <td>{{seller.owner}}</td>
+                    <td>{{seller.total}} {{sectoken}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
         </div>
         <div v-if="itemOfferLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
             <div style="width:100%;height:300px;padding:5px"  >
@@ -271,6 +354,8 @@ export default class ParticularReports extends Vue{
         
     ]
 };;
+    bestSellerBaseOnTokenLoader:boolean=true
+    bestSellerBaseOnToken:any=[]
 
     bestBuyer:any=[]
     bestSeller:any=[]
@@ -285,6 +370,7 @@ export default class ParticularReports extends Vue{
     BuyChartLoader:boolean=true;
     price:boolean=true;
     token:string='TLOS';
+    sectoken:string='TLOS';
     linewithDataChart:any = {
         chartOptions: {
             chart: {
@@ -377,6 +463,7 @@ export default class ParticularReports extends Vue{
         this.getBestSeller();
         this.getItemOffer();
         this.getBuyChart();
+        this.getBestSellerBaseOnToken();
         // this.getActiveaccountsday();
     }    
     async getTokenList(){
@@ -384,6 +471,13 @@ export default class ParticularReports extends Vue{
         this.tokenList = await AccountService.getTokensList();
         this.tokenList = this.tokenList.value
         this.filterByCurrentNetName();
+    }
+    async getBestSellerBaseOnToken(){
+        this.bestSellerBaseOnTokenLoader = true
+        this.bestSellerBaseOnToken = await ReportServices.bestSellerBaseOnToken(this.sectoken,'true')
+        if(this.bestSellerBaseOnToken){
+        this.bestSellerBaseOnTokenLoader = false
+        }
     }
     filterByCurrentNetName(){
         let temoTokenList = []
@@ -430,6 +524,10 @@ export default class ParticularReports extends Vue{
     onItemClick(token:any){
         this.token =token['currency']
         this.getBestBuyerBaseOnToken()
+    }
+    onItemClickSec(token:any){
+        this.sectoken =token['currency']
+        this.getBestSellerBaseOnToken()
     }
     async getBuyChart(){
         this.BuyChart = await ReportServices.buyChart()
