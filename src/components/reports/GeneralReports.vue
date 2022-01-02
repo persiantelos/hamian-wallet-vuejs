@@ -563,7 +563,6 @@ export default class ParticularReports extends Vue{
             }
         }
     }
-
     // async getActiveaccountsday(){
     //     this.activeaccountsday = await ReportServices.activeaccountsday()
     // }
