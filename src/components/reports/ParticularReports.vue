@@ -238,7 +238,6 @@
                 </div>
                 </div>
             </div>
-            
             <div v-if="itemOfferBaseOnAccountNameLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
                 <div style="width:100%;height:300px;padding:5px">
                         <Spinner v-model="itemOfferBaseOnAccountNameLoader" />
