@@ -43,12 +43,12 @@
                 </div>
             </div>
 
-            <div v-if="bestBuyerLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div v-if="bestBuyerLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
                 <div style="width:100%;height:300px;padding:5px">
                     <Spinner v-model="bestBuyerLoader" />
                 </div>
             </div>
-            <div v-if="!bestBuyerLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div v-if="!bestBuyerLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
                 <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" >
                 <div class="card-body">
                     <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Best Buyer</h4>
@@ -94,83 +94,83 @@
                 </div>
             </div>
 
-            <div v-if="bestBuyerBaseOnAccountNameAndTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div v-if="bestBuyerBaseOnAccountNameAndTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
                 <div style="width:100%;height:300px;padding:5px">
                         <Spinner v-model="bestBuyerBaseOnAccountNameAndTokenLoader" />
                 </div>
             </div>
-            <div v-if="!bestBuyerBaseOnAccountNameAndTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
-            <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" >
-                <div class="card-body">
-                    <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Best Buyer</h4>
-                    <div class="col-12 d-flex">
-                        <p class="card-title-desc" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
-                        Top {{ bestBuyerBaseOnAccountNameAndToken.value.length}} Best Buyer NFTs Base on Account name and Token
-                        </p>
-                    </div>
-                    <div class="col-12 d-flex">
-                        <div class="col-5" style="border:1px solid #eff2f7;border-radius:3px">
-                            <b-form-input 
-                            id="input-2"
-                            v-model="accountName"
-                            type="text"
-                            :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
-                            ></b-form-input>
+            <div v-if="!bestBuyerBaseOnAccountNameAndTokenLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
+                <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" >
+                    <div class="card-body">
+                        <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Best Buyer</h4>
+                        <div class="col-12 d-flex">
+                            <p class="card-title-desc" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
+                            Top {{ bestBuyerBaseOnAccountNameAndToken.value.length}} Best Buyer NFTs Base on Account name and Token
+                            </p>
                         </div>
-                        <div class="col-5 text-center" >
-                            <b-dropdown class="col" variant="#2a3042"   style="min-width:120px;border:1px solid #eff2f7;border-radius:2px">
-                                <template v-slot:button-content >
-                                    <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
-                                        {{token}}
-                                    </span>
-                                    <i class="mdi mdi-chevron-down" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"></i>
-                                </template>
-                                <div align="left"  v-for="(token , i) in tokenList" :key="i">
-                                    <b-dropdown-item :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" 
-                                    align="left" @click="onItemClick(token)" href="javascript: void(0);">
-                                        <span
-                                        :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
-                                        {{token._id.toUpperCase()}}
-                                        <!-- {{token.currency}} ({{token._id.toUpperCase()}}) -->
+                        <div class="col-12 d-flex">
+                            <div class="col-5" style="border:1px solid #eff2f7;border-radius:3px">
+                                <b-form-input 
+                                id="input-2"
+                                v-model="accountName"
+                                type="text"
+                                :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
+                                ></b-form-input>
+                            </div>
+                            <div class="col-5 text-center" >
+                                <b-dropdown class="col" variant="#2a3042"   style="min-width:120px;border:1px solid #eff2f7;border-radius:2px">
+                                    <template v-slot:button-content >
+                                        <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''">
+                                            {{token}}
                                         </span>
-                                    </b-dropdown-item>
-                                </div>
-                            </b-dropdown>
+                                        <i class="mdi mdi-chevron-down" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''"></i>
+                                    </template>
+                                    <div align="left"  v-for="(token , i) in tokenList" :key="i">
+                                        <b-dropdown-item :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" 
+                                        align="left" @click="onItemClick(token)" href="javascript: void(0);">
+                                            <span
+                                            :class="$store.state.layout.themeDarkMode ?'text-dark-mode':''">
+                                            {{token._id.toUpperCase()}}
+                                            <!-- {{token.currency}} ({{token._id.toUpperCase()}}) -->
+                                            </span>
+                                        </b-dropdown-item>
+                                    </div>
+                                </b-dropdown>
+                            </div>
+                            <div class="col-2 text-center" >
+                                <b-button  @click="getBestBuyerBaseOnAccountNameAndToken()"  variant="outline-light" style="border:0px solid #eff2f7;border-radius:3px"><i :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="bx bx-search-alt font-size-15"></i></b-button>
+                            </div>
                         </div>
-                        <div class="col-2 text-center" >
-                            <b-button  @click="getBestBuyerBaseOnAccountNameAndToken()"  variant="outline-light" style="border:0px solid #eff2f7;border-radius:3px"><i :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="bx bx-search-alt font-size-15"></i></b-button>
+                        
+                        <div  class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                            <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                                <th>#</th>
+                                <th>Account Name</th>
+                                <th>Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" 
+                            v-for="(buyer , index) in bestBuyerBaseOnAccountNameAndToken.value" :key="index">
+                                <th scope="row">{{index+1}}</th>
+                                <td>{{buyer.buyer}}</td>
+                                <td>{{(buyer.total).toFixed(4)}} {{token}} </td>
+                            </tr>
+                            </tbody>
+                        </table>
                         </div>
                     </div>
-                    
-                    <div  class="table-responsive">
-                    <table class="table mb-0">
-                        <thead>
-                        <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
-                            <th>#</th>
-                            <th>Account Name</th>
-                            <th>Amount</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" 
-                        v-for="(buyer , index) in bestBuyerBaseOnAccountNameAndToken.value" :key="index">
-                            <th scope="row">{{index+1}}</th>
-                            <td>{{buyer.buyer}}</td>
-                            <td>{{(buyer.total).toFixed(4)}} {{token}} </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    </div>
-                </div>
                 </div>
             </div>
 
-            <div v-if="buySellInfoLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div v-if="buySellInfoLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
                 <div  style="width:100%;height:300px;padding:5px">
                     <Spinner v-model="buySellInfoLoader" />
                 </div>
             </div>
-            <div v-if="!buySellInfoLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div v-if="!buySellInfoLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
                 <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" >
                 <div class="card-body">
                     <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >
@@ -208,7 +208,7 @@
                         </thead>
                         <tbody>
                         <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
-                            <td>{{accountName}}</td>
+                            <td>{{buySellAccountName}}</td>
                             <td>
                                 {{buySellInfo.buy.count}}
                             </td>
@@ -238,13 +238,55 @@
                 </div>
                 </div>
             </div>
-            <div v-if="itemOfferBaseOnAccountNameLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
+            <div v-if="itemOfferBaseOnAccountNameLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
                 <div style="width:100%;height:300px;padding:5px">
                         <Spinner v-model="itemOfferBaseOnAccountNameLoader" />
                 </div>
             </div>
-            <div v-if="!itemOfferBaseOnAccountNameLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 p-1">
-            itemOfferBaseOnAccountName {{itemOfferBaseOnAccountName}}
+            <div v-if="!itemOfferBaseOnAccountNameLoader" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
+                <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" >
+                    <div class="card-body">
+                        <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >The Most Requested Items Base on Account Name</h4>
+                        <div class="col-12 d-flex">
+                            <p class="card-title-desc" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
+                            Top {{ itemOfferBaseOnAccountName.value.length}} most requested items
+                            </p>
+                        </div>
+                        <div class="col-12 d-flex">
+                            <div class="col-5" style="border:1px solid #eff2f7;border-radius:3px">
+                                <b-form-input 
+                                id="input-2"
+                                v-model="accountName"
+                                type="text"
+                                :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
+                                ></b-form-input>
+                            </div>
+                            <div class="col-2 text-center" >
+                                <b-button  @click="getItemOfferBaseOnAccountName()"  variant="outline-light" style="border:0px solid #eff2f7;border-radius:3px"><i :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" class="bx bx-search-alt font-size-15"></i></b-button>
+                            </div>
+                        </div>
+                        
+                        <div  class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                            <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
+                                <th>#</th>
+                                <th>serial</th>
+                                <th>count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" 
+                            v-for="(item , index) in itemOfferBaseOnAccountName.value" :key="index">
+                                <th scope="row">{{index+1}}</th>
+                                <td>{{item.serial}}</td>
+                                <td>{{item.total}} times </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -389,7 +431,7 @@ export default class ParticularReports extends Vue{
     price:boolean=true
     accountName:string='babyevils.gm'
     buySellAccountName:string='babyevils.gm'
-    itemOfferAccountNameLoader:string='babyevils.gm'
+    itemOfferAccountNameLoader:string='wowsuchtoken'
     bestBuyerBaseOnAccountNameAndTokenAccountName:string='babyevils.gm'
     buyChartBaseOnAccountNameAccountName:string=''
         
@@ -540,12 +582,11 @@ export default class ParticularReports extends Vue{
         }
     }
     async getItemOfferBaseOnAccountName(){
-        this.itemOfferBaseOnAccountNameLoader = false;
-
+        this.itemOfferBaseOnAccountNameLoader = true;
         this.itemOfferBaseOnAccountName = await ReportServices.itemOfferBaseOnAccountName(this.itemOfferAccountNameLoader)
-        // if(this.itemOfferBaseOnAccountName){
-        //     this.itemOfferBaseOnAccountNameLoader = false;
-        // }
+        if(this.itemOfferBaseOnAccountName){
+            this.itemOfferBaseOnAccountNameLoader = false;
+        }
         console.log('itemOffer?account=vahidhosaini',this.itemOfferBaseOnAccountName)
     }
     BestBuyerAccountNameSearch(){

@@ -228,7 +228,7 @@
                 <div class="card-body">
                     <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >The Most Requested Items</h4>
                         <p class="card-title-desc"  :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
-                        Top {{itemOffer.length}} most requested items
+                        Top {{itemOffer.value.length}} most requested items
                         </p>
                     <div  class="table-responsive">
                     <table class="table mb-0">
@@ -241,10 +241,10 @@
                         </thead>
                         <tbody>
                         <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" 
-                        v-for="(item , index) in itemOffer" :key="index">
-                            <th v-show="index<5" scope="row">{{index+1}}</th>
-                            <td v-show="index<5">{{item.serial}}</td>
-                            <td v-show="index<5">{{item.count}} times</td>
+                        v-for="(item , index) in itemOffer.value" :key="index">
+                            <th scope="row">{{index+1}}</th>
+                            <td>{{item.serial}}</td>
+                            <td>{{item.total}} times</td>
                         </tr>
                         </tbody>
                     </table>
