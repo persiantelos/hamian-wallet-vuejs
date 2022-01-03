@@ -67,16 +67,16 @@
                         <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Purchased items</span>
                       </a>
                     </li>
-                    <li :class="selected == 'Item_sold' ? $store.state.layout.themeDarkMode?'menu-selected-dark':'menu-selected-light':''" @click="selectedItem('Item_sold')">
+                    <li :class="selected == 'sold_item' ? $store.state.layout.themeDarkMode?'menu-selected-dark':'menu-selected-light':''" @click="selectedItem('sold_item')">
                       <a
                         href="javascript: void(0);"
                         class="text-body d-flex align-items-center"
                       >
                         <i 
                             class="fas fa-coins"
-                            :class="selected != 'Item_sold' ? 'text-body ont-size-16  me-2':'text-primary font-size-16 me-3'"
+                            :class="selected != 'sold_item' ? 'text-body ont-size-16  me-2':'text-primary font-size-16 me-3'"
                         ></i>
-                        <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Item sold</span>
+                        <span class="me-auto" :style="$store.state.layout.themeDarkMode ? 'color:#a6b0cf' :''">Sold Item</span>
                       </a>
                     </li>
                   </ul>
