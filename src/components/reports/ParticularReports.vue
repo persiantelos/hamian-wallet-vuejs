@@ -431,13 +431,17 @@ export default class ParticularReports extends Vue{
     token:string='TLOS'
     tokens:any=[]
     price:boolean=true
-    accountName:string='babyevils.gm'
-    buySellAccountName:string='babyevils.gm'
-    itemOfferAccountNameLoader:string='wowsuchtoken'
-    bestBuyerBaseOnAccountNameAndTokenAccountName:string='babyevils.gm'
+    accountName:string=''
+    buySellAccountName:string=''
+    itemOfferAccountNameLoader:string=''
+    bestBuyerBaseOnAccountNameAndTokenAccountName:string=''
     buyChartBaseOnAccountNameAccountName:string=''
         
     mounted(){
+        this.accountName=this.$store.state.currentAccount.name
+        this.buySellAccountName=this.$store.state.currentAccount.name
+        this.itemOfferAccountNameLoader=this.$store.state.currentAccount.name
+        this.bestBuyerBaseOnAccountNameAndTokenAccountName=this.$store.state.currentAccount.name
         this.buyChartBaseOnAccountNameAccountName=this.$store.state.currentAccount.name
         this.getTokenList()        
         this.getBuySellInfo();

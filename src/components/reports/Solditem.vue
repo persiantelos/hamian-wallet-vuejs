@@ -8,11 +8,11 @@
                 <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >List is empty</h4>
             </div> 
             <div v-if="!loader && items.value.length!=0" class="col-12">
-                <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" >
+                <div v-if="items" class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''" >
                     <div class="card-body">
-                        <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Purchased Items</h4>
+                        <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Sold Items</h4>
                         <p class="card-title-desc" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
-                        Top {{ items.value.length}} purchased items
+                        Top {{ items.value.length}} Sold items
                         </p>
                         
                         <div  class="table-responsive">
@@ -27,7 +27,7 @@
                                 </thead>
                                 <tbody>
                                     <tr class="text-center" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" 
-                                    v-for="(item , index) in items" :key="index">
+                                    v-for="(item , index) in items.value" :key="index">
                                         <th scope="row">{{index+1}}</th>
                                         <td>{{item.serial}}</td>
                                         <td>{{item.owner}}</td>
@@ -50,6 +50,7 @@
                     </div>
 
                 </div>
+                
             </div>
         </div>
     </div>
@@ -61,7 +62,7 @@ import ReportServices from "@/services/reportServices"
 
 
 @Component({components:{Spinner}})
-export default class Purchaseditems extends Vue{
+export default class Solditem extends Vue{
     loader:boolean=true;
     skip:number=1;
     count:number=1;
@@ -72,7 +73,7 @@ export default class Purchaseditems extends Vue{
     }
     async getItems(skip:number=0){
         this.loader = true;
-        let items = await ReportServices.getPurchasedItems(this.$store.state.currentAccount.name,this.top,skip)
+        let items = await ReportServices.getSoldItems(this.$store.state.currentAccount.name,this.top,skip)
         if(items.value){
             this.items=items;
             this.count = items.count
