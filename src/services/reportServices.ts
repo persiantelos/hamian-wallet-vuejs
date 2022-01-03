@@ -51,8 +51,11 @@ export default class ReportServices
     }
     //  https://data.chainspector.io/telos/activeaccountsday
     // static async activeaccountsday(){
-    //     return BaseServices.get('https://data.chainspector.io/telos/activeaccountsday',)
-    // }
+        //     return BaseServices.get('https://data.chainspector.io/telos/activeaccountsday',)
+        // }
+    static async getPurchasedItems(accountName:string,top:number=10,skip:number=0){
+        return BaseServices.get(Config.areaXBaseURL+`/report/purchasedItems?account=${accountName}&top=${top}&skip=${skip}`,)
+    }
     
     
     

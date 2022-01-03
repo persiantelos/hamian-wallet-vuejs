@@ -59,6 +59,18 @@ export default class ReportsContent extends Vue{
             this.$store.state.currentPageItems[1].text = 'NFTs';
             this.counter++
         }
+        if(newValue == 'Purchased_items'){
+            this.$store.state.currentPageTitle = 'Purchased items'
+            this.$store.state.currentPageItems[0].text = 'Reports';
+            this.$store.state.currentPageItems[1].text = 'NFTs';
+            this.counter++
+        }
+        if(newValue == 'sold_item'){
+            this.$store.state.currentPageTitle = 'sold items'
+            this.$store.state.currentPageItems[0].text = 'Reports';
+            this.$store.state.currentPageItems[1].text = 'NFTs';
+            this.counter++
+        }
         
     }
     
