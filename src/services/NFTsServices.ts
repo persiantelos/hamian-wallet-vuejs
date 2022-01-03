@@ -238,20 +238,20 @@ export default class NFTsServices
         return {items:t.data.value,more:t.data.value.length==top,nextKey:skip+top};
 
     }
-    // static async getNewMarketItemsByQueryFilter(filter:any , skip:number=0 , top:number=24){
-    //     var f = {
-    //       $filter:filter,
-    //       $skip:skip,
-    //       $top:top,
-    //       $orderby:'_id desc',
-    //       version:'1'
-    //     };
+    static async getNewMarketItemsByQueryFilter(filter:any , skip:number=0 , top:number=24){
+        var f = {
+          $filter:filter,
+          $skip:skip,
+          $top:top,
+          $orderby:'_id desc',
+          version:'1'
+        };
     
-    //     var t = await BaseServices.postData(Config.areaXBaseURL2+"/hyberion/getMarket",f);
-    //     console.log('t line 248',t)
+        var t = await BaseServices.postData(Config.areaXBaseURL2+"/hyberion/getMarket",f);
+        console.log('t line 248',t)
 
-    //     return t.data.value
-    // }
+        return t.data.value
+    }
     static async getIncomingOffers(accountName:string,skip:number=0,top:number=6){
         let data = {$filter:'owner eq \''+accountName+'\''};
         let url = Config.areaXBaseURL2+"/hyberion/getOffersItems"
