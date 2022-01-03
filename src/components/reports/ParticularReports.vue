@@ -112,7 +112,7 @@
                             <div class="col-5" style="border:1px solid #eff2f7;border-radius:3px">
                                 <b-form-input 
                                 id="input-2"
-                                v-model="accountName"
+                                v-model="bestBuyerBaseOnAccountNameAndTokenAccountName"
                                 type="text"
                                 :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                                 ></b-form-input>
@@ -248,15 +248,17 @@
                     <div class="card-body">
                         <h4 class="card-title" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >The Most Requested Items Base on Account Name</h4>
                         <div class="col-12 d-flex">
-                            <p class="card-title-desc" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
-                            Top {{ itemOfferBaseOnAccountName.value.length}} most requested items
-                            </p>
-                        </div>
-                        <div class="col-12 d-flex">
-                            <div class="col-5" style="border:1px solid #eff2f7;border-radius:3px">
+                            <div class="col-6" style="position:relative">
+                                <p class="card-title-desc" style="margin-top: 9px;position: absolute; margin-right:1px" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-lighter':''" >
+                                Top {{ itemOfferBaseOnAccountName.value.length}} most requested items
+                                </p>
+                            </div>
+                        <!-- </div> -->
+                        <!-- <div class="col-12 d-flex"> -->
+                            <div class="col-4" style="min-width:120px;border:1px solid #eff2f7;border-radius:3px">
                                 <b-form-input 
                                 id="input-2"
-                                v-model="accountName"
+                                v-model="itemOfferAccountNameLoader"
                                 type="text"
                                 :class="$store.state.layout.themeDarkMode ? 'input-forms':''"
                                 ></b-form-input>
@@ -533,6 +535,7 @@ export default class ParticularReports extends Vue{
  
     onItemClick(token:any){
         this.token =token['currency']
+        this.getBestBuyerBaseOnAccountNameAndToken()
         // this.getBestBuyerBaseOnToken()
     }  
     async getTokenList(){
@@ -575,10 +578,19 @@ export default class ParticularReports extends Vue{
         }
     }
     async getBestBuyerBaseOnAccountNameAndToken(){
-        this.bestBuyerBaseOnAccountNameAndTokenLoader=true
-        this.bestBuyerBaseOnAccountNameAndToken = await ReportServices.bestBuyerBaseOnAccountNameAndToken(this.bestBuyerBaseOnAccountNameAndTokenAccountName,this.token,this.price)
-        if(this.bestBuyerBaseOnAccountNameAndToken){
-            this.bestBuyerBaseOnAccountNameAndTokenLoader=false
+        if(this.bestBuyerBaseOnAccountNameAndTokenAccountName.length==12){
+            this.bestBuyerBaseOnAccountNameAndTokenLoader=true
+            this.bestBuyerBaseOnAccountNameAndToken = await ReportServices.bestBuyerBaseOnAccountNameAndToken(this.bestBuyerBaseOnAccountNameAndTokenAccountName,this.token,this.price)
+            if(this.bestBuyerBaseOnAccountNameAndToken){
+                this.bestBuyerBaseOnAccountNameAndTokenLoader=false
+            }
+        }
+        else{
+            this.$notify({
+                group: 'foo',
+                type: 'warn',
+                text: 'Account name must be 12 characters long'
+            });
         }
     }
     async getItemOfferBaseOnAccountName(){
