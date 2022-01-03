@@ -9,8 +9,8 @@
                 Following List is Empty
                 </h4>
             </div>
-            <div v-if="!emptyList" class="d-flex">
-                <div v-for="(user , index) in getFolloingDetails" :key="index" class="col-lg-4 col-md-6 col-sm-12 m-1">
+            <div v-if="!emptyList" class="row d-flex">
+                <div v-for="(user , index) in getFolloingDetails" :key="index" class="col m-1" style="min-width:250px;max-width:250px">
                     <div  class="card overflow-hidden" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
                         <div class="bg-soft bg-primary">
                             <div class="row">
@@ -47,6 +47,20 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <b-pagination
+                variant="dark"
+                v-if="getFolloingDetails.length > 0"
+                class="justify-content-center"
+                pills
+                v-model="currentPage"
+                :total-rows="getFolloingDetails.length"
+                :per-page="6"
+                aria-controls="my-table"
+                ></b-pagination> 
+            </div>
+        </div>
     </div>
 </template>
 <script lang="ts">
@@ -61,6 +75,7 @@ import ProfileModel from "@/models/profile/profileModel"
 export default class Following extends Vue{
     spinner:boolean=true;
     emptyList:boolean=false;
+    currentPage:number=1;
     getFolloingDetails:any=[];
     userInformation:ProfileModel = new ProfileModel();
     Following:any=[];

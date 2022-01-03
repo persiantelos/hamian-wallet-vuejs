@@ -112,18 +112,18 @@
                 </div>
             </div>
             <div class="row">
-                <!-- <div class="col-lg-12">
+                 <div class="col-lg-12">
                     <b-pagination
                     variant="dark"
-                    v-if="clothsData.length > 0"
+                    v-if="submitedOffers.items.length > 0"
                     class="justify-content-center"
                     pills
                     v-model="currentPage"
-                    :total-rows="clothsData.length"
+                    :total-rows="submitedOffers.items.length"
                     :per-page="6"
                     aria-controls="my-table"
-                    ></b-pagination> -->
-                <!-- </div> -->
+                    ></b-pagination> 
+                 </div> 
             </div> 
         </div>
 
@@ -140,6 +140,7 @@ import AccountService from '@/services/accountService';
 export default class SubmitedOffers extends Vue{
     submitedOffers:any=[];
     spinner:boolean=true;
+    currentPage:number=1;
     emptyList:boolean=false;
     mounted(){
         this.getSubmitedOffers()

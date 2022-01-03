@@ -367,11 +367,11 @@ export default {
           <div class="col-lg-12">
             <b-pagination
               variant="dark"
-              v-if="clothsData.length > 0"
+              v-if="sets.result.length > 0"
               class="justify-content-center"
               pills
               v-model="currentPage"
-              :total-rows="clothsData.length"
+              :total-rows="sets.result.length"
               :per-page="6"
               aria-controls="my-table"
             ></b-pagination>

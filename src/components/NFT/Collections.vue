@@ -11,6 +11,7 @@ import Spinner from '@/components/spinner/Spinner.vue';
 export default class Collections extends Vue{
         spinner:boolean= true;
         ListIsEmpty:boolean= false;
+        currentPage:number= 1;
         collections:any=[];
     mounted(){
       this.getCollettions()
@@ -79,6 +80,20 @@ export default class Collections extends Vue{
           </div>
         </div>
       </div>
+      <div class="row">
+          <div class="col-lg-12">
+            <b-pagination
+              variant="dark"
+              v-if="collections.length > 0"
+              class="justify-content-center"
+              pills
+              v-model="currentPage"
+              :total-rows="collections.length"
+              :per-page="6"
+              aria-controls="my-table"
+            ></b-pagination>
+          </div>
+        </div>
     </div>
   </div>
 </template>

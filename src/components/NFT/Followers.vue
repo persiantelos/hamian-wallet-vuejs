@@ -10,7 +10,7 @@
                 </h4>
             </div>
             <div v-if="!emptyList" class="d-flex">
-                <div v-for="(user , index) in getFollowersDetails" :key="index" class="col-lg-4 col-md-6 col-sm-12 m-1">
+                <div v-for="(user , index) in getFollowersDetails" :key="index" class="col m-1" style="min-width:250px;max-width:250px">
                     <div  class="card overflow-hidden" :class="$store.state.layout.themeDarkMode ? 'dark-mode':''">
                         <div class="bg-soft bg-primary">
                             <div class="row">
@@ -46,6 +46,20 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <b-pagination
+                    variant="dark"
+                    v-if="getFollowersDetails.length > 0"
+                    class="justify-content-center"
+                    pills
+                    v-model="currentPage"
+                    :total-rows="getFollowersDetails.length"
+                    :per-page="6"
+                    aria-controls="my-table"
+                    ></b-pagination> 
+                </div>
+            </div> 
         </div>
     </div>
 </template>
@@ -61,6 +75,7 @@ import ProfileModel from "@/models/profile/profileModel"
 export default class Followers extends Vue{
     spinner:boolean=true;
     emptyList:boolean=false;
+    currentPage:number=1;
     getFollowersDetails:any=[];
     userInformation:ProfileModel = new ProfileModel();
     Followers:any=[];
