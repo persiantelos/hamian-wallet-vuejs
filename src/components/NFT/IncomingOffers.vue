@@ -127,6 +127,7 @@ export default class IncommingOffers extends Vue{
     incommingOffers:any=[];
     spinner:boolean=true;
     currentPage:number=1;
+    count:number=1;
     emptyList:boolean=false;
     mounted(){
         this.getIncommingOffers()

@@ -133,6 +133,7 @@ export default class Bookmarks extends Vue{
     bookmarks:any=[];
     spinner:boolean=true;
     currentPage:number=1;
+    count:number=1;
     emptyList:boolean=false;
     mounted(){
         this.getBookmarks()

@@ -76,6 +76,7 @@ export default class Following extends Vue{
     spinner:boolean=true;
     emptyList:boolean=false;
     currentPage:number=1;
+    count:number=1;
     getFolloingDetails:any=[];
     userInformation:ProfileModel = new ProfileModel();
     Following:any=[];

@@ -3,9 +3,9 @@ import Config from "@/common/config";
 
 export default class NFTsServices
 {
-    static async getItemByOwner(accountName:string,skip:number=0,top:number=10){
+    static async getItemByOwner(accountName:string,skip:number=0,top:number=6){
         let url:string =Config.areaXBaseURL2+'/hyberion/getItems';
-        let items =  await BaseServices.postData(url,{$skip:skip , $top:top , $filter:"owner eq '"+accountName+"'" , $orderby:'_id desc' })
+        let items =  await BaseServices.postData(url,{$skip:skip ,$count:true, $top:top , $filter:"owner eq '"+accountName+"'" , $orderby:'_id desc' })
         var list=[]
         var Dstore:boolean= false;
         for(var a of items.data.value)
@@ -103,12 +103,13 @@ export default class NFTsServices
     } 
     return {items:list,more:list.length==top,nextKey:skip+top};
     }
-    static async getSetsByCreator(accountName:string,skip:number=0,top:number=10){
+    static async getSetsByCreator(accountName:string,skip:number=0,top:number=6){
         let url:string =Config.areaXBaseURL2+'/hyberion/getSets';
         var data:any = {
             $filter:"creator eq '"+accountName+"'",
             $skip:skip,
             $top:top,
+            $count:true,
             $orderby:'_id desc'
           };
         let sets = await BaseServices.postData(url,data)
@@ -139,11 +140,12 @@ export default class NFTsServices
       return {result:res,nextKey:skip+top,more:sets.data.value.length==top};
 
     }
-    static async getCollectionsByOwner(accountName:string,skip:number=0,top:number=10){
+    static async getCollectionsByOwner(accountName:string,skip:number=0,top:number=6){
         var data:any= {
             $filter: 'owner eq \''+accountName+'\'',
             $skip:skip,
             $top:top, 
+            $count:true,
             $orderby:'_id desc',
         }
         var url:string =Config.areaXBaseURL+'/web/getCollections';
@@ -164,8 +166,8 @@ export default class NFTsServices
         // console.log('collections',collections)
 
     }
-    static async getFollowing(accountNmae:string,skip:number=0,top:number=10){
-        var data = {$skip:skip,$top:top,$filter:'scope eq \''+accountNmae+'\''}
+    static async getFollowing(accountNmae:string,skip:number=0,top:number=6){
+        var data = {$skip:skip,$top:top,$count:true,$filter:'scope eq \''+accountNmae+'\''}
         let url = Config.areaXBaseURL2+"/hyberion/getFollowing"
         let following = await BaseServices.postData(url,data)
         if(following){
@@ -173,8 +175,8 @@ export default class NFTsServices
         }
         else{return {message:false}}
     }
-    static async getFollowers(accountNmae:string,skip:number=0,top:number=10){
-        var data = {$skip:skip,$top:top,$filter:'scope eq \''+accountNmae+'\''}
+    static async getFollowers(accountNmae:string,skip:number=0,top:number=6){
+        var data = {$skip:skip,$count:true,$top:top,$filter:'scope eq \''+accountNmae+'\''}
         let url = Config.areaXBaseURL2+"/hyberion/getFollowers"
         let following = await BaseServices.postData(url,data)
         if(following){
@@ -182,7 +184,7 @@ export default class NFTsServices
         }
         else{return {message:false}}
     }
-    static async getSubmitedOffers(accountName:string,serial:any,skip:number=0,top:number=10){
+    static async getSubmitedOffers(accountName:string,serial:any,skip:number=0,top:number=6){
         var filter='';
         if(serial)filter='serial eq \''+serial+'\'';
         if(accountName)
@@ -192,6 +194,8 @@ export default class NFTsServices
         }
         var query={
             $top:top,
+            $skip:skip,
+            $count:true,
         }
         if(filter)
         {
@@ -234,21 +238,21 @@ export default class NFTsServices
         return {items:t.data.value,more:t.data.value.length==top,nextKey:skip+top};
 
     }
-    static async getNewMarketItemsByQueryFilter(filter:any , skip:number=0 , top:number=24){
-        var f = {
-          $filter:filter,
-          $skip:skip,
-          $top:top,
-          $orderby:'_id desc',
-          version:'1'
-        };
+    // static async getNewMarketItemsByQueryFilter(filter:any , skip:number=0 , top:number=24){
+    //     var f = {
+    //       $filter:filter,
+    //       $skip:skip,
+    //       $top:top,
+    //       $orderby:'_id desc',
+    //       version:'1'
+    //     };
     
-        var t = await BaseServices.postData(Config.areaXBaseURL2+"/hyberion/getMarket",f);
-        console.log('t line 248',t)
+    //     var t = await BaseServices.postData(Config.areaXBaseURL2+"/hyberion/getMarket",f);
+    //     console.log('t line 248',t)
 
-        return t.data.value
-    }
-    static async getIncomingOffers(accountName:string,skip:number=0,top:number=10){
+    //     return t.data.value
+    // }
+    static async getIncomingOffers(accountName:string,skip:number=0,top:number=6){
         let data = {$filter:'owner eq \''+accountName+'\''};
         let url = Config.areaXBaseURL2+"/hyberion/getOffersItems"
         let incomingOffers = await BaseServices.postData(url,data)
@@ -265,6 +269,7 @@ export default class NFTsServices
             var json = {
                 $filter:strOr,
                 $skip:skip,
+                $count:true,
                 $top:top,
             };
             let url = Config.areaXBaseURL2+"/hyberion/getAllItems"
@@ -281,7 +286,7 @@ export default class NFTsServices
         // }
         return {items:incomingOffers.data.value,more:incomingOffers.data.value.length==top,nextKey:skip+top};
     }
-    static async getBookmarks(host:string,accountName:string,skip:number=0,top:number=10){
+    static async getBookmarks(host:string,accountName:string,skip:number=0,top:number=6){
         var json = {
             "code":'nftsoc.code',
             "scope":accountName,
@@ -314,6 +319,7 @@ export default class NFTsServices
                 $filter:strOr,
                 $skip:skip,
                 $top:top,
+                $count:true,
                 $orderby:'_id desc',
             }
             let url2:any = Config.areaXBaseURL2+"/hyberion/getItems";

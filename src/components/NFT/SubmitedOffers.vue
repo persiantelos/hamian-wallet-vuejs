@@ -141,6 +141,7 @@ export default class SubmitedOffers extends Vue{
     submitedOffers:any=[];
     spinner:boolean=true;
     currentPage:number=1;
+    count:number=1;
     emptyList:boolean=false;
     mounted(){
         this.getSubmitedOffers()

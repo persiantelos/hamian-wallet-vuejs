@@ -12,6 +12,7 @@ export default class Collections extends Vue{
         spinner:boolean= true;
         ListIsEmpty:boolean= false;
         currentPage:number= 1;
+        count:number=1;
         collections:any=[];
     mounted(){
       this.getCollettions()

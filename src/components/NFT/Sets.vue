@@ -17,6 +17,7 @@ export default {
       clothsData: clothsData,
       sliderPrice: 800,
       currentPage: 1,
+      count:1,
       discountRates: [],
       itemsList:[],
       showSpinner :true,

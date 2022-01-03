@@ -64,7 +64,7 @@
     </div>
 </template>
 <script lang="ts">
-import {Vue , Component} from 'vue-property-decorator'
+import {Vue , Component,Watch} from 'vue-property-decorator'
 import Spinner from "@/components/spinner/Spinner.vue"
 import NFTsServices from "@/services/NFTsServices"
 import AccountService from '@/services/accountService';
@@ -76,14 +76,19 @@ export default class Followers extends Vue{
     spinner:boolean=true;
     emptyList:boolean=false;
     currentPage:number=1;
+    count:number=1;
     getFollowersDetails:any=[];
     userInformation:ProfileModel = new ProfileModel();
     Followers:any=[];
     mounted(){
         this.getFollowers()
     }
-    async getFollowers(){
-        this.Followers = await NFTsServices.getFollowers(this.$store.state.currentAccount.name)
+    @Watch('currentPage')
+    skiped(newVal:any){
+        this.getFollowers(newVal-1)
+    }
+    async getFollowers(skip:number=0){
+        this.Followers = await NFTsServices.getFollowers(this.$store.state.currentAccount.name,skip)
         console.log('this.Followers',this.Followers)
         if(this.Followers.items.length > 0){
             this.getDetails();
