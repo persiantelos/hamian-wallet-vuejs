@@ -1,6 +1,5 @@
 <script>
 import appConfig from "@/app.config";
-import { clothsData } from "./data-products";
 import NFTsServices from '@/services/NFTsServices'
 import Spinner from "@/components/spinner/Spinner.vue"
 
@@ -15,7 +14,6 @@ export default {
   components: {Spinner},
   data() {
     return {
-      clothsData: clothsData,
       sliderPrice: 800,
       currentPage: 1,
       count:1,
@@ -31,32 +29,32 @@ export default {
     this.getitems()
   },
   methods: {
-    valuechange(value) {
-      this.clothsData = clothsData.filter(function (product) {
-        return product.newprice <= value.currentValue;
-      });
-    },
+    // valuechange(value) {
+    //   this.clothsData = clothsData.filter(function (product) {
+    //     return product.newprice <= value.currentValue;
+    //   });
+    // },
 
-    searchFilter(e) {
-      const searchStr = e.target.value;
-      this.clothsData = clothsData.filter((product) => {
-        return (
-          product.name.toLowerCase().search(searchStr.toLowerCase()) !== -1
-        );
-      });
-    },
+    // searchFilter(e) {
+    //   const searchStr = e.target.value;
+    //   this.clothsData = clothsData.filter((product) => {
+    //     return (
+    //       product.name.toLowerCase().search(searchStr.toLowerCase()) !== -1
+    //     );
+    //   });
+    // },
 
-    discountLessFilter(e, percentage) {
-      if (e === "accepted" && this.discountRates.length === 0) {
-        this.clothsData = clothsData.filter((product) => {
-          return product.discount < percentage;
-        });
-      } else {
-        this.clothsData = clothsData.filter((product) => {
-          return product.discount >= Math.max.apply(null, this);
-        }, this.discountRates);
-      }
-    },
+    // discountLessFilter(e, percentage) {
+    //   if (e === "accepted" && this.discountRates.length === 0) {
+    //     this.clothsData = clothsData.filter((product) => {
+    //       return product.discount < percentage;
+    //     });
+    //   } else {
+    //     this.clothsData = clothsData.filter((product) => {
+    //       return product.discount >= Math.max.apply(null, this);
+    //     }, this.discountRates);
+    //   }
+    // },
 
     discountMoreFilter(e, percentage) {
       if (e === "accepted") {

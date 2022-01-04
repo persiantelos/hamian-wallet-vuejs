@@ -1,6 +1,5 @@
 <script>
 import appConfig from "@/app.config";
-import { clothsData } from "./data-products";
 import NFTsServices from '@/services/NFTsServices'
 import Spinner from "@/components/spinner/Spinner.vue"
 /**
@@ -14,7 +13,6 @@ export default {
   components: {Spinner},
   data() {
     return {
-      clothsData: clothsData,
       sliderPrice: 800,
       currentPage: 1,
       count:1,
