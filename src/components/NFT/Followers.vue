@@ -1,5 +1,6 @@
 <template>
     <div>
+        <p class="d-none">{{counter}}</p>
         <div v-if="spinner">
             <Spinner v-model="spinner" />
         </div>
@@ -77,6 +78,7 @@ export default class Followers extends Vue{
     emptyList:boolean=false;
     currentPage:number=1;
     count:number=1;
+    counter:number=1;
     getFollowersDetails:any=[];
     userInformation:ProfileModel = new ProfileModel();
     Followers:any=[];
@@ -85,21 +87,25 @@ export default class Followers extends Vue{
     }
     @Watch('currentPage')
     skiped(newVal:any){
-        this.getFollowers(newVal-1)
+        this.getFollowers((newVal-1)*6)
     }
     async getFollowers(skip:number=0){
+        this.spinner=true;
         this.Followers = await NFTsServices.getFollowers(this.$store.state.currentAccount.name,skip)
-        console.log('this.Followers',this.Followers)
         if(this.Followers.items.length > 0){
+            this.count=this.Followers.count
             this.getDetails();
             this.emptyList=false
+            this.counter++
         }
         else{
             this.emptyList=true
             this.spinner=false;
+            this.counter++
         }
     }
     async getDetails(){
+        this.getFollowersDetails=[]
         for(let item of this.Followers.items)
         {
             let userInfo = await AccountService.getCollectors(item.username);
