@@ -137,7 +137,7 @@ export default class NFTsServices
         // for(var i in res){
         //   res[i].item['isLiked'] = likes[i] == 1 ? true : false
         // }
-      return {result:res,nextKey:skip+top,more:sets.data.value.length==top};
+      return {result:res,nextKey:skip+top,more:sets.data.value.length==top,count:sets.data.count};
 
     }
     static async getCollectionsByOwner(accountName:string,skip:number=0,top:number=6){
