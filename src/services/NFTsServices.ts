@@ -273,18 +273,14 @@ export default class NFTsServices
                 $top:top,
             };
             let url = Config.areaXBaseURL2+"/hyberion/getAllItems"
-            let items = await BaseServices.postData(url,json)
+            var items = await BaseServices.postData(url,json)
             for(var a of incomingOffers.data.value)
             {
                 a.item = items.data.value.filter(p=>p._id==a.serial)[0];
             }
         }
 
-        // var likes = await this.isItemLikeByListOfSerials(accountName , serial_filter)
-        // for(var i in incomingOffers.data.value){
-        // incomingOffers.data.value[i]['isLiked'] = likes[i] == 1 ? true : false
-        // }
-        return {items:incomingOffers.data.value,more:incomingOffers.data.value.length==top,nextKey:skip+top};
+        return {items:incomingOffers.data.value,more:incomingOffers.data.value.length==top,nextKey:skip+top,count:items.data.count};
     }
     static async getBookmarks(host:string,accountName:string,skip:number=0,top:number=6){
         var json = {

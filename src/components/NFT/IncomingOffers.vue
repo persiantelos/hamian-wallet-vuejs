@@ -1,5 +1,6 @@
 <template>
     <div>
+        <p class="d-none">{{counter}}</p>
         <div v-if="spinner">
             <Spinner v-model="spinner" />
         </div>
@@ -108,7 +109,7 @@
                     class="justify-content-center"
                     pills
                     v-model="currentPage"
-                    :total-rows="incommingOffers.items.length"
+                    :total-rows="count"
                     :per-page="6"
                     aria-controls="my-table"
                     ></b-pagination> 
@@ -118,7 +119,7 @@
     </div>
 </template>
 <script lang="ts">
-import {Vue , Component} from "vue-property-decorator"
+import {Vue , Component,Watch} from "vue-property-decorator"
 import NFTsServices from '@/services/NFTsServices'
 import Spinner from '@/components/spinner/Spinner.vue';
 
@@ -128,21 +129,31 @@ export default class IncommingOffers extends Vue{
     spinner:boolean=true;
     currentPage:number=1;
     count:number=1;
+    counter:number=1;
     emptyList:boolean=false;
     mounted(){
         this.getIncommingOffers()
     }
-    async getIncommingOffers(){
-        let incommingOffers = await NFTsServices.getIncomingOffers(this.$store.state.currentAccount.name)
+    @Watch('currentPage')
+    currentPageChanged(newVal:any){
+        console.log('newVal',newVal)
+        this.getIncommingOffers((newVal-1)*6)
+    }
+    async getIncommingOffers(skip:any=0){
+        this.spinner = true
+        let incommingOffers = await NFTsServices.getIncomingOffers(this.$store.state.currentAccount.name,skip)
         if(incommingOffers.items.length>0){
             console.log('incommingOffers1',incommingOffers)
             this.incommingOffers = incommingOffers
+            this.count = incommingOffers.count
             this.spinner = false
             this.emptyList = false
+            this.counter++
         }
         else{
             this.spinner = false
             this.emptyList = true
+            this.counter++
         }
     }
     GoToItem(item:any){
