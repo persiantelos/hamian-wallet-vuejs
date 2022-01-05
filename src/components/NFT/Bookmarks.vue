@@ -1,5 +1,6 @@
 <template>
     <div>
+        <p class="d-none">{{counter}}</p>
         <div v-if="spinner">
             <Spinner v-model="spinner" />
         </div>
@@ -112,7 +113,7 @@
                         class="justify-content-center"
                         pills
                         v-model="currentPage"
-                        :total-rows="bookmarks.length"
+                        :total-rows="count"
                         :per-page="6"
                         aria-controls="my-table"
                         ></b-pagination> 
@@ -123,7 +124,7 @@
     </div>
 </template>
 <script lang="ts">
-import {Vue , Component} from "vue-property-decorator"
+import {Vue , Component,Watch} from "vue-property-decorator"
 import NFTsServices from '@/services/NFTsServices'
 import Spinner from '@/components/spinner/Spinner.vue';
 import AccountService from '@/services/accountService';
@@ -134,20 +135,30 @@ export default class Bookmarks extends Vue{
     spinner:boolean=true;
     currentPage:number=1;
     count:number=1;
+    counter:number=1;
     emptyList:boolean=false;
     mounted(){
         this.getBookmarks()
     }
-    async getBookmarks(){
-        let bookmarks = await NFTsServices.getBookmarks(this.$store.state.currentNet.host,this.$store.state.currentAccount.name)
+    @Watch('currentPage')
+    currentPageChanged(newVal:any){
+        console.log('newVal',newVal)
+        this.getBookmarks((newVal-1)*6)
+    }
+    async getBookmarks(skip:any=0){
+        this.spinner = true
+        let bookmarks = await NFTsServices.getBookmarks(this.$store.state.currentNet.host,this.$store.state.currentAccount.name,skip)
         console.log('bookmarks',bookmarks)
         if(bookmarks.value){
+            this.count = bookmarks.count
             this.bookmarks = bookmarks.value
             this.getOwnerAvatar();
+            this.counter++
         }
         else{
             this.spinner = false
             this.emptyList = true
+            this.counter++
         }
     }
     async getOwnerAvatar(){
