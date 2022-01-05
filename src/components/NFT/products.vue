@@ -1,253 +1,53 @@
-<script>
-import appConfig from "@/app.config";
+<script lang="ts">
+import {Vue , Component,Watch} from 'vue-property-decorator'
 import NFTsServices from '@/services/NFTsServices'
 import Spinner from "@/components/spinner/Spinner.vue"
+@Component({components:{Spinner}})
 
 /**
  * Products component
  */
-export default {
-  page: {
-    title: "Product",
-    meta: [{ name: "description", content: appConfig.description }],
-  },
-  components: {Spinner},
-  data() {
-    return {
-      sliderPrice: 800,
-      currentPage: 1,
-      count:1,
-      discountRates: [],
-      itemsList:[],
-      showSpinner :true,
-      ListIsEmpty :false,
-
-      
-    };
-  },
+export default class Products extends Vue{
+  sliderPrice:number= 800;
+  currentPage:number= 1;
+  count:number=1;
+  counter:number=1;
+  discountRates:any =[];
+  itemsList:any=[];
+  showSpinner :boolean=true;
+  ListIsEmpty :boolean=false;
   mounted() {
     this.getitems()
-  },
-  methods: {
-    // valuechange(value) {
-    //   this.clothsData = clothsData.filter(function (product) {
-    //     return product.newprice <= value.currentValue;
-    //   });
-    // },
-
-    // searchFilter(e) {
-    //   const searchStr = e.target.value;
-    //   this.clothsData = clothsData.filter((product) => {
-    //     return (
-    //       product.name.toLowerCase().search(searchStr.toLowerCase()) !== -1
-    //     );
-    //   });
-    // },
-
-    // discountLessFilter(e, percentage) {
-    //   if (e === "accepted" && this.discountRates.length === 0) {
-    //     this.clothsData = clothsData.filter((product) => {
-    //       return product.discount < percentage;
-    //     });
-    //   } else {
-    //     this.clothsData = clothsData.filter((product) => {
-    //       return product.discount >= Math.max.apply(null, this);
-    //     }, this.discountRates);
-    //   }
-    // },
-
-    discountMoreFilter(e, percentage) {
-      if (e === "accepted") {
-        this.discountRates.push(percentage);
-      } else {
-        this.discountRates.splice(this.discountRates.indexOf(percentage), 1);
-      }
-      this.clothsData = clothsData.filter((product) => {
-        return product.discount >= Math.max.apply(null, this);
-      }, this.discountRates);
-    },
-    GoToItem(item){
-      console.log(item);
-      this.$emit('itemDetails',item)
-    },
-    async getitems(){
-      this.itemsList = await NFTsServices.getItemByOwner(this.$store.state.currentAccount.name)
-      if(this.itemsList){
-        console.log('items',this.itemsList)
-        this.showSpinner = false;
-        this.ListIsEmpty = false;
-      }
-      else{
-        this.showSpinner = false;
-        this.ListIsEmpty = true;
-      }
+  }
+  @Watch('currentPage')
+    currentPageChanged(newVal:any){
+        console.log('newVal',newVal)
+        this.getitems((newVal-1)*6)
     }
-  },
+  GoToItem(item:any){
+    this.$emit('itemDetails',item)
+  }
+  async getitems(skip:any=0){
+    this.showSpinner = true;
+    this.itemsList = await NFTsServices.getItemByOwner(this.$store.state.currentAccount.name,skip)
+    if(this.itemsList){
+      this.count=this.itemsList.count
+      this.showSpinner = false;
+      this.ListIsEmpty = false;
+      this.counter++
+    }
+    else{
+      this.showSpinner = false;
+      this.ListIsEmpty = true;
+      this.counter++
+    }
+  }
 };
 </script>
 
 <template>
     <div class="row" >
-      <!-- <div class="col-lg-3">
-        <div class="card" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
-          <div class="card-body">
-            <h4 class="card-title mb-4" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Filter</h4>
-
-            <div>
-              <h5 class="font-size-14 mb-3" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Clothes</h5>
-              <ul class="list-unstyled product-list">
-                <li>
-                  <a href="javascript: void(0);">
-                    <i class="mdi mdi-chevron-right me-1"></i> 
-                    <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">
-                       T-shirts
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a href="javascript: void(0);">
-                    <i class="mdi mdi-chevron-right me-1"></i> 
-                    <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">
-                       Shirts
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a href="javascript: void(0);">
-                    <i class="mdi mdi-chevron-right me-1"></i> 
-                    <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">
-                       Jeans
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a href="javascript: void(0);">
-                    <i class="mdi mdi-chevron-right me-1"></i> 
-                    <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode-darker':''">
-                       Jackets
-                    </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="mt-4 pt-3">
-              <h5 class="font-size-14 mb-3" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Price</h5>
-              <vue-slide-bar
-                v-model="sliderPrice"
-                :min="0"
-                :max="1000"
-                @dragEnd="valuechange"
-              />
-            </div>
-
-            <div class="mt-4 pt-3">
-              <h5 class="font-size-14 mb-3" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Discount</h5>
-
-              <b-form-checkbox
-                id="productdiscountCheck1"
-                class="mt-2 form-check"
-                value="accepted"
-                unchecked-value="not_accepted"
-                @change="discountLessFilter($event, 10)"
-                >Less than 10%</b-form-checkbox
-              >
-
-              <b-form-checkbox
-                id="productdiscountCheck2"
-                class="mt-2 form-check"
-                value="accepted"
-                unchecked-value="not_accepted"
-                @change="discountMoreFilter($event, 10)"
-                >10% or more</b-form-checkbox
-              >
-
-              <b-form-checkbox
-                id="productdiscountCheck3"
-                class="mt-2 form-check"
-                value="accepted"
-                unchecked-value="not_accepted"
-                @change="discountMoreFilter($event, 20)"
-                >20% or more</b-form-checkbox
-              >
-
-              <b-form-checkbox
-                id="productdiscountCheck4"
-                class="mt-2 form-check"
-                value="accepted"
-                unchecked-value="not_accepted"
-                @change="discountMoreFilter($event, 30)"
-                >30% or more</b-form-checkbox
-              >
-
-              <b-form-checkbox
-                id="productdiscountCheck5"
-                class="mt-2 form-check"
-                value="accepted"
-                unchecked-value="not_accepted"
-                @change="discountMoreFilter($event, 40)"
-                >40% or more</b-form-checkbox
-              >
-
-              <b-form-checkbox
-                id="productdiscountCheck6"
-                class="mt-2 form-check"
-                value="accepted"
-                unchecked-value="not_accepted"
-                @change="discountMoreFilter($event, 50)"
-                >50% or more</b-form-checkbox
-              >
-            </div>
-
-            <div class="mt-4 pt-3">
-              <h5 class="font-size-14 mb-3" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">Customer Rating</h5>
-              <div>
-                <b-form-checkbox
-                  class="form-check"
-                  id="checkbox-1"
-                  name="checkbox-1"
-                  value="accepted"
-                  unchecked-value="not_accepted"
-                >
-                  4
-                  <i class="bx bx-star text-warning"></i> & Above
-                </b-form-checkbox>
-
-                <b-form-checkbox
-                  id="checkbox-2"
-                  class="mt-2 form-check"
-                  name="checkbox-2"
-                  value="accepted"
-                  unchecked-value="not_accepted"
-                >
-                  3
-                  <i class="bx bx-star text-warning"></i> & Above
-                </b-form-checkbox>
-
-                <b-form-checkbox
-                  id="checkbox-3"
-                  class="mt-2 form-check"
-                  name="checkbox-3"
-                  value="accepted"
-                  unchecked-value="not_accepted"
-                >
-                  2
-                  <i class="bx bx-star text-warning"></i> & Above
-                </b-form-checkbox>
-                <b-form-checkbox
-                  id="checkbox-4"
-                  class="mt-2 form-check"
-                  name="checkbox-4"
-                  value="accepted"
-                  unchecked-value="not_accepted"
-                >
-                  1
-                  <i class="bx bx-star text-warning"></i>
-                </b-form-checkbox>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
+      <p class="d-flex">{{counter}}</p>
       <div class="mt-5" v-if="showSpinner">
         <Spinner v-model="showSpinner" />
       </div>
@@ -334,26 +134,8 @@ export default {
                       >Title : {{ tags.content }}</router-link
                     >
                   </h5>
-                  <!-- <p class="text-muted">
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star"></i>
-                  </p> -->
+                  
                   <h5 class="my-0">
-                    <!-- <span class="text-muted me-2" v-if="tags.tag_name == 'creator'">
-                      <span :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''" >Creator : {{tags.content}}</span>
-                    </span> -->
-                    <!-- <div class="stored d-flex text-center justify-content-center" v-if="tags.tag_name == 'asset'" :class="$store.state.layout.themeDarkMode ? 'text-dark-mode':''">
-                      <span class="mt-2">Stored in : </span> 
-                      <img v-if="data.isProtected" src="@/assets/logos/protected.svg" style="max-height:36px;max-width:36px;border-radius:50%" alt=""> 
-                      <p class="mt-2" v-if="data.isProtected">Xtorage Protected</p>
-                      <img v-if="data.isXtorage" src="@/assets/logos/xtorage.svg" style="max-height:36px;max-width:36px;border-radius:50%" alt=""> 
-                      <p class="mt-2" v-if="data.isXtorage">Xtorage</p>
-                      <img v-if="data.isDstore" src="@/assets/logos/dstor.svg" style="max-height:36px;max-width:36px;border-radius:50%" alt=""> 
-                      <p class="mt-2" v-if="data.isDstore">Dstor</p>
-                    </div> -->
                   </h5>
                 </div>
                 <div class="text-center">
@@ -378,7 +160,7 @@ export default {
               class="justify-content-center"
               pills
               v-model="currentPage"
-              :total-rows="itemsList.items.length"
+              :total-rows="count"
               :per-page="6"
               aria-controls="my-table"
             ></b-pagination>
