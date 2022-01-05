@@ -101,7 +101,7 @@ export default class NFTsServices
         }
         list.push(obj);
     } 
-    return {items:list,more:list.length==top,nextKey:skip+top};
+    return {items:list,more:list.length==top,nextKey:skip+top,count:items.data.count};
     }
     static async getSetsByCreator(accountName:string,skip:number=0,top:number=6){
         let url:string =Config.areaXBaseURL2+'/hyberion/getSets';
