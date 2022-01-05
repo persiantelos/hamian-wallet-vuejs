@@ -47,7 +47,7 @@ export default class Products extends Vue{
 
 <template>
     <div class="row" >
-      <p class="d-flex">{{counter}}</p>
+      <p class="d-none">{{counter}}</p>
       <div class="mt-5" v-if="showSpinner">
         <Spinner v-model="showSpinner" />
       </div>
