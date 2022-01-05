@@ -47,7 +47,8 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div v-if="!spinner" class="row">
+            <p class="d-none">{{counter}}</p>
             <div class="col-lg-12">
                 <b-pagination
                 variant="dark"
@@ -55,7 +56,7 @@
                 class="justify-content-center"
                 pills
                 v-model="currentPage"
-                :total-rows="getFolloingDetails.length"
+                :total-rows="count"
                 :per-page="6"
                 aria-controls="my-table"
                 ></b-pagination> 
@@ -64,7 +65,7 @@
     </div>
 </template>
 <script lang="ts">
-import {Vue , Component} from 'vue-property-decorator'
+import {Vue , Component,Watch} from 'vue-property-decorator'
 import Spinner from "@/components/spinner/Spinner.vue"
 import NFTsServices from "@/services/NFTsServices"
 import AccountService from '@/services/accountService';
@@ -77,16 +78,25 @@ export default class Following extends Vue{
     emptyList:boolean=false;
     currentPage:number=1;
     count:number=1;
+    counter:number=1;
     getFolloingDetails:any=[];
     userInformation:ProfileModel = new ProfileModel();
     Following:any=[];
     mounted(){
         this.getFollowing()
     }
-    async getFollowing(){
-        this.Following = await NFTsServices.getFollowing(this.$store.state.currentAccount.name)
+    @Watch('currentPage')
+    currentPageChanged(newVal:any){
+        console.log('newVal',newVal)
+        this.getFollowing((newVal-1)*6)
+    }
+    async getFollowing(skip:any=0){
+        this.spinner = true;
+        this.Following = await NFTsServices.getFollowing(this.$store.state.currentAccount.name,skip)
         if(this.Following.items.length > 0){
+            this.count = this.Following.count
             this.getDetails();
+            this.counter++
         }
         else{
             this.emptyList = true;
@@ -94,6 +104,8 @@ export default class Following extends Vue{
         }
     }
     async getDetails(){
+        this.getFolloingDetails =[]
+        this.spinner=true;
         for(let item of this.Following.items)
         {
             let userInfo = await AccountService.getCollectors(item.username);
@@ -103,6 +115,7 @@ export default class Following extends Vue{
             }
         }
         console.log('this.getFolloingDetails',this.getFolloingDetails)
+        this.counter++
         this.spinner=false;
     }
 }

@@ -1,6 +1,6 @@
 
 <script lang="ts">
-import {Vue , Component} from "vue-property-decorator"
+import {Vue , Component,Watch} from "vue-property-decorator"
 import NFTsServices from '@/services/NFTsServices'
 import Spinner from '@/components/spinner/Spinner.vue';
 @Component({
@@ -13,22 +13,33 @@ export default class Collections extends Vue{
         ListIsEmpty:boolean= false;
         currentPage:number= 1;
         count:number=1;
+        counter:number=1;
         collections:any=[];
     mounted(){
       this.getCollettions()
     }
-    async getCollettions(){
-        let collections = await NFTsServices.getCollectionsByOwner(this.$store.state.currentAccount.name)
-        if(collections.length != 0) {
-            for(let collect of collections){
+    @Watch('currentPage')
+    currentPageChanged(newVal:any){
+        console.log('newVal',newVal)
+        this.getCollettions((newVal-1)*6)
+    }
+    async getCollettions(skip:any=0){
+        this.spinner = true;
+        this.collections=[]
+        let collections = await NFTsServices.getCollectionsByOwner(this.$store.state.currentAccount.name,skip)
+        if(collections.data.value.length != 0) {
+          this.count=collections.count
+            for(let collect of collections.data.value){
                 this.collections.push(collect);
             }
             this.spinner = false;
             this.ListIsEmpty = false;
+            this.counter++
         } 
         else{
             this.spinner = false;
             this.ListIsEmpty = true;
+            this.counter++
         }
     }
 }
@@ -36,6 +47,7 @@ export default class Collections extends Vue{
 
 <template>
   <div>
+    <p class="d-none">{{counter}}</p>
     <div v-if="spinner">
         <Spinner v-model="spinner" />
     </div>
@@ -89,7 +101,7 @@ export default class Collections extends Vue{
               class="justify-content-center"
               pills
               v-model="currentPage"
-              :total-rows="collections.length"
+              :total-rows="count"
               :per-page="6"
               aria-controls="my-table"
             ></b-pagination>
