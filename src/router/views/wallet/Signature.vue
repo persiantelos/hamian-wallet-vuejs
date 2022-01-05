@@ -55,11 +55,26 @@
                             <h3 v-if="transactions[0].name == 'sellram'">
                                 <span class="text-primary">Sell RAM</span>
                             </h3>
+                            <h3 v-if="transactions[0].name == 'delegatebw'">
+                                <span class="text-primary">Stake CPU/NET</span>
+                            </h3>
                             <h3 v-if="transactions[0].name == 'undelegatebw'">
-                                <span class="text-primary">UNStake</span>
+                                <span class="text-primary">UNStake CPU/NET</span>
                             </h3>
                             <h3 v-if="transactions[0].name == 'transferitm'">
                                 <span class="text-primary">Transfer Item</span>
+                            </h3>
+                            <h3 v-if="transactions[0].name == 'likeitem'">
+                                <span class="text-primary">Like Item</span>
+                            </h3>
+                            <h3 v-if="transactions[0].name == 'likecollc'">
+                                <span class="text-primary">Like Collection</span>
+                            </h3>
+                            <h3 v-if="transactions[0].name == 'likeset'">
+                                <span class="text-primary">Like Set</span>
+                            </h3>
+                            <h3 v-if="transactions[0].name == 'follow'">
+                                <span class="text-primary">Follow</span>
                             </h3>
                             
                             <h5 class="text-primary">via {{data.payloadOrigin}}</h5>
@@ -97,12 +112,20 @@
                                                 <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'delegatebw'"> From : </span>
                                                 <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'undelegatebw'"> From : </span>
                                                 <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'transferitm'"> owner : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'likeitem'"> Account : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'likecollc'"> Account : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'likeset'"> Account : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'follow'"> Follower : </span>
                                                 <p v-if="transactions[0].name == 'transfer'">{{transactions[0].data.from}} <br /></p>
                                                 <p v-if="transactions[0].name == 'buyram'">{{transactions[0].data.payer}} <br /></p>
                                                 <p v-if="transactions[0].name == 'sellram'">{{transactions[0].data.account}} <br /></p>
                                                 <p v-if="transactions[0].name == 'delegatebw'">{{transactions[0].data.from}} <br /></p>
                                                 <p v-if="transactions[0].name == 'undelegatebw'">{{transactions[0].data.from}} <br /></p>
-                                                <p v-if="transactions[0].name == 'transferitm'">{{transactions[0].data.owner}} <br /></p>
+                                                <p v-if="transactions[0].name == 'transferitm'">{{transactions[0].data.account}} <br /></p>
+                                                <p v-if="transactions[0].name == 'likeitem'">{{transactions[0].data.account}} <br /></p>
+                                                <p v-if="transactions[0].name == 'likecollc'">{{transactions[0].data.account}} <br /></p>
+                                                <p v-if="transactions[0].name == 'likeset'">{{transactions[0].data.account}} <br /></p>
+                                                <p v-if="transactions[0].name == 'follow'">{{transactions[0].data.follower}} <br /></p>
                                             </strong>
                                         </div>
                                     </div>
@@ -123,10 +146,18 @@
                                                 <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'buyram'"> Quant : </span>
                                                 <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'sellram'"> Bytes : </span>
                                                 <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'transferitm'"> Serial Number : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'likeitem'"> Serial Number : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'likecollc'"> Collection Id : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'likeset'"> Set Id : </span>
+                                                <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'follow'"> Following : </span>
                                                 <p v-if="transactions[0].name == 'transfer'" >{{transactions[0].data.quantity}} <br /></p>
                                                 <p v-if="transactions[0].name == 'buyram'" >{{transactions[0].data.quant}} <br /></p>
                                                 <p v-if="transactions[0].name == 'sellram'" >{{transactions[0].data.bytes}} <br /></p>
                                                 <p v-if="transactions[0].name == 'transferitm'" >{{transactions[0].data.id}} <br /></p>
+                                                <p v-if="transactions[0].name == 'likeitem'" >{{transactions[0].data.item_serial}} <br /></p>
+                                                <p v-if="transactions[0].name == 'likecollc'" >{{transactions[0].data.collection_id}} <br /></p>
+                                                <p v-if="transactions[0].name == 'likeset'" >{{transactions[0].data.set_id}} <br /></p>
+                                                <p v-if="transactions[0].name == 'follow'" >{{transactions[0].data.following}} <br /></p>
                                             </strong> 
                                             <strong v-if="transactions[0].name == 'delegatebw'" style="position:relative" class="col-11">
                                                 <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" > Stake CPU Quantity : </span>
@@ -160,6 +191,7 @@
                                                     <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'buyram'"> Receiver : </span>
                                                     <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'delegatebw'"> Receiver : </span>
                                                     <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'undelegatebw'"> Receiver : </span>
+                                                    <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'transferitm'"> To : </span>
                                                     <span class="text-body" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'" v-if="transactions[0].name == 'transferitm'"> To : </span>
                                                     <p v-if="transactions[0].name == 'transfer'" >{{transactions[0].data.to}} <br /></p>
                                                     <p v-if="transactions[0].name == 'buyram'" >{{transactions[0].data.receiver}} <br /></p>
@@ -260,6 +292,7 @@ export default class LocalLogin extends Vue{
     requestSignature(data:any)
     {
         this.data=data 
+        console.log('this.data',this.data)
         this.transactions=data.payload.transactionData;
         this.spinner = false
         
