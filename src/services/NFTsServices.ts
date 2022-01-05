@@ -151,7 +151,7 @@ export default class NFTsServices
         var url:string =Config.areaXBaseURL+'/web/getCollections';
         let collections = await BaseServices.postData(url,data)
         if (collections){
-            return collections.data.value
+            return collections
         }
         // var serial_filter = []
         // for(var a of collections.data.value){
@@ -171,7 +171,7 @@ export default class NFTsServices
         let url = Config.areaXBaseURL2+"/hyberion/getFollowing"
         let following = await BaseServices.postData(url,data)
         if(following){
-            return {items:following.data.value,more:following.data.value.length==top,nextKey:skip+top};
+            return {items:following.data.value,more:following.data.value.length==top,nextKey:skip+top,count:following.data.count};
         }
         else{return {message:false}}
     }
