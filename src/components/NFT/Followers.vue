@@ -55,7 +55,7 @@
                     class="justify-content-center"
                     pills
                     v-model="currentPage"
-                    :total-rows="getFollowersDetails.length"
+                    :total-rows="count"
                     :per-page="6"
                     aria-controls="my-table"
                     ></b-pagination> 

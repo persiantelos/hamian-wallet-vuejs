@@ -146,7 +146,7 @@ export default class Sets extends Vue{
               class="justify-content-center"
               pills
               v-model="currentPage"
-              :total-rows="sets.result.length"
+              :total-rows="count"
               :per-page="6"
               aria-controls="my-table"
             ></b-pagination>

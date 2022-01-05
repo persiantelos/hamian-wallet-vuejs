@@ -235,7 +235,7 @@ export default class NFTsServices
             x.owner = item.owner
         });
         }
-        return {items:t.data.value,more:t.data.value.length==top,nextKey:skip+top};
+        return {items:t.data.value,more:t.data.value.length==top,nextKey:skip+top,count:t.data.count};
 
     }
     static async getNewMarketItemsByQueryFilter(filter:any , skip:number=0 , top:number=24){

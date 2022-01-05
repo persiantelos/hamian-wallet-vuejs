@@ -1,5 +1,6 @@
 <template>
     <div>
+        <p class="d-none">{{counter}}</p>
         <div v-if="spinner">
             <Spinner v-model="spinner" />
         </div>
@@ -119,7 +120,7 @@
                     class="justify-content-center"
                     pills
                     v-model="currentPage"
-                    :total-rows="submitedOffers.items.length"
+                    :total-rows="count"
                     :per-page="6"
                     aria-controls="my-table"
                     ></b-pagination> 
@@ -130,7 +131,7 @@
     </div>
 </template>
 <script lang="ts">
-import {Vue , Component} from "vue-property-decorator"
+import {Vue , Component,Watch} from "vue-property-decorator"
 import NFTsServices from '@/services/NFTsServices'
 import Spinner from '@/components/spinner/Spinner.vue';
 import AccountService from '@/services/accountService';
@@ -142,12 +143,19 @@ export default class SubmitedOffers extends Vue{
     spinner:boolean=true;
     currentPage:number=1;
     count:number=1;
+    counter:number=1;
     emptyList:boolean=false;
     mounted(){
         this.getSubmitedOffers()
     }
-    async getSubmitedOffers(){
-        let submitedOffers = await NFTsServices.getSubmitedOffers(this.$store.state.currentAccount.name)
+     @Watch('currentPage')
+    currentPageChanged(newVal:any){
+        console.log('newVal',newVal)
+        this.getSubmitedOffers((newVal-1)*6)
+    }
+    async getSubmitedOffers(skip:any=0){
+        this.spinner = true
+        let submitedOffers = await NFTsServices.getSubmitedOffers(this.$store.state.currentAccount.name,skip)
         console.log('submitedOffers',submitedOffers)
         if(submitedOffers.items.length>0){
             this.submitedOffers = submitedOffers
@@ -161,6 +169,7 @@ export default class SubmitedOffers extends Vue{
         }
     }
     async getDetails(){
+        this.submitedOffers=[]
         for(let item of this.submitedOffers.items)
         {
             let userInfo = await AccountService.getCollectors(item.owner);
