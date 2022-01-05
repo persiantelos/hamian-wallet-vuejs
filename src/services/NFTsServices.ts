@@ -280,7 +280,13 @@ export default class NFTsServices
             }
         }
 
-        return {items:incomingOffers.data.value,more:incomingOffers.data.value.length==top,nextKey:skip+top,count:items.data.count};
+        // var likes = await this.isItemLikeByListOfSerials(accountName , serial_filter)
+        // for(var i in incomingOffers.data.value){
+        // incomingOffers.data.value[i]['isLiked'] = likes[i] == 1 ? true : false
+        // }
+        let count:0;
+        items? count = items.data.count : count=0
+        return {items:incomingOffers.data.value,more:incomingOffers.data.value.length==top,nextKey:skip+top,count:count};
     }
     static async getBookmarks(host:string,accountName:string,skip:number=0,top:number=6){
         var json = {

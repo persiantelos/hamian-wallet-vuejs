@@ -142,8 +142,8 @@ export default class IncommingOffers extends Vue{
     async getIncommingOffers(skip:any=0){
         this.spinner = true
         let incommingOffers = await NFTsServices.getIncomingOffers(this.$store.state.currentAccount.name,skip)
+        console.log('incommingOffers1',incommingOffers)
         if(incommingOffers.items.length>0){
-            console.log('incommingOffers1',incommingOffers)
             this.incommingOffers = incommingOffers
             this.count = incommingOffers.count
             this.spinner = false
