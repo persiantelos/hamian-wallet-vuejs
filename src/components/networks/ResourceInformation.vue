@@ -26,9 +26,6 @@
                       <span v-if="typeof refoundSum != 'object'">
                         {{refoundSum}}
                       </span>
-                      <span>
-                        0.0000 TLOS
-                      </span>
                     </div></td>
                   </tr>
                   <tr  v-if="!resourcesInfo.refunding" :class="$store.state.layout.themeDarkMode ? 'dark-mode':'light-mode'">
